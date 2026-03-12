@@ -1,7 +1,22 @@
-# Aetheris
-Aetheris, a high-integrity temporal and environmental dashboard. It moves beyond simple aggregation by using AI-driven deduplication and source-level meteorological data to eliminate "news noise."
-
 # Aetheris: Temporal Intelligence & Environmental Sentinel
+
+> **Hook**: A high-integrity temporal and environmental dashboard moving beyond simple aggregation. It uses AI-driven deduplication and source-level meteorological data to eliminate "news noise."
+
+## Pulse Table
+| Milestone | Ver | Phase | Status | Debt% |
+| :--- | :--- | :--- | :--- | :--- |
+| Alpha Launch | 0.1.0 | 1-Strategy | Pending | 0% |
+
+## Visual Index
+- [1. Vision Statement](#1-vision-statement)
+- [2. Core Architecture: The "Pulse" Time-Axis](#2-core-architecture-the-pulse-time-axis)
+- [3. Data Sourcing (The "Ground Truth" Protocol)](#3-data-sourcing-the-ground-truth-protocol)
+- [4. UI/UX: The Kinetic Atlas](#4-uiux-the-kinetic-atlas)
+- [5. AI Reasoning & Summarization](#5-ai-reasoning--summarization)
+- [6. Devil’s Advocate: Feasibility & Gaps](#6-devils-advocate-feasibility--gaps)
+- [7. Technical Stack (2026 Ready)](#7-technical-stack-2026-ready)
+
+---
 
 **Aetheris** is a hyper-adaptive news and environmental intelligence platform designed for the 2026 data landscape. It serves as a "God-view" dashboard, blending geopolitical signals with raw physical world data to provide a unified perspective of the past, present, and projected future.
 

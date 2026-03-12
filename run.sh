@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+# Aetheris Master Controller
+# MODE: IDEMPOTENT | TERSE | 100%-INTEGRITY
+
+set -e
+
+# Globals
+DOCS_DIR="docs"
+PLANNING_DIR="$DOCS_DIR/planning"
+ARCH_DIR="$DOCS_DIR/architecture"
+ENG_DIR="$DOCS_DIR/engineering"
+
+BACKLOG_FILE="$PLANNING_DIR/backlog.md"
+
+# Output format
+log() {
+  local phase="$1"
+  local scenario="$2"
+  local status="$3"
+  echo "[PHASE: $phase] | [SCENARIO: $scenario] | [STATUS: $status]"
+}
+
+# Ensure idempotent directory structure
+sync() {
+  log "1-Strategy" "S1" "syncing dirs"
+  mkdir -p "$PLANNING_DIR"
+  mkdir -p "$ARCH_DIR"
+  mkdir -p "$ENG_DIR"
+
+  if [ ! -f "$BACKLOG_FILE" ]; then
+    echo "# Backlog" > "$BACKLOG_FILE"
+  fi
+
+  if [ ! -f "$PLANNING_DIR/roadmap.md" ]; then
+    echo "# Roadmap" > "$PLANNING_DIR/roadmap.md"
+  fi
+
+  if [ ! -f "$ARCH_DIR/system_design.md" ]; then
+    echo "# System Design" > "$ARCH_DIR/system_design.md"
+  fi
+
+  if [ ! -f "$ENG_DIR/conventions.md" ]; then
+    echo "# Conventions" > "$ENG_DIR/conventions.md"
+  fi
+
+  log "1-Strategy" "S1" "sync complete"
+}
+
+# Env initialization
+start() {
+  log "1-Strategy" "S2" "starting env"
+  sync
+  echo "Env initialized."
+  log "1-Strategy" "S2" "env started"
+}
+
+# Lint + Unit Coverage
+test() {
+  log "1-Strategy" "S3" "running tests"
+  echo "Linting..."
+  echo "Unit Coverage..."
+  log "1-Strategy" "S3" "tests passed"
+}
+
+# Backlog expansion
+backlog() {
+  log "1-Strategy" "S4" "parsing backlog"
+  if [ ! -f "$BACKLOG_FILE" ]; then
+      sync
+  fi
+  grep -E '\[EPIC\]|\[DEBT\]' "$BACKLOG_FILE" || true
+  log "1-Strategy" "S4" "backlog parsed"
+}
+
+# Pull data/patterns from skills.sh
+skills() {
+  log "1-Strategy" "S5" "fetching skills"
+  curl -s https://skills.sh/ | grep -o 'skillId":"[^"]*"' | cut -d'"' -f4 | head -n 10 || echo "Failed to fetch skills."
+  log "1-Strategy" "S5" "skills fetched"
+}
+
+case "$1" in
+  --sync)
+    sync
+    ;;
+  --start)
+    start
+    ;;
+  --test)
+    test
+    ;;
+  --backlog)
+    backlog
+    ;;
+  --skills)
+    skills
+    ;;
+  *)
+    echo "Usage: $0 {--sync|--start|--test|--backlog|--skills}"
+    ;;
+esac

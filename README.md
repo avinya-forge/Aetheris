@@ -56,7 +56,8 @@ To ensure technical accuracy and avoid "flawed" secondary data, Aetheris pulls f
 ## 4. UI/UX: The Kinetic Atlas
 Aetheris rejects the "List View" in favor of a **Minimalist Vector Map**.
 
-* **Zoom Logic:** * **Level 1 (Global):** Orbital view of solar storms, trade routes, and conflict zones.
+* **Zoom Logic:**
+    * **Level 1 (Global):** Orbital view of solar storms, trade routes, and conflict zones.
     * **Level 2 (National):** Legislative shifts and nationwide weather fronts.
     * **Level 3 (County/Local):** Hyper-local alerts (fire, roadworks, localized heat domes).
 * **Visual Style:** **Chromodynamic Minimalist.** No stock photos. We use vector glyphs and atmospheric background shifts (e.g., UI glows purple during high Aurora probability).

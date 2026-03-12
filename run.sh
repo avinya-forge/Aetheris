@@ -76,8 +76,25 @@ backlog() {
 # Pull data/patterns from skills.sh
 skills() {
   log "1-Strategy" "S5" "fetching skills"
-  curl -s https://skills.sh/ | grep -o 'skillId":"[^"]*"' | cut -d'"' -f4 | head -n 10 || echo "Failed to fetch skills."
-  log "1-Strategy" "S5" "skills fetched"
+
+  if [ ! -f "$ENG_DIR/conventions.md" ]; then
+      sync
+  fi
+
+  local skills_output
+  skills_output=$(curl -s https://skills.sh/ | grep -o 'skillId":"[^"]*"' | cut -d'"' -f4 | head -n 10 || echo "Failed to fetch skills.")
+
+  if [[ "$skills_output" == "Failed to fetch skills." ]]; then
+      echo "$skills_output"
+      log "1-Strategy" "S5" "skills failed"
+  else
+      echo "" >> "$ENG_DIR/conventions.md"
+      echo "## Skill Patterns injected from skills.sh" >> "$ENG_DIR/conventions.md"
+      for skill in $skills_output; do
+          echo "- $skill" >> "$ENG_DIR/conventions.md"
+      done
+      log "1-Strategy" "S5" "skills fetched"
+  fi
 }
 
 case "$1" in

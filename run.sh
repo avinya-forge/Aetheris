@@ -69,6 +69,29 @@ backlog() {
   if [ ! -f "$BACKLOG_FILE" ]; then
       sync
   fi
+
+  # Audit [ ] TASK
+  grep '\[ \] TASK' "$BACKLOG_FILE" | while read -r line; do
+    target=$(echo "$line" | grep -o 'Target: [^ |]*' | cut -d' ' -f2)
+    if [ -n "$target" ] && [ -f "$target" ]; then
+      # target exists but task is [ ] -> mark [x]
+      escaped_target=$(echo "$target" | sed 's/\//\\\//g')
+      sed -i.bak "/\[ \] TASK:.*Target: $escaped_target/s/\[ \]/[x]/" "$BACKLOG_FILE"
+    fi
+  done
+
+  # Audit [x] TASK
+  grep '\[x\] TASK' "$BACKLOG_FILE" | while read -r line; do
+    target=$(echo "$line" | grep -o 'Target: [^ |]*' | cut -d' ' -f2)
+    if [ -n "$target" ] && [ ! -f "$target" ]; then
+      # target missing but task is [x] -> mark [DEBT]
+      escaped_target=$(echo "$target" | sed 's/\//\\\//g')
+      sed -i.bak "/\[x\] TASK:.*Target: $escaped_target/s/\[x\]/[DEBT]/" "$BACKLOG_FILE"
+    fi
+  done
+
+  rm -f "$BACKLOG_FILE.bak"
+
   grep -E '\[EPIC\]|\[DEBT\]' "$BACKLOG_FILE" || true
   log "1-Strategy" "S4" "backlog parsed"
 }

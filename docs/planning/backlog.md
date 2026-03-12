@@ -10,6 +10,8 @@
 
 - [EPIC] Temporal Intelligence Engine - Implementation of the 3D-mapped timeline traversing 2h-48h past to predictive future modeling.
 - [EPIC] "Ground Truth" Protocol - Integration with ECMWF, GFS, NOAA SWPC, and CAMS for primary-source environmental data.
+  - [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.ts | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
+  - [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.ts | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Geopolitical & News Sourcing - Integration with The GDELT Project and Reuters/AP for fact-anchor data logic.
 - [EPIC] Kinetic Atlas UI/UX - Development of a Minimalist Vector Map using Mapbox GL JS/WebGL with 3 zoom logic levels and chromodynamic minimalist style.
 - [EPIC] Extractive Synthesis - AI-driven logic to analyze 20+ sources for single events to produce 30-word factual briefs.

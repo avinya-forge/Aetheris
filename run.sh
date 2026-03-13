@@ -92,7 +92,7 @@ backlog() {
 
   rm -f "$BACKLOG_FILE.bak"
 
-  grep -E '\[EPIC\]|\[DEBT\]' "$BACKLOG_FILE" || true
+  grep -rE '\[EPIC\]|\[DEBT\]' "$DOCS_DIR" || true
   log "1-Strategy" "S4" "backlog parsed"
 }
 
@@ -111,10 +111,14 @@ skills() {
       echo "$skills_output"
       log "1-Strategy" "S5" "skills failed"
   else
-      echo "" >> "$ENG_DIR/conventions.md"
-      echo "## Skill Patterns injected from skills.sh" >> "$ENG_DIR/conventions.md"
+      if ! grep -q "## Skill Patterns injected from skills.sh" "$ENG_DIR/conventions.md"; then
+          echo "" >> "$ENG_DIR/conventions.md"
+          echo "## Skill Patterns injected from skills.sh" >> "$ENG_DIR/conventions.md"
+      fi
       for skill in $skills_output; do
-          echo "- $skill" >> "$ENG_DIR/conventions.md"
+          if ! grep -q -- "- $skill" "$ENG_DIR/conventions.md"; then
+              echo "- $skill" >> "$ENG_DIR/conventions.md"
+          fi
       done
       log "1-Strategy" "S5" "skills fetched"
   fi

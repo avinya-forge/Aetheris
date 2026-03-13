@@ -96,5 +96,3 @@ Aetheris rejects the "List View" in favor of a **Minimalist Vector Map**.
 * **Backend:** PWA (Progressive Web App) with Edge-computed data caching.
 
 ---
-
-**Next Step:** Would you like me to generate the **Initial Data Schema (JSON)** for how the AI should structure a 24-hour "Environmental-Geopolitical" summary?

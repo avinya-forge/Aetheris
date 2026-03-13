@@ -19,3 +19,4 @@
 - [EPIC] Probability Cones - Development of Ghost Cards displaying percentage-based likelihoods for predictive modeling.
 - [HIGH-RISK][EPIC] Edge-Computed PWA Backend - Implementation of the Progressive Web App backend with edge-computed data caching logic.
 - [HIGH-RISK][EPIC] Gemini 1.5 Flash Integration - Implementation of the high-speed intelligence logic layer for summarization.
+- [P1] [HIGH-RISK] [EPIC] Initial Data Schema (JSON) - Define the JSON schema for how the AI structures a 24-hour Environmental-Geopolitical summary.

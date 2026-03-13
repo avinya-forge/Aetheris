@@ -3,6 +3,9 @@
 ## Epics
 
 - [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
+  - [P1] [HIGH-RISK] [ ] TASK: define-forecast-schema | Target: lib/data/forecast-schema.ts | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
+  - [P1] [HIGH-RISK] [ ] TASK: implement-historical-pattern-matcher | Target: lib/data/pattern-matcher.ts | I/O: JSON -> boolean | Assert: 0 err, >95% cov | LOC: ~45
+  - [P1] [HIGH-RISK] [ ] TASK: filter-speculative-predictions | Target: lib/data/prediction-filter.ts | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.
 - [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.
 

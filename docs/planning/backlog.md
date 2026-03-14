@@ -2,6 +2,8 @@
 
 ## Epics
 
+- [EPIC] Autonomous Architecture & Documentation Engine - Parse documentation to establish current state and auto-populate missing MD files via uniform schema.
+- [HIGH-RISK][EPIC] Master Controller Expansion - Append new CMD logic to run.sh for recursive expansion and epoch tracking.
 - [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
   - [P1] [HIGH-RISK] [ ] TASK: define-forecast-schema | Target: lib/data/forecast-schema.ts | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
   - [P1] [HIGH-RISK] [ ] TASK: implement-historical-pattern-matcher | Target: lib/data/pattern-matcher.ts | I/O: JSON -> boolean | Assert: 0 err, >95% cov | LOC: ~45
@@ -12,6 +14,9 @@
 ## New Epics (Mapped from README.md)
 
 - [EPIC] Temporal Intelligence Engine - Implementation of the 3D-mapped timeline traversing 2h-48h past to predictive future modeling.
+  - [ ] TASK: init-timeline-store | Target: lib/timeline/store.ts | I/O: void -> State | Assert: 0 err, >95% cov | LOC: ~30
+  - [ ] TASK: implement-time-traversal | Target: lib/timeline/traversal.ts | I/O: State -> State | Assert: 0 err, >95% cov | LOC: ~45
+  - [NEEDS-SPLIT] [ ] TASK: render-3d-map-timeline | Target: components/map/timeline.tsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
 - [EPIC] "Ground Truth" Protocol - Integration with ECMWF, GFS, NOAA SWPC, and CAMS for primary-source environmental data.
   - [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.ts | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
   - [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.ts | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40

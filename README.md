@@ -1,6 +1,7 @@
 # Aetheris: Temporal Intelligence & Environmental Sentinel
 
 > **Hook**: A high-integrity temporal and environmental dashboard moving beyond simple aggregation. It uses AI-driven deduplication and source-level meteorological data to eliminate "news noise."
+> **Context**: Powered by an Autonomous Architecture & Documentation Engine, Aetheris self-maintains its system design and engineering conventions using a strict SSOT hierarchy.
 
 ## Pulse Table
 | Milestone | Ver | Phase | Status | Debt% |

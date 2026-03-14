@@ -92,8 +92,15 @@ backlog() {
 
   rm -f "$BACKLOG_FILE.bak"
 
-  grep -rE '\[EPIC\]|\[DEBT\]' "$DOCS_DIR" || true
+  grep -rE '\[EPIC\]|\[DEBT\]|\[NEEDS-SPLIT\]' "$DOCS_DIR" || true
   log "1-Strategy" "S4" "backlog parsed"
+}
+
+# Epoch mapping
+epoch() {
+  log "1-Strategy" "S6" "mapping new epics"
+  echo "- [EPIC] Autonomous Architecture & Documentation Engine - Auto-populate missing MD files via uniform schema." >> "$BACKLOG_FILE"
+  log "1-Strategy" "S6" "epics mapped"
 }
 
 # Pull data/patterns from skills.sh
@@ -140,7 +147,10 @@ case "$1" in
   --skills)
     skills
     ;;
+  --epoch)
+    epoch
+    ;;
   *)
-    echo "Usage: $0 {--sync|--start|--test|--backlog|--skills}"
+    echo "Usage: $0 {--sync|--start|--test|--backlog|--skills|--epoch}"
     ;;
 esac

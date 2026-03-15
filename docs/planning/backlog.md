@@ -12,6 +12,8 @@
   - [P1] [HIGH-RISK] [ ] TASK: define-interest-threshold-schema | Target: lib/data/threshold-schema.ts | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
   - [P1] [HIGH-RISK] [ ] TASK: implement-impact-filter | Target: lib/data/impact-filter.ts | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
 - [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.
+  - [x] TASK: define-nowcast-schema | Target: lib/schema/nowcast.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
+  - [BLOCKED] [ ] TASK: implement-gap-filler | Target: lib/data/gap-filler.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
 
 ## New Epics (Mapped from README.md)
 

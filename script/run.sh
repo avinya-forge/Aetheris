@@ -59,7 +59,11 @@ start() {
 test() {
   log "1-Strategy" "S3" "running tests"
   echo "Linting..."
-  echo "Unit Coverage..."
+  for f in tests/*.test.js; do
+    if [ -f "$f" ]; then
+      node "$f"
+    fi
+  done
   log "1-Strategy" "S3" "tests passed"
 }
 

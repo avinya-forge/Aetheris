@@ -5,12 +5,12 @@
 - [EPIC] Autonomous Architecture & Documentation Engine - Parse documentation to establish current state and auto-populate missing MD files via uniform schema.
 - [HIGH-RISK][EPIC] Master Controller Expansion - Append new CMD logic to run.sh for recursive expansion and epoch tracking.
 - [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
-  - [P1] [HIGH-RISK] [ ] TASK: define-forecast-schema | Target: lib/data/forecast-schema.ts | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
-  - [P1] [HIGH-RISK] [ ] TASK: implement-historical-pattern-matcher | Target: lib/data/pattern-matcher.ts | I/O: JSON -> boolean | Assert: 0 err, >95% cov | LOC: ~45
-  - [P1] [HIGH-RISK] [ ] TASK: filter-speculative-predictions | Target: lib/data/prediction-filter.ts | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
+  - [P1] [HIGH-RISK] [x] TASK: define-forecast-schema | Target: lib/data/forecast-schema.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
+  - [P1] [HIGH-RISK] [x] TASK: implement-historical-pattern-matcher | Target: lib/data/pattern-matcher.js | I/O: JSON -> boolean | Assert: 0 err, >95% cov | LOC: ~45
+  - [P1] [HIGH-RISK] [x] TASK: filter-speculative-predictions | Target: lib/data/prediction-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.
-  - [P1] [HIGH-RISK] [ ] TASK: define-interest-threshold-schema | Target: lib/data/threshold-schema.ts | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
-  - [P1] [HIGH-RISK] [ ] TASK: implement-impact-filter | Target: lib/data/impact-filter.ts | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
+  - [P1] [HIGH-RISK] [ ] TASK: define-interest-threshold-schema | Target: lib/data/threshold-schema.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
+  - [P1] [HIGH-RISK] [ ] TASK: implement-impact-filter | Target: lib/data/impact-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
 - [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.
   - [x] TASK: define-nowcast-schema | Target: lib/schema/nowcast.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
   - [BLOCKED] [ ] TASK: implement-gap-filler | Target: lib/data/gap-filler.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
@@ -18,12 +18,12 @@
 ## New Epics (Mapped from README.md)
 
 - [EPIC] Temporal Intelligence Engine - Implementation of the 3D-mapped timeline traversing 2h-48h past to predictive future modeling.
-  - [ ] TASK: init-timeline-store | Target: lib/timeline/store.ts | I/O: void -> State | Assert: 0 err, >95% cov | LOC: ~30
-  - [ ] TASK: implement-time-traversal | Target: lib/timeline/traversal.ts | I/O: State -> State | Assert: 0 err, >95% cov | LOC: ~45
-  - [NEEDS-SPLIT] [ ] TASK: render-3d-map-timeline | Target: components/map/timeline.tsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
+  - [ ] TASK: init-timeline-store | Target: lib/timeline/store.js | I/O: void -> State | Assert: 0 err, >95% cov | LOC: ~30
+  - [ ] TASK: implement-time-traversal | Target: lib/timeline/traversal.js | I/O: State -> State | Assert: 0 err, >95% cov | LOC: ~45
+  - [NEEDS-SPLIT] [ ] TASK: render-3d-map-timeline | Target: components/map/timeline.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
 - [EPIC] "Ground Truth" Protocol - Integration with ECMWF, GFS, NOAA SWPC, and CAMS for primary-source environmental data.
-  - [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.ts | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
-  - [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.ts | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
+  - [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
+  - [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Geopolitical & News Sourcing - Integration with The GDELT Project and Reuters/AP for fact-anchor data logic.
 - [EPIC] Kinetic Atlas UI/UX - Development of a Minimalist Vector Map using Mapbox GL JS/WebGL with 3 zoom logic levels and chromodynamic minimalist style.
 - [EPIC] Extractive Synthesis - AI-driven logic to analyze 20+ sources for single events to produce 30-word factual briefs.

@@ -9,8 +9,8 @@
   - [P1] [HIGH-RISK] [x] TASK: implement-historical-pattern-matcher | Target: lib/data/pattern-matcher.js | I/O: JSON -> boolean | Assert: 0 err, >95% cov | LOC: ~45
   - [P1] [HIGH-RISK] [x] TASK: filter-speculative-predictions | Target: lib/data/prediction-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.
-  - [P1] [HIGH-RISK] [ ] TASK: define-interest-threshold-schema | Target: lib/data/threshold-schema.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
-  - [P1] [HIGH-RISK] [ ] TASK: implement-impact-filter | Target: lib/data/impact-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
+  - [P1] [HIGH-RISK] [x] TASK: define-interest-threshold-schema | Target: lib/data/threshold-schema.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
+  - [P1] [HIGH-RISK] [x] TASK: implement-impact-filter | Target: lib/data/impact-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
 - [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.
   - [x] TASK: define-nowcast-schema | Target: lib/schema/nowcast.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
   - [BLOCKED] [ ] TASK: implement-gap-filler | Target: lib/data/gap-filler.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45

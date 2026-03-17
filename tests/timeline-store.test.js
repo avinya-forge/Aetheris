@@ -1,0 +1,1 @@
+const assert = require('assert'); const { initStore } = require('../lib/timeline/store.js'); const state = initStore(); assert.strictEqual(typeof state, 'object'); assert.strictEqual(state.currentFocus, 'present'); assert.ok(Array.isArray(state.events)); assert.strictEqual(state.events.length, 0); assert.strictEqual(state.horizon, null); console.log('timeline store test passed');

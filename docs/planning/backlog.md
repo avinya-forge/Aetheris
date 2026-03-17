@@ -1,37 +1,24 @@
 # Backlog
-
 ## Epics
-
 - [EPIC] Autonomous Architecture & Documentation Engine - Parse documentation to establish current state and auto-populate missing MD files via uniform schema.
 - [HIGH-RISK][EPIC] Master Controller Expansion - Append new CMD logic to run.sh for recursive expansion and epoch tracking.
 - [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
-  - [P1] [HIGH-RISK] [x] TASK: define-forecast-schema | Target: lib/data/forecast-schema.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
-  - [P1] [HIGH-RISK] [x] TASK: implement-historical-pattern-matcher | Target: lib/data/pattern-matcher.js | I/O: JSON -> boolean | Assert: 0 err, >95% cov | LOC: ~45
-  - [P1] [HIGH-RISK] [x] TASK: filter-speculative-predictions | Target: lib/data/prediction-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.
-  - [P1] [HIGH-RISK] [x] TASK: define-interest-threshold-schema | Target: lib/data/threshold-schema.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
-  - [P1] [HIGH-RISK] [x] TASK: implement-impact-filter | Target: lib/data/impact-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
 - [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.
-  - [x] TASK: define-nowcast-schema | Target: lib/schema/nowcast.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~30
   - [BLOCKED] [ ] TASK: implement-gap-filler | Target: lib/data/gap-filler.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
-
 ## New Epics (Mapped from README.md)
-
 - [EPIC] Temporal Intelligence Engine - Implementation of the 3D-mapped timeline traversing 2h-48h past to predictive future modeling.
   - [ ] TASK: init-timeline-store | Target: lib/timeline/store.js | I/O: void -> State | Assert: 0 err, >95% cov | LOC: ~30
   - [ ] TASK: implement-time-traversal | Target: lib/timeline/traversal.js | I/O: State -> State | Assert: 0 err, >95% cov | LOC: ~45
   - [NEEDS-SPLIT] [ ] TASK: render-3d-map-timeline | Target: components/map/timeline.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
-- [EPIC] "Ground Truth" Protocol - Integration with ECMWF, GFS, NOAA SWPC, and CAMS for primary-source environmental data.
+- [BLOCKED] [EPIC] "Ground Truth" Protocol - Integration with ECMWF, GFS, NOAA SWPC, and CAMS for primary-source environmental data.
   - [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
   - [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
-- [EPIC] Geopolitical & News Sourcing - Integration with The GDELT Project and Reuters/AP for fact-anchor data logic.
-- [EPIC] Kinetic Atlas UI/UX - Development of a Minimalist Vector Map using Mapbox GL JS/WebGL with 3 zoom logic levels and chromodynamic minimalist style.
+- [BLOCKED] [EPIC] Geopolitical & News Sourcing - Integration with The GDELT Project and Reuters/AP for fact-anchor data logic.
+- [BLOCKED] [EPIC] Kinetic Atlas UI/UX - Development of a Minimalist Vector Map using Mapbox GL JS/WebGL with 3 zoom logic levels and chromodynamic minimalist style.
 - [EPIC] Extractive Synthesis - AI-driven logic to analyze 20+ sources for single events to produce 30-word factual briefs.
 - [EPIC] Safety Sentinel - Logic for real-time safety injection warnings for environmental hazards (e.g. heatwaves, storms).
 - [EPIC] Probability Cones - Development of Ghost Cards displaying percentage-based likelihoods for predictive modeling.
-- [HIGH-RISK][EPIC] Edge-Computed PWA Backend - Implementation of the Progressive Web App backend with edge-computed data caching logic.
-- [HIGH-RISK][EPIC] Gemini 1.5 Flash Integration - Implementation of the high-speed intelligence logic layer for summarization.
+- [BLOCKED] [HIGH-RISK][EPIC] Edge-Computed PWA Backend - Implementation of the Progressive Web App backend with edge-computed data caching logic.
+- [BLOCKED] [HIGH-RISK][EPIC] Gemini 1.5 Flash Integration - Implementation of the high-speed intelligence logic layer for summarization.
 - [P1] [HIGH-RISK] [EPIC] Initial Data Schema (JSON) - Define the JSON schema for how the AI structures a 24-hour Environmental-Geopolitical summary.
-  - [P1] [HIGH-RISK] [x] TASK: define-summary-schema | Target: lib/schema/summary.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
-  - [P1] [HIGH-RISK] [x] TASK: define-environmental-schema | Target: lib/schema/environmental.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
-  - [P1] [HIGH-RISK] [x] TASK: define-geopolitical-schema | Target: lib/schema/geopolitical.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45

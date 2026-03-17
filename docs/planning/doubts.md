@@ -1,4 +1,2 @@
-# Doubts Log
-
-## `implement-gap-filler`
-The exact algorithm for gap filling is not defined in the provided context (e.g., linear interpolation vs AI inference). The task is currently blocked pending further specification.
+- [BLOCKED] Need external logic specs for ECMWF, GFS, and NOAA data structures for `implement-gap-filler` task.
+- Need ECMWF, GFS, NOAA, GDELT, and Reuters APIs/auth keys for data fetching tasks. Need WebGL/Mapbox setup for Timeline/Map rendering tasks. Need Gemini 1.5 Flash API setup.

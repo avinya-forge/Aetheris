@@ -1,6 +1,8 @@
 # Backlog
 ## Epics
 - [EPIC] Autonomous Architecture & Documentation Engine - Parse documentation to establish current state and auto-populate missing MD files via uniform schema.
+  - [x] TASK: parse-docs-state | Target: lib/docs/parser.js | I/O: DirPath -> DocsState | Assert: 0 err, >95% cov | LOC: ~40
+  - [x] TASK: populate-missing-docs | Target: lib/docs/generator.js | I/O: DocsState -> void | Assert: 0 err, >95% cov | LOC: ~40
 - [HIGH-RISK][EPIC] Master Controller Expansion - Append new CMD logic to run.sh for recursive expansion and epoch tracking.
 - [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
 - [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.

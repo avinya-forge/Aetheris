@@ -12,12 +12,19 @@
 - [EPIC] Temporal Intelligence Engine - Implementation of the 3D-mapped timeline traversing 2h-48h past to predictive future modeling.
   - [x] TASK: init-timeline-store | Target: lib/timeline/store.js | I/O: void -> State | Assert: 0 err, >95% cov | LOC: ~30
   - [x] TASK: implement-time-traversal | Target: lib/timeline/traversal.js | I/O: State -> State | Assert: 0 err, >95% cov | LOC: ~45
-  - [NEEDS-SPLIT] [ ] TASK: render-3d-map-timeline | Target: components/map/timeline.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
+  - [BLOCKED] [ ] TASK: render-3d-map-container | Target: components/map/container.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~40
+  - [BLOCKED] [ ] TASK: render-3d-timeline-overlay | Target: components/map/timeline-overlay.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~40
+  - [BLOCKED] [ ] TASK: bind-3d-timeline-events | Target: components/map/events.js | I/O: State -> void | Assert: 0 err, >95% cov | LOC: ~40
 - [BLOCKED] [EPIC] "Ground Truth" Protocol - Integration with ECMWF, GFS, NOAA SWPC, and CAMS for primary-source environmental data.
   - [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
   - [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
 - [BLOCKED] [EPIC] Geopolitical & News Sourcing - Integration with The GDELT Project and Reuters/AP for fact-anchor data logic.
 - [BLOCKED] [EPIC] Kinetic Atlas UI/UX - Development of a Minimalist Vector Map using Mapbox GL JS/WebGL with 3 zoom logic levels and chromodynamic minimalist style.
+  - [BLOCKED] [ ] TASK: init-webgl-canvas | Target: components/map/canvas.js | I/O: void -> Element | Assert: 0 err, >95% cov | LOC: ~50
+  - [BLOCKED] [ ] TASK: render-zoom-level-1 | Target: components/map/level1-global.js | I/O: State -> Element | Assert: 0 err, >95% cov | LOC: ~50
+  - [BLOCKED] [ ] TASK: render-zoom-level-2 | Target: components/map/level2-national.js | I/O: State -> Element | Assert: 0 err, >95% cov | LOC: ~50
+  - [BLOCKED] [ ] TASK: render-zoom-level-3 | Target: components/map/level3-local.js | I/O: State -> Element | Assert: 0 err, >95% cov | LOC: ~50
+  - [BLOCKED] [ ] TASK: apply-chromodynamic-style | Target: components/map/style.js | I/O: State -> Object | Assert: 0 err, >95% cov | LOC: ~30
 - [EPIC] Extractive Synthesis - AI-driven logic to analyze 20+ sources for single events to produce 30-word factual briefs.
 - [EPIC] Safety Sentinel - Logic for real-time safety injection warnings for environmental hazards (e.g. heatwaves, storms).
 - [EPIC] Probability Cones - Development of Ghost Cards displaying percentage-based likelihoods for predictive modeling.

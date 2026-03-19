@@ -26,10 +26,13 @@
   - [BLOCKED] [ ] TASK: render-zoom-level-3 | Target: components/map/level3-local.js | I/O: State -> Element | Assert: 0 err, >95% cov | LOC: ~50
   - [BLOCKED] [ ] TASK: apply-chromodynamic-style | Target: components/map/style.js | I/O: State -> Object | Assert: 0 err, >95% cov | LOC: ~30
 - [EPIC] Extractive Synthesis - AI-driven logic to analyze 20+ sources for single events to produce 30-word factual briefs.
+  - [x] TASK: implement-extractive-synthesis | Target: lib/data/extractive-synthesis.js | I/O: Array -> String | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Safety Sentinel - Logic for real-time safety injection warnings for environmental hazards (e.g. heatwaves, storms).
+  - [x] TASK: implement-safety-sentinel | Target: lib/data/safety-sentinel.js | I/O: Object -> String | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Probability Cones - Development of Ghost Cards displaying percentage-based likelihoods for predictive modeling.
   - [x] TASK: define-ghost-card-schema | Target: lib/schema/ghost-card.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~20
   - [x] TASK: implement-probability-cones | Target: lib/timeline/probability-cones.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
 - [BLOCKED] [HIGH-RISK][EPIC] Edge-Computed PWA Backend - Implementation of the Progressive Web App backend with edge-computed data caching logic.
 - [BLOCKED] [HIGH-RISK][EPIC] Gemini 1.5 Flash Integration - Implementation of the high-speed intelligence logic layer for summarization.
 - [P1] [HIGH-RISK] [EPIC] Initial Data Schema (JSON) - Define the JSON schema for how the AI structures a 24-hour Environmental-Geopolitical summary.
+  - [x] TASK: define-24h-summary-schema | Target: lib/schema/24h-summary.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~30

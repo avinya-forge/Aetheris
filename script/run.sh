@@ -107,6 +107,20 @@ epoch() {
   log "1-Strategy" "S6" "epics mapped"
 }
 
+# Status logic
+status() {
+  log "1-Strategy" "S7" "checking status"
+  local backlog_tasks
+  local completed_tasks
+  backlog_tasks=$(grep -c '\[ \] TASK' "$BACKLOG_FILE" || echo 0)
+  completed_tasks=$(grep -c '\[x\] TASK' "$BACKLOG_FILE" || echo 0)
+  echo "Project Status:"
+  echo "Phase: 1-Strategy"
+  echo "Pending Tasks: $backlog_tasks"
+  echo "Completed Tasks: $completed_tasks"
+  log "1-Strategy" "S7" "status complete"
+}
+
 # Pull data/patterns from skills.sh
 skills() {
   log "1-Strategy" "S5" "fetching skills"
@@ -154,7 +168,10 @@ case "$1" in
   --epoch)
     epoch
     ;;
+  --status)
+    status
+    ;;
   *)
-    echo "Usage: $0 {--sync|--start|--test|--backlog|--skills|--epoch}"
+    echo "Usage: $0 {--sync|--start|--test|--backlog|--skills|--epoch|--status}"
     ;;
 esac

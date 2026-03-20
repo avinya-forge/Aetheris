@@ -149,6 +149,23 @@ skills() {
   fi
 }
 
+# Recursive expansion
+recursive() {
+  log "1-Strategy" "S8" "recursive expansion"
+  local prev_pending=-1
+  local current_pending=0
+
+  while true; do
+    backlog
+    current_pending=$(grep -c '\[ \] TASK' "$BACKLOG_FILE" || echo 0)
+    if [ "$current_pending" -eq "$prev_pending" ]; then
+      break
+    fi
+    prev_pending=$current_pending
+  done
+  log "1-Strategy" "S8" "recursive expansion complete"
+}
+
 case "$1" in
   --sync)
     sync
@@ -171,7 +188,10 @@ case "$1" in
   --status)
     status
     ;;
+  --recursive)
+    recursive
+    ;;
   *)
-    echo "Usage: $0 {--sync|--start|--test|--backlog|--skills|--epoch|--status}"
+    echo "Usage: $0 {--sync|--start|--test|--backlog|--skills|--epoch|--status|--recursive}"
     ;;
 esac

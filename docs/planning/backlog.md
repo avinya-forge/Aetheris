@@ -4,6 +4,7 @@
   - [x] TASK: parse-docs-state | Target: lib/docs/parser.js | I/O: DirPath -> DocsState | Assert: 0 err, >95% cov | LOC: ~40
   - [x] TASK: populate-missing-docs | Target: lib/docs/generator.js | I/O: DocsState -> void | Assert: 0 err, >95% cov | LOC: ~40
 - [HIGH-RISK][EPIC] Master Controller Expansion - Append new CMD logic to run.sh for recursive expansion and epoch tracking.
+  - [x] TASK: implement-recursive-expansion | Target: script/run.sh | I/O: CLI -> State | Assert: 0 err | LOC: ~20
 - [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
 - [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.
 - [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.

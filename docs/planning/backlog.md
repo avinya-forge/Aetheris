@@ -6,7 +6,12 @@
 - [HIGH-RISK][EPIC] Master Controller Expansion - Append new CMD logic to run.sh for recursive expansion and epoch tracking.
   - [x] TASK: implement-recursive-expansion | Target: script/run.sh | I/O: CLI -> State | Assert: 0 err | LOC: ~20
 - [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
+  - [x] TASK: implement-pattern-matcher | Target: lib/data/pattern-matcher.js | I/O: Object -> Boolean | Assert: 0 err, >95% cov | LOC: ~10
+  - [x] TASK: implement-prediction-filter | Target: lib/data/prediction-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~10
+  - [x] TASK: define-forecast-schema | Target: lib/data/forecast-schema.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
 - [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.
+  - [x] TASK: implement-impact-filter | Target: lib/data/impact-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~35
+  - [x] TASK: define-threshold-schema | Target: lib/data/threshold-schema.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
 - [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.
   - [BLOCKED] [ ] TASK: implement-gap-filler | Target: lib/data/gap-filler.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
 ## New Epics (Mapped from README.md)
@@ -17,8 +22,8 @@
   - [BLOCKED] [ ] TASK: render-3d-timeline-overlay | Target: components/map/timeline-overlay.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~40
   - [BLOCKED] [ ] TASK: bind-3d-timeline-events | Target: components/map/events.js | I/O: State -> void | Assert: 0 err, >95% cov | LOC: ~40
 - [BLOCKED] [EPIC] "Ground Truth" Protocol - Integration with ECMWF, GFS, NOAA SWPC, and CAMS for primary-source environmental data.
-  - [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
-  - [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
+  - [BLOCKED] [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
+  - [BLOCKED] [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
 - [BLOCKED] [EPIC] Geopolitical & News Sourcing - Integration with The GDELT Project and Reuters/AP for fact-anchor data logic.
 - [BLOCKED] [EPIC] Kinetic Atlas UI/UX - Development of a Minimalist Vector Map using Mapbox GL JS/WebGL with 3 zoom logic levels and chromodynamic minimalist style.
   - [BLOCKED] [ ] TASK: init-webgl-canvas | Target: components/map/canvas.js | I/O: void -> Element | Assert: 0 err, >95% cov | LOC: ~50
@@ -30,6 +35,7 @@
   - [x] TASK: implement-extractive-synthesis | Target: lib/data/extractive-synthesis.js | I/O: Array -> String | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Safety Sentinel - Logic for real-time safety injection warnings for environmental hazards (e.g. heatwaves, storms).
   - [x] TASK: implement-safety-sentinel | Target: lib/data/safety-sentinel.js | I/O: Object -> String | Assert: 0 err, >95% cov | LOC: ~40
+  - [x] TASK: implement-hazard-evaluator | Target: lib/data/hazard-evaluator.js | I/O: Object -> String | Assert: 0 err, >95% cov | LOC: ~30
 - [EPIC] Probability Cones - Development of Ghost Cards displaying percentage-based likelihoods for predictive modeling.
   - [x] TASK: define-ghost-card-schema | Target: lib/schema/ghost-card.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~20
   - [x] TASK: implement-probability-cones | Target: lib/timeline/probability-cones.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
@@ -37,3 +43,8 @@
 - [BLOCKED] [HIGH-RISK][EPIC] Gemini 1.5 Flash Integration - Implementation of the high-speed intelligence logic layer for summarization.
 - [P1] [HIGH-RISK] [EPIC] Initial Data Schema (JSON) - Define the JSON schema for how the AI structures a 24-hour Environmental-Geopolitical summary.
   - [x] TASK: define-24h-summary-schema | Target: lib/schema/24h-summary.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~30
+  - [x] TASK: define-environmental-schema | Target: lib/schema/environmental.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
+  - [x] TASK: define-geopolitical-schema | Target: lib/schema/geopolitical.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
+  - [x] TASK: define-summary-schema | Target: lib/schema/summary.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
+  - [x] TASK: define-safety-rule-schema | Target: lib/schema/safety-rule.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
+  - [x] TASK: define-nowcast-schema | Target: lib/schema/nowcast.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15

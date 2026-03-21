@@ -48,3 +48,5 @@
   - [x] TASK: define-summary-schema | Target: lib/schema/summary.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
   - [x] TASK: define-safety-rule-schema | Target: lib/schema/safety-rule.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
   - [x] TASK: define-nowcast-schema | Target: lib/schema/nowcast.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
+- [EPIC] Macro-Cluster Analysis - Identifying long-term geopolitical shifts and clusters from historical news (1w - 1m).
+- [EPIC] Real-Time Flash Engine - Deduplicating wires and parsing real-time Live Kp Index for auroras.

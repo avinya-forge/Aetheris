@@ -31,11 +31,18 @@ Aetheris rejects the "List View" in favor of a **Minimalist Vector Map**.
 * **Visual Style:** **Chromodynamic Minimalist.** No stock photos. We use vector glyphs and atmospheric background shifts (e.g., UI glows purple during high Aurora probability).
 
 ## AI Reasoning & Summarization
-* **Extractive Synthesis:** AI analyzes 20+ sources for a single event, removes the fluff, and provides a **30-word factual brief**.
-* **Safety Sentinel:** If a heatwave or storm is detected, the AI injects a "Rational Warning" (e.g., *"It is 40°C. Your internal cooling is failing. Seek shade now."*).
-* **Probability Cones:** Predictions are never "certain." They are displayed as semi-transparent "Ghost Cards" with percentage-based likelihoods.
+* **Extractive Synthesis**: AI analyzes 20+ sources for a single event, removes the fluff, and provides a **30-word factual brief**.
+* **Safety Sentinel**: If a heatwave or storm is detected, the AI injects a "Rational Warning" (e.g., *"It is 40°C. Your internal cooling is failing. Seek shade now."*).
+* **Probability Cones**: Predictions are never "certain." They are displayed as semi-transparent "Ghost Cards" with percentage-based likelihoods.
+
+## Feasibility & Gaps
+
+### Identified Gaps & Fixes
+* **Predictive Hallucination**: Predictions are restricted to **Logic-Based Forecasts** tied to historical patterns, not speculative storytelling.
+* **Signal-to-Noise Ratio**: Users set "Interest Thresholds." If news doesn't meet a specific impact score for your interests, it remains hidden.
+* **Data Latency**: Use **Nowcasting** AI to fill the 6-hour gaps between major meteorological model updates.
 
 ## Technical Stack (2026 Ready)
-* **Frontend:** Mapbox GL JS / WebGL (For high-performance 3D vector rendering).
-* **Intelligence:** Gemini 1.5 Flash (For high-speed, low-latency summarization).
-* **Backend:** PWA (Progressive Web App) with Edge-computed data caching.
+* **Frontend**: Mapbox GL JS / WebGL (For high-performance 3D vector rendering).
+* **Intelligence**: Gemini 1.5 Flash (For high-speed, low-latency summarization).
+* **Backend**: PWA (Progressive Web App) with Edge-computed data caching.

@@ -6,7 +6,7 @@
 ## Pulse Table
 | Milestone | Ver | Phase | Status | Debt% |
 | :--- | :--- | :--- | :--- | :--- |
-| Alpha Launch | 0.1.1 | 1-Strategy | Pending | 0% |
+| Alpha Launch | 0.1.2 | 1-Strategy | Pending | 0% |
 
 ## Visual Index
 - [1. Vision Statement](#1-vision-statement)

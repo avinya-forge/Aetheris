@@ -15,3 +15,9 @@
   - [P1] [HIGH-RISK] [x] TASK: define-summary-schema | Target: lib/schema/summary.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
   - [P1] [HIGH-RISK] [x] TASK: define-environmental-schema | Target: lib/schema/environmental.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
   - [P1] [HIGH-RISK] [x] TASK: define-geopolitical-schema | Target: lib/schema/geopolitical.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
+## 0.1.2 Release Notes
+- [x] TASK: define-macro-cluster-schema
+- [x] TASK: implement-cluster-identifier
+- [x] TASK: implement-trend-analyzer
+- [x] TASK: implement-wire-deduplicator
+- [x] TASK: implement-kp-parser

@@ -1,23 +1,13 @@
 # Backlog
 ## Epics
 - [EPIC] Autonomous Architecture & Documentation Engine - Parse documentation to establish current state and auto-populate missing MD files via uniform schema.
-  - [x] TASK: parse-docs-state | Target: lib/docs/parser.js | I/O: DirPath -> DocsState | Assert: 0 err, >95% cov | LOC: ~40
-  - [x] TASK: populate-missing-docs | Target: lib/docs/generator.js | I/O: DocsState -> void | Assert: 0 err, >95% cov | LOC: ~40
 - [HIGH-RISK][EPIC] Master Controller Expansion - Append new CMD logic to run.sh for recursive expansion and epoch tracking.
-  - [x] TASK: implement-recursive-expansion | Target: script/run.sh | I/O: CLI -> State | Assert: 0 err | LOC: ~20
 - [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
-  - [x] TASK: implement-pattern-matcher | Target: lib/data/pattern-matcher.js | I/O: Object -> Boolean | Assert: 0 err, >95% cov | LOC: ~10
-  - [x] TASK: implement-prediction-filter | Target: lib/data/prediction-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~10
-  - [x] TASK: define-forecast-schema | Target: lib/data/forecast-schema.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
 - [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.
-  - [x] TASK: implement-impact-filter | Target: lib/data/impact-filter.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~35
-  - [x] TASK: define-threshold-schema | Target: lib/data/threshold-schema.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
 - [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.
   - [BLOCKED] [ ] TASK: implement-gap-filler | Target: lib/data/gap-filler.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
 ## New Epics (Mapped from README.md)
 - [EPIC] Temporal Intelligence Engine - Implementation of the 3D-mapped timeline traversing 2h-48h past to predictive future modeling.
-  - [x] TASK: init-timeline-store | Target: lib/timeline/store.js | I/O: void -> State | Assert: 0 err, >95% cov | LOC: ~30
-  - [x] TASK: implement-time-traversal | Target: lib/timeline/traversal.js | I/O: State -> State | Assert: 0 err, >95% cov | LOC: ~45
   - [BLOCKED] [ ] TASK: render-3d-map-container | Target: components/map/container.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~40
   - [BLOCKED] [ ] TASK: render-3d-timeline-overlay | Target: components/map/timeline-overlay.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~40
   - [BLOCKED] [ ] TASK: bind-3d-timeline-events | Target: components/map/events.js | I/O: State -> void | Assert: 0 err, >95% cov | LOC: ~40
@@ -32,21 +22,10 @@
   - [BLOCKED] [ ] TASK: render-zoom-level-3 | Target: components/map/level3-local.js | I/O: State -> Element | Assert: 0 err, >95% cov | LOC: ~50
   - [BLOCKED] [ ] TASK: apply-chromodynamic-style | Target: components/map/style.js | I/O: State -> Object | Assert: 0 err, >95% cov | LOC: ~30
 - [EPIC] Extractive Synthesis - AI-driven logic to analyze 20+ sources for single events to produce 30-word factual briefs.
-  - [x] TASK: implement-extractive-synthesis | Target: lib/data/extractive-synthesis.js | I/O: Array -> String | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Safety Sentinel - Logic for real-time safety injection warnings for environmental hazards (e.g. heatwaves, storms).
-  - [x] TASK: implement-safety-sentinel | Target: lib/data/safety-sentinel.js | I/O: Object -> String | Assert: 0 err, >95% cov | LOC: ~40
-  - [x] TASK: implement-hazard-evaluator | Target: lib/data/hazard-evaluator.js | I/O: Object -> String | Assert: 0 err, >95% cov | LOC: ~30
 - [EPIC] Probability Cones - Development of Ghost Cards displaying percentage-based likelihoods for predictive modeling.
-  - [x] TASK: define-ghost-card-schema | Target: lib/schema/ghost-card.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~20
-  - [x] TASK: implement-probability-cones | Target: lib/timeline/probability-cones.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
 - [BLOCKED] [HIGH-RISK][EPIC] Edge-Computed PWA Backend - Implementation of the Progressive Web App backend with edge-computed data caching logic.
 - [BLOCKED] [HIGH-RISK][EPIC] Gemini 1.5 Flash Integration - Implementation of the high-speed intelligence logic layer for summarization.
 - [P1] [HIGH-RISK] [EPIC] Initial Data Schema (JSON) - Define the JSON schema for how the AI structures a 24-hour Environmental-Geopolitical summary.
-  - [x] TASK: define-24h-summary-schema | Target: lib/schema/24h-summary.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~30
-  - [x] TASK: define-environmental-schema | Target: lib/schema/environmental.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
-  - [x] TASK: define-geopolitical-schema | Target: lib/schema/geopolitical.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
-  - [x] TASK: define-summary-schema | Target: lib/schema/summary.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
-  - [x] TASK: define-safety-rule-schema | Target: lib/schema/safety-rule.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
-  - [x] TASK: define-nowcast-schema | Target: lib/schema/nowcast.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
 - [EPIC] Macro-Cluster Analysis - Identifying long-term geopolitical shifts and clusters from historical news (1w - 1m).
 - [EPIC] Real-Time Flash Engine - Deduplicating wires and parsing real-time Live Kp Index for auroras.

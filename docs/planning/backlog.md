@@ -1,35 +1,26 @@
-# Backlog
-## Epics
-- [EPIC] Autonomous Architecture & Documentation Engine - Parse documentation to establish current state and auto-populate missing MD files via uniform schema.
-- [HIGH-RISK][EPIC] Master Controller Expansion - Append new CMD logic to run.sh for recursive expansion and epoch tracking.
-- [EPIC] Predictive Hallucination - Predictions are restricted to Logic-Based Forecasts tied to historical patterns, not speculative storytelling.
-- [EPIC] Signal-to-Noise Ratio - Users set "Interest Thresholds." If news doesn't meet a specific impact score for your county/interests, it remains hidden.
-- [EPIC] Data Latency - Use Nowcasting AI to fill the 6-hour gaps between major meteorological model updates.
-  - [BLOCKED] [ ] TASK: implement-gap-filler | Target: lib/data/gap-filler.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~45
-## New Epics (Mapped from README.md)
-- [EPIC] Temporal Intelligence Engine - Implementation of the 3D-mapped timeline traversing 2h-48h past to predictive future modeling.
-  - [BLOCKED] [ ] TASK: render-3d-map-container | Target: components/map/container.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~40
-  - [BLOCKED] [ ] TASK: render-3d-timeline-overlay | Target: components/map/timeline-overlay.jsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~40
-  - [BLOCKED] [ ] TASK: bind-3d-timeline-events | Target: components/map/events.js | I/O: State -> void | Assert: 0 err, >95% cov | LOC: ~40
-- [BLOCKED] [EPIC] "Ground Truth" Protocol - Integration with ECMWF, GFS, NOAA SWPC, and CAMS for primary-source environmental data.
-  - [BLOCKED] [ ] TASK: fetch-ecmwf-data | Target: lib/data/ecmwf-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
-  - [BLOCKED] [ ] TASK: fetch-noaa-swpc-data | Target: lib/data/noaa-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~40
-- [BLOCKED] [EPIC] Geopolitical & News Sourcing - Integration with The GDELT Project and Reuters/AP for fact-anchor data logic.
-- [BLOCKED] [EPIC] Kinetic Atlas UI/UX - Development of a Minimalist Vector Map using Mapbox GL JS/WebGL with 3 zoom logic levels and chromodynamic minimalist style.
-  - [BLOCKED] [ ] TASK: init-webgl-canvas | Target: components/map/canvas.js | I/O: void -> Element | Assert: 0 err, >95% cov | LOC: ~50
-  - [BLOCKED] [ ] TASK: render-zoom-level-1 | Target: components/map/level1-global.js | I/O: State -> Element | Assert: 0 err, >95% cov | LOC: ~50
-  - [BLOCKED] [ ] TASK: render-zoom-level-2 | Target: components/map/level2-national.js | I/O: State -> Element | Assert: 0 err, >95% cov | LOC: ~50
-  - [BLOCKED] [ ] TASK: render-zoom-level-3 | Target: components/map/level3-local.js | I/O: State -> Element | Assert: 0 err, >95% cov | LOC: ~50
-  - [BLOCKED] [ ] TASK: apply-chromodynamic-style | Target: components/map/style.js | I/O: State -> Object | Assert: 0 err, >95% cov | LOC: ~30
-- [EPIC] Extractive Synthesis - AI-driven logic to analyze 20+ sources for single events to produce 30-word factual briefs.
-- [EPIC] Safety Sentinel - Logic for real-time safety injection warnings for environmental hazards (e.g. heatwaves, storms).
-- [EPIC] Probability Cones - Development of Ghost Cards displaying percentage-based likelihoods for predictive modeling.
-- [BLOCKED] [HIGH-RISK][EPIC] Edge-Computed PWA Backend - Implementation of the Progressive Web App backend with edge-computed data caching logic.
-- [BLOCKED] [HIGH-RISK][EPIC] Gemini 1.5 Flash Integration - Implementation of the high-speed intelligence logic layer for summarization.
-- [P1] [HIGH-RISK] [EPIC] Initial Data Schema (JSON) - Define the JSON schema for how the AI structures a 24-hour Environmental-Geopolitical summary.
-- [EPIC] Macro-Cluster Analysis - Identifying long-term geopolitical shifts and clusters from historical news (1w - 1m).
-  - [x] TASK: define-cluster-schema | Target: lib/schema/cluster.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
-  - [x] TASK: implement-cluster-analyzer | Target: lib/data/cluster-analyzer.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
-- [EPIC] Real-Time Flash Engine - Deduplicating wires and parsing real-time Live Kp Index for auroras.
-  - [x] TASK: implement-wire-deduplicator | Target: lib/data/wire-deduplicator.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~30
-  - [x] TASK: implement-kp-parser | Target: lib/data/kp-parser.js | I/O: Object -> Object | Assert: 0 err, >95% cov | LOC: ~25
+# Backlog (V2 - 2026 Future Focus)
+
+## Phase 3: Kinetic Atlas & UI/UX (Active Focus)
+*Note: All UI tasks are currently [BLOCKED] by the lack of a frontend environment (React/Vite/Bundler).*
+
+- [BLOCKED] TASK: bootstrap-frontend-environment | Target: package.json | I/O: void -> JSON | Assert: npm-start-functional | LOC: ~50
+- [ ] TASK: implement-chromodynamic-logic | Target: lib/ui/chromodynamic.js | I/O: Kp-Index -> ColorSpec | Assert: 0 err, >95% cov | LOC: ~40
+- [ ] TASK: design-vector-glyphs | Target: assets/glyphs/index.svg | I/O: void -> SVG | Assert: Clean-SVG | LOC: ~100
+- [ ] TASK: init-mapbox-gl | Target: components/map/atlas.tsx | I/O: Config -> MapInstance | Assert: 0 err | LOC: ~60
+- [ ] TASK: implement-layer-zoom-logic | Target: lib/ui/zoom-controller.js | I/O: ZoomLevel -> LayerVisibility | Assert: 0 err, >95% cov | LOC: ~30
+- [NEEDS-SPLIT] [ ] TASK: render-3d-map-timeline | Target: components/map/timeline.tsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
+- [ ] TASK: render-ghost-cards | Target: components/ui/ghost-card.tsx | I/O: ProbabilityData -> ReactElement | Assert: 0 err, >95% cov | LOC: ~50
+
+## Phase 4: Production & Sourcing (Scheduled)
+
+- [BLOCKED] TASK: implement-deploy-logic | Target: script/run.sh | I/O: --deploy -> Cloud-Status | Assert: 0 err | LOC: ~30
+- [ ] TASK: implement-service-worker-cache | Target: script/sw.js | I/O: WebRequest -> Response | Assert: Offline-Functional | LOC: ~50
+- [ ] TASK: implement-edge-computed-back-end | Target: functions/edge-proxy.js | I/O: Data -> Response | Assert: 0 err, >95% cov | LOC: ~80
+- [ ] TASK: integrate-gdelt-monitor | Target: lib/data/gdelt-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~60
+- [ ] TASK: integrate-reuters-wire | Target: lib/data/reuters-client.js | I/O: Feed -> JSON | Assert: 0 err, >95% cov | LOC: ~60
+- [ ] TASK: fetch-cams-atmospheric-data | Target: lib/data/cams-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~60
+
+## Technical Debt / Refinement
+
+- [DEBT] TASK: unify-schema-naming | Target: lib/schema/*.js | I/O: void -> void | Assert: 0 err | LOC: ~50
+- [DEBT] TASK: migrate-tests-to-jest | Target: tests/*.test.js | I/O: CustomAssert -> JestExpect | Assert: 0 err, >95% cov | LOC: ~200

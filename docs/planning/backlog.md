@@ -49,4 +49,8 @@
   - [x] TASK: define-safety-rule-schema | Target: lib/schema/safety-rule.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
   - [x] TASK: define-nowcast-schema | Target: lib/schema/nowcast.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
 - [EPIC] Macro-Cluster Analysis - Identifying long-term geopolitical shifts and clusters from historical news (1w - 1m).
+  - [x] TASK: define-cluster-schema | Target: lib/schema/cluster.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
+  - [x] TASK: implement-cluster-analyzer | Target: lib/data/cluster-analyzer.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~40
 - [EPIC] Real-Time Flash Engine - Deduplicating wires and parsing real-time Live Kp Index for auroras.
+  - [x] TASK: implement-wire-deduplicator | Target: lib/data/wire-deduplicator.js | I/O: Array -> Array | Assert: 0 err, >95% cov | LOC: ~30
+  - [x] TASK: implement-kp-parser | Target: lib/data/kp-parser.js | I/O: Object -> Object | Assert: 0 err, >95% cov | LOC: ~25

@@ -14,8 +14,8 @@
 ## Phase 4: Production & Sourcing (Scheduled)
 
 - [BLOCKED] TASK: implement-deploy-logic | Target: script/run.sh | I/O: --deploy -> Cloud-Status | Assert: 0 err | LOC: ~30
-- [ ] TASK: implement-service-worker-cache | Target: script/sw.js | I/O: WebRequest -> Response | Assert: Offline-Functional | LOC: ~50
-- [ ] TASK: implement-edge-computed-back-end | Target: functions/edge-proxy.js | I/O: Data -> Response | Assert: 0 err, >95% cov | LOC: ~80
+- [x] TASK: implement-service-worker-cache | Target: script/sw.js | I/O: WebRequest -> Response | Assert: Offline-Functional | LOC: ~50
+- [x] TASK: implement-edge-computed-back-end | Target: functions/edge-proxy.js | I/O: Data -> Response | Assert: 0 err, >95% cov | LOC: ~80
 - [BLOCKED] TASK: integrate-gdelt-monitor | Target: lib/data/gdelt-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~60
 - [BLOCKED] TASK: integrate-reuters-wire | Target: lib/data/reuters-client.js | I/O: Feed -> JSON | Assert: 0 err, >95% cov | LOC: ~60
 - [BLOCKED] TASK: fetch-cams-atmospheric-data | Target: lib/data/cams-client.js | I/O: REST -> JSON | Assert: 0 err, >95% cov | LOC: ~60

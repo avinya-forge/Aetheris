@@ -53,3 +53,4 @@
   - [P1] [HIGH-RISK] [x] TASK: define-summary-schema | Target: lib/schema/summary.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
   - [P1] [HIGH-RISK] [x] TASK: define-environmental-schema | Target: lib/schema/environmental.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
   - [P1] [HIGH-RISK] [x] TASK: define-geopolitical-schema | Target: lib/schema/geopolitical.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
+- [x] TASK: implement-threshold-filter | Target: lib/data/threshold-filter.js | I/O: Event, Threshold -> Boolean | Assert: 0 err, >95% cov | LOC: ~40

@@ -9,11 +9,11 @@
 | Alpha Launch | 0.1.0 | 1-Strategy | Pending | 0% |
 
 ## Project Documentation (SSOT)
-- [Architecture & System Design](docs/architecture/system_design.md)
-- [Project Roadmap](docs/planning/roadmap.md)
-- [Development Backlog](docs/planning/backlog.md)
-- [Engineering Conventions](docs/engineering/conventions.md)
-- [Release Notes](docs/release/release-notes.md)
+- [Master Index](docs/backlog/index.md)
+- [Architecture & System Design](docs/core/system_design.md)
+- [Project Roadmap](docs/core/roadmap.md)
+- [Engineering Conventions](docs/core/conventions.md)
+- [Release Notes](docs/core/release-notes.md)
 
 ---
 

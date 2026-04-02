@@ -7,10 +7,11 @@ set -e
 
 # Globals
 DOCS_DIR="docs"
-CORE_DIR="$DOCS_DIR/core"
-BACKLOG_DIR="$DOCS_DIR/backlog"
-ACTIVE_DIR="$BACKLOG_DIR/active"
+ARCHITECTURE_DIR="$DOCS_DIR/architecture"
+RULES_DIR="$DOCS_DIR/rules"
+PLANNING_DIR="$DOCS_DIR/planning"
 ARCHIVE_DIR="$DOCS_DIR/archive"
+BACKLOG_FILE="$PLANNING_DIR/backlog.md"
 
 # Output format
 log() {
@@ -25,8 +26,9 @@ sync() {
   log "1-Strategy" "S1" "syncing dirs"
 
   local dirs=(
-    "$CORE_DIR"
-    "$ACTIVE_DIR"
+    "$ARCHITECTURE_DIR"
+    "$RULES_DIR"
+    "$PLANNING_DIR"
     "$ARCHIVE_DIR/completed_epics"
     "$ARCHIVE_DIR/obsolete_logic"
     "$ARCHIVE_DIR/deprecated_tasks"
@@ -38,11 +40,11 @@ sync() {
 
   # Initialize missing core docs
   local core_files=(
-    "$CORE_DIR/roadmap.md:# Roadmap"
-    "$CORE_DIR/system_design.md:# System Design"
-    "$CORE_DIR/conventions.md:# Conventions"
-    "$CORE_DIR/release-notes.md:# Release Notes"
-    "$BACKLOG_DIR/index.md:# Master Phase/Epic Index"
+    "$ARCHITECTURE_DIR/roadmap.md:# Roadmap"
+    "$ARCHITECTURE_DIR/system_design.md:# System Design"
+    "$RULES_DIR/standards.md:# Conventions"
+    "release-notes.md:# Release Notes"
+    "$BACKLOG_FILE:# Master Phase/Epic Index"
   )
 
   for item in "${core_files[@]}"; do
@@ -80,32 +82,31 @@ test() {
 backlog() {
   log "1-Strategy" "S4" "parsing backlog"
 
-  if ! ls "$ACTIVE_DIR"/epic_*.md 1> /dev/null 2>&1; then
+  if [ ! -f "$BACKLOG_FILE" ]; then
       sync
   fi
 
-  for file in "$ACTIVE_DIR"/epic_*.md; do
-    if [ -f "$file" ]; then
-      # Audit [ ] TASK
-      grep '\[ \] TASK' "$file" | while read -r line; do
-        target=$(echo "$line" | grep -o 'Target: [^ |]*' | cut -d' ' -f2)
-        if [ -n "$target" ] && [ -f "$target" ]; then
-          escaped_target=$(echo "$target" | sed 's/\//\\\//g')
-          sed -i.bak "/\[ \] TASK:.*Target: $escaped_target/s/\[ \]/[x]/" "$file"
-        fi
-      done
+  local file="$BACKLOG_FILE"
+  if [ -f "$file" ]; then
+    # Audit [ ] TASK
+    grep '\[ \] TASK' "$file" | while read -r line; do
+      target=$(echo "$line" | grep -o 'Target: [^ |]*' | cut -d' ' -f2)
+      if [ -n "$target" ] && [ -f "$target" ]; then
+        escaped_target=$(echo "$target" | sed 's/\//\\\//g')
+        sed -i.bak "/\[ \] TASK:.*Target: $escaped_target/s/\[ \]/[x]/" "$file"
+      fi
+    done
 
-      # Audit [x] TASK
-      grep '\[x\] TASK' "$file" | while read -r line; do
-        target=$(echo "$line" | grep -o 'Target: [^ |]*' | cut -d' ' -f2)
-        if [ -n "$target" ] && [ ! -f "$target" ]; then
-          escaped_target=$(echo "$target" | sed 's/\//\\\//g')
-          sed -i.bak "/\[x\] TASK:.*Target: $escaped_target/s/\[x\]/[DEBT]/" "$file"
-        fi
-      done
-      rm -f "$file.bak"
-    fi
-  done
+    # Audit [x] TASK
+    grep '\[x\] TASK' "$file" | while read -r line; do
+      target=$(echo "$line" | grep -o 'Target: [^ |]*' | cut -d' ' -f2)
+      if [ -n "$target" ] && [ ! -f "$target" ]; then
+        escaped_target=$(echo "$target" | sed 's/\//\\\//g')
+        sed -i.bak "/\[x\] TASK:.*Target: $escaped_target/s/\[x\]/[DEBT]/" "$file"
+      fi
+    done
+    rm -f "$file.bak"
+  fi
 
   grep -rE '\[EPIC\]|\[DEBT\]|\[NEEDS-SPLIT\]' "$DOCS_DIR" || true
   log "1-Strategy" "S4" "backlog parsed"
@@ -114,9 +115,10 @@ backlog() {
 # Epoch mapping (Maps into active directory)
 epoch() {
   log "1-Strategy" "S6" "mapping new epics"
-  local new_epic="$ACTIVE_DIR/epic_$(date +%s).md"
-  echo "# Epic: Autonomous Architecture & Documentation Engine" > "$new_epic"
-  echo "- [EPIC] Auto-populate missing MD files via uniform schema." >> "$new_epic"
+  local file="$BACKLOG_FILE"
+  echo "" >> "$file"
+  echo "# Epic: Autonomous Architecture & Documentation Engine ($(date +%s))" >> "$file"
+  echo "- [EPIC] Auto-populate missing MD files via uniform schema." >> "$file"
   log "1-Strategy" "S6" "epics mapped"
 }
 
@@ -126,9 +128,10 @@ status() {
   local backlog_tasks=0
   local completed_tasks=0
 
-  if ls "$ACTIVE_DIR"/epic_*.md 1> /dev/null 2>&1; then
-    backlog_tasks=$(cat "$ACTIVE_DIR"/epic_*.md 2>/dev/null | grep -c '\[ \] TASK' || echo 0)
-    completed_tasks=$(cat "$ACTIVE_DIR"/epic_*.md 2>/dev/null | grep -c '\[x\] TASK' || echo 0)
+  local file="$BACKLOG_FILE"
+  if [ -f "$file" ]; then
+    backlog_tasks=$(grep -c '\[ \] TASK' "$file" || echo 0)
+    completed_tasks=$(grep -c '\[x\] TASK' "$file" || echo 0)
   fi
 
   echo "Project Status:"
@@ -142,7 +145,7 @@ status() {
 skills() {
   log "1-Strategy" "S5" "fetching skills"
 
-  local conv_file="$CORE_DIR/conventions.md"
+  local conv_file="$RULES_DIR/standards.md"
 
   if [ ! -f "$conv_file" ]; then
       sync
@@ -177,8 +180,9 @@ recursive() {
   while true; do
     backlog
     current_pending=0
-    if ls "$ACTIVE_DIR"/epic_*.md 1> /dev/null 2>&1; then
-      current_pending=$(cat "$ACTIVE_DIR"/epic_*.md 2>/dev/null | grep -c '\[ \] TASK' || echo 0)
+    local file="$BACKLOG_FILE"
+    if [ -f "$file" ]; then
+      current_pending=$(grep -c '\[ \] TASK' "$file" || echo 0)
     fi
 
     if [ "$current_pending" -eq "$prev_pending" ]; then

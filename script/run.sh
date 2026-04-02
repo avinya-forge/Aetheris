@@ -7,7 +7,9 @@ set -e
 
 # Globals
 DOCS_DIR="docs"
-CORE_DIR="$DOCS_DIR/core"
+ARCH_DIR="$DOCS_DIR/architecture"
+RULES_DIR="$DOCS_DIR/rules"
+PLANNING_DIR="$DOCS_DIR/planning"
 BACKLOG_DIR="$DOCS_DIR/backlog"
 ACTIVE_DIR="$BACKLOG_DIR/active"
 ARCHIVE_DIR="$DOCS_DIR/archive"
@@ -25,7 +27,9 @@ sync() {
   log "1-Strategy" "S1" "syncing dirs"
 
   local dirs=(
-    "$CORE_DIR"
+    "$ARCH_DIR"
+    "$RULES_DIR"
+    "$PLANNING_DIR"
     "$ACTIVE_DIR"
     "$ARCHIVE_DIR/completed_epics"
     "$ARCHIVE_DIR/obsolete_logic"
@@ -38,11 +42,11 @@ sync() {
 
   # Initialize missing core docs
   local core_files=(
-    "$CORE_DIR/roadmap.md:# Roadmap"
-    "$CORE_DIR/system_design.md:# System Design"
-    "$CORE_DIR/conventions.md:# Conventions"
-    "$CORE_DIR/release-notes.md:# Release Notes"
-    "$BACKLOG_DIR/index.md:# Master Phase/Epic Index"
+    "$PLANNING_DIR/roadmap.md:# Roadmap"
+    "$ARCH_DIR/system_design.md:# System Design"
+    "$RULES_DIR/standards.md:# Standards"
+    "release-notes.md:# Release Notes"
+    "$PLANNING_DIR/backlog.md:# Backlog"
   )
 
   for item in "${core_files[@]}"; do
@@ -142,7 +146,7 @@ status() {
 skills() {
   log "1-Strategy" "S5" "fetching skills"
 
-  local conv_file="$CORE_DIR/conventions.md"
+  local conv_file="$RULES_DIR/standards.md"
 
   if [ ! -f "$conv_file" ]; then
       sync

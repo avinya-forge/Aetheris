@@ -6,11 +6,11 @@ const rootDir = path.join(__dirname, '..');
 const state = parseDocsState(rootDir);
 
 assert.ok(Array.isArray(state));
-const index = state.find(doc => doc.path === 'docs/backlog/index.md');
+const index = state.find(doc => doc.path === 'docs/planning/backlog.md');
 assert.ok(index);
 assert.strictEqual(index.exists, true);
 
-const conventions = state.find(doc => doc.path === 'docs/core/conventions.md');
+const conventions = state.find(doc => doc.path === 'docs/rules/standards.md');
 assert.ok(conventions);
 // If run.sh --sync has not been run or it has been run, it might be true or false.
 
@@ -19,16 +19,16 @@ assert.strictEqual(nonExistent, undefined); // We aren't testing missing items h
 
 // For the parser to work optimally, let's say it checks against a defined list of required docs
 const requiredDocs = [
-  'docs/backlog/index.md',
-  'docs/core/roadmap.md',
-  'docs/core/system_design.md',
-  'docs/core/conventions.md'
+  'docs/planning/backlog.md',
+  'docs/planning/roadmap.md',
+  'docs/architecture/system_design.md',
+  'docs/rules/standards.md'
 ];
 
 const state2 = parseDocsState(rootDir, requiredDocs);
 assert.ok(Array.isArray(state2));
 assert.strictEqual(state2.length, requiredDocs.length);
-const index2 = state2.find(doc => doc.path === 'docs/backlog/index.md');
+const index2 = state2.find(doc => doc.path === 'docs/planning/backlog.md');
 assert.ok(index2);
 assert.strictEqual(index2.exists, true);
 

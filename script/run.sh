@@ -10,8 +10,7 @@ DOCS_DIR="docs"
 ARCH_DIR="$DOCS_DIR/architecture"
 RULES_DIR="$DOCS_DIR/rules"
 PLANNING_DIR="$DOCS_DIR/planning"
-BACKLOG_DIR="$DOCS_DIR/backlog"
-ACTIVE_DIR="$BACKLOG_DIR/active"
+ACTIVE_DIR="$PLANNING_DIR/active"
 ARCHIVE_DIR="$DOCS_DIR/archive"
 
 # Output format

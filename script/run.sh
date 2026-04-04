@@ -10,8 +10,7 @@ DOCS_DIR="docs"
 ARCH_DIR="$DOCS_DIR/architecture"
 RULES_DIR="$DOCS_DIR/rules"
 PLANNING_DIR="$DOCS_DIR/planning"
-BACKLOG_DIR="$DOCS_DIR/backlog"
-ACTIVE_DIR="$BACKLOG_DIR/active"
+ACTIVE_DIR="$PLANNING_DIR/active"
 ARCHIVE_DIR="$DOCS_DIR/archive"
 
 # Output format
@@ -22,10 +21,7 @@ log() {
   echo "[PHASE: $phase] | [SCENARIO: $scenario] | [STATUS: $status]"
 }
 
-# Ensure idempotent directory structure (AHA/SLAP applied)
-sync() {
-  log "1-Strategy" "S1" "syncing dirs"
-
+sync_dirs() {
   local dirs=(
     "$ARCH_DIR"
     "$RULES_DIR"
@@ -39,7 +35,9 @@ sync() {
   for dir in "${dirs[@]}"; do
     mkdir -p "$dir"
   done
+}
 
+sync_core_files() {
   # Initialize missing core docs
   local core_files=(
     "$PLANNING_DIR/roadmap.md:# Roadmap"
@@ -56,6 +54,14 @@ sync() {
       echo "$content" > "$file"
     fi
   done
+}
+
+# Ensure idempotent directory structure (AHA/SLAP applied)
+sync() {
+  log "1-Strategy" "S1" "syncing dirs"
+
+  sync_dirs
+  sync_core_files
 
   log "1-Strategy" "S1" "sync complete"
 }

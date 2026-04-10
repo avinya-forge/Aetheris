@@ -55,18 +55,14 @@
 ### Epic 1.1: Autonomous Documentation Engine
 *Goal: run.sh fully syncs SSOT structure; README paths canonical.*
 
-- [READY] TASK: sync-run-sh-paths | Target: script/run.sh | I/O: CLI -> DirState | Assert: AHA/SLAP applied, 0 err | LOC: ~30
-  - Apply AHA/SLAP to eliminate repetitive dir/file creation patterns
-  - README.md must point to current docs structure post-sync
-  - Active epic audit: `[ ]` → `[x]` auto-toggle when target file exists
+- [x] TASK: sync-run-sh-paths | Target: script/run.sh | I/O: CLI -> DirState | Assert: AHA/SLAP applied, 0 err | LOC: ~30
 
 ### Epic 1.2: Schema & Test Debt Resolution
 *Goal: unified naming convention across all schemas; Jest as test runner.*
 
-- [READY] TASK: unify-schema-naming | Target: lib/schema/*.js | I/O: void -> void | Assert: 0 err, consistent camelCase | LOC: ~50
-  - Audit all 9 schema files for naming inconsistencies
-  - Align exported field names to camelCase throughout
-  - Update any dependent data-layer imports
+- [x] TASK: unify-schema-naming | Target: lib/schema/*.js | I/O: void -> void | Assert: 0 err, consistent camelCase | LOC: ~50
+  - All 9 schemas: named exports `module.exports = { XyzSchema }` enforced
+  - All field names camelCase (kpIndex, impactScore, auroraProbability, etc.)
 
 - [READY] TASK: migrate-tests-to-jest | Target: tests/*.test.js | I/O: assert -> jest.expect | Assert: 0 err, >95% cov | LOC: ~200
   - Replace native `assert` with `jest.expect` across all 40+ test files

@@ -80,33 +80,23 @@
 ### Epic 2.1: Environmental Data (Zero-Cost)
 *Goal: live weather, space weather, and atmospheric data via free public APIs.*
 
-- [ ] TASK: integrate-open-meteo | Target: lib/data/open-meteo-client.js | I/O: Coords -> WeatherJSON | Assert: 0 err, >95% cov | LOC: ~60
-  - API: `https://api.open-meteo.com/v1/forecast` (no API key required)
-  - Fields: temperature_2m, wind_speed_10m, precipitation, weather_code
-  - Map to existing `lib/schema/environmental.js` shape
-  - Cache result in Cloudflare KV with 1h TTL via edge-proxy.js
-
-- [ ] TASK: integrate-noaa-swpc | Target: lib/data/noaa-swpc-client.js | I/O: void -> SpaceWeatherJSON | Assert: 0 err, >95% cov | LOC: ~50
-  - API: `https://services.swpc.noaa.gov/json/planetary_k_index_1m.json` (public)
-  - Parse Kp-index, feed into existing `lib/data/kp-parser.js`
-  - Aurora probability: derive from Kp using existing threshold table
-  - Cache in Cloudflare KV with 15min TTL
-
-- [ ] TASK: integrate-nasa-donki | Target: lib/data/nasa-donki-client.js | I/O: DateRange -> SpaceEventsJSON | Assert: 0 err, >95% cov | LOC: ~55
-  - API: `https://api.nasa.gov/DONKI/` with free `DEMO_KEY` (1000 req/hr)
-  - Event types: CME, FLR, SEP, MPC (solar storms, flares, particles)
-  - Map to geopolitical schema `impactScore` field (space events as high-impact)
-  - Cache in Cloudflare KV with 30min TTL
+- [x] TASK: integrate-open-meteo | Target: lib/data/open-meteo-client.js | I/O: Coords -> WeatherJSON | Assert: 0 err, >95% cov | LOC: ~60
+- [x] TASK: integrate-noaa-swpc | Target: lib/data/noaa-swpc-client.js | I/O: void -> SpaceWeatherJSON | Assert: 0 err, >95% cov | LOC: ~50
+- [x] TASK: integrate-nasa-donki | Target: lib/data/nasa-donki-client.js | I/O: DateRange -> SpaceEventsJSON | Assert: 0 err, >95% cov | LOC: ~55
 
 ### Epic 2.2: Geopolitical Data (Zero-Cost)
 *Goal: real-time global event monitoring via free GDELT API.*
 
-- [ ] TASK: integrate-gdelt | Target: lib/data/gdelt-client.js | I/O: Filters -> EventsJSON | Assert: 0 err, >95% cov | LOC: ~65
-  - API: `https://api.gdeltproject.org/api/v2/doc/doc` (public, no key)
-  - Query: `mode=artlist&format=json&maxrecords=50&timespan=1h`
-  - Map to `lib/schema/geopolitical.js` shape (source, description, impactScore)
-  - Deduplicate via existing `lib/data/wire-deduplicator.js`
-  - Cache in Cloudflare KV with 15min TTL
+- [x] TASK: integrate-gdelt | Target: lib/data/gdelt-client.js | I/O: Filters -> EventsJSON | Assert: 0 err, >95% cov | LOC: ~65
+
+### Epic 2.4: Ingest Pipeline Infrastructure
+*Goal: sniffer agent with cross-cycle dedup and source scheduling.*
+
+- [x] TASK: implement-source-ranker | Target: lib/data/source-ranker.js | I/O: SourcesMeta -> RankedSources | Assert: 0 err, >95% cov | LOC: ~45
+- [x] TASK: implement-event-fingerprint | Target: lib/data/event-fingerprint.js | I/O: Event, KV -> Boolean | Assert: 0 err, >95% cov | LOC: ~40
+- [x] TASK: implement-ingest-cycle | Target: functions/ingest-cycle.js | I/O: env -> IngestResult | Assert: 0 err, >95% cov | LOC: ~110
+- [x] TASK: implement-cloudflare-worker | Target: functions/worker.js | I/O: Request -> Response | Assert: 0 err | LOC: ~60
+- [x] TASK: add-wrangler-config | Target: wrangler.toml | I/O: void -> void | Assert: cron+KV configured | LOC: ~30
 
 ### Epic 2.3: Nowcasting Gap-Fill
 *Goal: interpolate 6-hour gaps between model updates using Gemini.*

@@ -1,5 +1,5 @@
 const assert = require('assert');
-const deduplicateWires = require('../lib/data/wire-deduplicator.js');
+const { deduplicateWires } = require('../lib/data/wire-deduplicator.js');
 
 try {
   const wires = [

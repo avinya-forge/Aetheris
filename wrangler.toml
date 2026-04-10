@@ -1,0 +1,39 @@
+# Aetheris — Cloudflare Workers configuration
+# Deploy: npx wrangler deploy
+# Dev:    npx wrangler dev
+# Docs:   https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "aetheris"
+main = "functions/worker.js"
+compatibility_date = "2024-09-23"
+
+# ── Cron Triggers (Sniffer Agent) ─────────────────────────────────────────
+# Fires the scheduled() handler every minute.
+# rankSources() inside ingest-cycle.js gates which sources actually get polled.
+[triggers]
+crons = ["* * * * *"]
+
+# ── KV Namespace (Edge Cache + Event Store) ───────────────────────────────
+# Create with: npx wrangler kv namespace create CACHE
+# Then replace the placeholder IDs below.
+[[kv_namespaces]]
+binding = "CACHE"
+id = "REPLACE_WITH_PRODUCTION_KV_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_PREVIEW_KV_NAMESPACE_ID"
+
+# ── Environment Variables ─────────────────────────────────────────────────
+# Secrets (API keys) go in Cloudflare dashboard → Workers → Settings → Variables
+# NEVER commit real secrets here.
+[vars]
+NASA_API_KEY = "DEMO_KEY"   # Replace via: npx wrangler secret put NASA_API_KEY
+
+# ── Build (Vite PWA output) ───────────────────────────────────────────────
+# Cloudflare Pages handles the static build separately via GitHub Actions.
+# This wrangler config is for the Worker only (API + cron).
+[build]
+command = ""   # Workers-only build; no Vite here
+
+# ── Dev settings ──────────────────────────────────────────────────────────
+[dev]
+port = 8787
+local_protocol = "http"

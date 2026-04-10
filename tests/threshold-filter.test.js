@@ -1,5 +1,5 @@
 const assert = require('assert');
-const filterByThreshold = require('../lib/data/threshold-filter');
+const { filterByThreshold } = require('../lib/data/threshold-filter');
 
 try {
   assert.strictEqual(filterByThreshold({ impactScore: 80 }, { minImpactScore: 50 }), true);

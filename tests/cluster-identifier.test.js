@@ -1,5 +1,5 @@
 const assert = require('assert');
-const identifyClusters = require('../lib/data/cluster-identifier');
+const { identifyClusters } = require('../lib/data/cluster-identifier');
 
 try {
   const events = [

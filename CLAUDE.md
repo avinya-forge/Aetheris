@@ -11,7 +11,7 @@ bash script/run.sh --status     # show pending/done task count
 bash script/run.sh --backlog    # audit active epics against filesystem
 bash script/run.sh --sync       # idempotent dir structure sync
 bash script/run.sh --recursive  # expand backlog to convergence
-bash script/run.sh --epoch      # map new epic into active/
+bash script/run.sh --epoch      # map new epic into docs/planning/
 bash script/run.sh --skills     # fetch skill patterns from skills.sh
 ```
 
@@ -25,7 +25,7 @@ docs/
   planning/
     roadmap.md                 # phase → epic list
     backlog.md                 # phase → epic → task (granular SSOT)
-    active/epic_*.md           # active epic task files
+    epic_*.md                  # active epic task files
   rules/standards.md           # coding + git + doc conventions
 lib/
   data/                        # data processing pipeline (14 modules)
@@ -45,7 +45,7 @@ tests/                         # 1:1 .test.js per lib/ module
 README.md (vision)
   └── docs/planning/roadmap.md (phases + epics)
         └── docs/planning/backlog.md (phase → epic → tasks)
-              └── docs/planning/active/epic_*.md (audited task files)
+              └── docs/planning/epic_*.md (audited task files)
 ```
 
 ## Skills (from skills.sh)

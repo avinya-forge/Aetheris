@@ -10,8 +10,6 @@ DOCS_DIR="docs"
 ARCH_DIR="$DOCS_DIR/architecture"
 RULES_DIR="$DOCS_DIR/rules"
 PLANNING_DIR="$DOCS_DIR/planning"
-ACTIVE_DIR="$PLANNING_DIR/active"
-ARCHIVE_DIR="$DOCS_DIR/archive"
 
 # Output format
 log() {
@@ -26,10 +24,6 @@ sync_dirs() {
     "$ARCH_DIR"
     "$RULES_DIR"
     "$PLANNING_DIR"
-    "$ACTIVE_DIR"
-    "$ARCHIVE_DIR/completed_epics"
-    "$ARCHIVE_DIR/obsolete_logic"
-    "$ARCHIVE_DIR/deprecated_tasks"
   )
 
   for dir in "${dirs[@]}"; do
@@ -90,11 +84,11 @@ test() {
 backlog() {
   log "1-Strategy" "S4" "parsing backlog"
 
-  if ! ls "$ACTIVE_DIR"/epic_*.md 1> /dev/null 2>&1; then
+  if ! ls "$PLANNING_DIR"/epic_*.md 1> /dev/null 2>&1; then
       sync
   fi
 
-  for file in "$ACTIVE_DIR"/epic_*.md; do
+  for file in "$PLANNING_DIR"/epic_*.md; do
     if [ -f "$file" ]; then
       # Audit [ ] TASK
       grep '\[ \] TASK' "$file" | while read -r line; do
@@ -121,10 +115,10 @@ backlog() {
   log "1-Strategy" "S4" "backlog parsed"
 }
 
-# Epoch mapping (Maps into active directory)
+# Epoch mapping (Maps new epic into planning/)
 epoch() {
   log "1-Strategy" "S6" "mapping new epics"
-  local new_epic="$ACTIVE_DIR/epic_$(date +%s).md"
+  local new_epic="$PLANNING_DIR/epic_$(date +%s).md"
   echo "# Epic: Autonomous Architecture & Documentation Engine" > "$new_epic"
   echo "- [EPIC] Auto-populate missing MD files via uniform schema." >> "$new_epic"
   log "1-Strategy" "S6" "epics mapped"
@@ -136,9 +130,9 @@ status() {
   local backlog_tasks=0
   local completed_tasks=0
 
-  if ls "$ACTIVE_DIR"/epic_*.md 1> /dev/null 2>&1; then
-    backlog_tasks=$(cat "$ACTIVE_DIR"/epic_*.md 2>/dev/null | grep -c '\[ \] TASK' || echo 0)
-    completed_tasks=$(cat "$ACTIVE_DIR"/epic_*.md 2>/dev/null | grep -c '\[x\] TASK' || echo 0)
+  if ls "$PLANNING_DIR"/epic_*.md 1> /dev/null 2>&1; then
+    backlog_tasks=$(cat "$PLANNING_DIR"/epic_*.md 2>/dev/null | grep -c '\[ \] TASK' || echo 0)
+    completed_tasks=$(cat "$PLANNING_DIR"/epic_*.md 2>/dev/null | grep -c '\[x\] TASK' || echo 0)
   fi
 
   echo "Project Status:"
@@ -187,8 +181,8 @@ recursive() {
   while true; do
     backlog
     current_pending=0
-    if ls "$ACTIVE_DIR"/epic_*.md 1> /dev/null 2>&1; then
-      current_pending=$(cat "$ACTIVE_DIR"/epic_*.md 2>/dev/null | grep -c '\[ \] TASK' || echo 0)
+    if ls "$PLANNING_DIR"/epic_*.md 1> /dev/null 2>&1; then
+      current_pending=$(cat "$PLANNING_DIR"/epic_*.md 2>/dev/null | grep -c '\[ \] TASK' || echo 0)
     fi
 
     if [ "$current_pending" -eq "$prev_pending" ]; then

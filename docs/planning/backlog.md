@@ -1,6 +1,6 @@
 # Backlog — Aetheris
 
-> **SSOT**: README.md → roadmap.md → **backlog.md** (this file) → active/epic_*.md
+> **SSOT**: README.md → roadmap.md → **backlog.md** (this file) → epic_*.md
 > **Schema**: `[ ] TASK: name | Target: path | I/O: type | Assert: condition | LOC: size`
 > **Statuses**: `[x]` done · `[ ]` pending · `[BLOCKED]` external dep · `[DEBT]` tech debt · `[READY]` next up
 

@@ -1,7 +1,7 @@
 # Engineering Conventions
 
 ## Documentation & SSOT (Single Source Of Truth)
-* **Hierarchy**: `README.md` (Vision) -> `docs/roadmap.md` (Epics) -> `docs/backlog.md` (Tasks).
+* **Hierarchy**: `README.md` (Vision) -> `docs/planning/roadmap.md` (Epics) -> `docs/planning/backlog.md` (Tasks) -> `docs/planning/active/epic_*.md` (audited tasks).
 * **Backlog Schema**: Every task must follow the schema: `[ ] TASK: name | Target: path | I/O: type | Assert: condition | LOC: size`.
 
 ## Code Quality

@@ -97,42 +97,102 @@
 ### Epic 2.3: Nowcasting Gap-Fill
 *Goal: interpolate 6-hour gaps between model updates using Gemini.*
 
-- [ ] TASK: implement-nowcast-interpolator | Target: lib/data/nowcast-interpolator.js | I/O: StaleData -> NowcastJSON | Assert: 0 err, isInterpolated=true | LOC: ~60
+- [x] TASK: implement-nowcast-interpolator | Target: lib/data/nowcast-interpolator.js | I/O: StaleData -> NowcastJSON | Assert: 0 err, isInterpolated=true | LOC: ~60
   - Detect stale data: timestamp delta > 6h
   - Prompt Gemini 1.5 Flash with last known state to extrapolate gap
   - Populate `lib/schema/nowcast.js` with `interpolated: true` flag
   - Never surface interpolated data as "live" — always badge as "Estimated"
 
+### Epic 2.5: Data Quality Layer
+*Goal: validate, circuit-break, and detect stale data before it enters the pipeline.*
+
+- [ ] TASK: implement-schema-validator | Target: lib/data/schema-validator.js | I/O: Event -> Boolean | Assert: rejects invalid, 0 err | LOC: ~50
+  - Validate any event against its JSON Schema (lib/schema/) at ingest time
+  - Reject events missing required fields: `id`, `source`, `impactScore`, `publishedAt`
+  - Return `{ valid: boolean, errors: string[] }` — never throw
+
+- [ ] TASK: implement-circuit-breaker | Target: lib/data/circuit-breaker.js | I/O: SourceId, ErrorCount -> State | Assert: opens after 5 fails, closes after 60s | LOC: ~55
+  - States: CLOSED (normal), OPEN (blocked), HALF-OPEN (probe)
+  - Open after 5 consecutive failures; auto-close after 60s cooldown
+  - `recordSuccess(id)`, `recordFailure(id)`, `isOpen(id)` — KV-backed state
+
+- [ ] TASK: implement-staleness-detector | Target: lib/data/staleness-detector.js | I/O: Event -> Boolean | Assert: 0 err, detects >6h gap | LOC: ~30
+  - `isDataStale(event, now)` — wraps `nowcast-interpolator.isStale`
+  - `categorizeFreshness(event, now)` → `"live" | "recent" | "stale" | "unknown"`
+  - "live": <15min, "recent": 15min–6h, "stale": >6h, "unknown": no timestamp
+
 ---
 
 ## Phase 3: Intelligence Layer — AI Synthesis (SCHEDULED)
 
+### Epic 3.2: AI Client Infrastructure
+*Goal: production-ready Gemini client with rate limiting and KV-backed quota enforcement.*
+
+- [x] TASK: integrate-gemini-flash | Target: lib/ai/gemini-client.js | I/O: Prompt -> String | Assert: 0 err, latency <2s, 30-word cap | LOC: ~55
+  - REST client: `POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`
+  - No SDK — pure `globalThis.fetch` (CF Workers compatible, no npm deps)
+  - `callGemini(text, apiKey, fetcher)` — injectable fetcher for testing
+  - `buildSynthesizer(apiKey, fetcher)` — factory returning `(text) => Promise<string|null>`
+  - Strict system prompt: "Summarize in ≤30 words. No speculation. Facts only."
+  - Enforce 30-word cap on model output regardless; return null on any error
+
+- [x] TASK: implement-rate-limit-queue | Target: lib/ai/rate-limit-queue.js | I/O: KV, Now -> Boolean | Assert: allows 15/min, blocks 16th | LOC: ~50
+  - KV-backed per-minute window key: `rl:gemini:<minute-epoch>`
+  - `windowKey(now)` — UTC minute boundary
+  - `checkAndIncrementRate(kv, now)` — returns true/false, increments atomically
+  - `createRateLimitedSynthesizer(synthesizer, kv)` — wraps any synthesizer
+  - Returns null on rate limit hit → caller falls back to truncation
+
 ### Epic 3.1: Live AI Synthesis Pipeline
 *Goal: wire Gemini 1.5 Flash to live data for real-time 30-word briefs.*
 
-- [ ] TASK: integrate-gemini-flash | Target: lib/ai/gemini-client.js | I/O: Prompt -> String | Assert: 0 err, latency <2s | LOC: ~50
-  - Use `@google/generative-ai` SDK (free tier: 15 RPM)
-  - Strict prompt: "Summarize in ≤30 words. No speculation. Facts only."
-  - Rate-limit guard: queue requests, max 15/min
-  - Error fallback: return last known synthesis if API fails
-
-- [ ] TASK: wire-extractive-synthesis | Target: lib/data/extractive-synthesis.js | I/O: LiveArray -> String | Assert: ≤30 words, 0 err | LOC: ~25
-  - Connect `gemini-client.js` to existing `extractive-synthesis.js`
+- [x] TASK: wire-extractive-synthesis | Target: lib/data/extractive-synthesis.js | I/O: LiveArray, Synthesizer -> String | Assert: ≤30 words, 0 err | LOC: ~30
+  - Make `synthesizeSources(sources, synthesizer = null)` async
+  - When synthesizer provided: call it with combined text; fallback to truncation on null/error
   - Input: deduplicated + clustered event array from pipeline
   - Assert: output never exceeds 30 words; strip speculative language
 
-- [ ] TASK: wire-safety-sentinel | Target: lib/data/safety-sentinel.js | I/O: LiveEnvData -> Warning | Assert: triggers on temp≥40°C|wind≥100kmh | LOC: ~20
+- [x] TASK: wire-safety-sentinel | Target: lib/data/safety-sentinel.js | I/O: LiveEnvData -> Warning | Assert: triggers on temp≥40°C|wind≥100kmh | LOC: ~20
   - Connect `open-meteo-client.js` → `hazard-evaluator.js` → `safety-sentinel.js`
   - Inject rational warning into UI event stream when threshold breached
 
-- [ ] TASK: wire-probability-cones | Target: lib/timeline/probability-cones.js | I/O: LiveForecasts -> GhostCards | Assert: likelihood ≤95%, isSpeculative=false | LOC: ~20
+- [x] TASK: wire-probability-cones | Target: lib/timeline/probability-cones.js | I/O: LiveForecasts -> GhostCards | Assert: likelihood ≤95%, isSpeculative=false | LOC: ~20
   - Connect live forecast data (NASA DONKI + GDELT trends) to cone generator
   - Ghost Cards: semi-transparent, always show %, cap at 95%
+
+- [x] TASK: wire-ai-pipeline-ingest | Target: functions/ingest-cycle.js | I/O: env -> EnrichedIngestResult | Assert: synthesis+safety+ghostCards in result | LOC: ~50
+  - After clustering: `synthesizeSources(clusterTexts, rateLimitedSynthesizer)` per cluster
+  - After open-meteo fetch: `injectSafetyWarning(weatherEvent)` for all weather events
+  - After nasa-donki fetch: `generateGhostCards(donkiForecasts)` → ghost cards in result
+  - Return `{ polled, newEvents, clusters, synthesis, safetyWarnings, ghostCards }`
 
 ---
 
 ## Phase 4: Frontend — Kinetic Atlas UI (SCHEDULED)
 *All tasks blocked by frontend environment bootstrap.*
+
+### Epic 4.4: Frontend Data Service Layer
+*Goal: bridge lib/ pipeline output to React UI components via typed service hooks.*
+
+- [BLOCKED] TASK: implement-events-service | Target: src/lib/services/events-service.js | I/O: Filters -> EventArray | Assert: 0 err, filters by impact | LOC: ~50
+  - Fetch `/api/events?since=<epoch>&minImpact=<n>` from CF Worker
+  - Map raw KV JSON → typed EventRecord array
+  - Cache in IndexedDB (idb) with 5-min TTL for offline support
+  - Export `useEvents(filters)` React hook with `{ data, loading, error }` state
+
+- [BLOCKED] TASK: implement-synthesis-service | Target: src/lib/services/synthesis-service.js | I/O: ClusterId -> Brief | Assert: ≤30 words, 0 err | LOC: ~35
+  - Fetch `/api/synthesis/<cluster-id>` from CF Worker
+  - Return brief text for UI rendering
+  - On missing/error: return truncated cluster headline as fallback
+
+- [BLOCKED] TASK: implement-ghost-card-service | Target: src/lib/services/ghost-card-service.js | I/O: void -> GhostCardArray | Assert: all likelihood ≤95%, isSpeculative=false | LOC: ~35
+  - Fetch `/api/ghost-cards` from CF Worker
+  - Validate: filter any card with `isSpeculative=true` before returning
+  - Return sorted by likelihood desc
+
+- [BLOCKED] TASK: implement-health-service | Target: src/lib/services/health-service.js | I/O: void -> HealthStatus | Assert: 0 err, returns version+uptime | LOC: ~20
+  - Fetch `/api/health` from CF Worker
+  - Expose `useHealth()` hook for status badge in UI header
 
 ### Epic 4.1: Frontend Bootstrap
 *Goal: React + Vite PWA environment wired to lib/ logic.*
@@ -230,6 +290,26 @@
   - How to set interest thresholds
   - How to read ghost cards and probability percentages
   - Known limitations: data latency, nowcasting badge meaning
+
+### Epic 5.3: CI/CD Pipeline
+*Goal: automated test + deploy on every push, zero manual steps.*
+
+- [ ] TASK: create-ci-workflow | Target: .github/workflows/ci.yml | I/O: git push -> test run | Assert: all tests pass before deploy | LOC: ~50
+  - Trigger: push to `main` and any `claude/*` or `jules/*` branch
+  - Steps: checkout → node 20 → `bash script/run.sh --test` → report
+  - Fail-fast: deploy step blocked if any test fails
+
+- [ ] TASK: create-deploy-workflow | Target: .github/workflows/deploy.yml | I/O: main push -> CF Pages | Assert: auto-deploy on main merge | LOC: ~45
+  - Trigger: push to `main` only
+  - Build: `npm run build` (Vite → dist/)
+  - Deploy: `cloudflare/pages-action@v1` with `CF_API_TOKEN`, `CF_ACCOUNT_ID` secrets
+  - Worker deploy: `wrangler deploy functions/worker.js` after pages deploy
+
+- [x] TASK: create-package-json | Target: package.json | I/O: void -> npm config | Assert: `npm test` runs all tests | LOC: ~30
+  - `"test": "bash script/run.sh --test"` (native assert, no jest dep yet)
+  - `"build": "vite build"` — wired after frontend bootstrap
+  - `"dev": "vite"` — local development server
+  - Minimal deps: only add what's imported in source files
 
 ---
 

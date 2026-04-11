@@ -1,0 +1,31 @@
+{
+  "name": "aetheris",
+  "version": "0.1.4",
+  "description": "Temporal Intelligence & Environmental Sentinel — zero-cost PWA on Cloudflare edge",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "bash script/run.sh --test",
+    "test:single": "node",
+    "status": "bash script/run.sh --status",
+    "backlog": "bash script/run.sh --backlog",
+    "sync": "bash script/run.sh --sync",
+    "start": "bash script/run.sh --start",
+    "build": "echo 'Build step: configure Vite after frontend bootstrap (Epic 4.1)'",
+    "dev": "echo 'Dev server: configure Vite after frontend bootstrap (Epic 4.1)'",
+    "deploy:worker": "wrangler deploy functions/worker.js",
+    "deploy:pages": "wrangler pages deploy dist --project-name=aetheris"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "temporal-intelligence",
+    "cloudflare-workers",
+    "news-deduplication",
+    "space-weather",
+    "pwa"
+  ],
+  "license": "UNLICENSED"
+}

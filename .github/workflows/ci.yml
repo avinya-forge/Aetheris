@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/**'
+      - 'jules/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['20', '22']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run test suite
+        run: bash script/run.sh --test
+
+      - name: Verify test count (must be ≥ baseline)
+        run: |
+          COUNT=$(bash script/run.sh --test 2>&1 | grep -c "^PASS" || true)
+          echo "Tests passed: $COUNT"
+          if [ "$COUNT" -lt 30 ]; then
+            echo "ERROR: test pass count $COUNT is below baseline of 30"
+            exit 1
+          fi
+
+  lint-structure:
+    name: Repo Structure Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify required files exist
+        run: |
+          for f in CLAUDE.md JULES.md README.md wrangler.toml package.json \
+                   docs/planning/backlog.md docs/planning/roadmap.md \
+                   docs/architecture/system_design.md docs/rules/standards.md \
+                   functions/worker.js functions/ingest-cycle.js; do
+            if [ ! -f "$f" ]; then
+              echo "MISSING: $f"
+              exit 1
+            fi
+            echo "OK: $f"
+          done
+
+      - name: Check no secrets in source
+        run: |
+          # Fail if any file in lib/ or functions/ contains a hardcoded API key pattern
+          if grep -r "AIza\|sk-\|ghp_\|ghs_" lib/ functions/ --include="*.js" -l 2>/dev/null; then
+            echo "ERROR: Possible hardcoded secret found in source"
+            exit 1
+          fi
+          echo "OK: no hardcoded secrets detected"
+
+      - name: Verify 1:1 test coverage (every lib/ file has a test)
+        run: |
+          MISSING=0
+          for f in lib/**/*.js; do
+            base=$(basename "$f" .js)
+            if [ ! -f "tests/${base}.test.js" ]; then
+              echo "MISSING TEST: tests/${base}.test.js (for $f)"
+              MISSING=$((MISSING + 1))
+            fi
+          done
+          if [ "$MISSING" -gt 0 ]; then
+            echo "ERROR: $MISSING lib/ files are missing matching test files"
+            exit 1
+          fi
+          echo "OK: all lib/ files have matching tests"

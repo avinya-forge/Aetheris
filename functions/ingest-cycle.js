@@ -1,7 +1,8 @@
 // Sniffer Agent — Ingest Cycle Orchestrator
 // Runs on Cloudflare Worker Cron (every 1 min via wrangler.toml).
 // Pulls only sources that are due (rankSources), fingerprints events,
-// skips seen events, runs the pipeline, and writes to KV.
+// skips seen events, runs the pipeline, synthesizes clusters with Gemini,
+// generates safety warnings (weather) and ghost cards (DONKI).
 //
 // Injectable clients + KV mock for testing — no real network calls in tests.
 
@@ -10,6 +11,9 @@ const { isNewEvent, markEventSeen } = require('../lib/data/event-fingerprint.js'
 const { deduplicateWires } = require('../lib/data/wire-deduplicator.js');
 const { identifyClusters } = require('../lib/data/cluster-identifier.js');
 const { filterByImpact } = require('../lib/data/impact-filter.js');
+const { synthesizeSources } = require('../lib/data/extractive-synthesis.js');
+const { injectSafetyWarning } = require('../lib/data/safety-sentinel.js');
+const { generateGhostCards } = require('../lib/timeline/probability-cones.js');
 
 // KV keys
 const KV_EVENTS_LATEST = 'events:latest';
@@ -24,7 +28,6 @@ const ALL_SOURCES = ['noaa-swpc', 'gdelt', 'nasa-donki', 'open-meteo'];
  * Tests inject mocks via the `clients` param of runIngestCycle().
  */
 function defaultClients(env) {
-  // Lazy-require so tests that don't need network don't load live clients
   const { fetchNoaaSwpc } = require('../lib/data/noaa-swpc-client.js');
   const { fetchGdelt } = require('../lib/data/gdelt-client.js');
   const { fetchOpenMeteo } = require('../lib/data/open-meteo-client.js');
@@ -63,7 +66,7 @@ async function updateSourceMeta(kv, id, newItemCount) {
   const prev = raw ? JSON.parse(raw) : {};
   const consecutiveEmptyPolls = newItemCount === 0
     ? (prev.consecutiveEmptyPolls || 0) + 1
-    : 0; // reset on any new content
+    : 0;
 
   await kv.put(
     KV_SOURCE_META(id),
@@ -73,13 +76,36 @@ async function updateSourceMeta(kv, id, newItemCount) {
 }
 
 /**
+ * Map NASA DONKI events → forecast objects accepted by generateGhostCards.
+ * Marks all DONKI detections as confirmed (speculative: false).
+ */
+function donkiToForecasts(donkiEvents) {
+  return donkiEvents
+    .filter(e => e && e.id && e.eventType)
+    .map(e => ({
+      patternMatchId: `donki-${e.eventType}-${e.id}`,
+      eventType: e.eventType,
+      location: 'Earth-proximate',
+      speculative: false,
+    }));
+}
+
+/**
  * Ingest cycle — the core sniffer loop.
  *
  * @param {{ CACHE: { get, put }, NASA_API_KEY?: string }} env - Cloudflare Worker env bindings
  * @param {Object|null} [clients] - injectable client map for testing
- * @returns {Promise<{ polled: string[], newEvents: number, clusters: number }>}
+ * @param {Function|null} [synthesizer] - injectable async synthesizer (text) => Promise<string|null>
+ * @returns {Promise<{
+ *   polled: string[],
+ *   newEvents: number,
+ *   clusters: number,
+ *   synthesis: Object,
+ *   safetyWarnings: string[],
+ *   ghostCards: Array
+ * }>}
  */
-async function runIngestCycle(env, clients = null) {
+async function runIngestCycle(env, clients = null, synthesizer = null) {
   const kv = env.CACHE;
   const resolvedClients = clients || defaultClients(env);
 
@@ -88,12 +114,13 @@ async function runIngestCycle(env, clients = null) {
   const ranked = rankSources(sourcesMeta);
 
   if (ranked.length === 0) {
-    return { polled: [], newEvents: 0, clusters: 0 };
+    return { polled: [], newEvents: 0, clusters: 0, synthesis: {}, safetyWarnings: [], ghostCards: [] };
   }
 
-  // 2. Fetch due sources, fingerprint, skip seen events
+  // 2. Fetch due sources; save raw results per source for AI enrichment
   const freshEvents = [];
   const polled = [];
+  const rawBySource = {};
 
   for (const { id } of ranked) {
     const fetch = resolvedClients[id];
@@ -103,8 +130,9 @@ async function runIngestCycle(env, clients = null) {
     try {
       const result = await fetch();
       rawItems = Array.isArray(result) ? result : [result].filter(Boolean);
+      rawBySource[id] = rawItems;
     } catch (_) {
-      // Source failure → don't update lastFetchedAt so it retries next cycle
+      // Source failure → skip; don't update lastFetchedAt so it retries next cycle
       continue;
     }
 
@@ -121,23 +149,48 @@ async function runIngestCycle(env, clients = null) {
     polled.push(id);
   }
 
+  // 3. Safety warnings from raw weather events (current conditions, not just "new" events)
+  const weatherEvents = rawBySource['open-meteo'] || [];
+  const safetyWarnings = weatherEvents
+    .map(e => injectSafetyWarning(e))
+    .filter(w => w && w.length > 0);
+
+  // 4. Ghost cards from raw DONKI events (confirmed space weather detections)
+  const donkiEvents = rawBySource['nasa-donki'] || [];
+  const ghostCards = generateGhostCards(donkiToForecasts(donkiEvents));
+
   if (freshEvents.length === 0) {
-    return { polled, newEvents: 0, clusters: 0 };
+    return { polled, newEvents: 0, clusters: 0, synthesis: {}, safetyWarnings, ghostCards };
   }
 
-  // 3. Run through pipeline
+  // 5. Run fresh events through the pipeline
   const deduped = deduplicateWires(freshEvents);
   const filtered = filterByImpact(deduped, { minImpactScore: DEFAULT_MIN_IMPACT });
   const clustered = identifyClusters(filtered);
 
-  // 4. Merge with existing events, cap at MAX_EVENTS_IN_KV, write back
+  // 6. Synthesize a brief per cluster (Gemini when available, truncation fallback)
+  const eventsByTopic = {};
+  for (const event of filtered) {
+    if (!event.topic) continue;
+    if (!eventsByTopic[event.topic]) eventsByTopic[event.topic] = [];
+    eventsByTopic[event.topic].push(event);
+  }
+
+  const synthesis = {};
+  for (const cluster of clustered) {
+    const topicEvents = eventsByTopic[cluster.theme] || [];
+    const sources = topicEvents.map(e => ({ content: e.text || e.note || e.content || '' }));
+    synthesis[cluster.clusterId] = await synthesizeSources(sources, synthesizer);
+  }
+
+  // 7. Merge with existing events, cap at MAX_EVENTS_IN_KV, write to KV
   const existingRaw = await kv.get(KV_EVENTS_LATEST);
   const existing = existingRaw ? JSON.parse(existingRaw) : [];
   const merged = [...existing, ...filtered].slice(-MAX_EVENTS_IN_KV);
 
   await kv.put(KV_EVENTS_LATEST, JSON.stringify(merged), { expirationTtl: 3_600 });
 
-  return { polled, newEvents: filtered.length, clusters: clustered.length };
+  return { polled, newEvents: filtered.length, clusters: clustered.length, synthesis, safetyWarnings, ghostCards };
 }
 
 module.exports = {

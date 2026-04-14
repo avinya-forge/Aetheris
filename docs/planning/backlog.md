@@ -24,8 +24,8 @@
 - [x] TASK: implement-safety-sentinel | Target: lib/data/safety-sentinel.js | I/O: Object -> String | Assert: 0 err, >95% cov | LOC: ~40
 
 ### Epic 0.2: Schema Definitions
-- [x] TASK: define-forecast-schema | Target: lib/data/forecast-schema.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
-- [x] TASK: define-threshold-schema | Target: lib/data/threshold-schema.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
+- [x] TASK: define-forecast-schema-canonical | Target: lib/schema/forecast.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
+- [x] TASK: define-threshold-schema-canonical | Target: lib/schema/threshold.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
 - [x] TASK: define-ghost-card-schema | Target: lib/schema/ghost-card.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~20
 - [x] TASK: define-24h-summary-schema | Target: lib/schema/24h-summary.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~30
 - [x] TASK: define-environmental-schema | Target: lib/schema/environmental.js | I/O: void -> Object | Assert: 0 err, >95% cov | LOC: ~15
@@ -317,7 +317,8 @@
 
 | ID | Task | Target | Priority |
 | :-- | :-- | :-- | :-- |
-| DEBT-1 | unify-schema-naming | lib/schema/*.js | High (blocks Phase 2) |
 | DEBT-2 | migrate-tests-to-jest | tests/*.test.js | Medium |
-| DEBT-3 | add-cluster-schema-test | tests/cluster.test.js | Medium |
 | DEBT-4 | wire-deploy-logic-to-run-sh | script/run.sh | Low |
+
+## Audit 0.1.4 - 2026-04-14
+- [x] TASK: architectural-sync | Target: repo | I/O: audit -> pristine | Assert: 100% test pass, named exports | LOC: ~200

@@ -1,5 +1,6 @@
 const assert = require('assert');
-const { fetchNasaDonki, fetchEventType, buildUrl, EVENT_TYPES, IMPACT_BY_TYPE } = require('../lib/data/nasa-donki-client.js');
+const { fetchNasaDonki, fetchEventType, buildUrl, EVENT_TYPES } = require('../lib/data/nasa-donki-client.js');
+const { DONKI_IMPACT_BY_TYPE } = require('../lib/data/space-weather-mapper.js');
 
 (async () => {
   try {
@@ -22,7 +23,7 @@ const { fetchNasaDonki, fetchEventType, buildUrl, EVENT_TYPES, IMPACT_BY_TYPE } 
     assert.strictEqual(events[1].id, 'act-2', 'activityID fallback id');
     assert.strictEqual(events[0].source, 'nasa-donki', 'source must be nasa-donki');
     assert.strictEqual(events[0].eventType, 'CME', 'eventType preserved');
-    assert.strictEqual(events[0].impactScore, IMPACT_BY_TYPE['CME'], 'CME impact score correct');
+    assert.strictEqual(events[0].impactScore, DONKI_IMPACT_BY_TYPE['CME'], 'CME impact score correct');
     assert.strictEqual(events[0].topic, 'space-weather', 'topic must be space-weather');
     assert.ok(events[0].note.length <= 200, 'note capped at 200 chars');
 
@@ -46,9 +47,9 @@ const { fetchNasaDonki, fetchEventType, buildUrl, EVENT_TYPES, IMPACT_BY_TYPE } 
     assert.strictEqual(callCount, EVENT_TYPES.length, 'one fetch per event type');
     assert.strictEqual(all.length, EVENT_TYPES.length, 'one event per type returned');
 
-    // --- IMPACT_BY_TYPE priority ordering ---
-    assert.ok(IMPACT_BY_TYPE['CME'] > IMPACT_BY_TYPE['MPC'], 'CME must outrank MPC');
-    assert.ok(IMPACT_BY_TYPE['SEP'] > IMPACT_BY_TYPE['MPC'], 'SEP must outrank MPC');
+    // --- DONKI_IMPACT_BY_TYPE priority ordering ---
+    assert.ok(DONKI_IMPACT_BY_TYPE['CME'] > DONKI_IMPACT_BY_TYPE['MPC'], 'CME must outrank MPC');
+    assert.ok(DONKI_IMPACT_BY_TYPE['SEP'] > DONKI_IMPACT_BY_TYPE['MPC'], 'SEP must outrank MPC');
     assert.strictEqual(EVENT_TYPES.length, 4, 'exactly 4 event types');
 
     console.log('PASS - nasa-donki-client.test.js');

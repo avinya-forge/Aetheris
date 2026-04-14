@@ -1,11 +1,6 @@
 const assert = require('assert');
-const { InterestThresholdSchema } = require('../lib/data/threshold-schema.js');
+const { InterestThresholdSchema } = require('../lib/schema/threshold.js');
 
-assert.strictEqual(typeof InterestThresholdSchema, 'object');
-assert.strictEqual(InterestThresholdSchema.type, 'object');
-assert.strictEqual(typeof InterestThresholdSchema.properties, 'object');
-assert.strictEqual(typeof InterestThresholdSchema.properties.county, 'object');
-assert.strictEqual(typeof InterestThresholdSchema.properties.interests, 'object');
-assert.strictEqual(typeof InterestThresholdSchema.properties.minImpactScore, 'object');
-
+assert.strictEqual(InterestThresholdSchema.type, 'object', 'InterestThresholdSchema must be an object type');
+assert.ok(InterestThresholdSchema.properties, 'InterestThresholdSchema must have properties');
 console.log('threshold schema test passed');

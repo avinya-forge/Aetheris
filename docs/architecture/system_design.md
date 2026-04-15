@@ -148,8 +148,9 @@ Free Public APIs
 | Cloudflare Workers | 100k req/day | ~5k req/day | $0 |
 | Cloudflare KV | 100k reads/day | ~20k reads/day | $0 |
 | Clerk (Auth) | 10,000 MAU | ≤50 users | $0 |
-| Supabase (DB) | 500MB / 50k req | ~10MB / 5k req | $0 |
+| Supabase / D1 | 500MB | ~10MB | $0 |
 | Gemini 1.5 Flash | 15 RPM | ~2 RPM avg | $0 |
+| GitHub Actions | 2000 min/mo | ~100 min/mo | $0 |
 | Open-Meteo | Unlimited | ~500 req/day | $0 |
 | NOAA SWPC | Unlimited | ~100 req/day | $0 |
 | GDELT | Unlimited | ~200 req/day | $0 |

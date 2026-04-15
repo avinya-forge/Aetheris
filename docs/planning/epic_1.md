@@ -5,4 +5,4 @@
 - **Engineering Log**: Updated sync_dirs to 3-dir array.
 
 ### TASK_SYNC | DONE
-- [x] TASK: architectural-sync | Target: repo | I/O: audit -> pristine | Assert: 100% test pass, named exports | LOC: 200
+- [DEBT] TASK: architectural-sync | Target: repo | I/O: audit -> pristine | Assert: 100% test pass, named exports | LOC: 200

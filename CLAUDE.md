@@ -39,6 +39,7 @@ lib/
   schema/                      # JSON Schema definitions (PascalCase)
   timeline/                    # temporal state: store, traversal, cones
   docs/                        # SSOT doc parser + generator
+  ai/                          # gemini-client and rate-limit queue
 functions/
   edge-proxy.js                # Cloudflare Worker edge handler
   worker.js                    # CF Worker entry point (ESM)
@@ -46,26 +47,28 @@ functions/
 script/
   run.sh                       # master controller (idempotent)
   sw.js                        # PWA service worker
-tests/                         # 1:1 .test.js per lib/ module
+tests/                         # 1:1 .test.js per lib/ and functions/ module
 ```
 
 ## Zero-Cost Deployment Stack
-| Layer | Tool | Free Tier | Projected (Beta) |
-| :--- | :--- | :--- | :--- |
-| Frontend | Cloudflare Pages | Unlimited | $0 |
-| Edge | Cloudflare Workers | 100k req/day | $0 |
-| Auth | Clerk | 10,000 MAU | $0 |
-| Database | Supabase / D1 | 500MB | $0 |
-| Cache | Cloudflare KV | 100k reads/day | $0 |
-| AI | Gemini 1.5 Flash | 15 RPM | $0 |
-| CI/CD | GitHub Actions | 2000 min/mo | $0 |
+| Layer | Tool | Free Tier | Projected (Beta) | Monthly Cost |
+| :--- | :--- | :--- | :--- | :--- |
+| Frontend | Cloudflare Pages | Unlimited | ~30 builds | $0 |
+| Edge | Cloudflare Workers | 100k req/day | ~5k req/day | $0 |
+| Auth | Clerk | 10,000 MAU | ≤50 users | $0 |
+| Database | Supabase / D1 | 500MB | ~10MB | $0 |
+| Cache | Cloudflare KV | 100k reads/day | ~20k reads/day | $0 |
+| AI | Gemini 1.5 Flash | 15 RPM | ~2 RPM avg | $0 |
+| CI/CD | GitHub Actions | 2000 min/mo | ~100 min/mo | $0 |
+| Source | Free APIs (Meteo/NOAA/GDELT/DONKI) | Variable | Under limit | $0 |
 
 ## Coding Standards
 - Named exports only: `module.exports = { name };`
 - I/O Purity: No side effects in `lib/data/` transforms. Clients return raw data.
-- 1:1 test coverage for all `lib/` and `functions/` modules.
+- 1:1 test coverage for all `lib/`, `functions/`, and `script/` modules.
 - Schemas: JSON Schema draft 7 in `lib/schema/`.
 - Predictions: must have `patternMatchId`, `isSpeculative: false`.
+- Never use top-level await in CommonJS.
 
 ## Key Invariants
 - No speculative predictions without `patternMatchId`.

@@ -12,13 +12,13 @@ const forecasts = [
 
 const result = generateGhostCards(forecasts);
 
-assert.strictEqual(Array.isArray(result), true);
-assert.strictEqual(result.length, 2);
+assert.strictEqual(Array.isArray(result), true, 'Must match expected value');
+assert.strictEqual(result.length, 2, 'Must match expected value');
 
 const firstCard = result[0];
-assert.strictEqual(firstCard.likelihood >= 0 && firstCard.likelihood <= 100, true);
-assert.strictEqual(firstCard.speculative, false);
-assert.strictEqual(firstCard.eventDetails.eventType, 'Heatwave');
-assert.strictEqual(firstCard.eventDetails.location, 'Paris');
+assert.strictEqual(firstCard.likelihood >= 0 && firstCard.likelihood <= 100, true, 'Must match expected value');
+assert.strictEqual(firstCard.speculative, false, 'Must match expected value');
+assert.strictEqual(firstCard.eventDetails.eventType, 'Heatwave', 'Must match expected value');
+assert.strictEqual(firstCard.eventDetails.location, 'Paris', 'Must match expected value');
 
 console.log('probability cones test passed');

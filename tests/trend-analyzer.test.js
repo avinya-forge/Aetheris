@@ -9,11 +9,11 @@ try {
   ];
 
   const topTrend = analyzeTrends(clusters);
-  assert.ok(topTrend);
-  assert.strictEqual(topTrend.theme, 'B');
+  assert.ok(topTrend, 'Value must be truthy');
+  assert.strictEqual(topTrend.theme, 'B', 'Must match expected value');
 
   const emptyResult = analyzeTrends([]);
-  assert.strictEqual(emptyResult, null);
+  assert.strictEqual(emptyResult, null, 'Must match expected value');
 
   console.log('trend analyzer test passed');
 } catch (error) {

@@ -178,6 +178,7 @@ Free Public APIs
 | Data Latency (6h gaps) | Nowcasting interpolator: Gemini fills gaps, badges as "Estimated" | Planned (Phase 2) |
 | Mapbox cost at scale | Free tier sufficient for beta (50 users); re-evaluate post-beta | Planned |
 | CAMS (registration wall) | Replace with Open-Meteo AQI + UV index endpoints | Planned (Phase 2) |
+| CF Worker `export default` | Module workers natively require a default export for CF | Exceptional constraint applied |
 
 ---
 

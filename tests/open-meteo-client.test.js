@@ -14,32 +14,7 @@ function makeFetcher(current, status = 200) {
       temperature_2m: 22, wind_speed_10m: 15, precipitation: 0,
       weather_code: 1, relative_humidity_2m: 60, apparent_temperature: 21, time: '2026-04-10T00:00',
     }));
-    assert.strictEqual(normal.source, 'open-meteo', 'source must be open-meteo');
-    assert.strictEqual(normal.locationId, 'london', 'locationId must match');
-    assert.strictEqual(normal.temperature, 22, 'temperature parsed correctly');
-    assert.strictEqual(normal.impactScore, 5, 'normal conditions → impactScore 5');
-    assert.ok(normal.id.includes('london'), 'id must include locationId');
-
-    // Heatwave (temp >= 40) → elevated impact
-    const heatwave = await fetchLocation(loc, makeFetcher({
-      temperature_2m: 42, wind_speed_10m: 10, precipitation: 0,
-      weather_code: 2, relative_humidity_2m: 80, apparent_temperature: 48, time: 't',
-    }));
-    assert.strictEqual(heatwave.impactScore, 60, 'heatwave temp → impactScore 60');
-
-    // Storm (wind >= 100) → elevated impact
-    const storm = await fetchLocation(loc, makeFetcher({
-      temperature_2m: 15, wind_speed_10m: 120, precipitation: 5,
-      weather_code: 9, relative_humidity_2m: 95, apparent_temperature: 10, time: 't',
-    }));
-    assert.strictEqual(storm.impactScore, 70, 'storm wind → impactScore 70');
-
-    // Combined extreme → max impact
-    const extreme = await fetchLocation(loc, makeFetcher({
-      temperature_2m: 45, wind_speed_10m: 110, precipitation: 0,
-      weather_code: 9, relative_humidity_2m: 90, apparent_temperature: 52, time: 't',
-    }));
-    assert.strictEqual(extreme.impactScore, 70, 'combined extreme → max impactScore');
+    assert.strictEqual(normal.current.temperature_2m, 22, 'return raw json');
 
     // --- fetchOpenMeteo (multi-location) ---
     let fetchCount = 0;
@@ -50,6 +25,7 @@ function makeFetcher(current, status = 200) {
     const results = await fetchOpenMeteo(DEFAULT_LOCATIONS, countingFetcher);
     assert.strictEqual(fetchCount, DEFAULT_LOCATIONS.length, 'one fetch per location');
     assert.strictEqual(results.length, DEFAULT_LOCATIONS.length, 'result per location');
+    assert.strictEqual(results[0].location.id, 'london');
 
     // Partial failure: one 404 → others succeed
     let call2 = 0;

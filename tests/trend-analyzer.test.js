@@ -15,8 +15,8 @@ try {
   const emptyResult = analyzeTrends([]);
   assert.strictEqual(emptyResult, null, 'Must match expected value');
 
-  console.log('trend analyzer test passed');
 } catch (error) {
   console.error('trend analyzer test failed:', error.message);
   process.exit(1);
 }
+console.log('PASS - trend-analyzer.test.js');

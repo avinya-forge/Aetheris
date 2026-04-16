@@ -25,9 +25,9 @@ function makeFetcher(body, status = 200) {
     assert.ok(GDELT_URL.includes('api.gdeltproject.org'), 'URL must point to GDELT');
     assert.ok(GDELT_URL.includes('format=json'), 'GDELT_URL must request JSON format');
 
-    console.log('PASS - gdelt-client.test.js');
   } catch (err) {
     console.error('FAIL - gdelt-client.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - gdelt-client.test.js');

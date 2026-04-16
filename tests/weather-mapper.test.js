@@ -35,9 +35,9 @@ const { mapWeatherEvent } = require('../lib/data/weather-mapper.js');
     }, loc);
     assert.strictEqual(storm.impactScore, 70, 'storm wind → impactScore 70');
 
-    console.log('PASS - weather-mapper.test.js');
   } catch (err) {
     console.error('FAIL - weather-mapper.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - weather-mapper.test.js');

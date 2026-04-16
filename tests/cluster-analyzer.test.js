@@ -18,8 +18,8 @@ try {
   assert.ok(tradeCluster, 'should find a trade cluster');
   assert.strictEqual(tradeCluster.events.length, 4, 'trade cluster should contain 4 events');
 
-  console.log('PASS - cluster-analyzer.test.js');
 } catch (error) {
   console.error('FAIL - cluster-analyzer.test.js:', error.message);
   process.exit(1);
 }
+console.log('PASS - cluster-analyzer.test.js');

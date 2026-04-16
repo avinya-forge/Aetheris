@@ -27,4 +27,4 @@ assert.strictEqual(
 assert.strictEqual(evaluateHazard({ temperature: 25, windSpeed: 20 }), null, 'Expected null');
 assert.strictEqual(evaluateHazard({}), null, 'Must match expected value');
 
-console.log('hazard-evaluator test passed');
+console.log('PASS - hazard-evaluator.test.js');

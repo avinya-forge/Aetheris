@@ -23,8 +23,8 @@ try {
   assert.deepStrictEqual(economyCluster.events, ['3'], 'Must match');
   assert.strictEqual(economyCluster.impactScore, 5, 'Must match expected value'); // 1 event * 5 = 5
 
-  console.log('cluster identifier test passed');
 } catch (error) {
   console.error('cluster identifier test failed:', error.message);
   process.exit(1);
 }
+console.log('PASS - cluster-identifier.test.js');

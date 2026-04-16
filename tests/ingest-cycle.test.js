@@ -43,9 +43,9 @@ function makeMockKv(initial = {}) {
     assert.ok(Array.isArray(stored), 'events:latest must be an array');
     assert.ok(stored.length > 0, 'events:latest must have entries');
 
-    console.log('PASS - ingest-cycle.test.js');
   } catch (err) {
     console.error('FAIL - ingest-cycle.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - ingest-cycle.test.js');

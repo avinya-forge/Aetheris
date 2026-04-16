@@ -2,7 +2,6 @@ const assert = require('assert');
 const { handleInstall, handleFetch } = require('../script/sw.js');
 
 function testServiceWorker() {
-  console.log('Running Service Worker tests...');
 
   // Mock Cache API
   const mockCache = {
@@ -42,7 +41,6 @@ function testServiceWorker() {
   installEvent.promise.then(() => {
     assert.strictEqual(mockCaches.openedCacheName, 'aetheris-v1', 'Should open cache named aetheris-v1');
     assert.deepStrictEqual(mockCache.addedUrls, ['/'], 'Should cache root URL');
-    console.log('✓ Install handler tests passed');
 
     runFetchHitTest();
   }).catch(err => {
@@ -64,7 +62,6 @@ function testServiceWorker() {
       assert.strictEqual(mockCaches.matchedRequest, '/', 'Should attempt to match the request in cache');
       assert.strictEqual(response.status, 200, 'Should return cached response on hit');
       assert.strictEqual(response.body, 'Cached Data', 'Should return correct cached data');
-      console.log('✓ Fetch handler (hit) tests passed');
 
       runFetchMissTest();
     }).catch(err => {
@@ -92,7 +89,6 @@ function testServiceWorker() {
       assert.strictEqual(mockCaches.matchedRequest, '/missing', 'Should attempt to match the request in cache');
       assert.strictEqual(response.status, 200, 'Should return fetched response on miss');
       assert.strictEqual(response.body, 'Fetched from network: /missing', 'Should return fetched data');
-      console.log('✓ Fetch handler (miss) tests passed');
 
       // Clean up mock fetch
       delete global.fetch;
@@ -105,3 +101,4 @@ function testServiceWorker() {
 }
 
 testServiceWorker();
+console.log('PASS - sw.test.js');

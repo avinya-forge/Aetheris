@@ -2,7 +2,6 @@ const assert = require('assert');
 const { processRequest } = require('../functions/edge-proxy.js');
 
 function testEdgeProxy() {
-  console.log('Running Edge Proxy tests...');
 
   // Test: Missing payload
   const badRequest = {};
@@ -10,7 +9,6 @@ function testEdgeProxy() {
 
   assert.strictEqual(badResponse.status, 400, 'Should return 400 status for missing payload');
   assert.strictEqual(badResponse.body, 'Bad Request', 'Should return "Bad Request" body');
-  console.log('✓ Missing payload test passed');
 
   // Test: Missing payload (has data object but no payload key)
   const badRequest2 = { someOtherKey: 'value' };
@@ -18,7 +16,6 @@ function testEdgeProxy() {
 
   assert.strictEqual(badResponse2.status, 400, 'Should return 400 status for missing payload key');
   assert.strictEqual(badResponse2.body, 'Bad Request', 'Should return "Bad Request" body');
-  console.log('✓ Missing payload key test passed');
 
   // Test: Valid payload
   const validRequest = { payload: { data: 'some data' } };
@@ -27,8 +24,8 @@ function testEdgeProxy() {
   assert.strictEqual(validResponse.status, 200, 'Should return 200 status for valid payload');
   assert.deepStrictEqual(validResponse.body, { data: 'some data' }, 'Should return the payload as body');
   assert.strictEqual(validResponse.edgeComputed, true, 'Should include edgeComputed flag');
-  console.log('✓ Valid payload test passed');
 
 }
 
 testEdgeProxy();
+console.log('PASS - edge-proxy.test.js');

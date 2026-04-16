@@ -9,8 +9,8 @@ try {
   assert.strictEqual(filterByThreshold({ impactScore: 80 }, { }), false, 'Must match');
   assert.strictEqual(filterByThreshold(null, { minImpactScore: 50 }), false, 'Must match');
 
-  console.log('PASS - threshold-filter.test.js');
 } catch (error) {
   console.error('FAIL - threshold-filter.test.js:', error.message);
   process.exit(1);
 }
+console.log('PASS - threshold-filter.test.js');

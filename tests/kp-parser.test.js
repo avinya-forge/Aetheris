@@ -23,8 +23,8 @@ try {
   assert.strictEqual(stringResult.alert, true, 'string parsing should trigger an alert');
   assert.strictEqual(stringResult.severity, 'HIGH', 'string parsing should evaluate severity');
 
-  console.log('PASS - kp-parser.test.js');
 } catch (error) {
   console.error('FAIL - kp-parser.test.js:', error.message);
   process.exit(1);
 }
+console.log('PASS - kp-parser.test.js');

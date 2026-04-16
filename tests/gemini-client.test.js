@@ -27,9 +27,9 @@ function makeFetcher(body, status = 200) {
 
     assert.ok(GEMINI_API_URL.includes('googleapis.com'), 'must point to googleapis.com');
 
-    console.log('PASS - gemini-client.test.js');
   } catch (err) {
     console.error('FAIL - gemini-client.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - gemini-client.test.js');

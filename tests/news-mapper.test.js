@@ -8,8 +8,8 @@ try {
   assert.strictEqual(mappedArt.impactScore, 10, 'Must match expected value');
   assert.strictEqual(mappedArt.source, 'gdelt', 'Must match expected value');
 
-  console.log('PASS - news-mapper.test.js');
 } catch (err) {
   console.error('FAIL - news-mapper.test.js:', err);
   process.exit(1);
 }
+console.log('PASS - news-mapper.test.js');

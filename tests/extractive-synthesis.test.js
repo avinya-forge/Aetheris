@@ -48,9 +48,9 @@ const { synthesizeSources } = require('../lib/data/extractive-synthesis.js');
     const throwResult = await synthesizeSources(shortSources, throwSynth);
     assert.strictEqual(throwResult, 'Source 1 data. Source 2 data.', 'synthesizer error must fall back to truncation');
 
-    console.log('PASS - extractive-synthesis.test.js');
   } catch (err) {
     console.error('FAIL - extractive-synthesis.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - extractive-synthesis.test.js');

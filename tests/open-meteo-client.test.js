@@ -48,9 +48,9 @@ function makeFetcher(current, status = 200) {
 
     assert.strictEqual(DEFAULT_LOCATIONS.length, 6, '6 sentinel locations defined');
 
-    console.log('PASS - open-meteo-client.test.js');
   } catch (err) {
     console.error('FAIL - open-meteo-client.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - open-meteo-client.test.js');

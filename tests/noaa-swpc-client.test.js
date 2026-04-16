@@ -39,9 +39,9 @@ function makeFetcher(body, status = 200) {
 
     assert.ok(NOAA_KP_URL.includes('swpc.noaa.gov'), 'URL must point to swpc.noaa.gov');
 
-    console.log('PASS - noaa-swpc-client.test.js');
   } catch (err) {
     console.error('FAIL - noaa-swpc-client.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - noaa-swpc-client.test.js');

@@ -46,8 +46,8 @@ try {
   // Empty list → empty result
   assert.deepStrictEqual(rankSources([], NOW), [], 'empty meta → empty rank');
 
-  console.log('PASS - source-ranker.test.js');
 } catch (err) {
   console.error('FAIL - source-ranker.test.js:', err.message);
   process.exit(1);
 }
+console.log('PASS - source-ranker.test.js');

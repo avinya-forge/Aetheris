@@ -35,9 +35,9 @@ function makeFetcher(body, status = 200) {
     assert.strictEqual(callCount, EVENT_TYPES.length, 'must call fetch for each event type');
     assert.ok(all['CME'], 'result must have CME key');
 
-    console.log('PASS - nasa-donki-client.test.js');
   } catch (err) {
     console.error('FAIL - nasa-donki-client.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - nasa-donki-client.test.js');

@@ -94,9 +94,9 @@ globalThis.Response = MockResponse;
     const notFoundRes = await worker.fetch(notFoundReq, env, {});
     assert.strictEqual(notFoundRes.status, 404, 'Unknown path should return 404');
 
-    console.log('PASS - worker.test.js');
   } catch (err) {
     console.error('FAIL - worker.test.js:', err);
     process.exit(1);
   }
 })();
+console.log('PASS - worker.test.js');

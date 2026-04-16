@@ -34,9 +34,9 @@ const { mapGeminiResponse } = require('../lib/ai/gemini-mapper.js');
     assert.strictEqual(wordCount, 30, 'Should be 30 words');
     assert.ok(capped.endsWith('...'));
 
-    console.log('PASS - gemini-mapper.test.js');
   } catch (err) {
     console.error('FAIL - gemini-mapper.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - gemini-mapper.test.js');

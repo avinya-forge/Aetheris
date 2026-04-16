@@ -22,8 +22,8 @@ try {
   assert.strictEqual(mappedDonki.eventType, 'CME', 'Must match expected value');
   assert.strictEqual(mappedDonki.impactScore, 40, 'Must match expected value');
 
-  console.log('PASS - space-weather-mapper.test.js');
 } catch (err) {
   console.error('FAIL - space-weather-mapper.test.js:', err);
   process.exit(1);
 }
+console.log('PASS - space-weather-mapper.test.js');

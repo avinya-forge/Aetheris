@@ -3,14 +3,6 @@
 ## Project
 Temporal Intelligence & Environmental Sentinel. Eliminates news noise via AI deduplication, primary-source meteorological data, and user-defined impact thresholds. Target: zero-cost PWA deployed to Cloudflare edge, serving limited beta group.
 
-## Data Flow (ASCII)
-```
-[Free APIs] -> [Cloudflare Workers] -> [KV / Supabase] -> [Gemini Flash]
-      ^               |                    |                 |
-      |               v                    v                 v
-[Auth: Clerk] -> [PWA (Vite)] <------- [Service Worker / IndexedDB]
-```
-
 ## Commands
 ```bash
 bash script/run.sh --start      # init env + sync docs
@@ -51,26 +43,52 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 ```
 
 ## Zero-Cost Deployment Stack
-| Layer | Tool | Free Tier | Projected (Beta) | Monthly Cost |
+| LAYER | TOOL | FREE LIMIT | PROJECTED USAGE | COST |
 | :--- | :--- | :--- | :--- | :--- |
-| Frontend | Cloudflare Pages | Unlimited | ~30 builds | $0 |
-| Edge | Cloudflare Workers | 100k req/day | ~5k req/day | $0 |
-| Auth | Clerk | 10,000 MAU | ≤50 users | $0 |
-| Database | Supabase / D1 | 500MB | ~10MB | $0 |
-| Cache | Cloudflare KV | 100k reads/day | ~20k reads/day | $0 |
-| AI | Gemini 1.5 Flash | 15 RPM | ~2 RPM avg | $0 |
-| CI/CD | GitHub Actions | 2000 min/mo | ~100 min/mo | $0 |
-| Source | Free APIs (Meteo/NOAA/GDELT/DONKI) | Variable | Under limit | $0 |
+| Static hosting | Cloudflare Pages | Unlimited | ~30 builds | $0/mo |
+| Edge compute | Cloudflare Workers | 100k req/day | ~5k req/day | $0/mo |
+| Key-value cache | Cloudflare KV | 100k reads/day | ~20k reads/day | $0/mo |
+| Relational DB | Supabase / D1 | 500MB | ~10MB | $0/mo |
+| AI/LLM | Gemini 1.5 Flash | 15 RPM | ~2 RPM avg | $0/mo |
+| Auth/gate | Clerk | 10,000 MAU | ≤50 users | $0/mo |
+| CI/CD | GitHub Actions | 2000 min/mo | ~100 min/mo | $0/mo |
+| Source APIs | Free APIs (Meteo/NOAA/GDELT/DONKI) | Variable | Under limit | $0/mo |
+| **Total** | | | | **$0/mo** |
 
-## Coding Standards
-- Named exports only: `module.exports = { name };`
-- I/O Purity: No side effects in `lib/data/` transforms. Clients return raw data.
-- 1:1 test coverage for all `lib/`, `functions/`, and `script/` modules.
-- Schemas: JSON Schema draft 7 in `lib/schema/`.
-- Predictions: must have `patternMatchId`, `isSpeculative: false`.
-- Never use top-level await in CommonJS.
+**Deployment Trigger Chain:**
+`git push` → `CI build` → `deploy` → `cache warm` → `health check`
+
+## Data Flow (ASCII)
+```
+[Free APIs] -> [Cloudflare Workers] -> [Cloudflare KV] -> [Supabase/D1]
+      ^               |                        |                 |
+      |               v                        v                 v
+[Auth: Clerk] -> [PWA (Vite)] <------- [Gemini Flash] <--- [Event Sync]
+```
+
+## Repo Consistency
+**V-Score: 10/10**
+
+## Component Status
+| Component | Status | Notes |
+| :--- | :--- | :--- |
+| `lib/schema/*.js` | [BUILT] | 9 JSON Schema draft 7 schemas |
+| `lib/data/*.js` | [BUILT] | 14 Pipeline modules, API clients |
+| `lib/timeline/*.js` | [BUILT] | Temporal intelligence core |
+| `functions/worker.js` | [BUILT] | CF Worker edge handler |
+| `src/` (Frontend) | [GAP] | Blocked by Phase 4 UI bootstrap |
+| `tests/*.test.js` | [BUILT] | 1:1 Coverage for lib and functions |
+| `package.json` | [BUILT] | Test script mapped to node runtime |
 
 ## Key Invariants
 - No speculative predictions without `patternMatchId`.
 - No frontend code before Phase 4.
 - No direct push to `main`.
+- Never use top-level await in CommonJS.
+
+## Coding Standards
+- Named exports only: `module.exports = { name };` (Exception: `functions/worker.js` requires default export for Cloudflare ES modules).
+- I/O Purity: No side effects in `lib/data/` transforms. Clients return raw data.
+- 1:1 test coverage for all `lib/`, `functions/`, and `script/` modules.
+- Schemas: JSON Schema draft 7 in `lib/schema/`.
+- Predictions: must have `patternMatchId`, `isSpeculative: false`.

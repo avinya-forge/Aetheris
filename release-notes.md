@@ -1,5 +1,13 @@
 # Release Notes
 
+## 0.1.4 - 2026-04-17 (Infrastructure Overhaul)
+- [x] TASK: flatten-docs-directory | Target: docs/ | I/O: nested -> flat | Assert: 0 subdirs | DONE
+- [x] TASK: consolidate-backlog-ssot | Target: docs/backlog.md | I/O: multiple -> single | Assert: all tasks present | DONE
+- [x] TASK: implement-cross-platform-tools | Target: script/ | I/O: bash -> node | Assert: works on Windows/Linux | DONE
+- [x] TASK: set-mission-control-protocol | Target: JULES.md | I/O: void -> instructions | Assert: defines JULES persona | DONE
+- [x] TASK: bootstrap-wrangler-local | Target: wrangler.toml | I/O: void -> local-dev | Assert: ready on 8787 | DONE
+
+
 ## 0.1.3
 - [x] TASK: parse-docs-state | Target: lib/docs/parser.js | I/O: DirPath -> DocsState | Assert: 0 err, >95% cov | LOC: ~40
 - [x] TASK: populate-missing-docs | Target: lib/docs/generator.js | I/O: DocsState -> void | Assert: 0 err, >95% cov | LOC: ~40

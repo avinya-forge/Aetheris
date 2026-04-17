@@ -9,9 +9,10 @@
 4. **Temporal Integrity**: Every prediction or "ghost card" must have a `patternMatchId` and `isSpeculative: false` (until it crosses the confidence threshold).
 
 ## 2. Context Orchestration
-- **Status Audit**: Before any work, run `bash script/run.sh --status`.
+- **Status Audit**: Before any work, run `npm run status`.
 - **Sprint Cycle**: Use `/backlog-sprint` to execute batches of 10 tasks.
-- **Worker Dev**: Run `npx wrangler dev functions/worker.js --local` to start the backend sentinel.
+- **Worker Dev**: Run `npm run dev` to start the backend sentinel.
+- **Ingest Cycle**: Run `npm run ingest` to verify data flow.
 - **V-Score Audit**: Maintain a V-Score of 10/10 in `.state`. Correct any standard violations immediately.
 
 ## 3. Data Sensitivity

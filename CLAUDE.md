@@ -5,14 +5,10 @@ Temporal Intelligence & Environmental Sentinel. Eliminates news noise via AI ded
 
 ## Commands
 ```bash
-bash script/run.sh --start      # init env + sync docs
-bash script/run.sh --test       # run all .test.js files via Node
-bash script/run.sh --status     # show pending/done task count
-bash script/run.sh --backlog    # audit active epics against filesystem
-bash script/run.sh --sync       # idempotent dir structure sync
-bash script/run.sh --recursive  # expand backlog to convergence
-bash script/run.sh --epoch      # map new epic into docs/
-bash script/run.sh --skills     # fetch skill patterns from skills.sh
+npm run start      # start local worker dev server
+npm test           # run all .test.js files via Node
+npm run status      # show pending/done task count
+npm run ingest      # trigger manual ingest cycle
 ```
 
 ## Repo Structure

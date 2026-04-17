@@ -107,3 +107,6 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 - 1:1 test coverage for all `lib/`, `functions/`, and `script/` modules.
 - Schemas: JSON Schema draft 7 in `lib/schema/`.
 - Predictions: must have `patternMatchId`, `isSpeculative: false`.
+
+## Custom Skills
+- **caveman**: Use the caveman profile (`.claude/caveman.json`) to explain complex systems or code snippets in simple, rudimentary terms to ensure baseline understanding before diving deep.

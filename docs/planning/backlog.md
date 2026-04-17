@@ -34,6 +34,16 @@
 - [ ] TASK: implement-ghost-card-service | Target: src/lib/services/ghost-card-service.js | I/O: void -> GhostCardArray | Assert: all likelihood ≤95%, isSpeculative=false | LOC: ~35
 - [ ] TASK: implement-health-service | Target: src/lib/services/health-service.js | I/O: void -> HealthStatus | Assert: 0 err, returns version+uptime | LOC: ~20
 
+
+### Epic 4.5: Visual Audit & Bug Hunt
+*Goal: Pre-emptively discover and catalog visual, UX, and logic bugs through a dedicated tool audit before new features.*
+
+- [ ] TASK: execute-visual-audit | Target: docs/planning/backlog.md | I/O: void -> TaskList | Assert: all bugs cataloged | LOC: ~0
+  - Perform manual visual walkthrough of Kinetic Atlas
+  - Test map zoom bounds, ghost card overlapping, timeline scrubbing
+  - Add newly discovered bugs to a `Phase 4.6: Bug Fixes` epic
+- [ ] TASK: fix-cataloged-bugs | Target: src/ | I/O: BugList -> CleanCode | Assert: 0 known visual bugs | LOC: ~100
+  - Resolve all tasks cataloged during the visual audit
 ---
 
 ## Phase 5: Zero-Cost Deployment — Edge + Beta (PLANNED)

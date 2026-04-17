@@ -9,8 +9,8 @@ try {
   assert.strictEqual(ClusterSchema.properties.keywords.type, 'array', 'keywords should be an array');
   assert.ok(ClusterSchema.properties.events, 'ClusterSchema should define an events property');
   assert.strictEqual(ClusterSchema.properties.events.type, 'array', 'events should be an array');
-  console.log('PASS - cluster-schema.test.js');
+  console.log('PASS - cluster.test.js');
 } catch (error) {
-  console.error('FAIL - cluster-schema.test.js:', error.message);
+  console.error('FAIL - cluster.test.js:', error.message);
   process.exit(1);
 }

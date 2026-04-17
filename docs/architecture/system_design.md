@@ -34,7 +34,7 @@ lib/data/ Processing Pipeline
   ├── impact-filter.js      → gate on impactScore >= minImpactScore
   ├── kp-parser.js          → Kp-index → aurora probability tier
   ├── hazard-evaluator.js   → temp/wind thresholds → safety warnings
-| Supabase (DB) | 500MB / 50k req | ~10MB / 5k req | $0 |
+
   ├── extractive-synthesis.js → Gemini 1.5 Flash → ≤30 word brief
   ├── safety-sentinel.js    → inject rational hazard warnings
   └── probability-cones.js  → Ghost Cards from patternMatchId forecasts
@@ -110,7 +110,7 @@ Kinetic Atlas UI (Mapbox GL / WebGL)
 - **Probability Cones**: `patternMatchId` required + `isSpeculative: false` required. Capped at 95%.
 - **Ghost Cards**: Always semi-transparent. Always show %. Never rendered if `isSpeculative: true`.
 
-| Supabase (DB) | 500MB / 50k req | ~10MB / 5k req | $0 |
+
 ### Gemini 1.5 Flash (Free Tier)
 - Rate: 15 RPM / 1M tokens/day
 - Prompt discipline: structured, output-constrained, no open-ended generation
@@ -188,7 +188,7 @@ Free Public APIs
 | Frontend | Vite + React + TypeScript | Fast builds, type safety, ecosystem |
 | Map Rendering | Mapbox GL JS / WebGL | High-performance 3D vector maps |
 | State | React Context + Timeline Store | Minimal, no Redux overhead |
-| Supabase (DB) | 500MB / 50k req | ~10MB / 5k req | $0 |
+| Supabase (DB) | 500MB / 50k req | ~10MB / 5k req |
 | AI | Gemini 1.5 Flash | Fastest free-tier LLM |
 | Edge | Cloudflare Workers | Sub-50ms globally, free tier |
 | Cache | Cloudflare KV + Service Worker | Two-layer offline-first caching |

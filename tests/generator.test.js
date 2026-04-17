@@ -30,4 +30,4 @@ assert.strictEqual(backlogContent.trim(), '# test_backlog.md', 'Must match expec
 // cleanup
 fs.rmSync(testDir, { recursive: true, force: true });
 
-console.log('docs-generator test passed');
+console.log('generator test passed');

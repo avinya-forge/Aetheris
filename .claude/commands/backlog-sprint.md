@@ -10,7 +10,7 @@ Complete at least **10 backlog tasks** end-to-end: implemented, tested, clean, c
 
 ## Step 0 — Plan the Sprint
 
-1. Read `docs/planning/backlog.md` in full.
+1. Read `docs/backlog.md` in full.
 2. Identify the next pending `[ ]` tasks that:
    - Are **not gated** by incomplete prerequisite tasks
    - Are **concrete to implement** (not pure audit/planning tasks — those count only if they produce a code or doc artefact)
@@ -53,7 +53,7 @@ bash script/run.sh --test
 Zero errors required before moving to the next task. Fix any failures immediately.
 
 ### 2d — Mark Done
-- In `docs/planning/backlog.md`: change `- [ ] TASK: <name>` → `- [x] TASK: <name>` and append a one-line done note: `**Done**: <what was changed>`.
+- In `docs/backlog.md`: change `- [ ] TASK: <name>` → `- [x] TASK: <name>` and append a one-line done note: `**Done**: <what was changed>`.
 - In your `TodoWrite` list: mark the task `completed`.
 
 ---
@@ -87,7 +87,7 @@ Add a new version entry to `release-notes.md`:
 - All tests passing (Node.js runtime)
 
 ### Backlog
-- All sprint items marked [x] in docs/planning/backlog.md
+- All sprint items marked [x] in docs/backlog.md
 ```
 
 Bump the version in `package.json` if appropriate.
@@ -144,7 +144,7 @@ Then create a PR via the GitKraken tools (`mcp_GitKraken_pull_request_create`) w
 - [ ] ≥ 10 tasks completed (or all ungated tasks if fewer exist)
 - [ ] Every task has ≥ 2 unit test cases
 - [ ] `bash script/run.sh --test` passes all tests
-- [ ] All sprint items marked `[x]` in `docs/planning/backlog.md`
+- [ ] All sprint items marked `[x]` in `docs/backlog.md`
 - [ ] `release-notes.md` updated with new version entry
 - [ ] Commits are clean, descriptive, and scoped
 

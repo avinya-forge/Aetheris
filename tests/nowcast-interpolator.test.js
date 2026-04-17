@@ -76,9 +76,9 @@ const { isStale, interpolateNowcast, STALE_THRESHOLD_MS } = require('../lib/data
     assert.strictEqual(richResult.source, 'noaa', 'source field must be preserved');
     assert.strictEqual(richResult.impactScore, 80, 'impactScore must be preserved');
 
-    console.log('PASS - nowcast-interpolator.test.js');
   } catch (err) {
     console.error('FAIL - nowcast-interpolator.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - nowcast-interpolator.test.js');

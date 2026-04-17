@@ -35,4 +35,4 @@ const result4 = filterByImpact(newsData, threshold4);
 assert.strictEqual(result4.length, 1, 'Must match expected value');
 assert.strictEqual(result4[0].id, 1, 'Must match expected value');
 
-console.log('impact filter test passed');
+console.log('PASS - impact-filter.test.js');

@@ -21,4 +21,4 @@ assert.strictEqual(firstCard.speculative, false, 'Must match expected value');
 assert.strictEqual(firstCard.eventDetails.eventType, 'Heatwave', 'Must match expected value');
 assert.strictEqual(firstCard.eventDetails.location, 'Paris', 'Must match expected value');
 
-console.log('probability cones test passed');
+console.log('PASS - probability-cones.test.js');

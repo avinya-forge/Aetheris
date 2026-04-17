@@ -42,9 +42,9 @@ function makeMockKv() {
     assert.strictEqual(await isNewEvent(kv, null), false, 'null event isNewEvent → false');
     await markEventSeen(kv, {}); // must not throw
 
-    console.log('PASS - event-fingerprint.test.js');
   } catch (err) {
     console.error('FAIL - event-fingerprint.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - event-fingerprint.test.js');

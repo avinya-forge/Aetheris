@@ -32,4 +32,4 @@ const index2 = state2.find(doc => doc.path === 'docs/planning/backlog.md');
 assert.ok(index2, 'Value must be truthy');
 assert.strictEqual(index2.exists, true, 'Must match expected value');
 
-console.log('docs-parser test passed');
+console.log('PASS - parser.test.js');

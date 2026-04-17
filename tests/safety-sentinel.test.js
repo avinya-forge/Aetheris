@@ -20,4 +20,4 @@ assert.strictEqual(injectSafetyWarning({}), "");
 assert.strictEqual(injectSafetyWarning(null), "");
 assert.strictEqual(injectSafetyWarning([]), "");
 
-console.log('safety-sentinel test passed');
+console.log('PASS - safety-sentinel.test.js');

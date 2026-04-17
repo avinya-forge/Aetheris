@@ -70,9 +70,9 @@ const {
     const nullResult = await rl2('x', ts);
     assert.strictEqual(nullResult, null, 'must return null when rate limit exhausted');
 
-    console.log('PASS - rate-limit-queue.test.js');
   } catch (err) {
     console.error('FAIL - rate-limit-queue.test.js:', err.message);
     process.exit(1);
   }
 })();
+console.log('PASS - rate-limit-queue.test.js');

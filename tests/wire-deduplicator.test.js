@@ -22,8 +22,8 @@ try {
   assert.strictEqual(dedupedText.length, 1, 'fallback text deduplication should return array length 1');
   assert.strictEqual(dedupedText[0].id, 1, 'should keep the first wire encountered for a text match');
 
-  console.log('PASS - wire-deduplicator.test.js');
 } catch (error) {
   console.error('FAIL - wire-deduplicator.test.js:', error.message);
   process.exit(1);
 }
+console.log('PASS - wire-deduplicator.test.js');

@@ -17,4 +17,4 @@ assert.deepStrictEqual(filtered, [
   { id: 3, patternMatchId: 'C' }
 ], 'Must match expected');
 
-console.log('prediction filter test passed');
+console.log('PASS - prediction-filter.test.js');

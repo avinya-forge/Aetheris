@@ -60,10 +60,25 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 
 ## Data Flow (ASCII)
 ```
-[Free APIs] -> [Cloudflare Workers] -> [Cloudflare KV] -> [Supabase/D1]
-      ^               |                        |                 |
-      |               v                        v                 v
-[Auth: Clerk] -> [PWA (Vite)] <------- [Gemini Flash] <--- [Event Sync]
+[Primary Sources: NOAA, GDELT, NASA, Open-Meteo]
+       |
+       v (Raw JSON)
+[lib/data/*-client.js]
+       |
+       v (Internal Mappings)
+[Mappers: weather, news, space-weather]
+       |
+       v (Event Pipeline)
+[Deduplication] -> [Clustering] -> [Impact Filtering]
+       |
+       v (AI Enrichment)
+[Gemini 1.5 Flash] -> [Extractive Synthesis]
+       |
+       v (Storage)
+[Cloudflare KV] <- [Event Fingerprinting]
+       |
+       v (Serving)
+[Cloudflare Workers] -> [PWA Frontend]
 ```
 
 ## Repo Consistency
@@ -72,12 +87,12 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 ## Component Status
 | Component | Status | Notes |
 | :--- | :--- | :--- |
-| `lib/schema/*.js` | [BUILT] | 9 JSON Schema draft 7 schemas |
-| `lib/data/*.js` | [BUILT] | 14 Pipeline modules, API clients |
+| `lib/schema/*.js` | [BUILT] | 11 JSON Schema draft 7 schemas |
+| `lib/data/*.js` | [BUILT] | Pipeline modules, pure API clients |
 | `lib/timeline/*.js` | [BUILT] | Temporal intelligence core |
 | `functions/worker.js` | [BUILT] | CF Worker edge handler |
 | `src/` (Frontend) | [GAP] | Blocked by Phase 4 UI bootstrap |
-| `tests/*.test.js` | [BUILT] | 1:1 Coverage for lib and functions |
+| `tests/*.test.js` | [BUILT] | 1:1 Coverage with strict mirroring |
 | `package.json` | [BUILT] | Test script mapped to node runtime |
 
 ## Key Invariants

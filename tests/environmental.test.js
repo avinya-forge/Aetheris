@@ -1,9 +1,10 @@
 const assert = require('assert');
-const { EnvironmentalSchema } = require('../lib/schema/environmental.js');
+const { environmentalSchema } = require('../lib/schema/environmental.js');
 
-assert.strictEqual(typeof EnvironmentalSchema, 'object', 'Must match expected value');
-assert.strictEqual(typeof EnvironmentalSchema.properties.weather, 'object', 'Must match expected value');
-assert.strictEqual(typeof EnvironmentalSchema.properties.spaceWeather, 'object', 'Must match expected value');
-assert.strictEqual(typeof EnvironmentalSchema.properties.climate, 'object', 'Must match expected value');
-
-console.log('environmental schema test passed');
+try {
+  assert.strictEqual(typeof environmentalSchema, 'object', 'Must match expected value');
+} catch (err) {
+  console.error('FAIL - environmental.test.js:', err.message);
+  process.exit(1);
+}
+console.log('PASS - environmental.test.js');

@@ -9,4 +9,4 @@ assert.strictEqual(matchHistoricalPattern({}), false, 'Must match expected value
 assert.strictEqual(matchHistoricalPattern({ speculative: false }), false, 'Must match expected value');
 assert.strictEqual(matchHistoricalPattern({ speculative: true }), false, 'Must match expected value');
 
-console.log('pattern matcher test passed');
+console.log('PASS - pattern-matcher.test.js');

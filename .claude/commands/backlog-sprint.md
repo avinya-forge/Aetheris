@@ -72,7 +72,7 @@ Fix every error before continuing. All 45+ tests must pass.
 
 ## Step 4 — Update Release Notes
 
-Add a new version entry to `release-notes.md`:
+Add a new version entry to `docs/release-notes.md`:
 
 ```markdown
 ## [X.Y.Z] - YYYY-MM-DD (Backlog Sprint — [epic names])
@@ -145,7 +145,7 @@ Then create a PR via the GitKraken tools (`mcp_GitKraken_pull_request_create`) w
 - [ ] Every task has ≥ 2 unit test cases
 - [ ] `bash script/run.sh --test` passes all tests
 - [ ] All sprint items marked `[x]` in `docs/backlog.md`
-- [ ] `release-notes.md` updated with new version entry
+- [ ] `docs/release-notes.md` updated with new version entry
 - [ ] Commits are clean, descriptive, and scoped
 
 If any gate fails, fix it before proceeding. Do not skip or defer.

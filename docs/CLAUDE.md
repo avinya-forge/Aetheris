@@ -13,10 +13,12 @@ npm run ingest      # trigger manual ingest cycle
 
 ## Repo Structure
 ```
-CLAUDE.md                      # this file
-README.md                      # vision + pulse table (SSOT entry)
-release-notes.md               # task log per version
+package.json                   # scripts + dependencies
+wrangler.toml                  # Cloudflare Worker config
 docs/
+  CLAUDE.md                    # this file
+  README.md                    # vision + pulse table (SSOT entry)
+  release-notes.md             # task log per version
   system_design.md             # blueprint (data flow, stack, deployment)
   backlog.md                   # phase → epic → task (granular SSOT)
   standards.md                 # coding + git + doc conventions
@@ -105,7 +107,7 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 ## Custom Skills
 - **caveman**: Use the caveman profile (`.claude/caveman.json`) to explain complex systems or code snippets in simple, rudimentary terms to ensure baseline understanding before diving deep.
 - **engineering**: Technical design and implementation rules for the Aetheris stack (Vite, React, Cloudflare Workers).
-- **product**: Backlog management and milestone tracking using the `docs/backlog.md` ledger.
+- **product**: Backlog management and milestone tracking using the `backlog.md` ledger.
 
 ## Automation & Commands
 - **Sprint Mode**: Invoke `/backlog-sprint` (from `.claude/commands/backlog-sprint.md`) to execute a high-velocity 10-task implementation cycle.

@@ -9,9 +9,9 @@
 | Alpha Launch | 0.1.4 | 1-Strategy | Active Focus | 33% |
 
 ## Project Documentation (SSOT)
-- [Backlog](docs/backlog.md)
-- [Architecture & System Design](docs/system_design.md)
-- [Engineering Standards](docs/standards.md)
+- [Backlog](backlog.md)
+- [Architecture & System Design](system_design.md)
+- [Engineering Standards](standards.md)
 - [Release Notes](release-notes.md)
 
 ---

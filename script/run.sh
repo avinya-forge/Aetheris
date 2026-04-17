@@ -22,7 +22,7 @@ sync_core_files() {
     "$DOCS_DIR/roadmap.md:# Roadmap"
     "$DOCS_DIR/system_design.md:# System Design"
     "$DOCS_DIR/standards.md:# Standards"
-    "release-notes.md:# Release Notes"
+    "$DOCS_DIR/release-notes.md:# Release Notes"
     "$DOCS_DIR/backlog.md:# Backlog"
   )
 

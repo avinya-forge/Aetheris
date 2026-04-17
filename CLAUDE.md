@@ -11,7 +11,7 @@ bash script/run.sh --status     # show pending/done task count
 bash script/run.sh --backlog    # audit active epics against filesystem
 bash script/run.sh --sync       # idempotent dir structure sync
 bash script/run.sh --recursive  # expand backlog to convergence
-bash script/run.sh --epoch      # map new epic into docs/planning/
+bash script/run.sh --epoch      # map new epic into docs/
 bash script/run.sh --skills     # fetch skill patterns from skills.sh
 ```
 
@@ -21,11 +21,9 @@ CLAUDE.md                      # this file
 README.md                      # vision + pulse table (SSOT entry)
 release-notes.md               # task log per version
 docs/
-  architecture/system_design.md  # blueprint (data flow, stack, deployment)
-  planning/
-    roadmap.md                 # phase → epic list
-    backlog.md                 # phase → epic → task (granular SSOT)
-  rules/standards.md           # coding + git + doc conventions
+  system_design.md             # blueprint (data flow, stack, deployment)
+  backlog.md                   # phase → epic → task (granular SSOT)
+  standards.md                 # coding + git + doc conventions
 lib/
   data/                        # data processing pipeline (pure transforms)
   schema/                      # JSON Schema definitions (PascalCase)
@@ -111,7 +109,7 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 ## Custom Skills
 - **caveman**: Use the caveman profile (`.claude/caveman.json`) to explain complex systems or code snippets in simple, rudimentary terms to ensure baseline understanding before diving deep.
 - **engineering**: Technical design and implementation rules for the Aetheris stack (Vite, React, Cloudflare Workers).
-- **product**: Backlog management and milestone tracking using the `docs/planning/backlog.md` ledger.
+- **product**: Backlog management and milestone tracking using the `docs/backlog.md` ledger.
 
 ## Automation & Commands
 - **Sprint Mode**: Invoke `/backlog-sprint` (from `.claude/commands/backlog-sprint.md`) to execute a high-velocity 10-task implementation cycle.

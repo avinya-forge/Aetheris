@@ -110,3 +110,9 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 
 ## Custom Skills
 - **caveman**: Use the caveman profile (`.claude/caveman.json`) to explain complex systems or code snippets in simple, rudimentary terms to ensure baseline understanding before diving deep.
+- **engineering**: Technical design and implementation rules for the Aetheris stack (Vite, React, Cloudflare Workers).
+- **product**: Backlog management and milestone tracking using the `docs/planning/backlog.md` ledger.
+
+## Automation & Commands
+- **Sprint Mode**: Invoke `/backlog-sprint` (from `.claude/commands/backlog-sprint.md`) to execute a high-velocity 10-task implementation cycle.
+- **Context Hygiene**: Run `/compact` regularly during sprints to keep the inference window narrow and accurate.

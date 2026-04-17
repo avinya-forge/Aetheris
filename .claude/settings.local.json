@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -rn \"*\" /d/Code/avinya-forge/Aetheris --include=\"*.js\")",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(node:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)",
+      "Bash(wrangler:*)",
+      "Bash(bash script/run.sh:*)"
+    ]
+  }
+}

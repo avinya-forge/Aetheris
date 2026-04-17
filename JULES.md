@@ -11,6 +11,7 @@
 ## 2. Context Orchestration
 - **Status Audit**: Before any work, run `bash script/run.sh --status`.
 - **Sprint Cycle**: Use `/backlog-sprint` to execute batches of 10 tasks.
+- **Worker Dev**: Run `npx wrangler dev functions/worker.js --local` to start the backend sentinel.
 - **V-Score Audit**: Maintain a V-Score of 10/10 in `.state`. Correct any standard violations immediately.
 
 ## 3. Data Sensitivity

@@ -19,6 +19,7 @@ log() {
 sync_core_files() {
   # Initialize missing core docs (Flattened structure)
   local core_files=(
+    "README.md:# Aetheris"
     "$DOCS_DIR/planning/roadmap.md:# Roadmap"
     "$DOCS_DIR/architecture/system_design.md:# System Design"
     "$DOCS_DIR/rules/standards.md:# Standards"

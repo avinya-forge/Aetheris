@@ -19,14 +19,18 @@ log() {
 sync_core_files() {
   # Initialize missing core docs (Flattened structure)
   local core_files=(
-    "$DOCS_DIR/roadmap.md:# Roadmap"
-    "$DOCS_DIR/system_design.md:# System Design"
-    "$DOCS_DIR/standards.md:# Standards"
+    "README.md:# Aetheris"
+    "$DOCS_DIR/planning/roadmap.md:# Roadmap"
+    "$DOCS_DIR/architecture/system_design.md:# System Design"
+    "$DOCS_DIR/rules/standards.md:# Standards"
     "$DOCS_DIR/release-notes.md:# Release Notes"
-    "$DOCS_DIR/backlog.md:# Backlog"
+    "$DOCS_DIR/planning/backlog.md:# Backlog"
   )
 
   mkdir -p "$DOCS_DIR"
+  mkdir -p "$DOCS_DIR/planning"
+  mkdir -p "$DOCS_DIR/architecture"
+  mkdir -p "$DOCS_DIR/rules"
 
   for item in "${core_files[@]}"; do
     local file="${item%%:*}"
@@ -66,7 +70,7 @@ test() {
 # Backlog status
 status() {
   log "1-Strategy" "S7" "checking status"
-  local backlog_file="$DOCS_DIR/backlog.md"
+  local backlog_file="$DOCS_DIR/planning/backlog.md"
   local pending_tasks=0
   local completed_tasks=0
 

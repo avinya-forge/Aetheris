@@ -15,13 +15,19 @@ npm run ingest      # trigger manual ingest cycle
 ```
 package.json                   # scripts + dependencies
 wrangler.toml                  # Cloudflare Worker config
+CLAUDE.md                      # this file
 docs/
-  CLAUDE.md                    # this file
   README.md                    # vision + pulse table (SSOT entry)
   release-notes.md             # task log per version
-  system_design.md             # blueprint (data flow, stack, deployment)
-  backlog.md                   # phase → epic → task (granular SSOT)
-  standards.md                 # coding + git + doc conventions
+  JULES.md                     # instructions
+  arch-review.md               # arch review
+  architecture/
+    system_design.md           # blueprint (data flow, stack, deployment)
+  planning/
+    backlog.md                 # phase → epic → task (granular SSOT)
+    roadmap.md                 # Roadmap
+  rules/
+    standards.md               # coding + git + doc conventions
 lib/
   data/                        # data processing pipeline (pure transforms)
   schema/                      # JSON Schema definitions (PascalCase)
@@ -90,6 +96,7 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 | `src/` (Frontend) | [GAP] | Blocked by Phase 4 UI bootstrap |
 | `tests/*.test.js` | [BUILT] | 1:1 Coverage with strict mirroring |
 | `package.json` | [BUILT] | Test script mapped to node runtime |
+| `script/*.js` | [BUILT] | Automation scripts |
 
 ## Key Invariants
 - No speculative predictions without `patternMatchId`.

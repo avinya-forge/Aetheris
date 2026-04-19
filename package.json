@@ -9,13 +9,16 @@
   "scripts": {
     "test": "node script/test.js",
     "status": "node script/status.js",
-    "start": "npx wrangler dev --local",
-    "dev": "npx wrangler dev --local",
-    "deploy": "npx wrangler deploy",
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "worker:dev": "npx wrangler dev --local",
+    "worker:deploy": "npx wrangler deploy",
     "ingest": "node script/ingest.js"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "vite": "^8.0.8",
     "wrangler": "^3.83.0"
   },
   "keywords": [
@@ -25,5 +28,9 @@
     "space-weather",
     "pwa"
   ],
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  }
 }

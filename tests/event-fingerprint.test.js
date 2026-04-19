@@ -27,6 +27,11 @@ function makeMockKv() {
       `${KV_PREFIX}hello world`,
       'text fallback: trimmed + lowercased'
     );
+    assert.strictEqual(
+      fingerprintEvent({ text: 'Breaking! News... with spaces    and punctuation???' }),
+      `${KV_PREFIX}breaking news with spaces and punctuation`,
+      'text fallback: strips punctuation and normalizes spaces'
+    );
     const fp = fingerprintEvent({ text: 'x'.repeat(200) });
     assert.ok(fp.length <= KV_PREFIX.length + 120, 'text fingerprint capped at 120 chars');
     assert.strictEqual(fingerprintEvent(null), null, 'null event → null fingerprint');

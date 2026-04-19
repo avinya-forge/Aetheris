@@ -23,7 +23,7 @@
 
 ### Epic 4.1: Frontend Bootstrap
 *Goal: React + Vite PWA environment wired to lib/ logic.*
-- [ ] TASK: bootstrap-frontend | Target: package.json, vite.config.js | I/O: void -> DevServer | Assert: npm run dev starts, 0 err | LOC: ~80
+- [x] TASK: bootstrap-frontend | Target: package.json, vite.config.js | I/O: void -> DevServer | Assert: npm run dev starts, 0 err | LOC: ~80
 - [ ] TASK: init-mapbox-gl | Target: src/components/map/atlas.tsx | I/O: Config -> MapInstance | Assert: 0 err, renders | LOC: ~60
 
 ### Epic 4.2: Chromodynamic Visual System
@@ -67,9 +67,9 @@
 ---
 
 ## Technical Debt & Maintenance (OPEN)
-- [ ] TASK: implement-schema-validator | Target: lib/data/schema-validator.js | I/O: Event -> Boolean | Assert: rejects invalid, 0 err | LOC: ~50
-- [ ] TASK: implement-circuit-breaker | Target: lib/data/circuit-breaker.js | I/O: SourceId, ErrorCount -> State | Assert: opens after 5 fails, closes after 60s | LOC: ~55
-- [ ] TASK: implement-staleness-detector | Target: lib/data/staleness-detector.js | I/O: Event -> Boolean | Assert: 0 err, detects >6h gap | LOC: ~30
-- [ ] TASK: improve-fingerprint-normalization | Target: lib/data/event-fingerprint.js | I/O: Event -> NormalizedFP | Assert: >90% content-dedup accuracy | LOC: ~20
+- [x] TASK: implement-schema-validator | Target: lib/data/schema-validator.js | I/O: Event -> Boolean | Assert: rejects invalid, 0 err | LOC: ~50
+- [x] TASK: implement-circuit-breaker | Target: lib/data/circuit-breaker.js | I/O: SourceId, ErrorCount -> State | Assert: opens after 5 fails, closes after 60s | LOC: ~55
+- [x] TASK: implement-staleness-detector | Target: lib/data/staleness-detector.js | I/O: Event -> Boolean | Assert: 0 err, detects >6h gap | LOC: ~30
+- [x] TASK: improve-fingerprint-normalization | Target: lib/data/event-fingerprint.js | I/O: Event -> NormalizedFP | Assert: >90% content-dedup accuracy | LOC: ~20
 - [ ] TASK: implement-real-clustering | Target: lib/data/cluster-identifier.js | I/O: Events -> SemanticClusters | Assert: groups related events beyond topic | LOC: ~60
 - [ ] TASK: migrate-to-typescript | Target: lib/ | I/O: JS -> TS | Assert: 0 type errors | LOC: ~1000

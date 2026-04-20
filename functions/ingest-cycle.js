@@ -121,7 +121,7 @@ async function runIngestCycle(env, clients = null, synthesizer = null) {
 
   // 1. Determine which sources are due for polling
   const sourcesMeta = await getSourceMeta(kv);
-  const ranked = rankSources(sourcesMeta);
+  const ranked = rankSources(sourcesMeta, Date.now());
 
   if (ranked.length === 0) {
     return { polled: [], newEvents: 0, clusters: 0, synthesis: {}, safetyWarnings: [], ghostCards: [] };

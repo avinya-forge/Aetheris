@@ -1,6 +1,6 @@
 # Aetheris — Claude Code Configuration
 
-## Project
+## System Summary
 Temporal Intelligence & Environmental Sentinel. Eliminates news noise via AI deduplication, primary-source meteorological data, and user-defined impact thresholds. Target: zero-cost PWA deployed to Cloudflare edge, serving limited beta group.
 
 ## Commands

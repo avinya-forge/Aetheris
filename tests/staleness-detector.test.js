@@ -4,8 +4,8 @@ const { isStale, STALE_THRESHOLD_MS } = require('../lib/data/staleness-detector'
 try {
   const now = 10000000;
 
-  assert.strictEqual(isStale(null), false, 'Should handle null');
-  assert.strictEqual(isStale({}), false, 'Should handle empty object');
+  assert.strictEqual(isStale(null, now), false, 'Should handle null');
+  assert.strictEqual(isStale({}, now), false, 'Should handle empty object');
 
   assert.strictEqual(isStale({ timestamp: now }, now), false, 'Should be fresh');
   assert.strictEqual(isStale({ timestamp: now - STALE_THRESHOLD_MS + 1 }, now), false, 'Should be fresh just before 6h');

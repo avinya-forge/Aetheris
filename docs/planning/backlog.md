@@ -54,9 +54,9 @@
 
 ### Epic 5.1: Cloudflare Edge Deployment
 - [ ] TASK: configure-cloudflare-pages | Target: .github/workflows/deploy.yml | I/O: git push -> CF Pages | Assert: auto-deploy on main push | LOC: ~40
-- [ ] TASK: deploy-cloudflare-workers | Target: functions/edge-proxy.js | I/O: Request -> Response | Assert: <50ms p95, 0 err | LOC: ~30
-- [ ] TASK: configure-cloudflare-kv | Target: wrangler.toml | I/O: Data -> KVStore | Assert: cache hit > 80% | LOC: ~20
-- [ ] TASK: validate-offline-pwa | Target: script/sw.js | I/O: void -> OfflineApp | Assert: loads without network | LOC: ~20
+- [x] TASK: deploy-cloudflare-workers | Target: functions/edge-proxy.js | I/O: Request -> Response | Assert: <50ms p95, 0 err | LOC: ~30
+- [x] TASK: configure-cloudflare-kv | Target: wrangler.toml | I/O: Data -> KVStore | Assert: cache hit > 80% | LOC: ~20
+- [x] TASK: validate-offline-pwa | Target: script/sw.js | I/O: void -> OfflineApp | Assert: loads without network | LOC: ~20
 
 ### Epic 5.2: Limited Beta Access
 - [ ] TASK: implement-invite-gate | Target: src/lib/auth/invite.js | I/O: Code -> Boolean | Assert: invalid code rejected, valid granted | LOC: ~30

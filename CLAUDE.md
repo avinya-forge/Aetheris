@@ -119,6 +119,9 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 - **Tests:** Must be deterministic with no actual network calls and mock all external deps.
 
 ## Custom Skills
-- **caveman**: Use the caveman profile (`.claude/caveman.json`) to explain complex systems or code snippets in simple, rudimentary terms to ensure baseline understanding before diving deep.
-- **engineering**: Technical design and implementation rules for the Aetheris stack (Vite, React, Cloudflare Workers).
+- **caveman**: Use the caveman profile (`.claude/caveman.json` and `.claude/skills/caveman/`) to explain complex systems or code snippets in simple, rudimentary terms to ensure baseline understanding before diving deep.
+- **engineering**: Technical design and implementation rules for the Aetheris stack.
 - **product**: Backlog management and milestone tracking using the `backlog.md` ledger.
+- **vite-react**: Rules for Vite + React development, component naming, and vector rendering.
+- **cloudflare-workers**: Instructions for Cloudflare Workers edge environment, ESM exports, and KV caching.
+- **mapbox-gl**: Guidelines for high-performance 3D vector maps and avoiding Mapbox API cost overruns.

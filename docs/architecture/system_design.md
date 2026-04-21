@@ -141,6 +141,9 @@ Free Public APIs
   └── Open-Meteo · NOAA SWPC · GDELT · NASA DONKI
 ```
 
+**Deployment Trigger Chain:**
+`git push` → `CI build` → `deploy` → `cache warm` → `health check`
+
 ### Cost Breakdown (Monthly at Beta Scale, ≤50 Users)
 | Service | Free Limit | Projected Usage | Cost |
 | :--- | :--- | :--- | :--- |

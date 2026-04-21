@@ -12,6 +12,14 @@
   "enabledPlugins": {
     "claude-mem@thedotmack": true
   },
+  "enabledSkills": {
+    "caveman": true,
+    "engineering": true,
+    "product": true,
+    "vite-react": true,
+    "cloudflare-workers": true,
+    "mapbox-gl": true
+  },
   "hooks": {
     "UserPromptSubmit": [
       {

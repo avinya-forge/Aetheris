@@ -5,7 +5,7 @@ try {
   assert.strictEqual(validateEvent(null), false, 'Should reject null');
   assert.strictEqual(validateEvent({}), false, 'Should reject empty object');
   assert.strictEqual(validateEvent({ id: '123' }), false, 'Should reject missing timestamp');
-  assert.strictEqual(validateEvent({ id: '123', timestamp: Date.now() }), true, 'Should accept valid event');
+  assert.strictEqual(validateEvent({ id: '123', timestamp: 1713600000000 }), true, 'Should accept valid event');
 } catch (error) {
   console.error('schema-validator test failed:', error.message);
   process.exit(1);

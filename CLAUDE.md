@@ -50,7 +50,7 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 ```
 
 ## Zero-Cost Deployment Stack
-| LAYER | TOOL | FREE LIMIT | PROJECTED USAGE | MONTHLY COST |
+| LAYER | TOOL | FREE LIMIT | PROJECTED USAGE | COST |
 | :--- | :--- | :--- | :--- | :--- |
 | Static hosting | Cloudflare Pages | Unlimited builds | ~30 builds | $0 |
 | Edge compute | Cloudflare Workers | 100k req/day | ~5k req/day | $0 |

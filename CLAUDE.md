@@ -94,6 +94,9 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 ## Component Status
 | Component | Status | Notes |
 | :--- | :--- | :--- |
+| `docs/architecture/system_design.md` | [BUILT] | Architecture updated |
+| `docs/planning/backlog.md` | [BUILT] | Backlog updated |
+| `docs/rules/standards.md` | [BUILT] | Documentation depth flattened |
 | `lib/schema/*.js` | [BUILT] | 11 JSON Schema draft 7 schemas |
 | `lib/data/*.js` | [BUILT] | Pipeline modules, pure API clients |
 | `lib/timeline/*.js` | [BUILT] | Temporal intelligence core |

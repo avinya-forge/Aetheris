@@ -66,7 +66,7 @@ export default {
       );
       return json({
         ok: true,
-        ts: Date.now(),
+        ts: Date.now(), // allowed exceptional case or could be injected, but worker is CF entry
         sources: Object.fromEntries(metaEntries),
       });
     }
@@ -79,7 +79,8 @@ export default {
    * Fires every minute per wrangler.toml `crons = ["* * * * *"]`.
    * ctx.waitUntil keeps the Worker alive until ingest completes.
    */
-  async scheduled(_event, env, ctx) {
-    ctx.waitUntil(runIngestCycle(env));
+  async scheduled(event, env, ctx) {
+    const now = event && event.scheduledTime ? event.scheduledTime : Date.now();
+    ctx.waitUntil(runIngestCycle(env, null, null, now));
   },
 };

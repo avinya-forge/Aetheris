@@ -31,7 +31,8 @@ function makeFetcher(body, status = 200) {
       callCount++;
       return { ok: true, json: async () => [{ activityID: 'x' }] };
     };
-    const all = await fetchNasaDonki(apiKey, multiFetcher);
+    const now = Date.parse('2026-04-11T00:00:00Z');
+    const all = await fetchNasaDonki(apiKey, multiFetcher, now);
     assert.strictEqual(callCount, EVENT_TYPES.length, 'must call fetch for each event type');
     assert.ok(all['CME'], 'result must have CME key');
 

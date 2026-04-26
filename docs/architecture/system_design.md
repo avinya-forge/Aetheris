@@ -147,15 +147,13 @@ Free Public APIs
 ### Cost Breakdown (Monthly at Beta Scale, ≤50 Users)
 | LAYER | TOOL | FREE LIMIT | PROJECTED USAGE | COST |
 | :--- | :--- | :--- | :--- | :--- |
-| Static hosting | Cloudflare Pages | Unlimited builds | ~30 builds | $0 |
-| Edge compute | Cloudflare Workers | 100k req/day | ~5k req/day | $0 |
-| Key-value cache| Cloudflare KV | 100k reads/day | ~20k reads/day | $0 |
-| Relational DB | Cloudflare D1 | 5M rows | ~10k rows | $0 |
-| AI/LLM | Gemini 1.5 Flash | 1M tokens/day | ~100k tokens | $0 |
-| Auth/gate | Clerk free | 10k MAU | ≤100 users | $0 |
+| Static hosting & Edge | Cloudflare Pages/Workers | 100k req/day | ~5k req/day | $0 |
+| Relational DB | Supabase/D1 (Free Tier) | 5M rows / 500MB | ~10k rows | $0 |
+| AI/LLM | Gemini Flash (API) | 1M tokens/day | ~100k tokens | $0 |
+| Auth/gate | Clerk (Auth) | 10k MAU | ≤100 users | $0 |
 | CI/CD | GitHub Actions | Unlimited (public) | ~100 min/mo | $0 |
 | Source APIs | Meteo/NOAA/GDELT/DONKI | Variable | Under limits | $0 |
-| **Total** | | | | **$0/month** |
+| **Total** | | | | **$0/mo** |
 
 ---
 

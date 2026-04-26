@@ -32,7 +32,7 @@ const ALL_SOURCES = ['noaa-swpc', 'gdelt', 'nasa-donki', 'open-meteo'];
  * Default client factory — returns real API clients when running in production.
  * Tests inject mocks via the `clients` param of runIngestCycle().
  */
-function defaultClients(env) {
+function defaultClients(env, now) {
   const { fetchNoaaSwpc } = require('../lib/data/noaa-swpc-client.js');
   const { fetchGdelt } = require('../lib/data/gdelt-client.js');
   const { fetchOpenMeteo } = require('../lib/data/open-meteo-client.js');
@@ -42,7 +42,7 @@ function defaultClients(env) {
     'noaa-swpc':  () => fetchNoaaSwpc(),
     'gdelt':      () => fetchGdelt(),
     'open-meteo': () => fetchOpenMeteo(),
-    'nasa-donki': () => fetchNasaDonki(env.NASA_API_KEY || 'DEMO_KEY'),
+    'nasa-donki': () => fetchNasaDonki(env.NASA_API_KEY || 'DEMO_KEY', globalThis.fetch, now),
   };
 }
 
@@ -66,7 +66,7 @@ async function getSourceMeta(kv) {
 /**
  * Persist updated source metadata to KV.
  */
-async function updateSourceMeta(kv, id, newItemCount) {
+async function updateSourceMeta(kv, id, newItemCount, now) {
   const raw = await kv.get(KV_SOURCE_META(id));
   const prev = raw ? JSON.parse(raw) : {};
   const consecutiveEmptyPolls = newItemCount === 0
@@ -75,7 +75,7 @@ async function updateSourceMeta(kv, id, newItemCount) {
 
   await kv.put(
     KV_SOURCE_META(id),
-    JSON.stringify({ lastFetchedAt: Date.now(), consecutiveEmptyPolls }),
+    JSON.stringify({ lastFetchedAt: now, consecutiveEmptyPolls }),
     { expirationTtl: 7 * 86_400 }
   );
 }
@@ -110,9 +110,9 @@ function donkiToForecasts(donkiEvents) {
  *   ghostCards: Array
  * }>}
  */
-async function runIngestCycle(env, clients = null, synthesizer = null) {
+async function runIngestCycle(env, clients = null, synthesizer = null, now = Date.now()) {
   const kv = env.CACHE;
-  const resolvedClients = clients || defaultClients(env);
+  const resolvedClients = clients || defaultClients(env, now);
   const resolvedSynthesizer = synthesizer || (async (text) => {
     if (!env.GEMINI_API_KEY) return null;
     const raw = await callGemini(text, env.GEMINI_API_KEY);
@@ -121,7 +121,7 @@ async function runIngestCycle(env, clients = null, synthesizer = null) {
 
   // 1. Determine which sources are due for polling
   const sourcesMeta = await getSourceMeta(kv);
-  const ranked = rankSources(sourcesMeta, Date.now());
+  const ranked = rankSources(sourcesMeta, now);
 
   if (ranked.length === 0) {
     return { polled: [], newEvents: 0, clusters: 0, synthesis: {}, safetyWarnings: [], ghostCards: [] };
@@ -173,7 +173,7 @@ async function runIngestCycle(env, clients = null, synthesizer = null) {
       }
     }
 
-    await updateSourceMeta(kv, id, newCount);
+    await updateSourceMeta(kv, id, newCount, now);
     polled.push(id);
   }
 

@@ -16,7 +16,7 @@ const { mapGeminiResponse } = require('../lib/ai/gemini-mapper.js');
     };
 
     const brief = mapGeminiResponse(rawData);
-    assert.strictEqual(brief, 'A short factual brief.');
+    assert.strictEqual(brief, 'A short factual brief.', "Assert failed in strictEqual");
 
     const longData = {
       candidates: [
@@ -32,7 +32,7 @@ const { mapGeminiResponse } = require('../lib/ai/gemini-mapper.js');
     const capped = mapGeminiResponse(longData);
     const wordCount = capped.split(/\s+/).length;
     assert.strictEqual(wordCount, 30, 'Should be 30 words');
-    assert.ok(capped.endsWith('...'));
+    assert.ok(capped.endsWith('...'), "Assert failed in ok");
 
   } catch (err) {
     console.error('FAIL - gemini-mapper.test.js:', err.message);

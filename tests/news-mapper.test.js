@@ -4,7 +4,7 @@ const { mapGdeltArticle } = require('../lib/data/news-mapper.js');
 try {
   const rawArt = { url: "http://example.com", title: "Test Article", seendate: "20240101", socialimage: "http://img.com" };
   const mappedArt = mapGdeltArticle(rawArt);
-  assert.strictEqual(mappedArt.text, "Test Article");
+  assert.strictEqual(mappedArt.text, "Test Article", "Assert failed in strictEqual");
   assert.strictEqual(mappedArt.impactScore, 10, 'Must match expected value');
   assert.strictEqual(mappedArt.source, 'gdelt', 'Must match expected value');
 

@@ -20,7 +20,11 @@ function makeFetcher(body, status = 200) {
     };
 
     const res = await callGemini('test prompt', 'test-key', makeFetcher(rawData));
-    assert.strictEqual(res.candidates[0].content.parts[0].text, 'A short factual brief.');
+    assert.strictEqual(
+      res.candidates[0].content.parts[0].text,
+      'A short factual brief.',
+      "Assert failed in strictEqual"
+    );
 
     const errorRes = await callGemini('test', 'key', makeFetcher({}, 500));
     assert.strictEqual(errorRes, null, 'HTTP 500 → null');

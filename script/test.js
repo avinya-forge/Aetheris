@@ -3,7 +3,7 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const testsDir = path.join(__dirname, '..', 'tests');
-const files = fs.readdirSync(testsDir).filter(f => f.endsWith('.test.js'));
+const files = fs.readdirSync(testsDir).filter(f => f.endsWith('.test.js') || f.endsWith('.test.jsx'));
 
 console.log(`Running ${files.length} tests...`);
 let passed = 0;

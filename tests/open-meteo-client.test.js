@@ -25,7 +25,7 @@ function makeFetcher(current, status = 200) {
     const results = await fetchOpenMeteo(DEFAULT_LOCATIONS, countingFetcher);
     assert.strictEqual(fetchCount, DEFAULT_LOCATIONS.length, 'one fetch per location');
     assert.strictEqual(results.length, DEFAULT_LOCATIONS.length, 'result per location');
-    assert.strictEqual(results[0].location.id, 'london', "Assert failed in strictEqual");
+    assert.strictEqual(results[0].current.temperature_2m, 20, "Assert failed in strictEqual");
 
     // Partial failure: one 404 → others succeed
     let call2 = 0;
@@ -38,7 +38,7 @@ function makeFetcher(current, status = 200) {
       };
     };
     const partial = await fetchOpenMeteo(DEFAULT_LOCATIONS.slice(0, 3), partialFetcher);
-    assert.strictEqual(partial.length, 2, 'one 404 → 2 of 3 succeed');
+    assert.strictEqual(partial.filter(Boolean).length, 2, 'one 404 → 2 of 3 succeed');
 
     // --- buildUrl ---
     const url = buildUrl(51.51, -0.13);

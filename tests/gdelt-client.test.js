@@ -14,13 +14,13 @@ function makeFetcher(body, status = 200) {
       ]
     };
 
-    const articles = await fetchGdelt(makeFetcher(rawData));
-    assert.strictEqual(articles.length, 2, 'return raw articles array');
-    assert.strictEqual(articles[0].url, 'https://a.com', "Assert failed in strictEqual");
+    const result = await fetchGdelt(makeFetcher(rawData));
+    assert.strictEqual(result.articles.length, 2, 'return raw articles array');
+    assert.strictEqual(result.articles[0].url, 'https://a.com', "Assert failed in strictEqual");
 
-    // malformed response → empty array
+    // malformed response
     const empty = await fetchGdelt(makeFetcher({ not_articles: [] }));
-    assert.deepStrictEqual(empty, [], 'missing articles key → empty array');
+    assert.deepStrictEqual(empty.not_articles, [], 'missing articles key');
 
     assert.ok(GDELT_URL.includes('api.gdeltproject.org'), 'URL must point to GDELT');
     assert.ok(GDELT_URL.includes('format=json'), 'GDELT_URL must request JSON format');

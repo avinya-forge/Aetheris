@@ -19,6 +19,7 @@ const { mapGdeltArticle } = require('../lib/data/news-mapper.js');
 const { mapWeatherEvent } = require('../lib/data/weather-mapper.js');
 const { callGemini } = require('../lib/ai/gemini-client.js');
 const { mapGeminiResponse } = require('../lib/ai/gemini-mapper.js');
+const { DEFAULT_LOCATIONS } = require('../lib/data/open-meteo-client.js');
 
 // KV keys
 const KV_EVENTS_LATEST = 'events:latest';
@@ -148,14 +149,14 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
           mapSolarWind(rawData.wind)
         ].filter(Boolean);
       } else if (id === 'gdelt') {
-        mappedItems = rawData.map(mapGdeltArticle);
+        mappedItems = (Array.isArray(rawData.articles) ? rawData.articles : []).map(mapGdeltArticle);
       } else if (id === 'nasa-donki') {
         mappedItems = [];
         for (const type in rawData) {
           mappedItems.push(...rawData[type].map(e => mapDonkiEvent(e, type)));
         }
       } else if (id === 'open-meteo') {
-        mappedItems = rawData.map(r => mapWeatherEvent(r.data, r.location)).filter(Boolean);
+        mappedItems = rawData.map((r, i) => r ? mapWeatherEvent(r, DEFAULT_LOCATIONS[i]) : null).filter(Boolean);
       }
 
       rawBySourceMapped[id] = mappedItems;

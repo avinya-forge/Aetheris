@@ -24,14 +24,14 @@ function makeMockKv(initial = {}) {
         kp: { time_tag: 't1', kp_index: 5 },
         wind: { time_tag: 't1', proton_speed: 400, density: 10 }
       }),
-      'gdelt':      async () => [
-        { url: 'url1', title: 'Title 1', seendate: 't1' }
-      ],
+      'gdelt':      async () => ({
+        articles: [{ url: 'url1', title: 'Title 1', seendate: 't1' }]
+      }),
       'nasa-donki': async () => ({
         CME: [{ activityID: 'c1', startTime: 't1', note: 'n1' }]
       }),
       'open-meteo': async () => [
-        { data: { current: { temperature_2m: 20, wind_speed_10m: 10, time: 't1' } }, location: { id: 'london', lat: 51, lon: 0 } }
+        { current: { temperature_2m: 20, wind_speed_10m: 10, time: 't1' } }
       ],
     };
     const result = await runIngestCycle({ CACHE: kvFresh, GEMINI_API_KEY: 'test' }, mockClients, async () => 'AI brief');

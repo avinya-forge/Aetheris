@@ -10,18 +10,18 @@ try {
 
   const clusters = identifyClusters(events);
 
-  assert.strictEqual(Array.isArray(clusters), true, 'Must match expected value');
-  assert.strictEqual(clusters.length, 2, 'Must match expected value');
+  assert.strictEqual(Array.isArray(clusters), true, 'cluster-identifier.test.js assertion failed');
+  assert.strictEqual(clusters.length, 2, 'cluster-identifier.test.js assertion failed');
 
   const climateCluster = clusters.find(c => c.theme === 'Climate');
   assert.ok(climateCluster, 'Value must be truthy');
-  assert.deepStrictEqual(climateCluster.events, ['1', '2'], 'Must match');
-  assert.strictEqual(climateCluster.impactScore, 10, 'Must match expected value'); // 2 events * 5 = 10
+  assert.deepStrictEqual(climateCluster.events, ['1', '2'], 'cluster-identifier.test.js must match');
+  assert.strictEqual(climateCluster.impactScore, 10, 'cluster-identifier.test.js assertion failed'); // 2 events * 5 = 10
 
   const economyCluster = clusters.find(c => c.theme === 'Economy');
   assert.ok(economyCluster, 'Value must be truthy');
-  assert.deepStrictEqual(economyCluster.events, ['3'], 'Must match');
-  assert.strictEqual(economyCluster.impactScore, 5, 'Must match expected value'); // 1 event * 5 = 5
+  assert.deepStrictEqual(economyCluster.events, ['3'], 'cluster-identifier.test.js must match');
+  assert.strictEqual(economyCluster.impactScore, 5, 'cluster-identifier.test.js assertion failed'); // 1 event * 5 = 5
 
 } catch (error) {
   console.error('cluster identifier test failed:', error.message);

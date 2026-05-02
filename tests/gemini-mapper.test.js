@@ -16,7 +16,7 @@ const { mapGeminiResponse } = require('../lib/ai/gemini-mapper.js');
     };
 
     const brief = mapGeminiResponse(rawData);
-    assert.strictEqual(brief, 'A short factual brief.', "Assert failed in strictEqual");
+    assert.strictEqual(brief, 'A short factual brief.', "gemini-mapper.test.js strictEqual failed");
 
     const longData = {
       candidates: [

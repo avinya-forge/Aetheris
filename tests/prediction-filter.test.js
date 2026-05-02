@@ -11,7 +11,7 @@ const predictions = [
 
 const filtered = filterSpeculativePredictions(predictions);
 
-assert.strictEqual(filtered.length, 2, 'Must match expected value');
+assert.strictEqual(filtered.length, 2, 'prediction-filter.test.js assertion failed');
 assert.deepStrictEqual(filtered, [
   { id: 1, patternMatchId: 'A', speculative: false },
   { id: 3, patternMatchId: 'C' }

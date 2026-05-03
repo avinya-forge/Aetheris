@@ -10,10 +10,10 @@ try {
 
   const topTrend = analyzeTrends(clusters);
   assert.ok(topTrend, 'Value must be truthy');
-  assert.strictEqual(topTrend.theme, 'B', 'Must match expected value');
+  assert.strictEqual(topTrend.theme, 'B', 'trend-analyzer.test.js assertion failed');
 
   const emptyResult = analyzeTrends([]);
-  assert.strictEqual(emptyResult, null, 'Must match expected value');
+  assert.strictEqual(emptyResult, null, 'trend-analyzer.test.js assertion failed');
 
 } catch (error) {
   console.error('trend analyzer test failed:', error.message);

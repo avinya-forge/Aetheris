@@ -15,17 +15,17 @@ const requiredDocs = [
 ];
 
 const mockState = parseDocsState(testDir, requiredDocs);
-assert.strictEqual(mockState[0].exists, false, 'Must match expected value');
-assert.strictEqual(mockState[1].exists, false, 'Must match expected value');
+assert.strictEqual(mockState[0].exists, false, 'generator.test.js assertion failed');
+assert.strictEqual(mockState[1].exists, false, 'generator.test.js assertion failed');
 
 populateMissingDocs(testDir, mockState);
 
 const newState = parseDocsState(testDir, requiredDocs);
-assert.strictEqual(newState[0].exists, true, 'Must match expected value');
-assert.strictEqual(newState[1].exists, true, 'Must match expected value');
+assert.strictEqual(newState[0].exists, true, 'generator.test.js assertion failed');
+assert.strictEqual(newState[1].exists, true, 'generator.test.js assertion failed');
 
 const backlogContent = fs.readFileSync(path.join(testDir, 'docs/planning/test_backlog.md'), 'utf8');
-assert.strictEqual(backlogContent.trim(), '# test_backlog.md', 'Must match expected value');
+assert.strictEqual(backlogContent.trim(), '# test_backlog.md', 'generator.test.js assertion failed');
 
 // cleanup
 fs.rmSync(testDir, { recursive: true, force: true });

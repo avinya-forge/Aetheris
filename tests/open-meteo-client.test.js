@@ -25,7 +25,7 @@ function makeFetcher(current, status = 200) {
     const results = await fetchOpenMeteo(DEFAULT_LOCATIONS, countingFetcher);
     assert.strictEqual(fetchCount, DEFAULT_LOCATIONS.length, 'one fetch per location');
     assert.strictEqual(results.length, DEFAULT_LOCATIONS.length, 'result per location');
-    assert.strictEqual(results[0].current.temperature_2m, 20, "Assert failed in strictEqual");
+    assert.strictEqual(results[0].current.temperature_2m, 20, "open-meteo-client.test.js strictEqual failed");
 
     // Partial failure: one 404 → others succeed
     let call2 = 0;

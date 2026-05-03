@@ -2,7 +2,7 @@ const assert = require('assert');
 const { environmentalSchema } = require('../lib/schema/environmental.js');
 
 try {
-  assert.strictEqual(typeof environmentalSchema, 'object', 'Must match expected value');
+  assert.strictEqual(typeof environmentalSchema, 'object', 'environmental.test.js assertion failed');
 } catch (err) {
   console.error('FAIL - environmental.test.js:', err.message);
   process.exit(1);

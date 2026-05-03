@@ -25,11 +25,11 @@ assert.strictEqual(
 
 // Test with no hazard
 const safeCondition = injectSafetyWarning({ temperature: 25, windSpeed: 20 });
-assert.strictEqual(safeCondition, "", "Assert failed in strictEqual");
+assert.strictEqual(safeCondition, "", "safety-sentinel.test.js strictEqual failed");
 
 // Test with empty or invalid data
-assert.strictEqual(injectSafetyWarning({}), "", "Assert failed in strictEqual");
-assert.strictEqual(injectSafetyWarning(null), "", "Assert failed in strictEqual");
-assert.strictEqual(injectSafetyWarning([]), "", "Assert failed in strictEqual");
+assert.strictEqual(injectSafetyWarning({}), "", "safety-sentinel.test.js strictEqual failed");
+assert.strictEqual(injectSafetyWarning(null), "", "safety-sentinel.test.js strictEqual failed");
+assert.strictEqual(injectSafetyWarning([]), "", "safety-sentinel.test.js strictEqual failed");
 
 console.log('PASS - safety-sentinel.test.js');

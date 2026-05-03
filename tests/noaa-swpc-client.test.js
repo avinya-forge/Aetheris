@@ -33,8 +33,8 @@ function makeFetcher(body, status = 200) {
       return { ok: true, json: async () => [{ time_tag: 't', proton_speed: 400, density: 8 }] };
     };
     const combined = await fetchNoaaSwpc(dualFetcher);
-    assert.strictEqual(combined.kp.kp_index, 5, "Assert failed in strictEqual");
-    assert.strictEqual(combined.wind.proton_speed, 400, "Assert failed in strictEqual");
+    assert.strictEqual(combined.kp.kp_index, 5, "noaa-swpc-client.test.js strictEqual failed");
+    assert.strictEqual(combined.wind.proton_speed, 400, "noaa-swpc-client.test.js strictEqual failed");
     assert.strictEqual(callCount, 2, 'must call both endpoints');
 
     assert.ok(NOAA_KP_URL.includes('swpc.noaa.gov'), 'URL must point to swpc.noaa.gov');

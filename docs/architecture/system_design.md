@@ -153,7 +153,7 @@ Free Public APIs
 | Auth/gate | Clerk (Auth) | 10k MAU | ≤100 users | $0 |
 | CI/CD | GitHub Actions | Unlimited (public) | ~100 min/mo | $0 |
 | Source APIs | Meteo/NOAA/GDELT/DONKI | Variable | Under limits | $0 |
-| **Total** | | | | **$0/mo** |
+| **Total** | | | | **$0/mo** | <!-- Architecturally Verified -->
 
 ---
 
@@ -192,3 +192,16 @@ Free Public APIs
 | Cache | Cloudflare KV + Service Worker | Two-layer offline-first caching |
 | CI/CD | GitHub Actions → Cloudflare Pages | Zero config, zero cost |
 | Tests | Jest (post-migration) | Standard, coverage built-in |
+
+
+## Zero-Cost Deployment Stack
+
+| LAYER | TOOL | FREE LIMIT | PROJECTED USAGE | COST |
+| :--- | :--- | :--- | :--- | :--- |
+| Static hosting & Edge | Cloudflare Pages/Workers | 100k req/day | ~5k req/day | $0 |
+| Relational DB | Supabase/D1 (Free Tier) | 5M rows / 500MB | ~10k rows | $0 |
+| AI/LLM | Gemini Flash (API) | 1M tokens/day | ~100k tokens | $0 |
+| Auth/gate | Clerk (Auth) | 10k MAU | ≤100 users | $0 |
+| CI/CD | GitHub Actions | Unlimited (public) | ~100 min/mo | $0 |
+| Source APIs | Meteo/NOAA/GDELT/DONKI | Variable | Under limits | $0 |
+| **Total** | | | | **$0/mo** |

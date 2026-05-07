@@ -14,12 +14,12 @@ try {
   assert.strictEqual(clusters.length, 2, 'cluster-identifier.test.js assertion failed');
 
   const climateCluster = clusters.find(c => c.theme === 'Climate');
-  assert.ok(climateCluster, 'Value must be truthy');
+  assert.ok(climateCluster, 'Value must be present');
   assert.deepStrictEqual(climateCluster.events, ['1', '2'], 'cluster-identifier.test.js must match');
   assert.strictEqual(climateCluster.impactScore, 10, 'cluster-identifier.test.js assertion failed'); // 2 events * 5 = 10
 
   const economyCluster = clusters.find(c => c.theme === 'Economy');
-  assert.ok(economyCluster, 'Value must be truthy');
+  assert.ok(economyCluster, 'Value must be present');
   assert.deepStrictEqual(economyCluster.events, ['3'], 'cluster-identifier.test.js must match');
   assert.strictEqual(economyCluster.impactScore, 5, 'cluster-identifier.test.js assertion failed'); // 1 event * 5 = 5
 

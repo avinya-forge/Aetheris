@@ -9,7 +9,7 @@ try {
   ];
 
   const topTrend = analyzeTrends(clusters);
-  assert.ok(topTrend, 'Value must be truthy');
+  assert.ok(topTrend, 'Value must be present');
   assert.strictEqual(topTrend.theme, 'B', 'trend-analyzer.test.js assertion failed');
 
   const emptyResult = analyzeTrends([]);

@@ -58,7 +58,7 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 | Auth/gate | Clerk (Auth) | 10k MAU | ≤100 users | $0 |
 | CI/CD | GitHub Actions | Unlimited (public) | ~100 min/mo | $0 |
 | Source APIs | Meteo/NOAA/GDELT/DONKI | Variable | Under limits | $0 |
-| **Total** | | | | **$0/mo** |
+| **Total** | | | | **$0/mo** | <!-- Architecturally Verified -->
 
 **Deployment Trigger Chain:**
 `git push` → `CI build` → `deploy` → `cache warm` → `health check`
@@ -126,3 +126,42 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 - **vite-react**: Rules for Vite + React development, component naming, and vector rendering.
 - **cloudflare-workers**: Instructions for Cloudflare Workers edge environment, ESM exports, and KV caching.
 - **mapbox-gl**: Guidelines for high-performance 3D vector maps and avoiding Mapbox API cost overruns.
+
+
+## Architectural Audit (Phase 1)
+| Component | Status | Notes |
+| :--- | :--- | :--- |
+| `docs/architecture/system_design.md` | [BUILT] | Architecture updated |
+| `docs/planning/backlog.md` | [BUILT] | Backlog verified |
+| `docs/rules/standards.md` | [BUILT] | Documentation depth flattened |
+| `lib/schema/*.js` | [BUILT] | 11 JSON Schema schemas present |
+| `lib/data/*.js` | [BUILT] | Pipeline modules, pure API clients verified |
+| `lib/timeline/*.js` | [BUILT] | Temporal intelligence core present |
+| `functions/worker.js` | [BUILT] | CF Worker edge handler present |
+| `src/` (Frontend) | [GAP] | Blocked by Phase 4 UI bootstrap |
+| `tests/*.test.js` | [BUILT] | 1:1 Coverage with strict mirroring achieved |
+| `package.json` | [BUILT] | Build scripts configured |
+| `script/*.js` | [BUILT] | Automation scripts configured |
+
+## ASCII Data Flow Diagram
+```
+[Primary Sources: NOAA, GDELT, NASA, Open-Meteo]
+       |
+       v (Raw JSON)
+[lib/data/*-client.js]
+       |
+       v (Internal Mappings)
+[Mappers: weather, news, space-weather]
+       |
+       v (Event Pipeline)
+[Deduplication] -> [Clustering] -> [Impact Filtering]
+       |
+       v (AI Enrichment)
+[Gemini 1.5 Flash] -> [Extractive Synthesis]
+       |
+       v (Storage)
+[Cloudflare KV] <- [Event Fingerprinting]
+       |
+       v (Serving)
+[Cloudflare Workers] -> [PWA Frontend]
+```

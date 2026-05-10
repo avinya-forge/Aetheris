@@ -12,27 +12,27 @@ const newsData = [
 // Test 1: Only impact score
 const threshold1 = { minImpactScore: 5 };
 const result1 = filterByImpact(newsData, threshold1);
-assert.strictEqual(result1.length, 3, 'impact-filter.test.js assertion failed');
-assert.strictEqual(result1[0].id, 1, 'impact-filter.test.js assertion failed');
-assert.strictEqual(result1[1].id, 3, 'impact-filter.test.js assertion failed');
-assert.strictEqual(result1[2].id, 5, 'impact-filter.test.js assertion failed');
+assert.strictEqual(result1.length, 3, 'impact-filter.test.js: expected values to be strictly equal');
+assert.strictEqual(result1[0].id, 1, 'impact-filter.test.js: expected values to be strictly equal');
+assert.strictEqual(result1[1].id, 3, 'impact-filter.test.js: expected values to be strictly equal');
+assert.strictEqual(result1[2].id, 5, 'impact-filter.test.js: expected values to be strictly equal');
 
 // Test 2: Impact score + county
 const threshold2 = { minImpactScore: 5, county: 'King' };
 const result2 = filterByImpact(newsData, threshold2);
-assert.strictEqual(result2.length, 1, 'impact-filter.test.js assertion failed');
-assert.strictEqual(result2[0].id, 1, 'impact-filter.test.js assertion failed'); // Item 5 has no county, now it's excluded because `item.county` is undefined which !== 'King'
+assert.strictEqual(result2.length, 1, 'impact-filter.test.js: expected values to be strictly equal');
+assert.strictEqual(result2[0].id, 1, 'impact-filter.test.js: expected values to be strictly equal'); // Item 5 has no county, now it's excluded because `item.county` is undefined which !== 'King'
 
 // Test 3: Impact score + interests
 const threshold3 = { minImpactScore: 1, interests: ['weather'] };
 const result3 = filterByImpact(newsData, threshold3);
-assert.strictEqual(result3.length, 1, 'impact-filter.test.js assertion failed');
-assert.strictEqual(result3[0].id, 2, 'impact-filter.test.js assertion failed');
+assert.strictEqual(result3.length, 1, 'impact-filter.test.js: expected values to be strictly equal');
+assert.strictEqual(result3[0].id, 2, 'impact-filter.test.js: expected values to be strictly equal');
 
 // Test 4: Impact score + county + interests
 const threshold4 = { minImpactScore: 3, county: 'King', interests: ['technology'] };
 const result4 = filterByImpact(newsData, threshold4);
-assert.strictEqual(result4.length, 1, 'impact-filter.test.js assertion failed');
-assert.strictEqual(result4[0].id, 1, 'impact-filter.test.js assertion failed');
+assert.strictEqual(result4.length, 1, 'impact-filter.test.js: expected values to be strictly equal');
+assert.strictEqual(result4[0].id, 1, 'impact-filter.test.js: expected values to be strictly equal');
 
 console.log('PASS - impact-filter.test.js');

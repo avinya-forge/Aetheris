@@ -90,7 +90,7 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 **V-Score: 10/10**
 
 ## Component Status
-| Component | Status | Notes |
+| Component | Status ([BUILT] / [PLANNED] / [GAP]) | Notes |
 | :--- | :--- | :--- |
 | `docs/architecture/system_design.md` | [BUILT] | Architecture updated |
 | `docs/planning/backlog.md` | [BUILT] | Backlog updated |
@@ -129,7 +129,7 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 
 
 ## Architectural Audit (Phase 1)
-| Component | Status | Notes |
+| Component | Status ([BUILT] / [PLANNED] / [GAP]) | Notes |
 | :--- | :--- | :--- |
 | `docs/architecture/system_design.md` | [BUILT] | Architecture updated |
 | `docs/planning/backlog.md` | [BUILT] | Backlog verified |

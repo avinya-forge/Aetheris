@@ -89,7 +89,7 @@ tests/                         # 1:1 .test.js per lib/ and functions/ module
 ## Repo Consistency
 **V-Score: 10/10**
 
-## Component Status
+## Component Mapping Status
 | Component | Status ([BUILT] / [PLANNED] / [GAP]) | Notes |
 | :--- | :--- | :--- |
 | `docs/architecture/system_design.md` | [BUILT] | Architecture updated |

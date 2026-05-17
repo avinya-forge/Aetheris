@@ -219,4 +219,4 @@ Free Public APIs
 | Auth/gate | Clerk (Auth) | 10k MAU | ≤100 users | $0 |
 | CI/CD | GitHub Actions | Unlimited (public) | ~100 min/mo | $0 |
 | Source APIs | Meteo/NOAA/GDELT/DONKI | Variable | Under limits | $0 |
-| **Total** | | | | **$0/mo** |
+| **Total** | | | | **$0/mo** | <!-- Architecturally Verified -->

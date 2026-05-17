@@ -6,11 +6,11 @@ const rootDir = path.join(__dirname, '..');
 const state = parseDocsState(rootDir);
 
 assert.ok(Array.isArray(state), 'Value must be present');
-const index = state.find(doc => doc.path === 'docs/planning/backlog.md');
+const index = state.find(doc => doc.path === 'docs/backlog.md');
 assert.ok(index, 'Value must be present');
 assert.strictEqual(index.exists, true, 'parser.test.js: expected values to be strictly equal');
 
-const standards = state.find(doc => doc.path === 'docs/rules/standards.md');
+const standards = state.find(doc => doc.path === 'docs/standards.md');
 assert.ok(standards, 'Value must be present');
 // If run.sh --sync has not been run or it has been run, it might be true or false.
 
@@ -19,16 +19,16 @@ assert.strictEqual(nonExistent, undefined, 'parser.test.js: expected values to b
 
 // For the parser to work optimally, let's say it checks against a defined list of required docs
 const requiredDocs = [
-  'docs/planning/backlog.md',
-  'docs/planning/roadmap.md',
-  'docs/architecture/system_design.md',
-  'docs/rules/standards.md'
+  'docs/backlog.md',
+  'docs/roadmap.md',
+  'docs/system_design.md',
+  'docs/standards.md'
 ];
 
 const state2 = parseDocsState(rootDir, requiredDocs);
 assert.ok(Array.isArray(state2), 'Value must be present');
 assert.strictEqual(state2.length, requiredDocs.length, 'parser.test.js must match');
-const index2 = state2.find(doc => doc.path === 'docs/planning/backlog.md');
+const index2 = state2.find(doc => doc.path === 'docs/backlog.md');
 assert.ok(index2, 'Value must be present');
 assert.strictEqual(index2.exists, true, 'parser.test.js: expected values to be strictly equal');
 

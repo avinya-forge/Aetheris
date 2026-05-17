@@ -24,25 +24,25 @@
 ### Epic 4.1: Frontend Bootstrap
 *Goal: React + Vite PWA environment wired to lib/ logic.*
 - [x] TASK: bootstrap-frontend | Target: package.json, vite.config.js | I/O: void -> DevServer | Assert: npm run dev starts, 0 err | LOC: ~80
-- [ ] TASK: init-mapbox-gl | Target: src/components/map/atlas.tsx | I/O: Config -> MapInstance | Assert: 0 err, renders | LOC: ~60
+- [x] TASK: init-mapbox-gl | Target: src/components/map/atlas.tsx | I/O: Config -> MapInstance | Assert: 0 err, renders | LOC: ~60
 
 ### Epic 4.2: Chromodynamic Visual System
 *Goal: vector-only UI that shifts atmosphere based on data state.*
-- [ ] TASK: implement-chromodynamic-logic | Target: src/lib/ui/chromodynamic.js | I/O: KpIndex -> ColorSpec | Assert: 0 err, >95% cov | LOC: ~40
-- [ ] TASK: design-vector-glyphs | Target: src/assets/glyphs/index.svg | I/O: void -> SVG | Assert: clean-SVG, no raster | LOC: ~100
-- [ ] TASK: implement-zoom-logic | Target: src/lib/ui/zoom-controller.js | I/O: ZoomLevel -> LayerVisibility | Assert: 0 err, >95% cov | LOC: ~30
+- [x] TASK: implement-chromodynamic-logic | Target: src/lib/ui/chromodynamic.js | I/O: KpIndex -> ColorSpec | Assert: 0 err, >95% cov | LOC: ~40
+- [x] TASK: design-vector-glyphs | Target: src/assets/glyphs/index.svg | I/O: void -> SVG | Assert: clean-SVG, no raster | LOC: ~100
+- [x] TASK: implement-zoom-logic | Target: src/lib/ui/zoom-controller.js | I/O: ZoomLevel -> LayerVisibility | Assert: 0 err, >95% cov | LOC: ~30
 
 ### Epic 4.3: Timeline Interface
 *Goal: temporal traversal UI replacing list-scroll paradigm.*
-- [ ] TASK: render-3d-map-timeline | Target: src/components/map/timeline.tsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
-- [ ] TASK: render-ghost-cards | Target: src/components/ui/ghost-card.tsx | I/O: GhostCard -> ReactElement | Assert: 0 err, opacity<1, shows% | LOC: ~50
+- [x] TASK: render-3d-map-timeline | Target: src/components/map/timeline.tsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
+- [x] TASK: render-ghost-cards | Target: src/components/ui/ghost-card.tsx | I/O: GhostCard -> ReactElement | Assert: 0 err, opacity<1, shows% | LOC: ~50
 
 ### Epic 4.4: Frontend Data Service Layer
 *Goal: bridge lib/ pipeline output to React UI components via typed service hooks.*
-- [ ] TASK: implement-events-service | Target: src/lib/services/events-service.js | I/O: Filters -> EventArray | Assert: 0 err, filters by impact | LOC: ~50
-- [ ] TASK: implement-synthesis-service | Target: src/lib/services/synthesis-service.js | I/O: ClusterId -> Brief | Assert: ≤30 words, 0 err | LOC: ~35
-- [ ] TASK: implement-ghost-card-service | Target: src/lib/services/ghost-card-service.js | I/O: void -> GhostCardArray | Assert: all likelihood ≤95%, isSpeculative=false | LOC: ~35
-- [ ] TASK: implement-health-service | Target: src/lib/services/health-service.js | I/O: void -> HealthStatus | Assert: 0 err, returns version+uptime | LOC: ~20
+- [x] TASK: implement-events-service | Target: src/lib/services/events-service.js | I/O: Filters -> EventArray | Assert: 0 err, filters by impact | LOC: ~50
+- [x] TASK: implement-synthesis-service | Target: src/lib/services/synthesis-service.js | I/O: ClusterId -> Brief | Assert: ≤30 words, 0 err | LOC: ~35
+- [x] TASK: implement-ghost-card-service | Target: src/lib/services/ghost-card-service.js | I/O: void -> GhostCardArray | Assert: all likelihood ≤95%, isSpeculative=false | LOC: ~35
+- [x] TASK: implement-health-service | Target: src/lib/services/health-service.js | I/O: void -> HealthStatus | Assert: 0 err, returns version+uptime | LOC: ~20
 
 ### Epic 4.5: Visual Audit & Bug Hunt
 - [x] TASK: execute-visual-audit | Target: backlog.md | I/O: void -> TaskList | Assert: all bugs cataloged | LOC: ~0
@@ -74,3 +74,6 @@
 - [x] TASK: improve-fingerprint-normalization | Target: lib/data/event-fingerprint.js | I/O: Event -> NormalizedFP | Assert: >90% content-dedup accuracy | LOC: ~20
 - [x] TASK: implement-real-clustering | Target: lib/data/cluster-identifier.js | I/O: Events -> SemanticClusters | Assert: groups related events beyond topic | LOC: ~60
 - [ ] TASK: migrate-to-typescript | Target: lib/ | I/O: JS -> TS | Assert: 0 type errors | LOC: ~1000
+
+## Architectural Audit Gaps (AUTO-GENERATED)
+- [ ] TASK: fix-test-failure-messages | Target: tests/ | I/O: scan -> fix | Assert: all assert calls have 3+ arguments | LOC: ~200

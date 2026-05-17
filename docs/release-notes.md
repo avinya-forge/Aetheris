@@ -62,3 +62,10 @@
   - [P1] [HIGH-RISK] [x] TASK: define-environmental-schema | Target: lib/schema/environmental.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
   - [P1] [HIGH-RISK] [x] TASK: define-geopolitical-schema | Target: lib/schema/geopolitical.js | I/O: void -> JSON | Assert: 0 err, >95% cov | LOC: ~45
 - [x] TASK: implement-threshold-filter | Target: lib/data/threshold-filter.js | I/O: Event, Threshold -> Boolean | Assert: 0 err, >95% cov | LOC: ~40
+
+## v0.1.5 - Kinetic Atlas Foundation
+- **Frontend Bootstrap**: Initialized Mapbox GL integration and vector rendering components.
+- **Chromodynamic System**: Implemented Kp-index driven visual atmosphere logic.
+- **Timeline Engine**: Added 3D temporal traversal interface and Ghost Cards for speculative events.
+- **Service Layer**: Established typed hooks for events, synthesis, health, and ghost-card data.
+- **Architecture**: Flattened documentation hierarchy and enforced 1:1 test coverage across frontend modules.

@@ -1,0 +1,25 @@
+{
+  "policies": [
+    {
+      "name": "Beta Testers Allowlist",
+      "decision": "allow",
+      "include": [
+        {
+          "email": {
+            "email": "beta.tester1@example.com"
+          }
+        },
+        {
+          "email": {
+            "email": "jules@example.com"
+          }
+        },
+        {
+          "email_domain": {
+            "domain": "aetheris.dev"
+          }
+        }
+      ]
+    }
+  ]
+}

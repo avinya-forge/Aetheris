@@ -1,5 +1,13 @@
 # Release Notes
 
+## v0.1.7 — Arch Sync Batch
+- Fixed rendering bug in main.jsx to properly display the Atlas map.
+- Configured Cloudflare Pages automated deployment via GitHub Actions.
+- Implemented robust Invite Gate logic with 100% test coverage.
+- Configured Cloudflare Access with email allowlists for beta testing.
+- Integrated Cloudflare Web Analytics into the index.html.
+- Authored the Aetheris Beta Guide for onboarding pioneer users.
+
 ## 0.1.4 - 2026-04-17 (Infrastructure Overhaul)
 - [x] TASK: flatten-docs-directory | Target: docs/ | I/O: nested -> flat | Assert: 0 subdirs | DONE
 - [x] TASK: consolidate-backlog-ssot | Target: docs/backlog.md | I/O: multiple -> single | Assert: all tasks present | DONE

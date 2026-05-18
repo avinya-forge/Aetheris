@@ -47,23 +47,24 @@
 ### Epic 4.5: Visual Audit & Bug Hunt
 - [x] TASK: execute-visual-audit | Target: backlog.md | I/O: void -> TaskList | Assert: all bugs cataloged | LOC: ~0
 - [x] TASK: fix-visual-bug-1 | Target: src/ | I/O: Bug -> Fix | Assert: map renders | LOC: ~10
-- [ ] TASK: fix-cataloged-bugs | Target: src/ | I/O: BugList -> CleanCode | Assert: 0 known visual bugs | LOC: ~100
+- [x] TASK: fix-cataloged-bugs | Target: src/ | I/O: BugList -> CleanCode | Assert: 0 known visual bugs | LOC: ~100
+- [x] TASK: fix-main-jsx-render-bug | Target: src/main.jsx | I/O: Bug -> CleanCode | Assert: Atlas map renders | LOC: ~10
 
 ---
 
 ## Phase 5: Zero-Cost Deployment — Edge + Beta (PLANNED)
 
 ### Epic 5.1: Cloudflare Edge Deployment
-- [ ] TASK: configure-cloudflare-pages | Target: .github/workflows/deploy.yml | I/O: git push -> CF Pages | Assert: auto-deploy on main push | LOC: ~40
+- [x] TASK: configure-cloudflare-pages | Target: .github/workflows/deploy.yml | I/O: git push -> CF Pages | Assert: auto-deploy on main push | LOC: ~40
 - [x] TASK: deploy-cloudflare-workers | Target: functions/edge-proxy.js | I/O: Request -> Response | Assert: <50ms p95, 0 err | LOC: ~30
 - [x] TASK: configure-cloudflare-kv | Target: wrangler.toml | I/O: Data -> KVStore | Assert: cache hit > 80% | LOC: ~20
 - [x] TASK: validate-offline-pwa | Target: script/sw.js | I/O: void -> OfflineApp | Assert: loads without network | LOC: ~20
 
 ### Epic 5.2: Limited Beta Access
-- [ ] TASK: implement-invite-gate | Target: src/lib/auth/invite.js | I/O: Code -> Boolean | Assert: invalid code rejected, valid granted | LOC: ~30
-- [ ] TASK: configure-cloudflare-access | Target: cloudflare-access.json | I/O: Email -> AccessGrant | Assert: only allowlisted emails pass | LOC: ~15
-- [ ] TASK: wire-cloudflare-analytics | Target: src/index.html | I/O: PageView -> Analytics | Assert: events visible in CF dashboard | LOC: ~10
-- [ ] TASK: write-beta-onboarding | Target: docs/beta-guide.md | I/O: void -> Guide | Assert: covers all features | LOC: ~80
+- [x] TASK: implement-invite-gate | Target: src/lib/auth/invite.js | I/O: Code -> Boolean | Assert: invalid code rejected, valid granted | LOC: ~30
+- [x] TASK: configure-cloudflare-access | Target: cloudflare-access.json | I/O: Email -> AccessGrant | Assert: only allowlisted emails pass | LOC: ~15
+- [x] TASK: wire-cloudflare-analytics | Target: src/index.html | I/O: PageView -> Analytics | Assert: events visible in CF dashboard | LOC: ~10
+- [x] TASK: write-beta-onboarding | Target: docs/beta-guide.md | I/O: void -> Guide | Assert: covers all features | LOC: ~80
 
 ---
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Atlas } from './components/map/atlas';
 
 const App = () => (
   <div>
-    <h1>Aetheris Beta</h1>
+    <Atlas kpIndex={0} />
   </div>
 );
 

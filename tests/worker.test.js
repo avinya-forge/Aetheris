@@ -21,7 +21,7 @@ globalThis.Response = MockResponse;
 (async () => {
   try {
     // Import the worker using dynamic import
-    const { default: worker } = await import('../functions/worker.js');
+    const { default: worker } = await import('../functions/worker.mjs');
 
     const env = {
       CACHE: {

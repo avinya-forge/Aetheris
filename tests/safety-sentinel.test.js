@@ -6,30 +6,30 @@ const heatWarning = injectSafetyWarning({ temperature: 40 });
 assert.strictEqual(
   heatWarning,
   "It is 40°C. Your internal cooling is failing. Seek shade now.",
-  "Assert failed in strictEqual"
+  "injectSafetyWarning: should return heat warning for 40°C"
 );
 
 const stormWarning = injectSafetyWarning({ windSpeed: 100 });
 assert.strictEqual(
   stormWarning,
   "Wind speeds at 100km/h detected. Severe storm incoming. Take cover.",
-  "Assert failed in strictEqual"
+  "injectSafetyWarning: should return storm warning for 100km/h"
 );
 
 const coldWarning = injectSafetyWarning({ temperature: -15 });
 assert.strictEqual(
   coldWarning,
   "It is -15°C. Hypothermia risk is high. Seek shelter.",
-  "Assert failed in strictEqual"
+  "injectSafetyWarning: should return cold warning for -15°C"
 );
 
 // Test with no hazard
 const safeCondition = injectSafetyWarning({ temperature: 25, windSpeed: 20 });
-assert.strictEqual(safeCondition, "", "safety-sentinel.test.js strictEqual failed");
+assert.strictEqual(safeCondition, "", "injectSafetyWarning: should return empty string for safe conditions");
 
 // Test with empty or invalid data
-assert.strictEqual(injectSafetyWarning({}), "", "safety-sentinel.test.js strictEqual failed");
-assert.strictEqual(injectSafetyWarning(null), "", "safety-sentinel.test.js strictEqual failed");
-assert.strictEqual(injectSafetyWarning([]), "", "safety-sentinel.test.js strictEqual failed");
+assert.strictEqual(injectSafetyWarning({}), "", "injectSafetyWarning: should return empty string for empty input");
+assert.strictEqual(injectSafetyWarning(null), "", "injectSafetyWarning: should return empty string for null input");
+assert.strictEqual(injectSafetyWarning([]), "", "injectSafetyWarning: should return empty string for array input");
 
 console.log('PASS - safety-sentinel.test.js');

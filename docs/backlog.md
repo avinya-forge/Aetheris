@@ -1,6 +1,6 @@
 # Backlog — Aetheris
 
-> **Schema**: `[ ] TASK: name | Target: path | I/O: type | Assert: condition | LOC: size`
+> **Schema**: [ ] TASK: name | Target: path | I/O: type | Assert: condition | LOC: size
 
 ---
 
@@ -46,7 +46,7 @@
 
 ### Epic 4.5: Visual Audit & Bug Hunt
 - [x] TASK: execute-visual-audit | Target: backlog.md | I/O: void -> TaskList | Assert: all bugs cataloged | LOC: ~0
-- [ ] TASK: fix-visual-bug-1 | Target: src/ | I/O: Bug -> Fix | Assert: map renders | LOC: ~10
+- [x] TASK: fix-visual-bug-1 | Target: src/ | I/O: Bug -> Fix | Assert: map renders | LOC: ~10
 - [ ] TASK: fix-cataloged-bugs | Target: src/ | I/O: BugList -> CleanCode | Assert: 0 known visual bugs | LOC: ~100
 
 ---
@@ -76,4 +76,6 @@
 - [ ] TASK: migrate-to-typescript | Target: lib/ | I/O: JS -> TS | Assert: 0 type errors | LOC: ~1000
 
 ## Architectural Audit Gaps (AUTO-GENERATED)
-- [ ] TASK: fix-test-failure-messages | Target: tests/ | I/O: scan -> fix | Assert: all assert calls have 3+ arguments | LOC: ~200
+- [x] TASK: fix-test-failure-messages | Target: tests/ | I/O: scan -> fix | Assert: all assert calls have 3+ arguments | LOC: ~200
+- [x] TASK: fix-datenow-injection-drift | Target: src/lib/services/events-service.js | I/O: Date.now() -> injected | Assert: deterministic | LOC: ~20
+- [x] TASK: resolve-module-type-warning | Target: functions/worker.js | I/O: js -> mjs | Assert: zero warnings | LOC: ~10

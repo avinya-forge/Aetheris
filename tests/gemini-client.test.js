@@ -23,13 +23,13 @@ function makeFetcher(body, status = 200) {
     assert.strictEqual(
       res.candidates[0].content.parts[0].text,
       'A short factual brief.',
-      "Assert failed in strictEqual"
+      "callGemini: should return expected text from candidates"
     );
 
     const errorRes = await callGemini('test', 'key', makeFetcher({}, 500));
-    assert.strictEqual(errorRes, null, 'HTTP 500 → null');
+    assert.strictEqual(errorRes, null, 'callGemini: HTTP 500 should return null');
 
-    assert.ok(GEMINI_API_URL.includes('googleapis.com'), 'must point to googleapis.com');
+    assert.ok(GEMINI_API_URL.includes('googleapis.com'), 'GEMINI_API_URL: must point to googleapis.com');
 
   } catch (err) {
     console.error('FAIL - gemini-client.test.js:', err.message);

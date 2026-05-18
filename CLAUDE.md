@@ -34,7 +34,7 @@ lib/
   timeline/                    # temporal state: store, traversal, cones
 functions/
   edge-proxy.js                # Cloudflare Worker edge handler
-  worker.js                    # CF Worker entry point (ESM)
+  worker.mjs                    # CF Worker entry point (ESM)
   ingest-cycle.js              # Cron ingest logic
 script/
   run.sh                       # master controller (idempotent)
@@ -98,7 +98,7 @@ tests/                         # 1:1 test coverage with strict mirroring
 | `lib/schema/*.js` | [BUILT] | 11 JSON Schema draft 7 schemas |
 | `lib/data/*.js` | [BUILT] | Pipeline modules, pure API clients |
 | `lib/timeline/*.js` | [BUILT] | Temporal intelligence core |
-| `functions/worker.js` | [BUILT] | CF Worker entry point |
+| `functions/worker.mjs` | [BUILT] | CF Worker entry point |
 | `src/` (Frontend) | [BUILT] | Phase 4 UI foundation established |
 | `tests/*.test.js` | [BUILT] | 1:1 Coverage with strict mirroring |
 | `package.json` | [BUILT] | Version v0.1.5 |

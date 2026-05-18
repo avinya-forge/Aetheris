@@ -2,15 +2,19 @@ const assert = require('assert');
 const { fetchEvents } = require('../src/lib/services/events-service.js');
 
 try {
-  const all = fetchEvents();
-  assert.strictEqual(all.length, 2, 'Should fetch 2 mock events');
+  const mockNow = 1713300000000;
+  const events = fetchEvents({}, mockNow);
 
-  const high = fetchEvents({ impact: 'HIGH' });
-  assert.strictEqual(high.length, 1, 'Should filter by HIGH impact');
-  assert.strictEqual(high[0].title, 'Solar Flare', 'Correct event returned');
+  assert.strictEqual(events.length, 2, 'fetchEvents: should return 2 events');
+  assert.strictEqual(events[0].timestamp, mockNow, 'fetchEvents: first event timestamp should match injected "now"');
+  assert.strictEqual(events[1].timestamp, mockNow, 'fetchEvents: second event timestamp should match injected "now"');
+
+  const filtered = fetchEvents({ impact: 'HIGH' }, mockNow);
+  assert.strictEqual(filtered.length, 1, 'fetchEvents: should filter by impact');
+  assert.strictEqual(filtered[0].title, 'Solar Flare', 'fetchEvents: filtered item should be Solar Flare');
 
   console.log('PASS - events-service.test.js');
-} catch (e) {
-  console.error('events-service.test.js failed:', e.message);
+} catch (err) {
+  console.error('FAIL - events-service.test.js:', err.message);
   process.exit(1);
 }

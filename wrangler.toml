@@ -4,7 +4,7 @@
 # Docs:   https://developers.cloudflare.com/workers/wrangler/configuration/
 
 name = "aetheris"
-main = "functions/worker.js"
+main = "functions/worker.mjs"
 compatibility_date = "2024-09-23"
 
 # ── Cron Triggers (Sniffer Agent) ─────────────────────────────────────────

@@ -12,7 +12,7 @@ Users do not scroll; they **traverse** a 3D-mapped timeline.
 | `lib/schema/*.js` | [BUILT] | 11 JSON Schema draft 7 schemas |
 | `lib/data/*.js` | [BUILT] | Pipeline modules, pure API clients |
 | `lib/timeline/*.js` | [BUILT] | Temporal intelligence core |
-| `functions/worker.js` | [BUILT] | CF Worker edge handler |
+| `functions/worker.mjs` | [BUILT] | CF Worker edge handler |
 | `src/` (Frontend) | [GAP] | Blocked by Phase 4 UI bootstrap |
 | `tests/*.test.js` | [BUILT] | 1:1 Coverage with strict mirroring |
 | `package.json` | [BUILT] | Test script mapped to node runtime |

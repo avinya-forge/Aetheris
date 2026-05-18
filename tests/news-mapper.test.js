@@ -5,8 +5,8 @@ try {
   const rawArt = { url: "http://example.com", title: "Test Article", seendate: "20240101", socialimage: "http://img.com" };
   const mappedArt = mapGdeltArticle(rawArt);
   assert.strictEqual(mappedArt.text, "Test Article", "news-mapper.test.js strictEqual failed");
-  assert.strictEqual(mappedArt.impactScore, 10, 'news-mapper.test.js: expected values to be strictly equal');
-  assert.strictEqual(mappedArt.source, 'gdelt', 'news-mapper.test.js: expected values to be strictly equal');
+  assert.strictEqual(mappedArt.impactScore, 10, 'news-mapper.test.js: value mismatch');
+  assert.strictEqual(mappedArt.source, 'gdelt', 'news-mapper.test.js: value mismatch');
 
 } catch (err) {
   console.error('FAIL - news-mapper.test.js:', err);

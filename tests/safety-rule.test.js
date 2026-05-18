@@ -2,8 +2,8 @@ const assert = require('assert');
 const { safetyRuleSchema } = require('../lib/schema/safety-rule.js');
 
 try {
-  assert.strictEqual(typeof safetyRuleSchema, 'object', 'safety-rule.test.js: expected values to be strictly equal');
-  assert.strictEqual(safetyRuleSchema.type, 'object', 'safety-rule.test.js: expected values to be strictly equal');
+  assert.strictEqual(typeof safetyRuleSchema, 'object', 'safety-rule.test.js: value mismatch');
+  assert.strictEqual(safetyRuleSchema.type, 'object', 'safety-rule.test.js: value mismatch');
 } catch (err) {
   console.error('FAIL - safety-rule.test.js:', err.message);
   process.exit(1);

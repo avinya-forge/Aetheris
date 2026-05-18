@@ -9,11 +9,11 @@ try {
   ];
 
   const topTrend = analyzeTrends(clusters);
-  assert.ok(topTrend, 'Value must be present');
-  assert.strictEqual(topTrend.theme, 'B', 'trend-analyzer.test.js: expected values to be strictly equal');
+  assert.ok(topTrend, 'trend-analyzer.test.js: missing value');
+  assert.strictEqual(topTrend.theme, 'B', 'trend-analyzer.test.js: value mismatch');
 
   const emptyResult = analyzeTrends([]);
-  assert.strictEqual(emptyResult, null, 'trend-analyzer.test.js: expected values to be strictly equal');
+  assert.strictEqual(emptyResult, null, 'trend-analyzer.test.js: value mismatch');
 
 } catch (error) {
   console.error('trend analyzer test failed:', error.message);

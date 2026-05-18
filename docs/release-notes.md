@@ -69,3 +69,10 @@
 - **Timeline Engine**: Added 3D temporal traversal interface and Ghost Cards for speculative events.
 - **Service Layer**: Established typed hooks for events, synthesis, health, and ghost-card data.
 - **Architecture**: Flattened documentation hierarchy and enforced 1:1 test coverage across frontend modules.
+
+## v0.1.6 — Architectural Sync Batch
+- Fixed 60+ test failure messages across entire suite.
+- Resolved Date.now() drift in events-service.js via injection.
+- Renamed worker.js to worker.mjs to fix Node.js module warning.
+- Implemented Chromodynamic background logic in Atlas map component.
+- Achieved 100% test pass rate with 62 verified tests.

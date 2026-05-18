@@ -12,13 +12,13 @@ const forecasts = [
 
 const result = generateGhostCards(forecasts);
 
-assert.strictEqual(Array.isArray(result), true, 'probability-cones.test.js: expected values to be strictly equal');
-assert.strictEqual(result.length, 2, 'probability-cones.test.js: expected values to be strictly equal');
+assert.strictEqual(Array.isArray(result), true, 'probability-cones.test.js: value mismatch');
+assert.strictEqual(result.length, 2, 'probability-cones.test.js: value mismatch');
 
 const firstCard = result[0];
-assert.strictEqual(firstCard.likelihood >= 0 && firstCard.likelihood <= 100, true, 'probability-cones.test.js: expected values to be strictly equal');
-assert.strictEqual(firstCard.speculative, false, 'probability-cones.test.js: expected values to be strictly equal');
-assert.strictEqual(firstCard.eventDetails.eventType, 'Heatwave', 'probability-cones.test.js: expected values to be strictly equal');
-assert.strictEqual(firstCard.eventDetails.location, 'Paris', 'probability-cones.test.js: expected values to be strictly equal');
+assert.strictEqual(firstCard.likelihood >= 0 && firstCard.likelihood <= 100, true, 'probability-cones.test.js: value mismatch');
+assert.strictEqual(firstCard.speculative, false, 'probability-cones.test.js: value mismatch');
+assert.strictEqual(firstCard.eventDetails.eventType, 'Heatwave', 'probability-cones.test.js: value mismatch');
+assert.strictEqual(firstCard.eventDetails.location, 'Paris', 'probability-cones.test.js: value mismatch');
 
 console.log('PASS - probability-cones.test.js');

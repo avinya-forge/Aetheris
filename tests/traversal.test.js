@@ -4,7 +4,7 @@ const { traverse } = require('../lib/timeline/traversal.js');
 try {
   const initialState = { currentFocus: 'present', events: [], horizon: null };
   const pastState = traverse(initialState, 'past');
-  assert.strictEqual(pastState.currentFocus, 'past', 'traversal.test.js: expected values to be strictly equal');
+  assert.strictEqual(pastState.currentFocus, 'past', 'traversal.test.js: value mismatch');
   assert.deepStrictEqual(pastState.events, initialState.events, "Assert failed in deepStrictEqual");
   assert.strictEqual(pastState.horizon, initialState.horizon, "traversal.test.js strictEqual failed");
 

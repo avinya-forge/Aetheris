@@ -15,17 +15,17 @@ const requiredDocs = [
 ];
 
 const mockState = parseDocsState(testDir, requiredDocs);
-assert.strictEqual(mockState[0].exists, false, 'generator.test.js: expected values to be strictly equal');
-assert.strictEqual(mockState[1].exists, false, 'generator.test.js: expected values to be strictly equal');
+assert.strictEqual(mockState[0].exists, false, 'generator.test.js: value mismatch');
+assert.strictEqual(mockState[1].exists, false, 'generator.test.js: value mismatch');
 
 populateMissingDocs(testDir, mockState);
 
 const newState = parseDocsState(testDir, requiredDocs);
-assert.strictEqual(newState[0].exists, true, 'generator.test.js: expected values to be strictly equal');
-assert.strictEqual(newState[1].exists, true, 'generator.test.js: expected values to be strictly equal');
+assert.strictEqual(newState[0].exists, true, 'generator.test.js: value mismatch');
+assert.strictEqual(newState[1].exists, true, 'generator.test.js: value mismatch');
 
 const backlogContent = fs.readFileSync(path.join(testDir, 'docs/planning/test_backlog.md'), 'utf8');
-assert.strictEqual(backlogContent.trim(), '# test_backlog.md', 'generator.test.js: expected values to be strictly equal');
+assert.strictEqual(backlogContent.trim(), '# test_backlog.md', 'generator.test.js: value mismatch');
 
 // cleanup
 fs.rmSync(testDir, { recursive: true, force: true });

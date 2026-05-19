@@ -6,7 +6,7 @@ yarn-error.log*
 .npm
 .pnp
 .pnp.js
-package-lock.json
+
 
 # ── Build output ───────────────────────────────────────────────
 dist/
@@ -64,3 +64,4 @@ Thumbs.db
 *.tmp
 *.bak
 *.orig
+test-results/

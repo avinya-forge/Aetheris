@@ -1,5 +1,12 @@
 # Release Notes
 
+## v0.1.8 — E2E Verification & Architecture Flattening
+- [x] TASK: fix-flattened-doc-paths | Target: scripts/ tests/ .github/ | I/O: nested -> flat | Assert: npm test passes | LOC: ~50
+- [x] TASK: add-e2e-playwright-tests | Target: tests/e2e.spec.js | I/O: url -> status | Assert: map container renders | LOC: ~50
+- [x] TASK: implement-github-actions-playwright | Target: .github/workflows/ci.yml | I/O: push -> run e2e | Assert: e2e job runs | LOC: ~20
+- [x] TASK: update-readme-pulse-table | Target: lib/docs/generator.js | I/O: readme -> updated | Assert: table reflects reality | LOC: ~30
+
+
 ## v0.1.7 — Arch Sync Batch
 - Fixed rendering bug in main.jsx to properly display the Atlas map.
 - Configured Cloudflare Pages automated deployment via GitHub Actions.

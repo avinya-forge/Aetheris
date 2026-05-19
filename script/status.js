@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const backlogPath = path.join(__dirname, '..', 'docs', 'planning', 'backlog.md');
+const backlogPath = path.join(__dirname, '..', 'docs', 'backlog.md');
 
 if (!fs.existsSync(backlogPath)) {
-  console.log('Error: docs/planning/backlog.md not found.');
+  console.log('Error: docs/backlog.md not found.');
   process.exit(1);
 }
 

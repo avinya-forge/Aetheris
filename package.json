@@ -1,13 +1,14 @@
 {
   "name": "aetheris",
-  "version": "0.1.7",
-  "description": "Temporal Intelligence & Environmental Sentinel — zero-cost PWA on Cloudflare edge",
+  "version": "0.1.8",
+  "description": "Temporal Intelligence & Environmental Sentinel \u2014 zero-cost PWA on Cloudflare edge",
   "private": true,
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "test": "node script/test.js",
+    "test:e2e": "playwright test",
     "status": "node script/status.js",
     "start": "vite",
     "dev": "vite",

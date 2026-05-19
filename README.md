@@ -6,7 +6,7 @@
 ## Pulse Table
 | Milestone | Ver | Phase | Status | Debt% |
 | :--- | :--- | :--- | :--- | :--- |
-| Alpha Launch | 0.1.4 | 1-Strategy | Active Focus | 33% |
+| Alpha Launch | 0.1.8 | 4-Frontend | In Progress | 10% |
 
 ## Project Documentation (SSOT)
 - [Backlog](backlog.md)

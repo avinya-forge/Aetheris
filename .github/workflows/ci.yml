@@ -39,6 +39,28 @@ jobs:
             exit 1
           fi
 
+  e2e-test:
+    name: E2E Test (Playwright)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
   lint-structure:
     name: Repo Structure Lint
     runs-on: ubuntu-latest
@@ -50,9 +72,9 @@ jobs:
       - name: Verify required files exist
         run: |
           for f in CLAUDE.md JULES.md README.md wrangler.toml package.json \
-                   docs/planning/backlog.md docs/planning/roadmap.md \
-                   docs/architecture/system_design.md docs/rules/standards.md \
-                   functions/worker.js functions/ingest-cycle.js; do
+                   docs/backlog.md docs/roadmap.md \
+                   docs/system_design.md docs/standards.md \
+                   functions/worker.mjs functions/ingest-cycle.js; do
             if [ ! -f "$f" ]; then
               echo "MISSING: $f"
               exit 1

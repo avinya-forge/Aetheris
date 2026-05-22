@@ -85,7 +85,7 @@ jobs:
       - name: Check no secrets in source
         run: |
           # Fail if any file in lib/ or functions/ contains a hardcoded API key pattern
-          if grep -r "AIza\|sk-\|ghp_\|ghs_" lib/ functions/ --include="*.js" -l 2>/dev/null; then
+          if grep -r "AIza\|sk-\|ghp_\|ghs_" lib/ functions/ --include="*.ts" --include="*.js" -l 2>/dev/null; then
             echo "ERROR: Possible hardcoded secret found in source"
             exit 1
           fi
@@ -94,10 +94,10 @@ jobs:
       - name: Verify 1:1 test coverage (every lib/ file has a test)
         run: |
           MISSING=0
-          for f in lib/**/*.js; do
-            base=$(basename "$f" .js)
-            if [ ! -f "tests/${base}.test.js" ]; then
-              echo "MISSING TEST: tests/${base}.test.js (for $f)"
+          for f in lib/**/*.ts; do
+            base=$(basename "$f" .ts)
+            if [ ! -f "tests/${base}.test.ts" ]; then
+              echo "MISSING TEST: tests/${base}.test.ts (for $f)"
               MISSING=$((MISSING + 1))
             fi
           done

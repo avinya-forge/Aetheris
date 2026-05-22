@@ -48,7 +48,7 @@
 - [x] TASK: execute-visual-audit | Target: backlog.md | I/O: void -> TaskList | Assert: all bugs cataloged | LOC: ~0
 - [x] TASK: fix-visual-bug-1 | Target: src/ | I/O: Bug -> Fix | Assert: map renders | LOC: ~10
 - [x] TASK: fix-cataloged-bugs | Target: src/ | I/O: BugList -> CleanCode | Assert: 0 known visual bugs | LOC: ~100
-- [x] TASK: fix-main-jsx-render-bug | Target: src/main.jsx | I/O: Bug -> CleanCode | Assert: Atlas map renders | LOC: ~10
+- [x] TASK: fix-main-jsx-render-bug | Target: src/main.tsx | I/O: Bug -> CleanCode | Assert: Atlas map renders | LOC: ~10
 
 ---
 
@@ -74,9 +74,13 @@
 - [x] TASK: implement-staleness-detector | Target: lib/data/staleness-detector.js | I/O: Event -> Boolean | Assert: 0 err, detects >6h gap | LOC: ~30
 - [x] TASK: improve-fingerprint-normalization | Target: lib/data/event-fingerprint.js | I/O: Event -> NormalizedFP | Assert: >90% content-dedup accuracy | LOC: ~20
 - [x] TASK: implement-real-clustering | Target: lib/data/cluster-identifier.js | I/O: Events -> SemanticClusters | Assert: groups related events beyond topic | LOC: ~60
-- [ ] TASK: migrate-to-typescript | Target: lib/ | I/O: JS -> TS | Assert: 0 type errors | LOC: ~1000
+- [x] TASK: migrate-to-typescript | Target: lib/ | I/O: JS -> TS | Assert: 0 type errors | LOC: ~1000
 
 ## Architectural Audit Gaps (AUTO-GENERATED)
 - [x] TASK: fix-test-failure-messages | Target: tests/ | I/O: scan -> fix | Assert: all assert calls have 3+ arguments | LOC: ~200
 - [x] TASK: fix-datenow-injection-drift | Target: src/lib/services/events-service.js | I/O: Date.now() -> injected | Assert: deterministic | LOC: ~20
 - [x] TASK: resolve-module-type-warning | Target: functions/worker.js | I/O: js -> mjs | Assert: zero warnings | LOC: ~10
+- [ ] TASK: fix-atlas-component-extension | Target: src/components/map/atlas.tsx | I/O: jsx -> tsx | Assert: adheres to tsx naming convention | LOC: ~5
+- [ ] TASK: verify-service-worker-caching | Target: script/sw.js | I/O: script -> test | Assert: caches all assets effectively | LOC: ~20
+- [ ] TASK: refine-responsive-design | Target: src/components/map/atlas.tsx | I/O: UI -> responsive | Assert: works on mobile | LOC: ~30
+- [ ] TASK: implement-accessibility-labels | Target: src/components/ | I/O: UI -> a11y | Assert: passes lighthouse a11y | LOC: ~20

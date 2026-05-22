@@ -6,20 +6,20 @@
 //
 // Injectable clients + KV mock for testing — no real network calls in tests.
 
-const { rankSources } = require('../lib/data/source-ranker.js');
-const { isNewEvent, markEventSeen } = require('../lib/data/event-fingerprint.js');
-const { deduplicateWires } = require('../lib/data/wire-deduplicator.js');
-const { identifyClusters } = require('../lib/data/cluster-identifier.js');
-const { filterByImpact } = require('../lib/data/impact-filter.js');
-const { synthesizeSources } = require('../lib/data/extractive-synthesis.js');
-const { injectSafetyWarning } = require('../lib/data/safety-sentinel.js');
-const { generateGhostCards } = require('../lib/timeline/probability-cones.js');
-const { mapKpIndex, mapSolarWind, mapDonkiEvent } = require('../lib/data/space-weather-mapper.js');
-const { mapGdeltArticle } = require('../lib/data/news-mapper.js');
-const { mapWeatherEvent } = require('../lib/data/weather-mapper.js');
-const { callGemini } = require('../lib/ai/gemini-client.js');
-const { mapGeminiResponse } = require('../lib/ai/gemini-mapper.js');
-const { DEFAULT_LOCATIONS } = require('../lib/data/open-meteo-client.js');
+const { rankSources } = require('../lib/data/source-ranker');
+const { isNewEvent, markEventSeen } = require('../lib/data/event-fingerprint');
+const { deduplicateWires } = require('../lib/data/wire-deduplicator');
+const { identifyClusters } = require('../lib/data/cluster-identifier');
+const { filterByImpact } = require('../lib/data/impact-filter');
+const { synthesizeSources } = require('../lib/data/extractive-synthesis');
+const { injectSafetyWarning } = require('../lib/data/safety-sentinel');
+const { generateGhostCards } = require('../lib/timeline/probability-cones');
+const { mapKpIndex, mapSolarWind, mapDonkiEvent } = require('../lib/data/space-weather-mapper');
+const { mapGdeltArticle } = require('../lib/data/news-mapper');
+const { mapWeatherEvent } = require('../lib/data/weather-mapper');
+const { callGemini } = require('../lib/ai/gemini-client');
+const { mapGeminiResponse } = require('../lib/ai/gemini-mapper');
+const { DEFAULT_LOCATIONS } = require('../lib/data/open-meteo-client');
 
 // KV keys
 const KV_EVENTS_LATEST = 'events:latest';
@@ -34,10 +34,10 @@ const ALL_SOURCES = ['noaa-swpc', 'gdelt', 'nasa-donki', 'open-meteo'];
  * Tests inject mocks via the `clients` param of runIngestCycle().
  */
 function defaultClients(env, now) {
-  const { fetchNoaaSwpc } = require('../lib/data/noaa-swpc-client.js');
-  const { fetchGdelt } = require('../lib/data/gdelt-client.js');
-  const { fetchOpenMeteo } = require('../lib/data/open-meteo-client.js');
-  const { fetchNasaDonki } = require('../lib/data/nasa-donki-client.js');
+  const { fetchNoaaSwpc } = require('../lib/data/noaa-swpc-client');
+  const { fetchGdelt } = require('../lib/data/gdelt-client');
+  const { fetchOpenMeteo } = require('../lib/data/open-meteo-client');
+  const { fetchNasaDonki } = require('../lib/data/nasa-donki-client');
 
   return {
     'noaa-swpc':  () => fetchNoaaSwpc(),

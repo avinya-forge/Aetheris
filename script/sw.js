@@ -1,5 +1,5 @@
 const CACHE_NAME = 'aetheris-v1';
-const URLS_TO_CACHE = ['/'];
+const URLS_TO_CACHE = ['/', '/index.html', '/src/assets/glyphs/index.svg'];
 
 function handleInstall(event, cachesObj = caches) {
   event.waitUntil(

@@ -59,9 +59,9 @@ start() {
 # Unit Coverage
 test() {
   log "1-Strategy" "S3" "running tests"
-  for f in tests/*.test.js; do
+  for f in tests/*.test.ts tests/*.test.tsx; do
     if [ -f "$f" ]; then
-      node "$f"
+      npx tsx "$f"
     fi
   done
   log "1-Strategy" "S3" "tests passed"

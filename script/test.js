@@ -3,14 +3,14 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const testsDir = path.join(__dirname, '..', 'tests');
-const files = fs.readdirSync(testsDir).filter(f => f.endsWith('.test.js') || f.endsWith('.test.jsx'));
+const files = fs.readdirSync(testsDir).filter(f => f.endsWith('.test.ts') || f.endsWith('.test.tsx'));
 
 console.log(`Running ${files.length} tests...`);
 let passed = 0;
 let failed = 0;
 
 files.forEach(file => {
-  const result = spawnSync('node', [path.join(testsDir, file)], { stdio: 'inherit' });
+  const result = spawnSync('npx', ['tsx', path.join(testsDir, file)], { stdio: 'inherit' });
   if (result.status === 0) {
     passed++;
   } else {

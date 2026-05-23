@@ -1,26 +1,29 @@
 {
   "name": "aetheris",
   "version": "0.1.8",
-  "description": "Temporal Intelligence & Environmental Sentinel \u2014 zero-cost PWA on Cloudflare edge",
+  "description": "Temporal Intelligence & Environmental Sentinel — zero-cost PWA on Cloudflare edge",
   "private": true,
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "test": "node script/test.js",
+    "test": "npx tsx script/test.js",
     "test:e2e": "playwright test",
-    "status": "node script/status.js",
+    "status": "npx tsx script/status.js",
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "worker:dev": "npx wrangler dev --local",
     "worker:deploy": "npx wrangler deploy",
-    "ingest": "node script/ingest.js"
+    "ingest": "npx tsx script/ingest.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.1",
     "@vitejs/plugin-react": "^6.0.1",
     "playwright": "^1.60.0",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3",
     "vite": "^8.0.8",
     "wrangler": "^3.83.0"
   },

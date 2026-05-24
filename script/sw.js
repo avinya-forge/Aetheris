@@ -28,7 +28,7 @@ if (typeof self !== 'undefined') {
   self.addEventListener('fetch', (event) => handleFetch(event));
 }
 
-// Export for Node.js testing environment
+// Export for Node.js testing environment.
 if (typeof module !== 'undefined') {
   module.exports = {
     handleInstall,

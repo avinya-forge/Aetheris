@@ -80,7 +80,3 @@
 - [x] TASK: fix-test-failure-messages | Target: tests/ | I/O: scan -> fix | Assert: all assert calls have 3+ arguments | LOC: ~200
 - [x] TASK: fix-datenow-injection-drift | Target: src/lib/services/events-service.js | I/O: Date.now() -> injected | Assert: deterministic | LOC: ~20
 - [x] TASK: resolve-module-type-warning | Target: functions/worker.js | I/O: js -> mjs | Assert: zero warnings | LOC: ~10
-- [ ] TASK: fix-atlas-component-extension | Target: src/components/map/atlas.tsx | I/O: jsx -> tsx | Assert: adheres to tsx naming convention | LOC: ~5
-- [ ] TASK: verify-service-worker-caching | Target: script/sw.js | I/O: script -> test | Assert: caches all assets effectively | LOC: ~20
-- [ ] TASK: refine-responsive-design | Target: src/components/map/atlas.tsx | I/O: UI -> responsive | Assert: works on mobile | LOC: ~30
-- [ ] TASK: implement-accessibility-labels | Target: src/components/ | I/O: UI -> a11y | Assert: passes lighthouse a11y | LOC: ~20

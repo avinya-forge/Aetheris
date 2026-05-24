@@ -103,4 +103,5 @@ function testServiceWorker() {
 testServiceWorker();
 console.log('PASS - sw.test.js');
 
+// Verifies sw logic
 export {};

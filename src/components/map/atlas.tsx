@@ -7,6 +7,15 @@ import React, { useEffect, useRef } from 'react';
  */
 const Atlas = ({ zoom = 2, center = [0, 0], kpIndex = 0 }) => {
   const mapContainer = useRef(null);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  // Responsive logic
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Chromodynamic atmosphere logic
   const getAtmosphereColor = (kp) => {
@@ -22,6 +31,7 @@ const Atlas = ({ zoom = 2, center = [0, 0], kpIndex = 0 }) => {
 
   return (
     <div aria-label="Atlas Map"
+      id="atlas-map-container"
       ref={mapContainer}
       style={{
         width: '100%',
@@ -31,7 +41,11 @@ const Atlas = ({ zoom = 2, center = [0, 0], kpIndex = 0 }) => {
       }}
       data-testid="atlas-container"
     >
-      <div style={{ color: 'white', padding: '20px' }}>
+      <div style={{
+        color: 'white',
+        padding: isMobile ? '10px' : '20px',
+        fontSize: isMobile ? '14px' : '16px'
+      }}>
         Atlas Vector Engine Active (Kp: {kpIndex})
       </div>
     </div>

@@ -20,3 +20,4 @@
 - **Flat Documentation Supremacy**: Moving all `docs/` subdirectories to the root proved effective for simplifying the SSOT hierarchy. Future documentation must remain at the root of `docs/`.
 - **1:1 Test Mirroring**: Enforcing a strict 1:1 test rule for frontend components and services ensures high aggregate coverage and makes the codebase more predictable.
 - **Vite Sandbox Integration**: When testing React components in a Node-based runner, smoke tests that verify export types are preferred over full JSDOM rendering to avoid environment pollution.
+- **UI Accessibility and Responsiveness**: Successfully implemented ARIA roles and responsive layout scaling across map components in Phase 4 batch sync.

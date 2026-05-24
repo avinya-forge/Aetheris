@@ -1,5 +1,11 @@
 # Release Notes
 
+## v0.1.9 — UI Accessibility and Responsiveness
+- [x] TASK: fix-atlas-component-extension | Target: src/components/map/atlas.tsx | I/O: jsx -> tsx | Assert: adheres to tsx naming convention | LOC: ~5
+- [x] TASK: verify-service-worker-caching | Target: script/sw.js | I/O: script -> test | Assert: caches all assets effectively | LOC: ~20
+- [x] TASK: refine-responsive-design | Target: src/components/map/atlas.tsx | I/O: UI -> responsive | Assert: works on mobile | LOC: ~30
+- [x] TASK: implement-accessibility-labels | Target: src/components/ | I/O: UI -> a11y | Assert: passes lighthouse a11y | LOC: ~20
+
 ## v0.1.8 — E2E Verification & Architecture Flattening
 - [x] TASK: fix-flattened-doc-paths | Target: scripts/ tests/ .github/ | I/O: nested -> flat | Assert: npm test passes | LOC: ~50
 - [x] TASK: add-e2e-playwright-tests | Target: tests/e2e.spec.js | I/O: url -> status | Assert: map container renders | LOC: ~50

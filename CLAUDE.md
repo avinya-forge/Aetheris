@@ -101,7 +101,7 @@ tests/                         # 1:1 test coverage with strict mirroring
 | `functions/worker.mjs` | [BUILT] | CF Worker entry point |
 | `src/` (Frontend) | [BUILT] | Phase 4 UI foundation established |
 | `tests/*.test.js` | [BUILT] | 1:1 Coverage with strict mirroring |
-| `package.json` | [BUILT] | Version v0.1.5 |
+| `package.json` | [BUILT] | Version v0.1.9 |
 
 ## Key Invariants
 - No speculative predictions without `patternMatchId` (`isSpeculative: false` required).

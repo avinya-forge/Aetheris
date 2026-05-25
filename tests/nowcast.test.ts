@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { nowcastSchema } = require('../lib/schema/nowcast');
+import assert from 'assert';
+import { nowcastSchema } from '../lib/nowcast';
 
 try {
   assert.strictEqual(typeof nowcastSchema, 'object', 'nowcast.test.js: value mismatch');

@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { filterByImpact } = require('../lib/data/impact-filter');
+import assert from 'assert';
+import { filterByImpact } from '../lib/impact-filter';
 
 const newsData = [
   { id: 1, impactScore: 8, county: 'King', category: 'technology' },

@@ -1,11 +1,11 @@
-const assert = require('assert');
+import assert from 'assert';
 const {
   windowKey,
   checkAndIncrementRate,
   createRateLimitedSynthesizer,
   MAX_REQUESTS_PER_MINUTE,
   KV_RATE_PREFIX,
-} = require('../lib/ai/rate-limit-queue');
+} = require('../lib/rate-limit-queue');
 
 (async () => {
   try {
@@ -21,7 +21,7 @@ const {
     assert.notStrictEqual(k1, k3, 'different minute must produce different window key');
 
     // windowKey: uses KV_RATE_PREFIX
-    assert.ok(k1.startsWith(KV_RATE_PREFIX), 'window key must start with KV_RATE_PREFIX');
+    assert.ok(k1.startsWith(KV_RATE_PREFIX, 'rate-limit-queue.test.ts: ok failure'), 'window key must start with KV_RATE_PREFIX');
 
     // checkAndIncrementRate: allow up to MAX_REQUESTS_PER_MINUTE
     const store = {};

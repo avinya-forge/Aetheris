@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { isStale, interpolateNowcast, STALE_THRESHOLD_MS } = require('../lib/data/nowcast-interpolator');
+import assert from 'assert';
+import { isStale, interpolateNowcast, STALE_THRESHOLD_MS } from '../lib/nowcast-interpolator';
 
 (async () => {
   try {
@@ -23,7 +23,7 @@ const { isStale, interpolateNowcast, STALE_THRESHOLD_MS } = require('../lib/data
 
     // isStale: no timestamp → false (cannot determine)
     assert.strictEqual(isStale({}, NOW), false, 'event with no timestamp must return false');
-    assert.strictEqual(isStale(null, NOW), false, 'null event must return false');
+    assert.strictEqual(isStale(null as any, NOW), false, 'null event must return false');
 
     // interpolateNowcast: null event → null
     const nullResult = await interpolateNowcast(null, null, NOW);
@@ -42,7 +42,7 @@ const { isStale, interpolateNowcast, STALE_THRESHOLD_MS } = require('../lib/data
 
     // interpolateNowcast: synthesizer called and result used
     let synthInput = '';
-    const mockSynth = async (text) => { synthInput = text; return 'AI brief here'; };
+    const mockSynth = async (text: string) => { synthInput = text; return 'AI brief here'; };
     const aiInterpolated = await interpolateNowcast(event, mockSynth, NOW);
     assert.strictEqual(aiInterpolated.content, 'AI brief here', 'synthesizer output must be used when non-null');
     assert.strictEqual(synthInput, 'test content text', 'synthesizer must receive event content');
@@ -67,7 +67,7 @@ const { isStale, interpolateNowcast, STALE_THRESHOLD_MS } = require('../lib/data
     const longResult = await interpolateNowcast(longEvent, null, NOW);
     const wordCount = longResult.content.replace(/\.\.\.$/, '').trim().split(/\s+/).length;
     assert.strictEqual(wordCount, 30, 'long content must be truncated to 30 words');
-    assert.ok(longResult.content.endsWith('...'), 'truncated content must end with ...');
+    assert.ok(longResult.content.endsWith('...'), 'nowcast-interpolator.test.ts: long content should be capped');
 
     // interpolateNowcast: spreads all original fields
     const richEvent = { id: 'evt-1', source: 'noaa', content: 'brief text', impactScore: 80 };
@@ -76,11 +76,11 @@ const { isStale, interpolateNowcast, STALE_THRESHOLD_MS } = require('../lib/data
     assert.strictEqual(richResult.source, 'noaa', 'source field must be preserved');
     assert.strictEqual(richResult.impactScore, 80, 'impactScore must be preserved');
 
+    console.log('PASS - nowcast-interpolator.test.js');
   } catch (err) {
     console.error('FAIL - nowcast-interpolator.test.js:', err.message);
     process.exit(1);
   }
 })();
-console.log('PASS - nowcast-interpolator.test.js');
 
 export {};

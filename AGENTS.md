@@ -2,8 +2,8 @@
 
 ## Coding Standards
 - **Named Exports**: Always use named exports for library files (`lib/`).
-- **I/O Purity**: API clients in `lib/data/` must return raw JSON. Mappers handle transformation.
-- **Strict 1:1 Testing**: Every file in `lib/`, `functions/`, `script/`, or `src/lib/` must have a corresponding `.test.js` or `.test.jsx` in `tests/`.
+- **I/O Purity**: API clients in `lib/` must return raw JSON. Mappers handle transformation.
+- **Strict 1:1 Testing**: Every file in `lib/`, `functions/`, `script/`, or `src/lib/` must have a corresponding `.test.ts` or `.test.tsx` in `tests/`.
 - **Failure Messaging**: All `assert` calls must include a failure message as the final argument.
 - **Determinism**: Avoid `Date.now()` without injection.
 

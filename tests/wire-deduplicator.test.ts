@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { deduplicateWires } = require('../lib/data/wire-deduplicator');
+import assert from 'assert';
+import { deduplicateWires } from '../lib/wire-deduplicator';
 
 try {
   const wires = [
@@ -10,7 +10,7 @@ try {
 
   const deduped = deduplicateWires(wires);
 
-  assert.strictEqual(Array.isArray(deduped), true, 'should return an array');
+  assert.strictEqual(Array.isArray(deduped, 'wire-deduplicator.test.ts: strictEqual failure'), true, 'should return an array');
   assert.strictEqual(deduped.length, 2, 'should deduplicate wires based on hash to 2 items');
   assert.strictEqual(deduped[0].id, 1, 'should keep the first wire encountered for a hash');
 

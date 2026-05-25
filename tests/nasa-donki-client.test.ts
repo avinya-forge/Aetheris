@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { fetchEventType, fetchNasaDonki, buildUrl, EVENT_TYPES } = require('../lib/data/nasa-donki-client');
+import assert from 'assert';
+import { fetchEventType, fetchNasaDonki, buildUrl, EVENT_TYPES } from '../lib/nasa-donki-client';
 
 function makeFetcher(body, status = 200) {
   return async () => ({ ok: status >= 200 && status < 300, status, json: async () => body });
@@ -12,9 +12,9 @@ function makeFetcher(body, status = 200) {
 
     // --- buildUrl ---
     const url = buildUrl('CME', apiKey, date);
-    assert.ok(url.includes('api.nasa.gov'), 'must point to nasa.gov');
-    assert.ok(url.includes('api_key=TEST_KEY'), 'API key must be in URL');
-    assert.ok(url.includes('startDate=2026-04-10'), 'startDate must be in URL');
+    assert.ok(url.includes('api.nasa.gov', 'nasa-donki-client.test.ts: ok failure'), 'must point to nasa.gov');
+    assert.ok(url.includes('api_key=TEST_KEY', 'nasa-donki-client.test.ts: ok failure'), 'API key must be in URL');
+    assert.ok(url.includes('startDate=2026-04-10', 'nasa-donki-client.test.ts: ok failure'), 'startDate must be in URL');
 
     // --- fetchEventType ---
     const rawEvents = [{ activityID: 'cme-1', startTime: '2026-04-10T05:00Z', note: 'test' }];

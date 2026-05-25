@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { getSystemHealth } = require('../src/lib/services/health-service');
+import assert from 'assert';
+import { getSystemHealth } from '../src/lib/health-service';
 
 try {
   const health = getSystemHealth();

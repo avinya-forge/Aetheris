@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { ghostCardSchema } = require('../lib/schema/ghost-card');
+import assert from 'assert';
+import { ghostCardSchema } from '../lib/ghost-card';
 
 try {
   assert.strictEqual(typeof ghostCardSchema, 'object', 'ghost-card.test.js: value mismatch');

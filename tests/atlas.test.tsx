@@ -5,7 +5,9 @@ import { Atlas } from '../src/components/map/atlas';
 
 try {
   const html = renderToStaticMarkup(<Atlas kpIndex={5} />);
-  assert.ok(html.includes('Atlas Vector Engine Active'), 'Atlas should render text correctly');
+  assert.ok(html.includes('Aetheris Atlas'), 'Atlas should render title correctly');
+  assert.ok(html.includes('Kp Index:'), 'Atlas should render Kp label correctly');
+  assert.ok(html.includes('5'), 'Atlas should render Kp value correctly');
   console.log('PASS - atlas.test.tsx');
 } catch (e: any) {
   console.error('atlas.test.tsx failed:', e.message);

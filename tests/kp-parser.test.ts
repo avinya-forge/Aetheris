@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { parseKpIndex } = require('../lib/data/kp-parser');
+import assert from 'assert';
+import { parseKpIndex } from '../lib/kp-parser';
 
 try {
   const normalResult = parseKpIndex({ kp_index: 3 });

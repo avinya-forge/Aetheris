@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { callGemini, GEMINI_API_URL } = require('../lib/ai/gemini-client');
+import assert from 'assert';
+import { callGemini, GEMINI_API_URL } from '../lib/gemini-client';
 
 function makeFetcher(body, status = 200) {
   return async () => ({ ok: status >= 200 && status < 300, status, json: async () => body });
@@ -29,7 +29,7 @@ function makeFetcher(body, status = 200) {
     const errorRes = await callGemini('test', 'key', makeFetcher({}, 500));
     assert.strictEqual(errorRes, null, 'callGemini: HTTP 500 should return null');
 
-    assert.ok(GEMINI_API_URL.includes('googleapis.com'), 'GEMINI_API_URL: must point to googleapis.com');
+    assert.ok(GEMINI_API_URL.includes('googleapis.com', 'gemini-client.test.ts: ok failure'), 'GEMINI_API_URL: must point to googleapis.com');
 
   } catch (err) {
     console.error('FAIL - gemini-client.test.js:', err.message);

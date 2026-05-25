@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { scoreSource, rankSources, SOURCE_BASE_INTERVALS_MS } = require('../lib/data/source-ranker');
+import assert from 'assert';
+import { scoreSource, rankSources, SOURCE_BASE_INTERVALS_MS } from '../lib/source-ranker';
 
 try {
   const NOW = 1_000_000_000_000;
@@ -44,7 +44,7 @@ try {
   assert.strictEqual(ranked[1].id, 'gdelt', 'gdelt second (1.11× overdue)');
 
   // Empty list → empty result
-  assert.deepStrictEqual(rankSources([], NOW), [], 'empty meta → empty rank');
+  assert.deepStrictEqual(rankSources([], NOW, 'source-ranker.test.ts: deepStrictEqual failure'), [], 'empty meta → empty rank');
 
 } catch (err) {
   console.error('FAIL - source-ranker.test.js:', err.message);

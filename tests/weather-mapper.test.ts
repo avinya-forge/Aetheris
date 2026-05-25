@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { mapWeatherEvent } = require('../lib/data/weather-mapper');
+import assert from 'assert';
+import { mapWeatherEvent } from '../lib/weather-mapper';
 
 (async () => {
   try {
@@ -21,7 +21,7 @@ const { mapWeatherEvent } = require('../lib/data/weather-mapper');
     assert.strictEqual(normal.locationId, 'london', 'locationId must match');
     assert.strictEqual(normal.temperature, 22, 'temperature parsed correctly');
     assert.strictEqual(normal.impactScore, 5, 'normal conditions → impactScore 5');
-    assert.ok(normal.id.includes('london'), 'id must include locationId');
+    assert.ok(normal.id.includes('london', 'weather-mapper.test.ts: ok failure'), 'id must include locationId');
 
     // Heatwave (temp >= 40) → elevated impact
     const heatwave = mapWeatherEvent({

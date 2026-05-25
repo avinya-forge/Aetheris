@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { getCircuitState } = require('../lib/data/circuit-breaker');
+import assert from 'assert';
+import { getCircuitState } from '../lib/circuit-breaker';
 
 try {
   const now = 100000;

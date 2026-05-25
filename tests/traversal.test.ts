@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { traverse } = require('../lib/timeline/traversal');
+import assert from 'assert';
+import { traverse } from '../lib/traversal';
 
 try {
   const initialState = { currentFocus: 'present', events: [], horizon: null };

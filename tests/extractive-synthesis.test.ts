@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { synthesizeSources } = require('../lib/data/extractive-synthesis');
+import assert from 'assert';
+import { synthesizeSources } from '../lib/extractive-synthesis';
 
 (async () => {
   try {
@@ -16,7 +16,7 @@ const { synthesizeSources } = require('../lib/data/extractive-synthesis');
     const long = await synthesizeSources(longSources);
     const wordCount = long.replace(/\.\.\.$/, '').trim().split(/\s+/).length;
     assert.strictEqual(wordCount, 30, 'truncated brief must be exactly 30 words before ellipsis');
-    assert.ok(long.endsWith('...'), 'truncated brief must end with ...');
+    assert.ok(long.endsWith('...'), 'extractive-synthesis.test.ts: truncated brief must end with ...');
 
     // Empty and null cases
     const empty = await synthesizeSources([]);
@@ -33,7 +33,7 @@ const { synthesizeSources } = require('../lib/data/extractive-synthesis');
 
     // Synthesizer injection: uses synthesizer result when non-null
     let synthCalledWith = '';
-    const mockSynth = async (text) => { synthCalledWith = text; return 'AI brief'; };
+    const mockSynth = async (text: string) => { synthCalledWith = text; return 'AI brief'; };
     const aiResult = await synthesizeSources(shortSources, mockSynth);
     assert.strictEqual(aiResult, 'AI brief', 'synthesizer result must be returned when provided');
     assert.strictEqual(synthCalledWith, 'Source 1 data. Source 2 data.', 'synthesizer must receive combined text');
@@ -48,11 +48,11 @@ const { synthesizeSources } = require('../lib/data/extractive-synthesis');
     const throwResult = await synthesizeSources(shortSources, throwSynth);
     assert.strictEqual(throwResult, 'Source 1 data. Source 2 data.', 'synthesizer error must fall back to truncation');
 
+    console.log('PASS - extractive-synthesis.test.js');
   } catch (err) {
     console.error('FAIL - extractive-synthesis.test.js:', err.message);
     process.exit(1);
   }
 })();
-console.log('PASS - extractive-synthesis.test.js');
 
 export {};

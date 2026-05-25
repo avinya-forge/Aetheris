@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { generateGhostCards } = require('../lib/timeline/probability-cones');
+import assert from 'assert';
+import { generateGhostCards } from '../lib/probability-cones';
 
 // `matchHistoricalPattern` is imported by `probability-cones.js` from `../lib/data/pattern-matcher.js`.
 // In a unit test, we usually mock, but since this project uses native 'assert' and no mocking library,
@@ -12,7 +12,7 @@ const forecasts = [
 
 const result = generateGhostCards(forecasts);
 
-assert.strictEqual(Array.isArray(result), true, 'probability-cones.test.js: value mismatch');
+assert.strictEqual(Array.isArray(result, 'probability-cones.test.ts: strictEqual failure'), true, 'probability-cones.test.js: value mismatch');
 assert.strictEqual(result.length, 2, 'probability-cones.test.js: value mismatch');
 
 const firstCard = result[0];

@@ -1,4 +1,4 @@
-const assert = require('assert');
+import assert from 'assert';
 
 // Mock for Cloudflare Worker 'Response'
 class MockResponse {
@@ -52,7 +52,7 @@ globalThis.Response = MockResponse as any;
     const eventsRes = await worker.fetch(eventsReq, env, {});
     const eventsData = await eventsRes.json();
     assert.strictEqual(eventsRes.status, 200, 'Events status should be 200');
-    assert.ok(Array.isArray(eventsData), 'Events should be an array');
+    assert.ok(Array.isArray(eventsData, 'worker.test.ts: ok failure'), 'Events should be an array');
     assert.strictEqual(eventsData.length, 0, 'Events should be empty initially');
 
     // --- Test: GET /api/events (populated) ---

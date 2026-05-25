@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { interestThresholdSchema } = require('../lib/schema/threshold');
+import assert from 'assert';
+import { interestThresholdSchema } from '../lib/threshold';
 
 try {
   assert.strictEqual(interestThresholdSchema.type, 'object', 'interestThresholdSchema must be an object type');

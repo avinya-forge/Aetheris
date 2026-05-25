@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { clusterSchema } = require('../lib/schema/cluster');
+import assert from 'assert';
+import { clusterSchema } from '../lib/cluster';
 
 try {
   assert.strictEqual(clusterSchema.type, 'object', 'clusterSchema should be of type object');

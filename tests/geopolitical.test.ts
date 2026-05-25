@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { geopoliticalSchema } = require('../lib/schema/geopolitical');
+import assert from 'assert';
+import { geopoliticalSchema } from '../lib/geopolitical';
 
 try {
   assert.strictEqual(typeof geopoliticalSchema, 'object', 'geopolitical.test.js: value mismatch');

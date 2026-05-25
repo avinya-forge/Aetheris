@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { mapGeminiResponse } = require('../lib/ai/gemini-mapper');
+import assert from 'assert';
+import { mapGeminiResponse } from '../lib/gemini-mapper';
 
 (async () => {
   try {
@@ -16,7 +16,7 @@ const { mapGeminiResponse } = require('../lib/ai/gemini-mapper');
     };
 
     const brief = mapGeminiResponse(rawData);
-    assert.strictEqual(brief, 'A short factual brief.', "gemini-mapper.test.js strictEqual failed");
+    assert.strictEqual(brief, 'A short factual brief.', "gemini-mapper.test.js: simple brief mapping failed");
 
     const longData = {
       candidates: [
@@ -32,13 +32,13 @@ const { mapGeminiResponse } = require('../lib/ai/gemini-mapper');
     const capped = mapGeminiResponse(longData);
     const wordCount = capped.split(/\s+/).length;
     assert.strictEqual(wordCount, 30, 'Should be 30 words');
-    assert.ok(capped.endsWith('...'), "Assert failed in ok");
+    assert.ok(capped.endsWith('...'), "gemini-mapper.test.ts: long response should be capped with ellipsis");
 
+    console.log('PASS - gemini-mapper.test.js');
   } catch (err) {
     console.error('FAIL - gemini-mapper.test.js:', err.message);
     process.exit(1);
   }
 })();
-console.log('PASS - gemini-mapper.test.js');
 
 export {};

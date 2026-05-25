@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { forecastSchema } = require('../lib/schema/forecast');
+import assert from 'assert';
+import { forecastSchema } from '../lib/forecast';
 
 try {
   assert.strictEqual(forecastSchema.type, 'object', 'forecastSchema must be an object type');

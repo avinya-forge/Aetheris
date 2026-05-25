@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { macroClusterSchema } = require('../lib/schema/macro-cluster');
+import assert from 'assert';
+import { macroClusterSchema } from '../lib/macro-cluster';
 
 try {
   assert.strictEqual(typeof macroClusterSchema, 'object', 'macroClusterSchema must be an object');

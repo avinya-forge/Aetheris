@@ -1,4 +1,4 @@
-const assert = require('assert');
+import assert from 'assert';
 const { handleInstall, handleFetch } = require('../script/sw.js');
 
 function testServiceWorker() {
@@ -103,7 +103,7 @@ function testServiceWorker() {
       // Delay briefly to allow asynchronous cache.put to execute
       setTimeout(() => {
         try {
-          assert.strictEqual(mockCache.putMap.has('/missing'), true, 'Should cache new fetched data effectively');
+          assert.strictEqual(mockCache.putMap.has('/missing', 'sw.test.ts: strictEqual failure'), true, 'Should cache new fetched data effectively');
           // Clean up mock fetch
           delete global.fetch;
           console.log('PASS - sw.test.js');

@@ -2,21 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "CommonJS",
-    "lib": ["ES2022", "DOM"],
-    "strict": false,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "jsx": "react",
-    "types": ["node"]
-  },
-  "include": ["lib/**/*", "tests/**/*", "script/**/*", "functions/**/*", "src/**/*"],
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "strict": false,
     "esModuleInterop": true,
@@ -27,5 +13,6 @@
     "jsx": "react",
     "types": ["node"]
   },
+  "include": ["lib/**/*", "tests/**/*", "script/**/*", "functions/**/*", "src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

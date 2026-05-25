@@ -1,7 +1,7 @@
-import assert from 'assert';
-import React from 'react';
+import * as assert from 'assert';
+import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Atlas } from '../src/components/map/atlas.tsx';
+import { Atlas } from '../src/components/map/atlas';
 
 try {
   const html = renderToStaticMarkup(<Atlas kpIndex={5} />);

@@ -1,7 +1,7 @@
-import assert from 'assert';
-import React from 'react';
+import * as assert from 'assert';
+import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { GhostCard } from '../src/components/ui/ghost-card.tsx';
+import { GhostCard } from '../src/components/ui/ghost-card';
 
 try {
   const html = renderToStaticMarkup(<GhostCard event={{title: 'Warning', likelihood: 0.8}} />);

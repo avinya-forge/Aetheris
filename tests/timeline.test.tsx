@@ -1,7 +1,7 @@
-import assert from 'assert';
-import React from 'react';
+import * as assert from 'assert';
+import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Timeline } from '../src/components/map/timeline.tsx';
+import { Timeline } from '../src/components/map/timeline';
 
 try {
   const html = renderToStaticMarkup(<Timeline events={[{title: 'Solar Flare'}]} />);

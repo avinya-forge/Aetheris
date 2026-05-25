@@ -1,16 +1,14 @@
-const assert = require('assert');
+import * as assert from 'assert';
+import * as React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { GhostCard } from '../src/components/ui/ghost-card';
 
 try {
-  const { GhostCard } = require('../src/components/ui/ghost-card.tsx');
-  assert.strictEqual(typeof GhostCard, 'function', 'GhostCard should be a component');
+  const html = renderToStaticMarkup(<GhostCard event={{title: 'Warning', likelihood: 0.8}} />);
+  assert.ok(html.includes('Warning'), 'GhostCard should render title');
+  assert.ok(html.includes('80%'), 'GhostCard should render likelihood properly');
   console.log('PASS - ghost-card.test.tsx');
-} catch (e) {
-  if (e instanceof SyntaxError && e.message.includes('<')) {
-    console.log('PASS - ghost-card.test.tsx (verified syntax requirement)');
-  } else {
-    console.error('ghost-card.test.tsx failed:', e.message);
-    process.exit(1);
-  }
+} catch (e: any) {
+  console.error('ghost-card.test.tsx failed:', e.message);
+  process.exit(1);
 }
-
-export {};

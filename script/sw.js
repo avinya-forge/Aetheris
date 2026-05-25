@@ -16,7 +16,22 @@ function handleFetch(event, cachesObj = caches) {
       if (response) {
         return response;
       }
-      return fetch(event.request);
+
+      const fetchRequest = event.request.clone ? event.request.clone() : event.request;
+
+      return fetch(fetchRequest).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
+        }
+
+        const responseToCache = networkResponse.clone ? networkResponse.clone() : networkResponse;
+
+        cachesObj.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return networkResponse;
+      });
     })
   );
 }

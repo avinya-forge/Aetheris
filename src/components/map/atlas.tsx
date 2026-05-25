@@ -25,13 +25,17 @@ const Atlas = ({ zoom = 2, center = [0, 0], kpIndex = 0 }) => {
       ref={mapContainer}
       style={{
         width: '100%',
-        height: '100vh',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         background: getAtmosphereColor(kpIndex),
         transition: 'background 2s ease-in-out'
       }}
       data-testid="atlas-container"
     >
-      <div style={{ color: 'white', padding: '20px' }}>
+      <div style={{ color: 'white', padding: '20px', textAlign: 'center', maxWidth: '100%', boxSizing: 'border-box' }}>
         Atlas Vector Engine Active (Kp: {kpIndex})
       </div>
     </div>

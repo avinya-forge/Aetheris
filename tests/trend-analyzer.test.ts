@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { analyzeTrends } = require('../lib/data/trend-analyzer');
+import assert from 'assert';
+import { analyzeTrends } from '../lib/trend-analyzer';
 
 try {
   const clusters = [

@@ -1,4 +1,4 @@
-const assert = require('assert');
+import assert from 'assert';
 const { processRequest } = require('../functions/edge-proxy.js');
 
 function testEdgeProxy() {

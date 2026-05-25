@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { getSynthesis } = require('../src/lib/services/synthesis-service');
+import assert from 'assert';
+import { getSynthesis } from '../src/lib/synthesis-service';
 
 try {
   const result = getSynthesis('c1');

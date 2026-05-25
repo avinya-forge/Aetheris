@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { safetyRuleSchema } = require('../lib/schema/safety-rule');
+import assert from 'assert';
+import { safetyRuleSchema } from '../lib/safety-rule';
 
 try {
   assert.strictEqual(typeof safetyRuleSchema, 'object', 'safety-rule.test.js: value mismatch');

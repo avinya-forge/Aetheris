@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { mapKpIndex, mapSolarWind, mapDonkiEvent } = require('../lib/data/space-weather-mapper');
+import assert from 'assert';
+import { mapKpIndex, mapSolarWind, mapDonkiEvent } from '../lib/space-weather-mapper';
 
 try {
   // Test Kp Index Mapping

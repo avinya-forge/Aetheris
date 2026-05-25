@@ -1,4 +1,4 @@
-const { matchHistoricalPattern } = require('../data/pattern-matcher');
+const { matchHistoricalPattern } = require('./pattern-matcher');
 
 /**
  * Generates Ghost Cards representing Probability Cones for non-speculative forecasts.

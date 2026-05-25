@@ -1,4 +1,4 @@
-const assert = require('assert');
+import assert from 'assert';
 const {
   runIngestCycle,
   getSourceMeta,
@@ -34,13 +34,13 @@ function makeMockKv(initial = {}) {
         { current: { temperature_2m: 20, wind_speed_10m: 10, time: 't1' } }
       ],
     };
-    const result = await runIngestCycle({ CACHE: kvFresh, GEMINI_API_KEY: 'test' }, mockClients, async () => 'AI brief');
+    const result = await runIngestCycle({ CACHE: kvFresh, GEMINI_API_KEY: 'test' }, mockClients, async () => 'AI brief', Date.now());
     assert.strictEqual(result.polled.length, 4, 'all 4 sources polled');
     assert.ok(result.newEvents > 0, 'new events must be processed');
     assert.ok(typeof result.synthesis === 'object', 'synthesis must be an object');
 
     const stored = JSON.parse((await kvFresh.get(KV_EVENTS_LATEST)) as string);
-    assert.ok(Array.isArray(stored), 'events:latest must be an array');
+    assert.ok(Array.isArray(stored, 'ingest-cycle.test.ts: ok failure'), 'events:latest must be an array');
     assert.ok(stored.length > 0, 'events:latest must have entries');
 
   } catch (err) {

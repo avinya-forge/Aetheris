@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { filterSpeculativePredictions } = require('../lib/data/prediction-filter');
+import assert from 'assert';
+import { filterSpeculativePredictions } from '../lib/prediction-filter';
 
 const predictions = [
   { id: 1, patternMatchId: 'A', speculative: false },

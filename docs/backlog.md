@@ -22,61 +22,56 @@
 *All tasks blocked by frontend environment bootstrap.*
 
 ### Epic 4.1: Frontend Bootstrap
-*Goal: React + Vite PWA environment wired to lib/ logic.*
-- [x] TASK: bootstrap-frontend | Target: package.json, vite.config.js | I/O: void -> DevServer | Assert: npm run dev starts, 0 err | LOC: ~80
-- [x] TASK: init-mapbox-gl | Target: src/components/map/atlas.tsx | I/O: Config -> MapInstance | Assert: 0 err, renders | LOC: ~60
+- [x] TASK: bootstrap-frontend | Target: package.json, vite.config.js | I/O: void -> DevServer | Assert: npm run dev starts, 0 err | DONE
+- [x] TASK: init-mapbox-gl | Target: src/components/map/atlas.tsx | I/O: Config -> MapInstance | Assert: 0 err, renders | DONE
 
 ### Epic 4.2: Chromodynamic Visual System
-*Goal: vector-only UI that shifts atmosphere based on data state.*
-- [x] TASK: implement-chromodynamic-logic | Target: src/lib/ui/chromodynamic.js | I/O: KpIndex -> ColorSpec | Assert: 0 err, >95% cov | LOC: ~40
-- [x] TASK: design-vector-glyphs | Target: src/assets/glyphs/index.svg | I/O: void -> SVG | Assert: clean-SVG, no raster | LOC: ~100
-- [x] TASK: implement-zoom-logic | Target: src/lib/ui/zoom-controller.js | I/O: ZoomLevel -> LayerVisibility | Assert: 0 err, >95% cov | LOC: ~30
+- [x] TASK: implement-chromodynamic-logic | Target: src/lib/chromodynamic.js | I/O: KpIndex -> ColorSpec | Assert: 0 err, >95% cov | DONE
+- [x] TASK: design-vector-glyphs | Target: src/assets/glyphs/index.svg | I/O: void -> SVG | Assert: clean-SVG, no raster | DONE
+- [x] TASK: implement-zoom-logic | Target: src/lib/zoom-controller.js | I/O: ZoomLevel -> LayerVisibility | Assert: 0 err, >95% cov | DONE
 
 ### Epic 4.3: Timeline Interface
-*Goal: temporal traversal UI replacing list-scroll paradigm.*
-- [x] TASK: render-3d-map-timeline | Target: src/components/map/timeline.tsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | LOC: ~120
-- [x] TASK: render-ghost-cards | Target: src/components/ui/ghost-card.tsx | I/O: GhostCard -> ReactElement | Assert: 0 err, opacity<1, shows% | LOC: ~50
+- [x] TASK: render-3d-map-timeline | Target: src/components/map/timeline.tsx | I/O: Props -> ReactElement | Assert: 0 err, >95% cov | DONE
+- [x] TASK: render-ghost-cards | Target: src/components/ui/ghost-card.tsx | I/O: GhostCard -> ReactElement | Assert: 0 err, opacity<1, shows% | DONE
 
 ### Epic 4.4: Frontend Data Service Layer
-*Goal: bridge lib/ pipeline output to React UI components via typed service hooks.*
-- [x] TASK: implement-events-service | Target: src/lib/services/events-service.js | I/O: Filters -> EventArray | Assert: 0 err, filters by impact | LOC: ~50
-- [x] TASK: implement-synthesis-service | Target: src/lib/services/synthesis-service.js | I/O: ClusterId -> Brief | Assert: ≤30 words, 0 err | LOC: ~35
-- [x] TASK: implement-ghost-card-service | Target: src/lib/services/ghost-card-service.js | I/O: void -> GhostCardArray | Assert: all likelihood ≤95%, isSpeculative=false | LOC: ~35
-- [x] TASK: implement-health-service | Target: src/lib/services/health-service.js | I/O: void -> HealthStatus | Assert: 0 err, returns version+uptime | LOC: ~20
+- [x] TASK: implement-events-service | Target: src/lib/events-service.js | I/O: Filters -> EventArray | Assert: 0 err, filters by impact | DONE
+- [x] TASK: implement-synthesis-service | Target: src/lib/synthesis-service.js | I/O: ClusterId -> Brief | Assert: ≤30 words, 0 err | DONE
+- [x] TASK: implement-ghost-card-service | Target: src/lib/ghost-card-service.js | I/O: void -> GhostCardArray | Assert: all likelihood ≤95%, isSpeculative=false | DONE
+- [x] TASK: implement-health-service | Target: src/lib/health-service.js | I/O: void -> HealthStatus | Assert: 0 err, returns version+uptime | DONE
 
 ### Epic 4.5: Visual Audit & Bug Hunt
-- [x] TASK: execute-visual-audit | Target: backlog.md | I/O: void -> TaskList | Assert: all bugs cataloged | LOC: ~0
-- [x] TASK: fix-visual-bug-1 | Target: src/ | I/O: Bug -> Fix | Assert: map renders | LOC: ~10
-- [x] TASK: fix-cataloged-bugs | Target: src/ | I/O: BugList -> CleanCode | Assert: 0 known visual bugs | LOC: ~100
-- [x] TASK: fix-main-jsx-render-bug | Target: src/main.tsx | I/O: Bug -> CleanCode | Assert: Atlas map renders | LOC: ~10
+- [x] TASK: execute-visual-audit | Target: backlog.md | I/O: void -> TaskList | Assert: all bugs cataloged | DONE
+- [x] TASK: fix-visual-bug-1 | Target: src/ | I/O: Bug -> Fix | Assert: map renders | DONE
+- [x] TASK: fix-cataloged-bugs | Target: src/ | I/O: BugList -> CleanCode | Assert: 0 known visual bugs | DONE
+- [x] TASK: fix-main-jsx-render-bug | Target: src/main.tsx | I/O: Bug -> CleanCode | Assert: Atlas map renders | DONE
 
 ---
 
 ## Phase 5: Zero-Cost Deployment — Edge + Beta (PLANNED)
 
 ### Epic 5.1: Cloudflare Edge Deployment
-- [x] TASK: configure-cloudflare-pages | Target: .github/workflows/deploy.yml | I/O: git push -> CF Pages | Assert: auto-deploy on main push | LOC: ~40
-- [x] TASK: deploy-cloudflare-workers | Target: functions/edge-proxy.js | I/O: Request -> Response | Assert: <50ms p95, 0 err | LOC: ~30
-- [x] TASK: configure-cloudflare-kv | Target: wrangler.toml | I/O: Data -> KVStore | Assert: cache hit > 80% | LOC: ~20
-- [x] TASK: validate-offline-pwa | Target: script/sw.js | I/O: void -> OfflineApp | Assert: loads without network | LOC: ~20
+- [x] TASK: configure-cloudflare-pages | Target: .github/workflows/deploy.yml | I/O: git push -> CF Pages | DONE
+- [x] TASK: deploy-cloudflare-workers | Target: functions/edge-proxy.js | I/O: Request -> Response | DONE
+- [x] TASK: configure-cloudflare-kv | Target: wrangler.toml | I/O: Data -> KVStore | DONE
+- [x] TASK: validate-offline-pwa | Target: script/sw.js | I/O: void -> OfflineApp | DONE
 
 ### Epic 5.2: Limited Beta Access
-- [x] TASK: implement-invite-gate | Target: src/lib/auth/invite.js | I/O: Code -> Boolean | Assert: invalid code rejected, valid granted | LOC: ~30
-- [x] TASK: configure-cloudflare-access | Target: cloudflare-access.json | I/O: Email -> AccessGrant | Assert: only allowlisted emails pass | LOC: ~15
-- [x] TASK: wire-cloudflare-analytics | Target: src/index.html | I/O: PageView -> Analytics | Assert: events visible in CF dashboard | LOC: ~10
-- [x] TASK: write-beta-onboarding | Target: docs/beta-guide.md | I/O: void -> Guide | Assert: covers all features | LOC: ~80
+- [x] TASK: implement-invite-gate | Target: src/lib/invite.js | I/O: Code -> Boolean | DONE
+- [x] TASK: configure-cloudflare-access | Target: cloudflare-access.json | I/O: Email -> AccessGrant | DONE
+- [x] TASK: wire-cloudflare-analytics | Target: src/index.html | I/O: PageView -> Analytics | DONE
+- [x] TASK: write-beta-onboarding | Target: docs/beta-guide.md | I/O: void -> Guide | DONE
 
 ---
 
-## Technical Debt & Maintenance (OPEN)
-- [x] TASK: implement-schema-validator | Target: lib/data/schema-validator.js | I/O: Event -> Boolean | Assert: rejects invalid, 0 err | LOC: ~50
-- [x] TASK: implement-circuit-breaker | Target: lib/data/circuit-breaker.js | I/O: SourceId, ErrorCount -> State | Assert: opens after 5 fails, closes after 60s | LOC: ~55
-- [x] TASK: implement-staleness-detector | Target: lib/data/staleness-detector.js | I/O: Event -> Boolean | Assert: 0 err, detects >6h gap | LOC: ~30
-- [x] TASK: improve-fingerprint-normalization | Target: lib/data/event-fingerprint.js | I/O: Event -> NormalizedFP | Assert: >90% content-dedup accuracy | LOC: ~20
-- [x] TASK: implement-real-clustering | Target: lib/data/cluster-identifier.js | I/O: Events -> SemanticClusters | Assert: groups related events beyond topic | LOC: ~60
-- [x] TASK: migrate-to-typescript | Target: lib/ | I/O: JS -> TS | Assert: 0 type errors | LOC: ~1000
+## Architectural Sync & Drift Resolution (COMPLETED)
+- [x] TASK: convert-tests-to-esm | Target: tests/ | I/O: require -> import | Assert: all tests use ES imports | DONE
+- [x] TASK: flatten-repository-logic | Target: lib/, src/lib/ | I/O: nested -> flat | Assert: 0 nested subfolders | DONE
+- [x] TASK: enforce-test-standards | Target: tests/ | I/O: assert -> assert(val, val, msg) | Assert: all asserts have 3+ args | DONE
+- [x] TASK: implement-coverage-gate | Target: script/test.js | I/O: test -> test + c8 | Assert: fails if < 90% | DONE
+- [x] TASK: resolve-version-drift | Target: package.json | I/O: 0.1.8 -> 0.1.9 | Assert: matches .state | DONE
+- [x] TASK: inject-worker-deterministic-time | Target: functions/worker.mjs | I/O: Date.now() -> injection | Assert: deterministic | DONE
 
-## Architectural Audit Gaps (AUTO-GENERATED)
-- [x] TASK: fix-test-failure-messages | Target: tests/ | I/O: scan -> fix | Assert: all assert calls have 3+ arguments | LOC: ~200
-- [x] TASK: fix-datenow-injection-drift | Target: src/lib/services/events-service.js | I/O: Date.now() -> injected | Assert: deterministic | LOC: ~20
-- [x] TASK: resolve-module-type-warning | Target: functions/worker.js | I/O: js -> mjs | Assert: zero warnings | LOC: ~10
+## Future Maintenance (OPEN)
+- [ ] TASK: improve-branch-coverage | Target: functions/ingest-cycle.js | I/O: code -> tested branches | Assert: branch cov > 80% | LOC: ~50
+- [ ] TASK: migrate-lib-parser-to-esm | Target: lib/parser.ts | I/O: require -> import | Assert: consistency | LOC: ~20

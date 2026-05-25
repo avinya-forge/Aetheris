@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { fetchKpIndex, fetchSolarWind, fetchNoaaSwpc, NOAA_KP_URL } = require('../lib/data/noaa-swpc-client');
+import assert from 'assert';
+import { fetchKpIndex, fetchSolarWind, fetchNoaaSwpc, NOAA_KP_URL } from '../lib/noaa-swpc-client';
 
 function makeFetcher(body, status = 200) {
   return async () => ({ ok: status >= 200 && status < 300, status, json: async () => body });
@@ -37,7 +37,7 @@ function makeFetcher(body, status = 200) {
     assert.strictEqual(combined.wind.proton_speed, 400, "noaa-swpc-client.test.js strictEqual failed");
     assert.strictEqual(callCount, 2, 'must call both endpoints');
 
-    assert.ok(NOAA_KP_URL.includes('swpc.noaa.gov'), 'URL must point to swpc.noaa.gov');
+    assert.ok(NOAA_KP_URL.includes('swpc.noaa.gov', 'noaa-swpc-client.test.ts: ok failure'), 'URL must point to swpc.noaa.gov');
 
   } catch (err) {
     console.error('FAIL - noaa-swpc-client.test.js:', err.message);

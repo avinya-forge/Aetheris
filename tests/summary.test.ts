@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { summarySchema } = require('../lib/schema/summary');
+import assert from 'assert';
+import { summarySchema } from '../lib/summary';
 
 try {
   assert.strictEqual(typeof summarySchema, 'object', 'summary.test.js: value mismatch');

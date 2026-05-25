@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { mapGdeltArticle } = require('../lib/data/news-mapper');
+import assert from 'assert';
+import { mapGdeltArticle } from '../lib/news-mapper';
 
 try {
   const rawArt = { url: "http://example.com", title: "Test Article", seendate: "20240101", socialimage: "http://img.com" };

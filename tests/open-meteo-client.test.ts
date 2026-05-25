@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { fetchLocation, fetchOpenMeteo, buildUrl, DEFAULT_LOCATIONS } = require('../lib/data/open-meteo-client');
+import assert from 'assert';
+import { fetchLocation, fetchOpenMeteo, buildUrl, DEFAULT_LOCATIONS } from '../lib/open-meteo-client';
 
 function makeFetcher(current, status = 200) {
   return async () => ({ ok: status >= 200 && status < 300, status, json: async () => ({ current }) });
@@ -38,13 +38,13 @@ function makeFetcher(current, status = 200) {
       };
     };
     const partial = await fetchOpenMeteo(DEFAULT_LOCATIONS.slice(0, 3), partialFetcher);
-    assert.strictEqual(partial.filter(Boolean).length, 2, 'one 404 → 2 of 3 succeed');
+    assert.strictEqual(partial.filter(Boolean, 'open-meteo-client.test.ts: strictEqual failure').length, 2, 'one 404 → 2 of 3 succeed');
 
     // --- buildUrl ---
     const url = buildUrl(51.51, -0.13);
-    assert.ok(url.includes('api.open-meteo.com'), 'URL must use open-meteo.com');
-    assert.ok(url.includes('latitude=51.51'), 'lat param present');
-    assert.ok(url.includes('wind_speed_unit=kmh'), 'km/h unit enforced');
+    assert.ok(url.includes('api.open-meteo.com', 'open-meteo-client.test.ts: ok failure'), 'URL must use open-meteo.com');
+    assert.ok(url.includes('latitude=51.51', 'open-meteo-client.test.ts: ok failure'), 'lat param present');
+    assert.ok(url.includes('wind_speed_unit=kmh', 'open-meteo-client.test.ts: ok failure'), 'km/h unit enforced');
 
     assert.strictEqual(DEFAULT_LOCATIONS.length, 6, '6 sentinel locations defined');
 

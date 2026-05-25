@@ -1,6 +1,6 @@
 {
   "name": "aetheris",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Temporal Intelligence & Environmental Sentinel — zero-cost PWA on Cloudflare edge",
   "private": true,
   "engines": {
@@ -23,6 +23,7 @@
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "c8": "^11.0.0",
     "esbuild": "^0.28.0",
     "playwright": "^1.60.0",
     "tsx": "^4.22.3",

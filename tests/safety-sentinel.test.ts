@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { injectSafetyWarning } = require('../lib/data/safety-sentinel');
+import assert from 'assert';
+import { injectSafetyWarning } from '../lib/safety-sentinel';
 
 // Test with valid data causing warnings
 const heatWarning = injectSafetyWarning({ temperature: 40 });
@@ -28,9 +28,9 @@ const safeCondition = injectSafetyWarning({ temperature: 25, windSpeed: 20 });
 assert.strictEqual(safeCondition, "", "injectSafetyWarning: should return empty string for safe conditions");
 
 // Test with empty or invalid data
-assert.strictEqual(injectSafetyWarning({}), "", "injectSafetyWarning: should return empty string for empty input");
-assert.strictEqual(injectSafetyWarning(null), "", "injectSafetyWarning: should return empty string for null input");
-assert.strictEqual(injectSafetyWarning([]), "", "injectSafetyWarning: should return empty string for array input");
+assert.strictEqual(injectSafetyWarning({}, 'safety-sentinel.test.ts: strictEqual failure'), "", "injectSafetyWarning: should return empty string for empty input");
+assert.strictEqual(injectSafetyWarning(null, 'safety-sentinel.test.ts: strictEqual failure'), "", "injectSafetyWarning: should return empty string for null input");
+assert.strictEqual(injectSafetyWarning([], 'safety-sentinel.test.ts: strictEqual failure'), "", "injectSafetyWarning: should return empty string for array input");
 
 console.log('PASS - safety-sentinel.test.js');
 

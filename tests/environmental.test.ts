@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { environmentalSchema } = require('../lib/schema/environmental');
+import assert from 'assert';
+import { environmentalSchema } from '../lib/environmental';
 
 try {
   assert.strictEqual(typeof environmentalSchema, 'object', 'environmental.test.js: value mismatch');

@@ -1,5 +1,5 @@
-const assert = require('assert');
-const { fetchEvents } = require('../src/lib/services/events-service');
+import assert from 'assert';
+import { fetchEvents } from '../src/lib/events-service';
 
 try {
   const mockNow = 1713300000000;

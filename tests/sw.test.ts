@@ -6,8 +6,13 @@ function testServiceWorker() {
   // Mock Cache API
   const mockCache = {
     addedUrls: [],
+    putMap: new Map(),
     addAll(urls) {
       this.addedUrls.push(...urls);
+      return Promise.resolve();
+    },
+    put(request, response) {
+      this.putMap.set(request, response);
       return Promise.resolve();
     }
   };
@@ -81,7 +86,12 @@ function testServiceWorker() {
 
     // Mock global fetch for miss scenario
     global.fetch = ((req: any) => {
-      return Promise.resolve({ status: 200, body: `Fetched from network: ${req}` }) as any;
+      return Promise.resolve({
+        status: 200,
+        type: 'basic',
+        body: `Fetched from network: ${req}`,
+        clone() { return this; }
+      }) as any;
     }) as any;
 
     handleFetch(fetchEventMiss, mockCaches);
@@ -90,8 +100,19 @@ function testServiceWorker() {
       assert.strictEqual(response.status, 200, 'Should return fetched response on miss');
       assert.strictEqual(response.body, 'Fetched from network: /missing', 'Should return fetched data');
 
-      // Clean up mock fetch
-      delete global.fetch;
+      // Delay briefly to allow asynchronous cache.put to execute
+      setTimeout(() => {
+        try {
+          assert.strictEqual(mockCache.putMap.has('/missing'), true, 'Should cache new fetched data effectively');
+          // Clean up mock fetch
+          delete global.fetch;
+          console.log('PASS - sw.test.js');
+        } catch (e: any) {
+          console.error('Fetch handler (miss) cache.put test failed:', e);
+          process.exit(1);
+        }
+      }, 50);
+
     }).catch(err => {
       console.error('Fetch handler (miss) test failed:', err);
       delete global.fetch;
@@ -101,6 +122,5 @@ function testServiceWorker() {
 }
 
 testServiceWorker();
-console.log('PASS - sw.test.js');
 
 export {};

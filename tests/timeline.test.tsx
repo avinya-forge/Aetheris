@@ -1,16 +1,14 @@
-const assert = require('assert');
+import assert from 'assert';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Timeline } from '../src/components/map/timeline.tsx';
 
 try {
-  const { Timeline } = require('../src/components/map/timeline.tsx');
-  assert.strictEqual(typeof Timeline, 'function', 'Timeline should be a component');
+  const html = renderToStaticMarkup(<Timeline events={[{title: 'Solar Flare'}]} />);
+  assert.ok(html.includes('timeline-container'), 'Timeline should render container');
+  assert.ok(html.includes('Solar Flare'), 'Timeline should render event titles');
   console.log('PASS - timeline.test.tsx');
-} catch (e) {
-  if (e instanceof SyntaxError && e.message.includes('<')) {
-    console.log('PASS - timeline.test.tsx (verified syntax requirement)');
-  } else {
-    console.error('timeline.test.tsx failed:', e.message);
-    process.exit(1);
-  }
+} catch (e: any) {
+  console.error('timeline.test.tsx failed:', e.message);
+  process.exit(1);
 }
-
-export {};

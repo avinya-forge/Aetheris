@@ -1,7 +1,9 @@
 import assert from 'assert';
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { parseDocsState } from '../lib/parser';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const state = parseDocsState(rootDir);
 

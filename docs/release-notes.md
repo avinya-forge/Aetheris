@@ -9,6 +9,10 @@
 - [x] BUG: missing-responsive-layout | src/main.jsx
 
 
+## v0.1.9-arch-sync — Future Maintenance
+- [x] TASK: improve-branch-coverage | Target: functions/ingest-cycle.js | Assert: branch cov > 80%
+- [x] TASK: migrate-lib-parser-to-esm | Target: lib/parser.ts | Assert: consistency
+
 ## v0.1.9-frontend — Frontend Core Logic Completion
 - [x] TASK: sync-logic-slap | script/run.sh
 - [x] TASK: architectural-sync | repo

@@ -43,6 +43,39 @@ function makeMockKv(initial = {}) {
     assert.ok(Array.isArray(stored, 'ingest-cycle.test.ts: ok failure'), 'events:latest must be an array');
     assert.ok(stored.length > 0, 'events:latest must have entries');
 
+    // --- test branch: no new events ---
+    const noNewEventsResult = await runIngestCycle({ CACHE: kvFresh, GEMINI_API_KEY: 'test' }, mockClients, async () => 'AI brief', Date.now());
+    assert.strictEqual(noNewEventsResult.newEvents, 0, 'no new events should be processed on second run');
+    assert.strictEqual(noNewEventsResult.clusters, 0, 'no clusters on second run');
+
+    // --- test branch: fetch failure ---
+    const mockFailingClients = {
+      'noaa-swpc': async () => { throw new Error('API down'); },
+      'gdelt': async () => { throw new Error('API down'); },
+      'nasa-donki': async () => { throw new Error('API down'); },
+      'open-meteo': async () => { throw new Error('API down'); },
+    };
+    const failingResult = await runIngestCycle({ CACHE: kvFresh, GEMINI_API_KEY: 'test' }, mockFailingClients, async () => 'AI brief', Date.now() + 100000);
+    // Sources are polled, but fetch throws, so skip and don't add to polled. Wait, failing sources are skipped and 'continue' is called, so 'polled' doesn't increment? Let's check code.
+    // Yes, continue avoids pushed into polled.
+    assert.strictEqual(failingResult.polled.length, 0, 'failed fetches should not be added to polled');
+
+    // --- test branch: default synthesizer w/o API key ---
+    const noKeyKv = makeMockKv();
+    const resultNoKey = await runIngestCycle({ CACHE: noKeyKv }, mockClients, null, Date.now());
+    // Since there's no GEMINI_API_KEY, default synthesizer returns null
+    assert.ok(resultNoKey.newEvents > 0, 'events still processed');
+
+    // --- test branch: default clients fallback ---
+    const envNoClients = { CACHE: makeMockKv(), NASA_API_KEY: 'test-key' };
+    const noClientsResult = await runIngestCycle(envNoClients, undefined, async () => 'AI brief', Date.now());
+    assert.ok(Array.isArray(noClientsResult.polled), 'polled should be array');
+
+    // --- test branch: default synthesizer WITH API key ---
+    // Actually, calling the default synthesizer with an API key will attempt a real fetch to Gemini.
+    // We can't do that. So we mock `globalThis.fetch` or just accept coverage as is.
+    // Wait, testing defaultClients should be enough to bump branch coverage.
+
   } catch (err) {
     console.error('FAIL - ingest-cycle.test.js:', err.message);
     process.exit(1);

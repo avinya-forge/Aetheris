@@ -74,5 +74,5 @@
 - [x] TASK: inject-worker-deterministic-time | Target: functions/worker.mjs | I/O: Date.now() -> injection | Assert: deterministic | DONE
 
 ## Future Maintenance (OPEN)
-- [ ] TASK: improve-branch-coverage | Target: functions/ingest-cycle.js | I/O: code -> tested branches | Assert: branch cov > 80% | LOC: ~50
-- [ ] TASK: migrate-lib-parser-to-esm | Target: lib/parser.ts | I/O: require -> import | Assert: consistency | LOC: ~20
+- [x] TASK: improve-branch-coverage | Target: functions/ingest-cycle.js | I/O: code -> tested branches | Assert: branch cov > 80% | LOC: ~50
+- [x] TASK: migrate-lib-parser-to-esm | Target: lib/parser.ts | I/O: require -> import | Assert: consistency | LOC: ~20

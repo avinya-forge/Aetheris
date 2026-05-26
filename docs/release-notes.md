@@ -9,6 +9,11 @@
 - [x] BUG: missing-responsive-layout | src/main.jsx
 
 
+## Phase 2: Nowcasting & AQI Upgrades (COMPLETED)
+- [x] TASK: implement-aqi-api | Target: lib/open-meteo-client.ts | I/O: lat/lon -> AQI | Assert: fetches AQI | LOC: ~20
+- [x] TASK: implement-nowcast-in-ingest | Target: functions/ingest-cycle.js | I/O: staleEvents -> interpolated | Assert: processes stale data via nowcaster | LOC: ~30
+- [x] TASK: render-nowcast-badge | Target: src/components/ui/ghost-card.tsx | I/O: interpolated -> Badge | Assert: renders 'Estimated' badge | LOC: ~10
+
 ## Phase 6: Urgent Bug Hunt & Stability (CRITICAL) (COMPLETED)
 - [x] TASK: fix-sw-cache-fallback | Target: script/sw.js | I/O: fetch -> cache/network | Assert: network-first fallback logic exists | LOC: ~10
 - [x] TASK: fix-edge-proxy-types | Target: functions/edge-proxy.js | I/O: data -> valid | Assert: strict payload type checking | LOC: ~5

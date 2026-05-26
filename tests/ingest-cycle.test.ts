@@ -76,6 +76,19 @@ function makeMockKv(initial = {}) {
     // We can't do that. So we mock `globalThis.fetch` or just accept coverage as is.
     // Wait, testing defaultClients should be enough to bump branch coverage.
 
+    // --- test branch: staleness & nowcast interpolation ---
+    // We mock the KV store to contain a stale event (older than STALE_THRESHOLD_MS = 6 * 60 * 60 * 1000).
+    const staleKv = makeMockKv({
+      'events:latest': JSON.stringify([{ id: 'old1', timestamp: 1000, content: 'stale data' }])
+    });
+    const nowcastResult = await runIngestCycle({ CACHE: staleKv }, mockClients, async () => 'Interpolated AI brief', 1000 + 7 * 60 * 60 * 1000);
+    const updatedRaw = await staleKv.get(KV_EVENTS_LATEST);
+    const updatedEvents = JSON.parse(updatedRaw as string);
+    const interpolatedEvent = updatedEvents.find((e: any) => e.id === 'old1');
+    assert.ok(interpolatedEvent, 'stale event should still be retained');
+    assert.strictEqual(interpolatedEvent.interpolated, true, 'stale event should be marked as interpolated');
+    assert.strictEqual(interpolatedEvent.content, 'Interpolated AI brief', 'stale event content should be updated');
+
   } catch (err) {
     console.error('FAIL - ingest-cycle.test.js:', err.message);
     process.exit(1);

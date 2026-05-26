@@ -1,7 +1,7 @@
 import React from 'react';
 
 const GhostCard = ({ event = {} }) => {
-  const { title = 'Unknown Event', likelihood = 0.5 } = event;
+  const { title = 'Unknown Event', likelihood = 0.5, interpolated = false } = event;
   return (
     <div
       className="ghost-card"
@@ -16,11 +16,19 @@ const GhostCard = ({ event = {} }) => {
         width: '180px',
         fontSize: '0.9rem',
         transition: 'transform 0.3s ease',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        position: 'relative'
       }}
       onMouseEnter={e => e.currentTarget.style.transform = 'translateX(10px)'}
       onMouseLeave={e => e.currentTarget.style.transform = 'translateX(0)'}
     >
+      {interpolated && (
+        <span style={{
+          position: 'absolute', top: '4px', right: '4px', background: '#ff4b2b', color: '#fff', fontSize: '0.6rem', padding: '2px 4px', borderRadius: '4px', fontWeight: 'bold'
+        }}>
+          Estimated
+        </span>
+      )}
       <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.6, marginBottom: '4px' }}>
         Speculative Impact
       </div>

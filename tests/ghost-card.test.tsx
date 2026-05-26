@@ -13,6 +13,10 @@ try {
   assert.ok(emptyHtml.includes('Unknown Event'), 'GhostCard should render default title');
   assert.ok(emptyHtml.includes('50%'), 'GhostCard should render default likelihood properly');
 
+  // Test interpolated badge
+  const interpolatedHtml = renderToStaticMarkup(<GhostCard event={{title: 'Old Event', likelihood: 0.2, interpolated: true}} />);
+  assert.ok(interpolatedHtml.includes('Estimated'), 'GhostCard should render Estimated badge for interpolated events');
+
   console.log('PASS - ghost-card.test.tsx');
 } catch (e: any) {
   console.error('ghost-card.test.tsx failed:', e.message);

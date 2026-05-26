@@ -1,7 +1,7 @@
 import React from 'react';
 
-const GhostCard = ({ event }) => {
-  const { title, likelihood = 0.5 } = event;
+const GhostCard = ({ event = {} }) => {
+  const { title = 'Unknown Event', likelihood = 0.5 } = event;
   return (
     <div
       className="ghost-card"

@@ -3,7 +3,7 @@
  * Simulates an edge-computed response wrapper.
  */
 function processRequest(data) {
-  if (!data || data.payload === undefined) {
+  if (!data || typeof data !== 'object' || Array.isArray(data) || data.payload === undefined) {
     return {
       status: 400,
       body: 'Bad Request'

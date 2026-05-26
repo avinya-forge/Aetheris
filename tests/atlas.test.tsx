@@ -8,6 +8,7 @@ try {
   assert.ok(html.includes('Aetheris Atlas'), 'Atlas should render title correctly');
   assert.ok(html.includes('Kp Index:'), 'Atlas should render Kp label correctly');
   assert.ok(html.includes('5'), 'Atlas should render Kp value correctly');
+  assert.ok(html.includes('Loading Atlas...'), 'Atlas should display mock/loading state safely in node');
   console.log('PASS - atlas.test.tsx');
 } catch (e: any) {
   console.error('atlas.test.tsx failed:', e.message);

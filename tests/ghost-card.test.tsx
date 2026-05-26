@@ -5,8 +5,14 @@ import { GhostCard } from '../src/components/ui/ghost-card';
 
 try {
   const html = renderToStaticMarkup(<GhostCard event={{title: 'Warning', likelihood: 0.8}} />);
-  assert.ok(html.includes('Warning', 'ghost-card.test.tsx: ok failure'), 'GhostCard should render title');
-  assert.ok(html.includes('80%', 'ghost-card.test.tsx: ok failure'), 'GhostCard should render likelihood properly');
+  assert.ok(html.includes('Warning'), 'GhostCard should render title');
+  assert.ok(html.includes('80%'), 'GhostCard should render likelihood properly');
+
+  // Test missing event prop
+  const emptyHtml = renderToStaticMarkup(<GhostCard />);
+  assert.ok(emptyHtml.includes('Unknown Event'), 'GhostCard should render default title');
+  assert.ok(emptyHtml.includes('50%'), 'GhostCard should render default likelihood properly');
+
   console.log('PASS - ghost-card.test.tsx');
 } catch (e: any) {
   console.error('ghost-card.test.tsx failed:', e.message);

@@ -11,28 +11,27 @@ function handleInstall(event, cachesObj = caches) {
 
 function handleFetch(event, cachesObj = caches) {
   event.respondWith(
-    cachesObj.match(event.request).then((response) => {
-      // Cache hit - return response
-      if (response) {
-        return response;
-      }
-
+    (async () => {
       const fetchRequest = event.request.clone ? event.request.clone() : event.request;
 
-      return fetch(fetchRequest).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
-        }
-
-        const responseToCache = networkResponse.clone ? networkResponse.clone() : networkResponse;
-
-        cachesObj.open(CACHE_NAME).then((cache) => {
+      try {
+        // Network-first attempt
+        const networkResponse = await fetch(fetchRequest);
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone ? networkResponse.clone() : networkResponse;
+          const cache = await cachesObj.open(CACHE_NAME);
           cache.put(event.request, responseToCache);
-        });
-
+        }
         return networkResponse;
-      });
-    })
+      } catch (err) {
+        // Fallback to cache on network failure
+        const cachedResponse = await cachesObj.match(event.request);
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        throw err;
+      }
+    })()
   );
 }
 

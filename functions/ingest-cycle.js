@@ -20,6 +20,7 @@ const { mapWeatherEvent } = require('../lib/weather-mapper');
 const { callGemini } = require('../lib/gemini-client');
 const { mapGeminiResponse } = require('../lib/gemini-mapper');
 const { DEFAULT_LOCATIONS } = require('../lib/open-meteo-client');
+const { interpolateNowcast, isStale } = require('../lib/nowcast-interpolator');
 
 // KV keys
 const KV_EVENTS_LATEST = 'events:latest';
@@ -195,7 +196,24 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
   // 5. Run fresh events through the pipeline
   const deduped = deduplicateWires(freshEvents);
   const filtered = filterByImpact(deduped, { minImpactScore: DEFAULT_MIN_IMPACT });
-  const clustered = identifyClusters(filtered);
+
+  // 5.5 Check existing events for staleness and interpolate them (Nowcast)
+  const existingRaw = await kv.get(KV_EVENTS_LATEST);
+  const existing = existingRaw ? JSON.parse(existingRaw) : [];
+
+  const processedExisting = await Promise.all(
+    existing.map(async (e) => {
+      if (isStale(e, now)) {
+        return interpolateNowcast(e, resolvedSynthesizer, now);
+      }
+      return e;
+    })
+  );
+
+  // Filter out any that completely failed to interpolate
+  const validExisting = processedExisting.filter(Boolean);
+
+  const clustered = identifyClusters([...validExisting, ...filtered]);
 
   // 6. Synthesize a brief per cluster (Gemini when available, truncation fallback)
   const eventsByTopic = {};
@@ -213,9 +231,7 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
   }
 
   // 7. Merge with existing events, cap at MAX_EVENTS_IN_KV, write to KV
-  const existingRaw = await kv.get(KV_EVENTS_LATEST);
-  const existing = existingRaw ? JSON.parse(existingRaw) : [];
-  const merged = [...existing, ...filtered].slice(-MAX_EVENTS_IN_KV);
+  const merged = [...validExisting, ...filtered].slice(-MAX_EVENTS_IN_KV);
 
   await kv.put(KV_EVENTS_LATEST, JSON.stringify(merged), { expirationTtl: 3_600 });
 

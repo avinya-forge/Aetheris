@@ -15,6 +15,9 @@ const ATMOSPHERE_MODES = {
  * @returns {Object}
  */
 function getAtmosphereFromKp(kp) {
+  if (kp < 0 || kp > 9) {
+    throw new Error('Kp-index must be between 0 and 9');
+  }
   if (kp < 4) return ATMOSPHERE_MODES.CALM;
   if (kp < 7) return ATMOSPHERE_MODES.ACTIVE;
   return ATMOSPHERE_MODES.STORM;

@@ -11,11 +11,11 @@ start() {
 }
 
 test() {
-  npm test
+  npm test || { echo "Tests failed"; exit 1; }
 }
 
 status() {
-  npm run status
+  npm run status || { echo "Status fetch failed"; exit 1; }
 }
 
 case "$1" in
@@ -23,5 +23,5 @@ case "$1" in
   --start) start ;;
   --test) test ;;
   --status) status ;;
-  *) echo "Usage: $0 {--sync|--start|--test|--status}" ;;
+  *) echo "Usage: $0 {--sync|--start|--test|--status}"; exit 1 ;;
 esac

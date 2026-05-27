@@ -17,21 +17,31 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
   });
 
   const [MapComponents, setMapComponents] = useState(null);
+  const [mapError, setMapError] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     if (typeof window !== 'undefined') {
       Promise.all([
         import('react-map-gl'),
         import('mapbox-gl/dist/mapbox-gl.css')
       ]).then(([mod]) => {
-        setMapComponents({
-          Map: mod.default,
-          Marker: mod.Marker,
-          Popup: mod.Popup,
-          NavigationControl: mod.NavigationControl
-        });
-      }).catch(err => console.error('Failed to load react-map-gl', err));
+        if (isMounted) {
+          setMapComponents({
+            Map: mod.default,
+            Marker: mod.Marker,
+            Popup: mod.Popup,
+            NavigationControl: mod.NavigationControl
+          });
+        }
+      }).catch(err => {
+        console.error('Failed to load react-map-gl', err);
+        if (isMounted) setMapError(true);
+      });
     }
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const getAtmosphereColor = (kp) => {
@@ -47,10 +57,17 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh', background: getAtmosphereColor(kpIndex), overflow: 'hidden' }} data-testid="atlas-container">
-      {MapComponents ? (
+      {mapError ? (
+        <MapMock style={{ width: '100%', height: '100%' }}>
+           <div style={{ color: 'red', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+             Map failed to load.
+           </div>
+        </MapMock>
+      ) : MapComponents ? (
         <MapComponents.Map
           {...viewState}
           onMove={evt => setViewState(evt.viewState)}
+          onError={() => setMapError(true)}
           style={{ width: '100%', height: '100%' }}
           mapStyle="mapbox://styles/mapbox/dark-v11"
           mapboxAccessToken={MAPBOX_TOKEN}

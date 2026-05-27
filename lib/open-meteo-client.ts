@@ -23,6 +23,16 @@ const CURRENT_FIELDS = [
   'apparent_temperature',
 ].join(',');
 
+const HOURLY_AQI_FIELDS = [
+  'pm10',
+  'pm2_5',
+  'carbon_monoxide',
+  'nitrogen_dioxide',
+  'sulphur_dioxide',
+  'ozone',
+  'uv_index'
+].join(',');
+
 /**
  * Build the Open-Meteo forecast URL for a given coordinate.
  * @param {number} lat
@@ -30,7 +40,7 @@ const CURRENT_FIELDS = [
  * @returns {string}
  */
 function buildUrl(lat, lon) {
-  return `${BASE_URL}?latitude=${lat}&longitude=${lon}&current=${CURRENT_FIELDS}&forecast_days=1&wind_speed_unit=kmh`;
+  return `${BASE_URL}?latitude=${lat}&longitude=${lon}&current=${CURRENT_FIELDS}&hourly=${HOURLY_AQI_FIELDS}&forecast_days=1&wind_speed_unit=kmh`;
 }
 
 /**

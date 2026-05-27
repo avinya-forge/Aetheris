@@ -3,8 +3,8 @@
  * Used by run.sh --backlog to verify repo state.
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const DEFAULT_REQUIRED_DOCS = [
   'README.md',
@@ -51,6 +51,4 @@ function parseBacklog(content) {
   return tasks;
 }
 
-module.exports = { parseBacklog, parseDocsState, DEFAULT_REQUIRED_DOCS };
-
-export {};
+export { parseBacklog, parseDocsState, DEFAULT_REQUIRED_DOCS };

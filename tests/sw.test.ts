@@ -54,37 +54,14 @@ function testServiceWorker() {
   });
 
   function runFetchHitTest() {
-    // Test Fetch Handler (Cache Hit)
-    const fetchEventHit: any = {
-      request: '/',
+    // Test Fetch Handler - Network Success (Should cache)
+    const fetchEventNetworkSuccess: any = {
+      request: '/network-first',
       respondWith(promise: any) {
         this.promise = promise;
       }
     };
 
-    handleFetch(fetchEventHit, mockCaches);
-    fetchEventHit.promise.then(response => {
-      assert.strictEqual(mockCaches.matchedRequest, '/', 'Should attempt to match the request in cache');
-      assert.strictEqual(response.status, 200, 'Should return cached response on hit');
-      assert.strictEqual(response.body, 'Cached Data', 'Should return correct cached data');
-
-      runFetchMissTest();
-    }).catch(err => {
-      console.error('Fetch handler (hit) test failed:', err);
-      process.exit(1);
-    });
-  }
-
-  function runFetchMissTest() {
-    // Test Fetch Handler (Cache Miss)
-    const fetchEventMiss: any = {
-      request: '/missing',
-      respondWith(promise: any) {
-        this.promise = promise;
-      }
-    };
-
-    // Mock global fetch for miss scenario
     global.fetch = ((req: any) => {
       return Promise.resolve({
         status: 200,
@@ -94,29 +71,65 @@ function testServiceWorker() {
       }) as any;
     }) as any;
 
-    handleFetch(fetchEventMiss, mockCaches);
-    fetchEventMiss.promise.then(response => {
-      assert.strictEqual(mockCaches.matchedRequest, '/missing', 'Should attempt to match the request in cache');
-      assert.strictEqual(response.status, 200, 'Should return fetched response on miss');
-      assert.strictEqual(response.body, 'Fetched from network: /missing', 'Should return fetched data');
+    handleFetch(fetchEventNetworkSuccess, mockCaches);
+    fetchEventNetworkSuccess.promise.then(response => {
+      assert.strictEqual(response.status, 200, 'Should return fetched response');
+      assert.strictEqual(response.body, 'Fetched from network: /network-first', 'Should return fetched data');
 
-      // Delay briefly to allow asynchronous cache.put to execute
       setTimeout(() => {
-        try {
-          assert.strictEqual(mockCache.putMap.has('/missing', 'sw.test.ts: strictEqual failure'), true, 'Should cache new fetched data effectively');
-          // Clean up mock fetch
-          delete global.fetch;
-          console.log('PASS - sw.test.js');
-        } catch (e: any) {
-          console.error('Fetch handler (miss) cache.put test failed:', e);
-          process.exit(1);
-        }
+        assert.strictEqual(mockCache.putMap.has('/network-first', 'sw.test.ts: strictEqual failure'), true, 'Should cache new fetched data effectively');
+        runFetchFallbackTest();
       }, 50);
-
     }).catch(err => {
-      console.error('Fetch handler (miss) test failed:', err);
-      delete global.fetch;
+      console.error('Fetch handler network success test failed:', err);
       process.exit(1);
+    });
+  }
+
+  function runFetchFallbackTest() {
+    // Test Fetch Handler - Network Failure Fallback to Cache
+    const fetchEventFallback: any = {
+      request: '/',
+      respondWith(promise: any) {
+        this.promise = promise;
+      }
+    };
+
+    global.fetch = ((req: any) => {
+      return Promise.reject(new Error('Network offline'));
+    }) as any;
+
+    handleFetch(fetchEventFallback, mockCaches);
+    fetchEventFallback.promise.then(response => {
+      assert.strictEqual(mockCaches.matchedRequest, '/', 'Should attempt to match the request in cache after failure');
+      assert.strictEqual(response.status, 200, 'Should return cached response on network fallback');
+      assert.strictEqual(response.body, 'Cached Data', 'Should return correct cached data');
+
+      runFetchMissTest();
+    }).catch(err => {
+      console.error('Fetch handler fallback test failed:', err);
+      process.exit(1);
+    });
+  }
+
+  function runFetchMissTest() {
+    // Test Fetch Handler - Network Failure & Cache Miss
+    const fetchEventMiss: any = {
+      request: '/missing',
+      respondWith(promise: any) {
+        this.promise = promise;
+      }
+    };
+
+    global.fetch = ((req: any) => {
+      return Promise.reject(new Error('Network completely offline'));
+    }) as any;
+
+    handleFetch(fetchEventMiss, mockCaches);
+    fetchEventMiss.promise.catch(err => {
+      assert.strictEqual(err.message, 'Network completely offline', 'Should propagate error if both network and cache fail');
+      delete global.fetch;
+      console.log('PASS - sw.test.js');
     });
   }
 }

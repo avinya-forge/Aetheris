@@ -42,13 +42,16 @@ function makeFetcher(current, status = 200) {
 
     // --- buildUrl ---
     const url = buildUrl(51.51, -0.13);
-    assert.ok(url.includes('api.open-meteo.com', 'open-meteo-client.test.ts: ok failure'), 'URL must use open-meteo.com');
-    assert.ok(url.includes('latitude=51.51', 'open-meteo-client.test.ts: ok failure'), 'lat param present');
-    assert.ok(url.includes('wind_speed_unit=kmh', 'open-meteo-client.test.ts: ok failure'), 'km/h unit enforced');
+    assert.ok(url.includes('api.open-meteo.com'), 'URL must use open-meteo.com');
+    assert.ok(url.includes('latitude=51.51'), 'lat param present');
+    assert.ok(url.includes('wind_speed_unit=kmh'), 'km/h unit enforced');
+    assert.ok(url.includes('hourly='), 'hourly param present');
+    assert.ok(url.includes('pm2_5'), 'pm2_5 field requested');
+    assert.ok(url.includes('uv_index'), 'uv_index field requested');
 
     assert.strictEqual(DEFAULT_LOCATIONS.length, 6, '6 sentinel locations defined');
 
-  } catch (err) {
+  } catch (err: any) {
     console.error('FAIL - open-meteo-client.test.js:', err.message);
     process.exit(1);
   }

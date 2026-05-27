@@ -17,6 +17,19 @@ function testEdgeProxy() {
   assert.strictEqual(badResponse2.status, 400, 'Should return 400 status for missing payload key');
   assert.strictEqual(badResponse2.body, 'Bad Request', 'Should return "Bad Request" body');
 
+  // Test: Invalid payload type (Array)
+  const arrayRequest = ['payload'];
+  const arrayResponse = processRequest(arrayRequest);
+
+  assert.strictEqual(arrayResponse.status, 400, 'Should return 400 status for array payload');
+  assert.strictEqual(arrayResponse.body, 'Bad Request', 'Should return "Bad Request" body');
+
+  // Test: Invalid payload type (string)
+  const stringRequest = 'payload';
+  const stringResponse = processRequest(stringRequest);
+
+  assert.strictEqual(stringResponse.status, 400, 'Should return 400 status for string payload');
+
   // Test: Valid payload
   const validRequest = { payload: { data: 'some data' } };
   const validResponse = processRequest(validRequest);

@@ -1,7 +1,7 @@
 # Release Notes
 
 
-## v0.1.9-ui-audit — Kinetic UI Implementation
+## v0.1.10-ui-audit — Kinetic UI Implementation
 - [x] BUG: mapbox-gl-not-initialized | src/components/map/atlas.tsx
 - [x] BUG: timeline-not-integrated | src/main.jsx
 - [x] BUG: ghost-cards-unrendered | src/components/map/atlas.tsx
@@ -23,7 +23,7 @@
 - [x] TASK: fix-atlas-mapbox-error | Target: src/components/map/atlas.tsx | I/O: token -> map error | Assert: error boundary or catch for invalid mapbox token | LOC: ~10
 - [x] TASK: fix-atlas-memory-leak | Target: src/components/map/atlas.tsx | I/O: unmount -> clean | Assert: no unhandled promise rejection/leak on unmount | LOC: ~15
 
-## v0.1.9-arch-sync — Future Maintenance
+## v0.1.10-arch-sync — Future Maintenance
 - [x] TASK: improve-branch-coverage | Target: functions/ingest-cycle.js | Assert: branch cov > 80%
 - [x] TASK: migrate-lib-parser-to-esm | Target: lib/parser.ts | Assert: consistency
 
@@ -85,10 +85,10 @@
 - [x] TASK: flatten-repository-logic | Target: lib/, src/lib/ | I/O: nested -> flat | Assert: 0 nested subfolders | DONE
 - [x] TASK: enforce-test-standards | Target: tests/ | I/O: assert -> assert(val, val, msg) | Assert: all asserts have 3+ args | DONE
 - [x] TASK: implement-coverage-gate | Target: script/test.js | I/O: test -> test + c8 | Assert: fails if < 90% | DONE
-- [x] TASK: resolve-version-drift | Target: package.json | I/O: 0.1.8 -> 0.1.9 | Assert: matches .state | DONE
+- [x] TASK: resolve-version-drift | Target: package.json | I/O: 0.1.8 -> 0.1.10 | Assert: matches .state | DONE
 - [x] TASK: inject-worker-deterministic-time | Target: functions/worker.mjs | I/O: Date.now() -> injection | Assert: deterministic | DONE
 
-## v0.1.9-frontend — Frontend Core Logic Completion
+## v0.1.10-frontend — Frontend Core Logic Completion
 - [x] TASK: sync-logic-slap | script/run.sh
 - [x] TASK: architectural-sync | repo
 - [x] TASK: standardize-schema-naming | lib/schema/
@@ -123,12 +123,12 @@
 - [x] TASK: resolve-version-drift | package.json
 - [x] TASK: inject-worker-deterministic-time | functions/worker.mjs
 
-## v0.1.9 — Arch Sync & Hierarchy Flattening
+## v0.1.10 — Arch Sync & Hierarchy Flattening
 - [x] TASK: flatten-repository-logic | Flattened lib/ and src/lib/ into single-level directories for SSOT compliance.
 - [x] TASK: convert-tests-to-esm | Refactored all 63+ tests to use ESM import syntax.
 - [x] TASK: enforce-test-standards | Updated all assert calls to include mandatory descriptive failure messages (3+ arguments).
 - [x] TASK: implement-coverage-gate | Integrated c8 coverage tracking with a strict 90% line coverage failure gate.
-- [x] TASK: resolve-version-drift | Synchronized package.json and .state to version 0.1.9.
+- [x] TASK: resolve-version-drift | Synchronized package.json and .state to version 0.1.10.
 - [x] TASK: inject-worker-deterministic-time | Refactored Worker entry and Ingest cycle to support injectable time for deterministic testing.
 - [x] TASK: fix-atlas-component-extension | Verified src/components/map/atlas.tsx naming.
 - [x] TASK: verify-service-worker-caching | Confirmed offline PWA caching.

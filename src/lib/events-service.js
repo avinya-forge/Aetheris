@@ -14,4 +14,4 @@ function fetchEvents(filters = {}, now = Date.now()) {
   return events;
 }
 
-module.exports = { fetchEvents };
+export { fetchEvents };

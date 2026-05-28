@@ -23,7 +23,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
     let isMounted = true;
     if (typeof window !== 'undefined') {
       Promise.all([
-        import('react-map-gl'),
+        import('react-map-gl/mapbox'),
         import('mapbox-gl/dist/mapbox-gl.css')
       ]).then(([mod]) => {
         if (isMounted) {

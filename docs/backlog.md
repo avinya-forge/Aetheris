@@ -14,22 +14,22 @@
 
 ## Phase 6: Code Quality & Type Cleanups (PLANNED)
 - [ ] TASK: fix-typescript-errors | Target: tests/*.ts | I/O: type err -> clean build | Assert: tsc --noEmit passes | LOC: ~200
-- [ ] TASK: configure-eslint | Target: eslint.config.js | I/O: none -> config | Assert: npx eslint . works | LOC: ~20
-- [ ] TASK: fix-linting-errors | Target: lib/, src/ | I/O: error -> fix | Assert: npx eslint . passes | LOC: ~500
-- [ ] TASK: review-dead-code-paths | Target: lib/ | I/O: files -> clean | Assert: delete unused modules | LOC: ~100
+- [x] TASK: configure-eslint | Target: eslint.config.js | I/O: none -> config | Assert: npx eslint . works | LOC: ~20
+- [x] TASK: fix-linting-errors | Target: lib/, src/ | I/O: error -> fix | Assert: npx eslint . passes | LOC: ~500
+- [x] TASK: review-dead-code-paths | Target: lib/ | I/O: files -> clean | Assert: delete unused modules | LOC: ~100
 - [ ] TASK: type-safety-frontend | Target: src/components/ | I/O: any -> typed | Assert: strong types | LOC: ~200
 
 ## Phase 7: Codebase Stabilization & Review Findings (CRITICAL)
 - [ ] TASK: strict-typing-tests | Target: tests/*.ts | I/O: error -> compiled | Assert: npx tsc --noEmit reports 0 errors across 50+ test files | LOC: ~500
-- [ ] TASK: audit-dead-code-clients | Target: lib/data/* | I/O: unused clients -> removed | Assert: all pure JSON data clients are actually used or deleted | LOC: ~100
-- [ ] TASK: enforce-test-messages | Target: tests/ | I/O: assert(x, y) -> assert(x, y, msg) | Assert: all assert strictEqual/ok calls have 3 arguments | LOC: ~200
-- [ ] TASK: migrate-lib-to-esm | Target: lib/ | I/O: CJS -> ESM | Assert: memory explicitly mandates ESM migration of .ts files in lib/ | LOC: ~300
-- [ ] TASK: check-hardcoded-secrets | Target: lib/data/ | I/O: hardcoded -> env | Assert: no API keys hardcoded in code | LOC: ~50
-- [ ] TASK: review-sw-cache | Target: script/sw.js | I/O: cache logic -> robust | Assert: ensure network-first PWA fallback properly handles all routes | LOC: ~50
-- [ ] TASK: ensure-no-top-level-await | Target: functions/ | I/O: top level await -> handled | Assert: top-level await is prohibited in CJS files according to memory | LOC: ~20
-- [ ] TASK: component-tsx-enforcement | Target: src/components/ | I/O: jsx -> tsx | Assert: React components inside src/components/map/ must use .tsx extension | LOC: ~50
-- [ ] TASK: fix-test-dirname-esm | Target: tests/ | I/O: __dirname -> import.meta.url | Assert: test files must dynamically compute __dirname when using ESM | LOC: ~50
-- [ ] TASK: review-io-purity | Target: lib/ | I/O: impure -> pure | Assert: API clients in lib/ return raw JSON, mapping logic in dedicated mappers | LOC: ~150
+- [x] TASK: audit-dead-code-clients | Target: lib/data/* | I/O: unused clients -> removed | Assert: all pure JSON data clients are actually used or deleted | LOC: ~100
+- [x] TASK: enforce-test-messages | Target: tests/ | I/O: assert(x, y) -> assert(x, y, msg) | Assert: all assert strictEqual/ok calls have 3 arguments | LOC: ~200
+- [x] TASK: migrate-lib-to-esm | Target: lib/ | I/O: CJS -> ESM | Assert: memory explicitly mandates ESM migration of .ts files in lib/ | LOC: ~300
+- [x] TASK: check-hardcoded-secrets | Target: lib/data/ | I/O: hardcoded -> env | Assert: no API keys hardcoded in code | LOC: ~50
+- [x] TASK: review-sw-cache | Target: script/sw.js | I/O: cache logic -> robust | Assert: ensure network-first PWA fallback properly handles all routes | LOC: ~50
+- [x] TASK: ensure-no-top-level-await | Target: functions/ | I/O: top level await -> handled | Assert: top-level await is prohibited in CJS files according to memory | LOC: ~20
+- [x] TASK: component-tsx-enforcement | Target: src/components/ | I/O: jsx -> tsx | Assert: React components inside src/components/map/ must use .tsx extension | LOC: ~50
+- [x] TASK: fix-test-dirname-esm | Target: tests/ | I/O: __dirname -> import.meta.url | Assert: test files must dynamically compute __dirname when using ESM | LOC: ~50
+- [x] TASK: review-io-purity | Target: lib/ | I/O: impure -> pure | Assert: API clients in lib/ return raw JSON, mapping logic in dedicated mappers | LOC: ~150
 
 
 ## Phase 8: Deep Codebase Quality & Standards Audit

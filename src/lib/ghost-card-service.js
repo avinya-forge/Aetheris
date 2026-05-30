@@ -8,4 +8,4 @@ function getGhostCards() {
   ];
 }
 
-module.exports = { getGhostCards };
+export { getGhostCards };

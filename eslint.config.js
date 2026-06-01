@@ -2,6 +2,7 @@ const tsParser = require('@typescript-eslint/parser');
 
 module.exports = [
   {
+    ignores: ['node_modules/**', 'dist/**'],
     files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
     languageOptions: {
       ecmaVersion: 2022,

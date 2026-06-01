@@ -2,9 +2,9 @@ import assert from 'assert';
 import { mapGdeltArticle } from '../lib/news-mapper';
 
 try {
-  const rawArt = { url: "http://example.com", title: "Test Article", seendate: "20240101", socialimage: "http://img.com" };
+  const rawArt = { url: 'http://example.com', title: 'Test Article', seendate: '20240101', socialimage: 'http://img.com' };
   const mappedArt = mapGdeltArticle(rawArt);
-  assert.strictEqual(mappedArt.text, "Test Article", "news-mapper.test.js strictEqual failed");
+  assert.strictEqual(mappedArt.text, 'Test Article', 'news-mapper.test.js strictEqual failed');
   assert.strictEqual(mappedArt.impactScore, 10, 'news-mapper.test.js: value mismatch');
   assert.strictEqual(mappedArt.source, 'gdelt', 'news-mapper.test.js: value mismatch');
 

@@ -1,10 +1,10 @@
 import assert from 'assert';
 const {
   runIngestCycle,
-  getSourceMeta,
-  updateSourceMeta,
+
+
   KV_EVENTS_LATEST,
-  MAX_EVENTS_IN_KV,
+
 } = require('../functions/ingest-cycle.js');
 
 function makeMockKv(initial = {}) {
@@ -81,7 +81,7 @@ function makeMockKv(initial = {}) {
     const staleKv = makeMockKv({
       'events:latest': JSON.stringify([{ id: 'old1', timestamp: 1000, content: 'stale data' }])
     });
-    const nowcastResult = await runIngestCycle({ CACHE: staleKv }, mockClients, async () => 'Interpolated AI brief', 1000 + 7 * 60 * 60 * 1000);
+    await runIngestCycle({ CACHE: staleKv }, mockClients, async () => 'Interpolated AI brief', 1000 + 7 * 60 * 60 * 1000);
     const updatedRaw = await staleKv.get(KV_EVENTS_LATEST);
     const updatedEvents = JSON.parse(updatedRaw as string);
     const interpolatedEvent = updatedEvents.find((e: any) => e.id === 'old1');

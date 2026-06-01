@@ -46,7 +46,7 @@ const {
 
     // createRateLimitedSynthesizer: calls synthesizer when under limit
     let synthCalled = false;
-    const mockSynth = async (text) => { synthCalled = true; return 'brief text'; };
+    const mockSynth = async (_text) => { synthCalled = true; return 'brief text'; };
     const store2 = {};
     const kv2 = {
       get: async k => store2[k] !== undefined ? store2[k] : null,

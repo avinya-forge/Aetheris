@@ -16,7 +16,7 @@ function makeFetcher(body, status = 200) {
 
     const result = await fetchGdelt(makeFetcher(rawData));
     assert.strictEqual(result.articles.length, 2, 'return raw articles array');
-    assert.strictEqual(result.articles[0].url, 'https://a.com', "gdelt-client.test.js strictEqual failed");
+    assert.strictEqual(result.articles[0].url, 'https://a.com', 'gdelt-client.test.js strictEqual failed');
 
     // malformed response
     const empty = await fetchGdelt(makeFetcher({ not_articles: [] }));

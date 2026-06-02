@@ -56,14 +56,14 @@ globalThis.Response = MockResponse as any;
     assert.strictEqual(eventsData.length, 0, 'Events should be empty initially');
 
     // --- Test: GET /api/events (populated) ---
-    const testEvents = [{ id: '1', publishedAt: new Date(Date.parse("2026-04-20T00:00:00Z")).toISOString() }];
+    const testEvents = [{ id: '1', publishedAt: new Date(Date.parse('2026-04-20T00:00:00Z')).toISOString() }];
     await env.CACHE.put('events:latest', JSON.stringify(testEvents));
     const populatedRes = await worker.fetch(eventsReq, env, {});
     const populatedData = await populatedRes.json();
     assert.strictEqual(populatedData.length, 1, 'Should return populated events');
 
     // --- Test: GET /api/events?since=... ---
-    const oldDate = new Date(Date.parse("2026-04-20T00:00:00Z") - 10000).getTime();
+    const oldDate = new Date(Date.parse('2026-04-20T00:00:00Z') - 10000).getTime();
     const sinceReq = {
       url: `http://localhost/api/events?since=${oldDate}`,
       method: 'GET'
@@ -72,7 +72,7 @@ globalThis.Response = MockResponse as any;
     const sinceData = await sinceRes.json();
     assert.strictEqual(sinceData.length, 1, 'Should return event after since timestamp');
 
-    const futureDate = new Date(Date.parse("2026-04-20T00:00:00Z") + 10000).getTime();
+    const futureDate = new Date(Date.parse('2026-04-20T00:00:00Z') + 10000).getTime();
     const futureSinceReq = {
       url: `http://localhost/api/events?since=${futureDate}`,
       method: 'GET'

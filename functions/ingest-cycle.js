@@ -161,7 +161,7 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
       }
 
       rawBySourceMapped[id] = mappedItems;
-    } catch (e) {
+    } catch (_e) {
       // Source failure → skip; don't update lastFetchedAt so it retries next cycle
       continue;
     }

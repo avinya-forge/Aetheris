@@ -23,7 +23,7 @@ function makeFetcher(body, status = 200) {
     assert.strictEqual(
       res.candidates[0].content.parts[0].text,
       'A short factual brief.',
-      "callGemini: should return expected text from candidates"
+      'callGemini: should return expected text from candidates'
     );
 
     const errorRes = await callGemini('test', 'key', makeFetcher({}, 500));

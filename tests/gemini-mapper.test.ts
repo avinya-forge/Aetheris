@@ -16,7 +16,7 @@ import { mapGeminiResponse } from '../lib/gemini-mapper';
     };
 
     const brief = mapGeminiResponse(rawData);
-    assert.strictEqual(brief, 'A short factual brief.', "gemini-mapper.test.js: simple brief mapping failed");
+    assert.strictEqual(brief, 'A short factual brief.', 'gemini-mapper.test.js: simple brief mapping failed');
 
     const longData = {
       candidates: [
@@ -32,7 +32,7 @@ import { mapGeminiResponse } from '../lib/gemini-mapper';
     const capped = mapGeminiResponse(longData);
     const wordCount = capped.split(/\s+/).length;
     assert.strictEqual(wordCount, 30, 'Should be 30 words');
-    assert.ok(capped.endsWith('...'), "gemini-mapper.test.ts: long response should be capped with ellipsis");
+    assert.ok(capped.endsWith('...'), 'gemini-mapper.test.ts: long response should be capped with ellipsis');
 
     console.log('PASS - gemini-mapper.test.js');
   } catch (err) {

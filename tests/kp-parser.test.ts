@@ -18,7 +18,7 @@ try {
   assert.strictEqual(extremeResult.alert, true, 'kp_index 9 should trigger an alert');
   assert.strictEqual(extremeResult.severity, 'EXTREME', 'kp_index 9 severity should be EXTREME');
 
-  const stringResult = parseKpIndex({ kp_index: "6" });
+  const stringResult = parseKpIndex({ kp_index: '6' });
   assert.strictEqual(stringResult.value, 6, 'string parsing should return parsed value');
   assert.strictEqual(stringResult.alert, true, 'string parsing should trigger an alert');
   assert.strictEqual(stringResult.severity, 'HIGH', 'string parsing should evaluate severity');

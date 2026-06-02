@@ -62,11 +62,11 @@ function testServiceWorker() {
       }
     };
 
-    global.fetch = ((req: any) => {
+    global.fetch = ((_req: any) => {
       return Promise.resolve({
         status: 200,
         type: 'basic',
-        body: `Fetched from network: ${req}`,
+        body: `Fetched from network: ${_req}`,
         clone() { return this; }
       }) as any;
     }) as any;
@@ -95,7 +95,7 @@ function testServiceWorker() {
       }
     };
 
-    global.fetch = ((req: any) => {
+    global.fetch = ((_req: any) => {
       return Promise.reject(new Error('Network offline'));
     }) as any;
 
@@ -121,7 +121,7 @@ function testServiceWorker() {
       }
     };
 
-    global.fetch = ((req: any) => {
+    global.fetch = ((_req: any) => {
       return Promise.reject(new Error('Network completely offline'));
     }) as any;
 

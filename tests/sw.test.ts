@@ -77,7 +77,7 @@ function testServiceWorker() {
       assert.strictEqual(response.body, 'Fetched from network: /network-first', 'Should return fetched data');
 
       setTimeout(() => {
-        assert.strictEqual(mockCache.putMap.has('/network-first', 'sw.test.ts: strictEqual failure'), true, 'Should cache new fetched data effectively');
+        assert.strictEqual(mockCache.putMap.has('/network-first'), true, 'Should cache new fetched data effectively');
         runFetchFallbackTest();
       }, 50);
     }).catch(err => {

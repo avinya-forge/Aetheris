@@ -10,7 +10,7 @@ try {
 
   const clusters = identifyClusters(events);
 
-  assert.strictEqual(Array.isArray(clusters, 'cluster-identifier.test.ts: strictEqual failure'), true, 'cluster-identifier.test.js: value mismatch');
+  assert.strictEqual(Array.isArray(clusters), true, 'cluster-identifier.test.js: value mismatch');
   assert.strictEqual(clusters.length, 2, 'cluster-identifier.test.js: value mismatch');
 
   const climateCluster = clusters.find(c => c.theme === 'Climate');

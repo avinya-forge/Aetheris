@@ -1,15 +1,16 @@
 import React from 'react';
 
-const GhostCard = ({ event = {} }) => {
+const GhostCard = ({ event = { title: undefined, likelihood: undefined, interpolated: undefined } }) => {
   const { title = 'Unknown Event', likelihood = 0.5, interpolated = false } = event;
   return (
     <div
       className="ghost-card"
       style={{
         opacity: Math.max(0.3, likelihood),
-        background: 'rgba(255,255,255,0.05)',
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.4))',
         backdropFilter: 'blur(5px)',
-        border: '1px solid rgba(255,255,255,0.1)',
+        border: '1px solid rgba(0,210,255,0.3)',
+        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5)',
         padding: '12px',
         borderRadius: '8px',
         color: 'white',

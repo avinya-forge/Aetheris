@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(__dirname, '..');
 const state = parseDocsState(rootDir);
 
-assert.ok(Array.isArray(state, 'parser.test.ts: ok failure'), 'parser.test.js: missing value');
+assert.ok(Array.isArray(state), 'parser.test.js: missing value');
 const index = state.find(doc => doc.path === 'docs/backlog.md');
 assert.ok(index, 'parser.test.js: missing value');
 assert.strictEqual(index.exists, true, 'parser.test.js: value mismatch');
@@ -28,7 +28,7 @@ const requiredDocs = [
 ];
 
 const state2 = parseDocsState(rootDir, requiredDocs);
-assert.ok(Array.isArray(state2, 'parser.test.ts: ok failure'), 'parser.test.js: missing value');
+assert.ok(Array.isArray(state2), 'parser.test.js: missing value');
 assert.strictEqual(state2.length, requiredDocs.length, 'parser.test.js must match');
 const index2 = state2.find(doc => doc.path === 'docs/backlog.md');
 assert.ok(index2, 'parser.test.js: missing value');

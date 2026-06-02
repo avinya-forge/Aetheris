@@ -40,7 +40,7 @@ function makeMockKv(initial = {}) {
     assert.ok(typeof result.synthesis === 'object', 'synthesis must be an object');
 
     const stored = JSON.parse((await kvFresh.get(KV_EVENTS_LATEST)) as string);
-    assert.ok(Array.isArray(stored, 'ingest-cycle.test.ts: ok failure'), 'events:latest must be an array');
+    assert.ok(Array.isArray(stored), 'events:latest must be an array');
     assert.ok(stored.length > 0, 'events:latest must have entries');
 
     // --- test branch: no new events ---
@@ -69,7 +69,7 @@ function makeMockKv(initial = {}) {
     // --- test branch: default clients fallback ---
     const envNoClients = { CACHE: makeMockKv(), NASA_API_KEY: 'test-key' };
     const noClientsResult = await runIngestCycle(envNoClients, undefined, async () => 'AI brief', Date.now());
-    assert.ok(Array.isArray(noClientsResult.polled), 'polled should be array');
+    assert.ok(Array.isArray(noClientsResult.polled));
 
     // --- test branch: default synthesizer WITH API key ---
     // Actually, calling the default synthesizer with an API key will attempt a real fetch to Gemini.

@@ -11,7 +11,7 @@ try {
 
   const clusters = analyzeClusters(events);
 
-  assert.strictEqual(Array.isArray(clusters, 'cluster-analyzer.test.ts: strictEqual failure'), true, 'clusters should be an array');
+  assert.strictEqual(Array.isArray(clusters), true, 'clusters should be an array');
   assert.strictEqual(clusters.length, 1, 'should have 1 merged cluster bridging all events');
 
   const tradeCluster = clusters.find(c => c.keywords.includes('trade'));

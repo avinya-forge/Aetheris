@@ -1,19 +1,36 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "CommonJS",
+    "module": "ESNext",
     "moduleResolution": "node",
     "ignoreDeprecations": "6.0",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
+    "allowJs": false,
     "resolveJsonModule": true,
     "jsx": "react",
-    "types": ["node"]
+    "types": [
+      "node"
+    ],
+    "noImplicitAny": false,
+    "checkJs": false
   },
-  "include": ["lib/**/*", "tests/**/*", "script/**/*", "functions/**/*", "src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "lib/**/*",
+    "tests/**/*",
+    "script/**/*",
+    "functions/**/*",
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

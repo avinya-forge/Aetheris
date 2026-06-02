@@ -12,7 +12,7 @@ const forecasts = [
 
 const result = generateGhostCards(forecasts);
 
-assert.strictEqual(Array.isArray(result, 'probability-cones.test.ts: strictEqual failure'), true, 'probability-cones.test.js: value mismatch');
+assert.strictEqual(Array.isArray(result), true, 'probability-cones.test.js: value mismatch');
 assert.strictEqual(result.length, 2, 'probability-cones.test.js: value mismatch');
 
 const firstCard = result[0];

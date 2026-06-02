@@ -2,6 +2,7 @@ import React, { useState, useEffect, } from 'react';
 import { Timeline } from './timeline';
 import { GhostCard } from '../ui/ghost-card';
 
+
 // Node-safe mock
 const MapMock = ({ children, style }) => (
   <div data-testid="map-mock" style={style}>
@@ -16,15 +17,14 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
     zoom: 1.5
   });
 
-  const [MapComponents, setMapComponents] = useState(null);
+  const [MapComponents, setMapComponents] = useState<any>(null);
   const [mapError, setMapError] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
     if (typeof window !== 'undefined') {
       Promise.all([
-        import('react-map-gl/mapbox'),
-        import('mapbox-gl/dist/mapbox-gl.css')
+        import('react-map-gl/mapbox')
       ]).then(([mod]) => {
         if (isMounted) {
           setMapComponents({
@@ -53,7 +53,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
 
   const MAPBOX_TOKEN = 'pk.eyJ1Ijoiam1hcnRpbmV6LWp1bGVzIiwiYSI6ImNtNzV0em1zazBjNG4ycW9rbTNyYWh6NHoifQ.X90_n8_3_5_2_1_0_0_0';
 
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh', background: getAtmosphereColor(kpIndex), overflow: 'hidden' }} data-testid="atlas-container">
@@ -66,7 +66,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
       ) : MapComponents ? (
         <MapComponents.Map
           {...viewState}
-          onMove={evt => setViewState(evt.viewState)}
+          onMove={(evt) => setViewState(evt.viewState)}
           onError={() => setMapError(true)}
           style={{ width: '100%', height: '100%' }}
           mapStyle="mapbox://styles/mapbox/dark-v11"
@@ -74,13 +74,13 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
         >
           <MapComponents.NavigationControl position="top-right" />
 
-          {events.map(event => (
+          {events.map((event) => (
             <MapComponents.Marker
               key={event.id}
               longitude={event.lng}
               latitude={event.lat}
               anchor="bottom"
-              onClick={e => {
+              onClick={(e) => {
                 e.originalEvent.stopPropagation();
                 setSelectedEvent(event);
               }}
@@ -128,7 +128,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
         color: 'white',
         pointerEvents: 'none',
         zIndex: 10,
-        textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+        textShadow: '0 0 10px rgba(0, 210, 255, 0.8), 0 2px 4px rgba(0,0,0,0.5)'
       }}>
         <h1 style={{ margin: 0, fontSize: 'clamp(1rem, 5vw, 1.8rem)' }}>Aetheris Atlas</h1>
         <div style={{
@@ -156,7 +156,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0 }) => {
         overflowY: 'auto',
         paddingRight: '10px'
       }}>
-        {ghostCards.map(gc => (
+        {ghostCards.map((gc) => (
           <GhostCard key={gc.id} event={gc} />
         ))}
       </div>

@@ -4,132 +4,20 @@
 
 ---
 
-## Phase 5: Architecture & Synchronization (ACTIVE)
-- [x] TASK: fix-atlas-build | Target: src/components/map/atlas.tsx | I/O: react-map-gl -> module | Assert: build succeeds | LOC: ~5
-- [x] TASK: migrate-services-to-esm | Target: src/lib/events-service.js,src/lib/ghost-card-service.js | I/O: module.exports -> export | Assert: exports work | LOC: ~10
-- [x] TASK: fix-e2e-tests | Target: tests/e2e.spec.js | I/O: error -> pass | Assert: E2E tests pass | LOC: ~5
-- [x] TASK: resolve-npm-audit | Target: package.json | I/O: audit -> 0 vulns | Assert: npm audit passes | LOC: ~10
-- [x] TASK: sync-documentation-ssot | Target: docs/ | I/O: flat hierarchy -> verified | Assert: files copied | LOC: ~5
-- [x] TASK: final-verification | Target: repo | I/O: build/tests -> pass | Assert: coverage > 95% | LOC: 0
+## Phase 9: Quality & Coverage Stabilization (CRITICAL)
+- [x] TASK: fix-atlas-branch-coverage | Target: src/components/map/atlas.tsx | I/O: props -> coverage | Assert: line coverage > 70% | LOC: ~30
+- [x] TASK: fix-timeline-state-coverage | Target: src/components/map/timeline.tsx | I/O: events -> coverage | Assert: line coverage > 90% | LOC: ~20
+- [x] TASK: implement-kp-parser-tests | Target: lib/kp-parser.js | I/O: rawData -> coverage | Assert: coverage reached 100% | LOC: ~20
+- [x] TASK: deep-clean-coverage-gap | Target: repo | I/O: 94% -> 95% | Assert: npm test passes with 95% gate | LOC: ~50
+- [ ] TASK: audit-lib-io-purity | Target: lib/ | I/O: audit -> verified | Assert: all API clients return raw JSON | LOC: ~100
+- [x] TASK: enforce-standard-asserts | Target: tests/ | I/O: audit -> 3-arg asserts | Assert: all tests use descriptive failure messages | LOC: ~200
+- [ ] TASK: repository-health-audit | Target: repo | I/O: audit -> pristine | Assert: no unused artifacts or temp files | LOC: ~20
 
-## Phase 6: Code Quality & Type Cleanups (PLANNED)
-- [x] TASK: fix-typescript-errors | Target: tests/*.ts | I/O: type err -> clean build | Assert: tsc --noEmit passes | LOC: ~200
-- [x] TASK: configure-eslint | Target: eslint.config.js | I/O: none -> config | Assert: npx eslint . works | LOC: ~20
-- [x] TASK: fix-linting-errors | Target: lib/, src/ | I/O: error -> fix | Assert: npx eslint . passes | LOC: ~500
-- [x] TASK: review-dead-code-paths | Target: lib/ | I/O: files -> clean | Assert: delete unused modules | LOC: ~100
-- [x] TASK: type-safety-frontend | Target: src/components/ | I/O: any -> typed | Assert: strong types | LOC: ~200
-
-## Phase 7: Codebase Stabilization & Review Findings (CRITICAL)
-- [x] TASK: strict-typing-tests | Target: tests/*.ts | I/O: error -> compiled | Assert: npx tsc --noEmit reports 0 errors across 50+ test files | LOC: ~500
-- [x] TASK: audit-dead-code-clients | Target: lib/data/* | I/O: unused clients -> removed | Assert: all pure JSON data clients are actually used or deleted | LOC: ~100
-- [x] TASK: enforce-test-messages | Target: tests/ | I/O: assert(x, y) -> assert(x, y, msg) | Assert: all assert strictEqual/ok calls have 3 arguments | LOC: ~200
-- [x] TASK: migrate-lib-to-esm | Target: lib/ | I/O: CJS -> ESM | Assert: memory explicitly mandates ESM migration of .ts files in lib/ | LOC: ~300
-- [x] TASK: check-hardcoded-secrets | Target: lib/data/ | I/O: hardcoded -> env | Assert: no API keys hardcoded in code | LOC: ~50
-- [x] TASK: review-sw-cache | Target: script/sw.js | I/O: cache logic -> robust | Assert: ensure network-first PWA fallback properly handles all routes | LOC: ~50
-- [x] TASK: ensure-no-top-level-await | Target: functions/ | I/O: top level await -> handled | Assert: top-level await is prohibited in CJS files according to memory | LOC: ~20
-- [x] TASK: component-tsx-enforcement | Target: src/components/ | I/O: jsx -> tsx | Assert: React components inside src/components/map/ must use .tsx extension | LOC: ~50
-- [x] TASK: fix-test-dirname-esm | Target: tests/ | I/O: __dirname -> import.meta.url | Assert: test files must dynamically compute __dirname when using ESM | LOC: ~50
-- [x] TASK: review-io-purity | Target: lib/ | I/O: impure -> pure | Assert: API clients in lib/ return raw JSON, mapping logic in dedicated mappers | LOC: ~150
-
+## Phase 10: Specific Coverage Gaps
+- [ ] TASK: fix-gemini-client-uncovered | Target: lib/gemini-client.js | I/O: mock-response -> lines 38-39 | Assert: coverage > 95% | LOC: ~10
+- [ ] TASK: fix-generator-uncovered | Target: lib/generator.js | I/O: mock-data -> lines 43-48 | Assert: coverage > 95% | LOC: ~10
 
 ## Phase 8: Deep Codebase Quality & Standards Audit
 - [ ] TASK: chore-review-file-1 | Target: src/lib/ | I/O: audit -> clean | Assert: file 1 complies with standard | LOC: ~10
 - [ ] TASK: chore-review-file-2 | Target: src/lib/ | I/O: audit -> clean | Assert: file 2 complies with standard | LOC: ~10
 - [ ] TASK: chore-review-file-3 | Target: src/lib/ | I/O: audit -> clean | Assert: file 3 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-4 | Target: src/lib/ | I/O: audit -> clean | Assert: file 4 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-5 | Target: src/lib/ | I/O: audit -> clean | Assert: file 5 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-6 | Target: src/lib/ | I/O: audit -> clean | Assert: file 6 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-7 | Target: src/lib/ | I/O: audit -> clean | Assert: file 7 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-8 | Target: src/lib/ | I/O: audit -> clean | Assert: file 8 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-9 | Target: src/lib/ | I/O: audit -> clean | Assert: file 9 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-10 | Target: src/lib/ | I/O: audit -> clean | Assert: file 10 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-11 | Target: src/lib/ | I/O: audit -> clean | Assert: file 11 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-12 | Target: src/lib/ | I/O: audit -> clean | Assert: file 12 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-13 | Target: src/lib/ | I/O: audit -> clean | Assert: file 13 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-14 | Target: src/lib/ | I/O: audit -> clean | Assert: file 14 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-15 | Target: src/lib/ | I/O: audit -> clean | Assert: file 15 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-16 | Target: src/lib/ | I/O: audit -> clean | Assert: file 16 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-17 | Target: src/lib/ | I/O: audit -> clean | Assert: file 17 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-18 | Target: src/lib/ | I/O: audit -> clean | Assert: file 18 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-19 | Target: src/lib/ | I/O: audit -> clean | Assert: file 19 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-20 | Target: src/lib/ | I/O: audit -> clean | Assert: file 20 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-21 | Target: src/lib/ | I/O: audit -> clean | Assert: file 21 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-22 | Target: src/lib/ | I/O: audit -> clean | Assert: file 22 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-23 | Target: src/lib/ | I/O: audit -> clean | Assert: file 23 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-24 | Target: src/lib/ | I/O: audit -> clean | Assert: file 24 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-25 | Target: src/lib/ | I/O: audit -> clean | Assert: file 25 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-26 | Target: src/lib/ | I/O: audit -> clean | Assert: file 26 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-27 | Target: src/lib/ | I/O: audit -> clean | Assert: file 27 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-28 | Target: src/lib/ | I/O: audit -> clean | Assert: file 28 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-29 | Target: src/lib/ | I/O: audit -> clean | Assert: file 29 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-30 | Target: src/lib/ | I/O: audit -> clean | Assert: file 30 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-31 | Target: src/lib/ | I/O: audit -> clean | Assert: file 31 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-32 | Target: src/lib/ | I/O: audit -> clean | Assert: file 32 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-33 | Target: src/lib/ | I/O: audit -> clean | Assert: file 33 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-34 | Target: src/lib/ | I/O: audit -> clean | Assert: file 34 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-35 | Target: src/lib/ | I/O: audit -> clean | Assert: file 35 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-36 | Target: src/lib/ | I/O: audit -> clean | Assert: file 36 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-37 | Target: src/lib/ | I/O: audit -> clean | Assert: file 37 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-38 | Target: src/lib/ | I/O: audit -> clean | Assert: file 38 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-39 | Target: src/lib/ | I/O: audit -> clean | Assert: file 39 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-40 | Target: src/lib/ | I/O: audit -> clean | Assert: file 40 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-41 | Target: src/lib/ | I/O: audit -> clean | Assert: file 41 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-42 | Target: src/lib/ | I/O: audit -> clean | Assert: file 42 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-43 | Target: src/lib/ | I/O: audit -> clean | Assert: file 43 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-44 | Target: src/lib/ | I/O: audit -> clean | Assert: file 44 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-45 | Target: src/lib/ | I/O: audit -> clean | Assert: file 45 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-46 | Target: src/lib/ | I/O: audit -> clean | Assert: file 46 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-47 | Target: src/lib/ | I/O: audit -> clean | Assert: file 47 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-48 | Target: src/lib/ | I/O: audit -> clean | Assert: file 48 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-49 | Target: src/lib/ | I/O: audit -> clean | Assert: file 49 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-50 | Target: src/lib/ | I/O: audit -> clean | Assert: file 50 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-51 | Target: src/lib/ | I/O: audit -> clean | Assert: file 51 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-52 | Target: src/lib/ | I/O: audit -> clean | Assert: file 52 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-53 | Target: src/lib/ | I/O: audit -> clean | Assert: file 53 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-54 | Target: src/lib/ | I/O: audit -> clean | Assert: file 54 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-55 | Target: src/lib/ | I/O: audit -> clean | Assert: file 55 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-56 | Target: src/lib/ | I/O: audit -> clean | Assert: file 56 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-57 | Target: src/lib/ | I/O: audit -> clean | Assert: file 57 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-58 | Target: src/lib/ | I/O: audit -> clean | Assert: file 58 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-59 | Target: src/lib/ | I/O: audit -> clean | Assert: file 59 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-60 | Target: src/lib/ | I/O: audit -> clean | Assert: file 60 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-61 | Target: src/lib/ | I/O: audit -> clean | Assert: file 61 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-62 | Target: src/lib/ | I/O: audit -> clean | Assert: file 62 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-63 | Target: src/lib/ | I/O: audit -> clean | Assert: file 63 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-64 | Target: src/lib/ | I/O: audit -> clean | Assert: file 64 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-65 | Target: src/lib/ | I/O: audit -> clean | Assert: file 65 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-66 | Target: src/lib/ | I/O: audit -> clean | Assert: file 66 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-67 | Target: src/lib/ | I/O: audit -> clean | Assert: file 67 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-68 | Target: src/lib/ | I/O: audit -> clean | Assert: file 68 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-69 | Target: src/lib/ | I/O: audit -> clean | Assert: file 69 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-70 | Target: src/lib/ | I/O: audit -> clean | Assert: file 70 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-71 | Target: src/lib/ | I/O: audit -> clean | Assert: file 71 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-72 | Target: src/lib/ | I/O: audit -> clean | Assert: file 72 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-73 | Target: src/lib/ | I/O: audit -> clean | Assert: file 73 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-74 | Target: src/lib/ | I/O: audit -> clean | Assert: file 74 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-75 | Target: src/lib/ | I/O: audit -> clean | Assert: file 75 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-76 | Target: src/lib/ | I/O: audit -> clean | Assert: file 76 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-77 | Target: src/lib/ | I/O: audit -> clean | Assert: file 77 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-78 | Target: src/lib/ | I/O: audit -> clean | Assert: file 78 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-79 | Target: src/lib/ | I/O: audit -> clean | Assert: file 79 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-80 | Target: src/lib/ | I/O: audit -> clean | Assert: file 80 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-81 | Target: src/lib/ | I/O: audit -> clean | Assert: file 81 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-82 | Target: src/lib/ | I/O: audit -> clean | Assert: file 82 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-83 | Target: src/lib/ | I/O: audit -> clean | Assert: file 83 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-84 | Target: src/lib/ | I/O: audit -> clean | Assert: file 84 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-85 | Target: src/lib/ | I/O: audit -> clean | Assert: file 85 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-86 | Target: src/lib/ | I/O: audit -> clean | Assert: file 86 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-87 | Target: src/lib/ | I/O: audit -> clean | Assert: file 87 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-88 | Target: src/lib/ | I/O: audit -> clean | Assert: file 88 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-89 | Target: src/lib/ | I/O: audit -> clean | Assert: file 89 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-90 | Target: src/lib/ | I/O: audit -> clean | Assert: file 90 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-91 | Target: src/lib/ | I/O: audit -> clean | Assert: file 91 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-92 | Target: src/lib/ | I/O: audit -> clean | Assert: file 92 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-93 | Target: src/lib/ | I/O: audit -> clean | Assert: file 93 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-94 | Target: src/lib/ | I/O: audit -> clean | Assert: file 94 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-95 | Target: src/lib/ | I/O: audit -> clean | Assert: file 95 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-96 | Target: src/lib/ | I/O: audit -> clean | Assert: file 96 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-97 | Target: src/lib/ | I/O: audit -> clean | Assert: file 97 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-98 | Target: src/lib/ | I/O: audit -> clean | Assert: file 98 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-99 | Target: src/lib/ | I/O: audit -> clean | Assert: file 99 complies with standard | LOC: ~10
-- [ ] TASK: chore-review-file-100 | Target: src/lib/ | I/O: audit -> clean | Assert: file 100 complies with standard | LOC: ~10

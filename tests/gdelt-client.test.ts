@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { fetchGdelt, GDELT_URL } from '../lib/gdelt-client';
 
-function makeFetcher(body, status = 200) {
+function makeFetcher(body: any, status = 200) {
   return async () => ({ ok: status >= 200 && status < 300, status, json: async () => body });
 }
 
@@ -22,14 +22,22 @@ function makeFetcher(body, status = 200) {
     const empty = await fetchGdelt(makeFetcher({ not_articles: [] }));
     assert.deepStrictEqual(empty.not_articles, [], 'missing articles key');
 
-    assert.ok(GDELT_URL.includes('api.gdeltproject.org', 'gdelt-client.test.ts: ok failure'), 'URL must point to GDELT');
-    assert.ok(GDELT_URL.includes('format=json', 'gdelt-client.test.ts: ok failure'), 'GDELT_URL must request JSON format');
+    // Error case
+    try {
+      await fetchGdelt(makeFetcher({}, 500));
+      assert.fail('Should have thrown on non-ok response');
+    } catch (e: any) {
+      assert.ok(e.message.includes('500'), 'Error message should include status code');
+    }
 
-  } catch (err) {
+    assert.ok(GDELT_URL.includes('api.gdeltproject.org'), 'URL must point to GDELT');
+    assert.ok(GDELT_URL.includes('format=json'), 'GDELT_URL must request JSON format');
+
+    console.log('PASS - gdelt-client.test.js');
+  } catch (err: any) {
     console.error('FAIL - gdelt-client.test.js:', err.message);
     process.exit(1);
   }
 })();
-console.log('PASS - gdelt-client.test.js');
 
 export {};

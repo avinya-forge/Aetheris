@@ -23,10 +23,10 @@ try {
   // Should close after 60s
   assert.deepStrictEqual(getCircuitState('src1', 5, now, now + 60000), { isOpen: false, retryAfter: 0 }, 'Should close after 60s');
 
-} catch (error) {
+  console.log('PASS - circuit-breaker.test.js');
+} catch (error: any) {
   console.error('circuit-breaker test failed:', error.message);
   process.exit(1);
 }
-console.log('PASS - circuit-breaker.test.js');
 
 export {};

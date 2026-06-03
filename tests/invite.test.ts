@@ -2,14 +2,15 @@ import assert from 'assert';
 import { validateInviteCode } from '../src/lib/invite';
 
 try {
-  assert.strictEqual(validateInviteCode('AETHERIS-BETA-01', 'invite.test.ts: strictEqual failure'), true, 'Valid code should pass');
-  assert.strictEqual(validateInviteCode(' aetheris-beta-02 ', 'invite.test.ts: strictEqual failure'), true, 'Valid code with whitespace and lowercase should pass');
-  assert.strictEqual(validateInviteCode('INVALID-CODE', 'invite.test.ts: strictEqual failure'), false, 'Invalid code should fail');
-  assert.strictEqual(validateInviteCode('', 'invite.test.ts: strictEqual failure'), false, 'Empty code should fail');
-  assert.strictEqual(validateInviteCode(null, 'invite.test.ts: strictEqual failure'), false, 'Null code should fail');
+  assert.strictEqual(validateInviteCode('AETHERIS-BETA-01'), true, 'Valid code should pass');
+  assert.strictEqual(validateInviteCode(' aetheris-beta-02 '), true, 'Valid code with whitespace and lowercase should pass');
+  assert.strictEqual(validateInviteCode('INVALID-CODE'), false, 'Invalid code should fail');
+  assert.strictEqual(validateInviteCode(''), false, 'Empty code should fail');
+  assert.strictEqual(validateInviteCode(null as any), false, 'Null code should fail');
+
   console.log('PASS - invite.test.js');
-} catch (error) {
-  console.error('FAIL - invite.test.js', error);
+} catch (e: any) {
+  console.error('FAIL - invite.test.js:', e.message);
   process.exit(1);
 }
 

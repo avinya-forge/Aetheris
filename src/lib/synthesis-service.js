@@ -9,4 +9,4 @@ function getSynthesis(clusterId) {
   };
 }
 
-module.exports = { getSynthesis };
+export { getSynthesis };

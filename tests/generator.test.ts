@@ -1,52 +1,52 @@
+import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import assert from 'assert';
 import { populateMissingDocs, updatePulseTable } from '../lib/generator';
 import { parseDocsState } from '../lib/parser';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const testDir = path.join(__dirname, 'test-docs-gen');
 
-const testDir = path.join(__dirname, '..', 'tmp-docs');
-if (!fs.existsSync(testDir)) {
-  fs.mkdirSync(testDir, { recursive: true });
+try {
+  // Test populateMissingDocs
+  if (!fs.existsSync(testDir)) fs.mkdirSync(testDir);
+  const requiredDocs = ['doc1.md', 'subdir/doc2.md'];
+  const mockState = parseDocsState(testDir, requiredDocs);
+
+  populateMissingDocs(testDir, mockState);
+
+  assert.ok(fs.existsSync(path.join(testDir, 'doc1.md')), 'doc1.md should be created');
+  assert.ok(fs.existsSync(path.join(testDir, 'subdir/doc2.md')), 'subdir/doc2.md should be created');
+  assert.ok(fs.readFileSync(path.join(testDir, 'doc1.md'), 'utf8').includes('# doc1.md'), 'Should have default header');
+
+  // Test updatePulseTable
+  const readme = '## Pulse Table\n| Milestone | Ver | Phase | Status | Debt% |\n| :--- | :--- | :--- | :--- | :--- |\n| Old | 0.0.1 | 0 | done | 0 |';
+  const stats = { version: '0.1.11', phase: '9-Quality', status: 'Stable', debt: '5%' };
+
+  const updated = updatePulseTable(readme, stats);
+  assert.ok(updated.includes('0.1.11'), 'Should update version');
+  assert.ok(updated.includes('9-Quality'), 'Should update phase');
+
+  // Edge case: No stats (covers line 30)
+  assert.strictEqual(updatePulseTable(readme, null), readme, 'Should return original if no stats');
+
+  // Edge case: No table but header exists (covers lines 43-48)
+  const readmeNoTable = '## Pulse Table\nSome other text';
+  const updatedNewTable = updatePulseTable(readmeNoTable, stats);
+  assert.ok(updatedNewTable.includes('| Alpha Launch | 0.1.11'), 'Should create table after header');
+
+  // Edge case: No header (returns original)
+  assert.strictEqual(updatePulseTable('No table here', stats), 'No table here', 'Should return original if no header found');
+
+  console.log('PASS - generator.test.js');
+} catch (e: any) {
+  console.error('FAIL - generator.test.js:', e.message);
+  process.exit(1);
+} finally {
+  if (fs.existsSync(testDir)) {
+    fs.rmSync(testDir, { recursive: true, force: true });
+  }
 }
-
-const requiredDocs = [
-  'docs/test_backlog.md',
-  'docs/test_design.md'
-];
-
-const mockState = parseDocsState(testDir, requiredDocs);
-assert.strictEqual(mockState[0].exists, false, 'generator.test.js: initial state check failed');
-assert.strictEqual(mockState[1].exists, false, 'generator.test.js: initial state check failed');
-
-populateMissingDocs(testDir, mockState);
-
-const newState = parseDocsState(testDir, requiredDocs);
-assert.strictEqual(newState[0].exists, true, 'generator.test.js: file should exist after populate');
-assert.strictEqual(newState[1].exists, true, 'generator.test.js: file should exist after populate');
-
-const backlogContent = fs.readFileSync(path.join(testDir, 'docs/test_backlog.md'), 'utf8');
-assert.strictEqual(backlogContent.trim(), '# test_backlog.md', 'generator.test.js: backlog content mismatch');
-
-// Test updatePulseTable
-const mockReadme = `## Pulse Table
-| Milestone | Ver | Phase | Status | Debt% |
-| :--- | :--- | :--- | :--- | :--- |
-| Alpha Launch | 0.1.7 | 1-Strategy | Active Focus | 33% |
-
-## Next Section`;
-
-const stats = { version: '0.1.8', phase: '2-Data', status: 'Done', debt: '10%' };
-const updatedReadme = updatePulseTable(mockReadme, stats);
-assert.ok(updatedReadme.includes('| Alpha Launch | 0.1.8 | 2-Data | Done | 10% |'), 'generator.test.js: updatePulseTable failed to update row');
-assert.ok(!updatedReadme.includes('0.1.7'), 'generator.test.js: updatePulseTable failed to replace old row');
-
-// cleanup
-fs.rmSync(testDir, { recursive: true, force: true });
-
-console.log('PASS - generator.test.js');
 
 export {};

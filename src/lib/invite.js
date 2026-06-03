@@ -18,4 +18,4 @@ const validateInviteCode = (code) => {
   return ALLOWLIST_CODES.includes(code.trim().toUpperCase());
 };
 
-module.exports = { validateInviteCode, ALLOWLIST_CODES };
+export { validateInviteCode, ALLOWLIST_CODES };

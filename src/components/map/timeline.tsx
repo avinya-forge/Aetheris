@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const Timeline = ({ events = [] }) => {
-  const [selectedIndex, setSelectedIndex] = useState(null);
+const Timeline = ({ events = [], mockSelectedIndex = null }: any) => {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(mockSelectedIndex);
 
   return (
     <div
@@ -35,9 +35,10 @@ const Timeline = ({ events = [] }) => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        {events.map((event, i) => (
+        {events.map((event: any, i: number) => (
           <div
             key={i}
+            className="timeline-event-node"
             onClick={() => setSelectedIndex(i)}
             style={{
               width: '12px',
@@ -54,20 +55,23 @@ const Timeline = ({ events = [] }) => {
           />
         ))}
       </div>
-      {selectedIndex !== null && (
-        <div style={{
-          position: 'absolute',
-          top: '-50px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'white',
-          padding: '5px 15px',
-          borderRadius: '5px',
-          color: 'black',
-          fontSize: '0.8rem',
-          fontWeight: 'bold',
-          whiteSpace: 'nowrap'
-        }}>
+      {selectedIndex !== null && events[selectedIndex] && (
+        <div
+          className="timeline-tooltip"
+          style={{
+            position: 'absolute',
+            top: '-50px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'white',
+            padding: '5px 15px',
+            borderRadius: '5px',
+            color: 'black',
+            fontSize: '0.8rem',
+            fontWeight: 'bold',
+            whiteSpace: 'nowrap'
+          }}
+        >
           {events[selectedIndex].title}
         </div>
       )}

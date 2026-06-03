@@ -3,13 +3,68 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Atlas } from '../src/components/map/atlas';
 
-try {
-  const html = renderToStaticMarkup(<Atlas kpIndex={5} />);
-  assert.ok(html.includes('Aetheris Atlas'), 'Atlas should render title correctly');
-  assert.ok(html.includes('Kp Index:'), 'Atlas should render Kp label correctly');
-  assert.ok(html.includes('5'), 'Atlas should render Kp value correctly');
-  assert.ok(html.includes('Loading Atlas...'), 'Atlas should display mock/loading state safely in node');
+const MockMap = ({ children, onMove, onError }: any) => {
+  // Trigger callbacks to exercise lines
+  if (onMove) onMove({ viewState: { longitude: 0, latitude: 0, zoom: 2 } });
+  if (onError) onError();
+  return <div className="mock-map">{children}</div>;
+};
+const MockMarker = ({ children, onClick }: any) => {
+  return <div className="mock-marker" onClick={() => onClick({ originalEvent: { stopPropagation: () => {} } })}>{children}</div>;
+};
+const MockPopup = ({ children, onClose }: any) => <div className="mock-popup" onClick={onClose}>{children}</div>;
+const MockNav = () => <div className="mock-nav" />;
+
+const mockComponents = {
+  Map: MockMap,
+  Marker: MockMarker,
+  Popup: MockPopup,
+  NavigationControl: MockNav
+};
+
+function testAtlas() {
+  console.log('Testing Atlas component...');
+
+  // Test background colors
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={4} />).includes('background:#1a1a1a'), 'Kp 4 background');
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={5} />).includes('background:#483d8b'), 'Kp 5 background');
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={6} />).includes('background:#8a2be2'), 'Kp 6 background');
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={8} />).includes('background:#4b0082'), 'Kp 8 background');
+
+  // Test events with mock components
+  const events = [
+    { id: 'e1', lng: 0, lat: 0, title: 'Extreme Event', impact: 'HIGH' },
+    { id: 'e2', lng: 1, lat: 1, title: 'Medium Event', impact: 'MEDIUM' }
+  ];
+
+  const html = renderToStaticMarkup(
+    <Atlas events={events} mockMapComponents={mockComponents} />
+  );
+
+  assert.ok(html.includes('mock-map'), 'Should render mock map');
+  assert.ok(html.includes('mock-marker'), 'Should render mock marker');
+  assert.ok(html.includes('background:#ff4b2b'), 'High impact marker should be red');
+  assert.ok(html.includes('background:#ffb400'), 'Medium impact marker should be orange');
+  assert.ok(html.includes('Extreme Event'), 'Event title should be present');
+
+  // Test selected event to trigger Popup
+  const htmlPopup = renderToStaticMarkup(
+    <Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={events[0]} />
+  );
+  assert.ok(htmlPopup.includes('mock-popup'), 'Should render mock popup');
+  assert.ok(htmlPopup.includes('popup-content'), 'Should render popup content');
+
+  // Test error state
+  assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Map failed to load'), 'Error message');
+
+  // Test loading state (no components, no error)
+  assert.ok(renderToStaticMarkup(<Atlas />).includes('Loading Atlas...'), 'Loading message');
+
   console.log('PASS - atlas.test.tsx');
+}
+
+try {
+  testAtlas();
 } catch (e: any) {
   console.error('atlas.test.tsx failed:', e.message);
   process.exit(1);

@@ -4,8 +4,8 @@ import { fingerprintEvent, isNewEvent, markEventSeen, KV_PREFIX } from '../lib/e
 function makeMockKv() {
   const store = new Map();
   return {
-    async get(key) { return store.has(key) ? store.get(key) : null; },
-    async put(key, value, _opts) { store.set(key, value); },
+    async get(key: string) { return store.has(key) ? store.get(key) : null; },
+    async put(key: string, value: string, _opts?: any) { store.set(key, value); },
   };
 }
 
@@ -13,45 +13,45 @@ function makeMockKv() {
   try {
     // --- fingerprintEvent ---
     assert.strictEqual(
-      fingerprintEvent({ hash: 'abc123' }, 'event-fingerprint.test.ts: strictEqual failure'),
+      fingerprintEvent({ hash: 'abc123' }),
       KV_PREFIX + 'abc123',
-      'fingerprintEvent: hash takes priority over id'
+      'fingerprintEvent: hash priority'
     );
     assert.strictEqual(
-      fingerprintEvent({ id: 'event-42' }, 'event-fingerprint.test.ts: strictEqual failure'),
+      fingerprintEvent({ id: 'event-42' }),
       KV_PREFIX + 'event-42',
-      'fingerprintEvent: id used when no hash'
+      'fingerprintEvent: id fallback'
     );
     assert.strictEqual(
-      fingerprintEvent({ text: '  Hello World  ' }, 'event-fingerprint.test.ts: strictEqual failure'),
+      fingerprintEvent({ text: '  Hello World  ' }),
       KV_PREFIX + 'hello world',
-      'fingerprintEvent: text fallback should be trimmed and lowercased'
+      'fingerprintEvent: text normalization'
     );
     assert.strictEqual(
-      fingerprintEvent({ text: 'Breaking! News... with spaces    and punctuation???' }, 'event-fingerprint.test.ts: strictEqual failure'),
+      fingerprintEvent({ text: 'Breaking! News... with spaces    and punctuation???' }),
       KV_PREFIX + 'breaking news with spaces and punctuation',
-      'fingerprintEvent: text fallback should strip punctuation and normalize spaces'
+      'fingerprintEvent: punctuation stripping'
     );
     const fp = fingerprintEvent({ text: 'x'.repeat(200) });
-    assert.ok(fp.length <= KV_PREFIX.length + 120, 'fingerprintEvent: text fingerprint capped at 120 chars');
-    assert.strictEqual(fingerprintEvent(null, 'event-fingerprint.test.ts: strictEqual failure'), null, 'fingerprintEvent: null event should return null');
-    assert.strictEqual(fingerprintEvent({}, 'event-fingerprint.test.ts: strictEqual failure'), null, 'fingerprintEvent: empty event should return null');
+    assert.ok(fp && fp.length <= KV_PREFIX.length + 120, 'fingerprintEvent: text length cap');
+    assert.strictEqual(fingerprintEvent(null), null, 'fingerprintEvent: null input');
+    assert.strictEqual(fingerprintEvent({}), null, 'fingerprintEvent: empty input');
 
     // --- isNewEvent / markEventSeen ---
     const kv = makeMockKv();
     const event = { id: 'evt-1', text: 'Breaking news' };
 
-    assert.strictEqual(await isNewEvent(kv, event, 'event-fingerprint.test.ts: strictEqual failure'), true, 'isNewEvent: unseen event must be new');
+    assert.strictEqual(await isNewEvent(kv, event), true, 'isNewEvent: unseen event');
     await markEventSeen(kv, event);
-    assert.strictEqual(await isNewEvent(kv, event, 'event-fingerprint.test.ts: strictEqual failure'), false, 'isNewEvent: seen event must not be new');
-    assert.strictEqual(await isNewEvent(kv, null, 'event-fingerprint.test.ts: strictEqual failure'), false, 'isNewEvent: null event isNewEvent should be false');
+    assert.strictEqual(await isNewEvent(kv, event), false, 'isNewEvent: seen event');
+    assert.strictEqual(await isNewEvent(kv, null), false, 'isNewEvent: null event');
     await markEventSeen(kv, {}); // must not throw
 
-  } catch (err) {
+    console.log('PASS - event-fingerprint.test.js');
+  } catch (err: any) {
     console.error('FAIL - event-fingerprint.test.js:', err.message);
     process.exit(1);
   }
 })();
-console.log('PASS - event-fingerprint.test.js');
 
 export {};

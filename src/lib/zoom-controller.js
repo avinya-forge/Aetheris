@@ -20,4 +20,4 @@ function isLayerVisible(layerType, zoom) {
   return zoom >= threshold;
 }
 
-module.exports = { isLayerVisible, VISIBILITY_THRESHOLDS };
+export { isLayerVisible, VISIBILITY_THRESHOLDS };

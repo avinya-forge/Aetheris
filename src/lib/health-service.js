@@ -4,9 +4,9 @@
 function getSystemHealth() {
   return {
     status: 'OK',
-    version: '0.1.9',
+    version: '0.1.11',
     uptime: 3600
   };
 }
 
-module.exports = { getSystemHealth };
+export { getSystemHealth };

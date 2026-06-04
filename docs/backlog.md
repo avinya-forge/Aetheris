@@ -17,16 +17,16 @@
 ## Phase 10: Coverage Gap Closure (Next 10)
 - [x] TASK: fix-gemini-client-uncovered | Target: lib/gemini-client.js | I/O: mock-response -> lines 38-39 | Assert: coverage 100% | LOC: ~10
 - [x] TASK: fix-generator-uncovered | Target: lib/generator.js | I/O: mock-data -> lines 43-48 | Assert: coverage 100% | LOC: ~10
-- [ ] TASK: fix-24h-summary-coverage | Target: lib/24h-summary.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-environmental-coverage | Target: lib/environmental.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-forecast-coverage | Target: lib/forecast.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-geopolitical-coverage | Target: lib/geopolitical.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-ghost-card-lib-coverage | Target: lib/ghost-card.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-macro-cluster-coverage | Target: lib/macro-cluster.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-nowcast-lib-coverage | Target: lib/nowcast.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-safety-rule-coverage | Target: lib/safety-rule.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-summary-lib-coverage | Target: lib/summary.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
-- [ ] TASK: fix-threshold-lib-coverage | Target: lib/threshold.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-24h-summary-coverage | Target: lib/24h-summary.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-environmental-coverage | Target: lib/environmental.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-forecast-coverage | Target: lib/forecast.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-geopolitical-coverage | Target: lib/geopolitical.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-ghost-card-lib-coverage | Target: lib/ghost-card.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-macro-cluster-coverage | Target: lib/macro-cluster.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-nowcast-lib-coverage | Target: lib/nowcast.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-safety-rule-coverage | Target: lib/safety-rule.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-summary-lib-coverage | Target: lib/summary.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
+- [x] TASK: fix-threshold-lib-coverage | Target: lib/threshold.js | I/O: tests -> 100% | Assert: coverage reached 100% | LOC: ~5
 
 ## Phase 8: Deep Codebase Quality & Standards Audit
 - [x] TASK: audit-events-service | Target: src/lib/events-service.js | I/O: audit -> clean | Assert: named exports and 1:1 tests | LOC: ~20

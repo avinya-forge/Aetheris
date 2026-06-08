@@ -12,16 +12,16 @@ function makeFetcher(body, status = 200) {
       { time_tag: '2026-04-10T00:00:00Z', kp_index: 3 },
       { time_tag: '2026-04-10T00:01:00Z', kp_index: 7 },
     ]));
-    assert.strictEqual(kp.kp_index, 7, 'must return raw last item');
+    assert.strictEqual(kp[1].kp_index, 7, 'must return pure JSON array');
 
     const nullResult = await fetchKpIndex(makeFetcher([]));
-    assert.strictEqual(nullResult, null, 'empty NOAA response → null');
+    assert.deepStrictEqual(nullResult, [], 'empty NOAA response → empty array');
 
     // --- fetchSolarWind ---
     const wind = await fetchSolarWind(makeFetcher([
       { time_tag: '2026-04-10T00:01:00Z', proton_speed: 450, density: 12 },
     ]));
-    assert.strictEqual(wind.proton_speed, 450, 'return raw last item');
+    assert.strictEqual(wind[0].proton_speed, 450, 'return pure JSON array');
 
     // --- fetchNoaaSwpc (combined) ---
     let callCount = 0;
@@ -33,8 +33,8 @@ function makeFetcher(body, status = 200) {
       return { ok: true, json: async () => [{ time_tag: 't', proton_speed: 400, density: 8 }] };
     };
     const combined = await fetchNoaaSwpc(dualFetcher);
-    assert.strictEqual(combined.kp.kp_index, 5, 'noaa-swpc-client.test.js strictEqual failed');
-    assert.strictEqual(combined.wind.proton_speed, 400, 'noaa-swpc-client.test.js strictEqual failed');
+    assert.strictEqual(combined.kp[0].kp_index, 5, 'noaa-swpc-client.test.js strictEqual failed');
+    assert.strictEqual(combined.wind[0].proton_speed, 400, 'noaa-swpc-client.test.js strictEqual failed');
     assert.strictEqual(callCount, 2, 'must call both endpoints');
 
     assert.ok(NOAA_KP_URL.includes('swpc.noaa.gov', 'noaa-swpc-client.test.ts: ok failure'), 'URL must point to swpc.noaa.gov');

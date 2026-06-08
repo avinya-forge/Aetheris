@@ -21,8 +21,8 @@ function makeMockKv(initial = {}) {
     const kvFresh = makeMockKv();
     const mockClients = {
       'noaa-swpc':  async () => ({
-        kp: { time_tag: 't1', kp_index: 5 },
-        wind: { time_tag: 't1', proton_speed: 400, density: 10 }
+        kp: [{ time_tag: 't1', kp_index: 5 }],
+        wind: [{ time_tag: 't1', proton_speed: 400, density: 10 }]
       }),
       'gdelt':      async () => ({
         articles: [{ url: 'url1', title: 'Title 1', seendate: 't1' }]

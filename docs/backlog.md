@@ -10,7 +10,7 @@
 - [x] TASK: implement-kp-parser-tests | Target: lib/kp-parser.js | I/O: rawData -> coverage | Assert: coverage reached 100% | LOC: ~20
 - [x] TASK: deep-clean-coverage-gap | Target: repo | I/O: 94% -> 95% | Assert: npm test passes with 95% gate | LOC: ~50
 - [x] TASK: fix-parser-coverage | Target: lib/parser.js | I/O: mock-content -> coverage | Assert: line coverage 100% | LOC: ~20
-- [ ] TASK: audit-lib-io-purity | Target: lib/ | I/O: audit -> verified | Assert: all API clients return raw JSON | LOC: ~100
+- [x] TASK: audit-lib-io-purity | Target: lib/ | I/O: audit -> verified | Assert: all API clients return raw JSON | LOC: ~100
 - [x] TASK: enforce-standard-asserts | Target: tests/ | I/O: audit -> 3-arg asserts | Assert: all tests use descriptive failure messages | LOC: ~200
 - [ ] TASK: repository-health-audit | Target: repo | I/O: audit -> pristine | Assert: no unused artifacts or temp files | LOC: ~20
 

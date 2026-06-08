@@ -3,14 +3,14 @@ import { mapKpIndex, mapSolarWind, mapDonkiEvent } from '../lib/space-weather-ma
 
 try {
   // Test Kp Index Mapping
-  const rawKp = { kp_index: '5.333', time_tag: '2024-01-01T00:00:00' };
+  const rawKp = [{ kp_index: '5.333', time_tag: '2024-01-01T00:00:00' }];
   const mappedKp = mapKpIndex(rawKp);
   assert.strictEqual(mappedKp.kpIndex, 5.333, 'space-weather-mapper.test.js: value mismatch');
   assert.strictEqual(mappedKp.impactScore, 30, 'space-weather-mapper.test.js: value mismatch');
   assert.strictEqual(mappedKp.source, 'noaa-swpc', 'space-weather-mapper.test.js: value mismatch');
 
   // Test Solar Wind Mapping
-  const rawWind = { proton_speed: '450.5', density: '5.2', time_tag: '2024-01-01T00:00:00' };
+  const rawWind = [{ proton_speed: '450.5', density: '5.2', time_tag: '2024-01-01T00:00:00' }];
   const mappedWind = mapSolarWind(rawWind);
   assert.strictEqual(mappedWind.windSpeed, 450.5, 'space-weather-mapper.test.js: value mismatch');
   assert.strictEqual(mappedWind.density, 5.2, 'space-weather-mapper.test.js: value mismatch');

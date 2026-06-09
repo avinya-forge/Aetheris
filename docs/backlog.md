@@ -12,7 +12,7 @@
 - [x] TASK: fix-parser-coverage | Target: lib/parser.js | I/O: mock-content -> coverage | Assert: line coverage 100% | LOC: ~20
 - [x] TASK: audit-lib-io-purity | Target: lib/ | I/O: audit -> verified | Assert: all API clients return raw JSON | LOC: ~100
 - [x] TASK: enforce-standard-asserts | Target: tests/ | I/O: audit -> 3-arg asserts | Assert: all tests use descriptive failure messages | LOC: ~200
-- [ ] TASK: repository-health-audit | Target: repo | I/O: audit -> pristine | Assert: no unused artifacts or temp files | LOC: ~20
+- [x] TASK: repository-health-audit | Target: repo | I/O: audit -> pristine | Assert: no unused artifacts or temp files | LOC: ~20
 
 ## Phase 10: Coverage Gap Closure (Next 10)
 - [x] TASK: fix-gemini-client-uncovered | Target: lib/gemini-client.js | I/O: mock-response -> lines 38-39 | Assert: coverage 100% | LOC: ~10

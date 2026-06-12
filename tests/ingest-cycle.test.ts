@@ -89,6 +89,15 @@ function makeMockKv(initial = {}) {
     assert.strictEqual(interpolatedEvent.interpolated, true, 'stale event should be marked as interpolated');
     assert.strictEqual(interpolatedEvent.content, 'Interpolated AI brief', 'stale event content should be updated');
 
+    // --- runIngestCycle: no clients/now specified (fallback branch) ---
+    // This exercises the `clients || defaultClients(env, now)` branch
+    // We use a mock fetch to intercept default clients
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => ({ ok: true, json: async () => ({}) }) as any;
+    const envFallback = { CACHE: makeMockKv() };
+    const fallbackRes = await runIngestCycle(envFallback, null, async () => 'brief', undefined);
+    assert.ok(fallbackRes.polled.length > 0, 'should run default clients');
+    globalThis.fetch = originalFetch;
   } catch (err) {
     console.error('FAIL - ingest-cycle.test.js:', err.message);
     process.exit(1);

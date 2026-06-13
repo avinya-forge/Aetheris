@@ -36,12 +36,6 @@
 - [x] TASK: audit-synthesis-service | Target: src/lib/synthesis-service.js | I/O: audit -> clean | Assert: named exports and 1:1 tests | LOC: ~20
 - [x] TASK: audit-zoom-controller | Target: src/lib/zoom-controller.js | I/O: audit -> clean | Assert: named exports and 1:1 tests | LOC: ~20
 
-## Phase 11: Data Acquisition & Advanced Crawler Integrations
-- [ ] TASK: evaluate-top-news-crawlers | Target: docs/architecture.md | I/O: research -> documentation | Assert: selected top crawlers identified | LOC: ~50
-- [ ] TASK: integrate-primary-crawler | Target: lib/data/crawler-client.js | I/O: API -> raw JSON | Assert: 1:1 test coverage & raw JSON returned | LOC: ~100
-- [ ] TASK: implement-crawler-data-formatter | Target: lib/data/crawler-formatter.js | I/O: raw JSON -> standard schema | Assert: matches strict project schema & 1:1 tests | LOC: ~150
-- [ ] TASK: integrate-crawler-into-ingest | Target: functions/ingest-cycle.js | I/O: crawler data -> KV storage | Assert: properly scheduled and fetched during cron | LOC: ~80
-
 ## Phase 12: Rigorous Quality Assurance & Security
 - [ ] TASK: full-ui-visual-audit | Target: src/components/ | I/O: UI -> bug backlog | Assert: all discovered bugs logged in backlog | LOC: ~0
 - [ ] TASK: implement-e2e-playwright-tests | Target: tests/e2e/ | I/O: browser interactions -> pass/fail | Assert: core user journeys verified via Playwright | LOC: ~200

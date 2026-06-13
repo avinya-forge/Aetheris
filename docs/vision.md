@@ -47,3 +47,8 @@ bash script/run.sh --status
 | **Palantir** | Predictive Analytics | Aetheris is accessible, consumer-facing, and UI-optimized. |
 
 ---
+
+## 3. Target Release Platforms
+- **Web / Desktop**: Modern browsers via Cloudflare Pages.
+- **Mobile (PWA)**: Progressive Web App installable via browser on iOS and Android (offline-first via Service Worker).
+- **Backend Edge**: Cloudflare Workers for globally distributed, zero-latency inference and proxying.

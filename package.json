@@ -27,12 +27,12 @@
     "@typescript-eslint/parser": "^8.60.0",
     "@vitejs/plugin-react": "^6.0.1",
     "c8": "^11.0.0",
-    "esbuild": "^0.28.0",
+    "esbuild": "^0.28.1",
     "playwright": "^1.60.0",
     "tsx": "^4.22.3",
     "typescript": "^6.0.3",
     "vite": "^8.0.8",
-    "wrangler": "^4.95.0"
+    "wrangler": "^4.100.0"
   },
   "keywords": [
     "temporal-intelligence",
@@ -42,10 +42,12 @@
     "pwa"
   ],
   "license": "UNLICENSED",
+  "overrides": { "esbuild": "^0.28.1" },
   "dependencies": {
     "mapbox-gl": "^3.24.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-map-gl": "^8.1.1"
+    "react-map-gl": "^8.1.1",
+    "undici": "^6.26.0"
   }
 }

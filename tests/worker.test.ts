@@ -81,6 +81,33 @@ globalThis.Response = MockResponse as any;
     const futureSinceData = await futureSinceRes.json();
     assert.strictEqual(futureSinceData.length, 0, 'Should return 0 events for future since timestamp');
 
+    // --- Test: GET /api/events with invalid since string ---
+    const invalidSinceReq = {
+      url: 'http://localhost/api/events?since=invalid',
+      method: 'GET'
+    };
+    await env.CACHE.put('events:latest', JSON.stringify([
+      { id: '1', publishedAt: new Date().toISOString() }
+    ]));
+    const invalidSinceRes = await worker.fetch(invalidSinceReq, env, {});
+    const invalidSinceData = await invalidSinceRes.json();
+    assert.strictEqual(invalidSinceData.length, 1, 'Should return all events if since is invalid');
+
+    // --- Test: GET /api/events with no latest events in CACHE ---
+    await env.CACHE.put('events:latest', null); // mock null return
+    const noEventsReq = { url: 'http://localhost/api/events', method: 'GET' };
+    const noEventsRes = await worker.fetch(noEventsReq, env, {});
+    const noEventsData = await noEventsRes.json();
+    assert.strictEqual(noEventsData.length, 0, 'Should return empty array if no events in cache');
+
+    // --- Test: GET /api/events with empty string since parameter ---
+    const emptySinceReq = {
+      url: 'http://localhost/api/events?since=',
+      method: 'GET'
+    };
+    const emptySinceRes = await worker.fetch(emptySinceReq, env, {});
+    assert.strictEqual(emptySinceRes.status, 200, 'Empty since parameter should default to 0 and return 200');
+
     // --- Test: OPTIONS /api/events ---
     const optionsReq = {
       url: 'http://localhost/api/events',
@@ -96,6 +123,21 @@ globalThis.Response = MockResponse as any;
     };
     const notFoundRes = await worker.fetch(notFoundReq, env, {});
     assert.strictEqual(notFoundRes.status, 404, 'Unknown path should return 404');
+
+    // --- Test: scheduled handler ---
+    let waitPromise = null;
+    const ctx = {
+      waitUntil: (promise) => { waitPromise = promise; }
+    };
+
+    // Pass an event object containing scheduledTime
+    const scheduledEvent = { scheduledTime: Date.now() };
+    await worker.scheduled(scheduledEvent, env, ctx);
+    assert.ok(waitPromise instanceof Promise, 'scheduled should call ctx.waitUntil with a promise');
+
+    // Also test with null event for the fallback path
+    await worker.scheduled(null, env, ctx);
+    assert.ok(waitPromise instanceof Promise, 'scheduled should handle null event');
 
   } catch (err) {
     console.error('FAIL - worker.test.js:', err);

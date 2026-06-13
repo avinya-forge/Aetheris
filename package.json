@@ -42,7 +42,9 @@
     "pwa"
   ],
   "license": "UNLICENSED",
-  "overrides": { "esbuild": "^0.28.1" },
+  "overrides": {
+    "esbuild": "^0.28.1"
+  },
   "dependencies": {
     "mapbox-gl": "^3.24.0",
     "react": "^19.2.7",

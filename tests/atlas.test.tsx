@@ -86,8 +86,10 @@ function testAtlas() {
 
   // Test the handleMarkerClick function directly
   const originalStop = () => {};
+  // eslint-disable-next-line no-unused-vars
   const e = { originalEvent: { stopPropagation: originalStop } };
   // We have covered this implicitly via MockMarker onClick
+  // eslint-disable-next-line no-unused-vars
   const htmlNoEvent = renderToStaticMarkup(
     <Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={null} />
   );

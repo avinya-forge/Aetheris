@@ -1,5 +1,9 @@
 # Release Notes — Aetheris
 
+## v0.1.12 — Rigorous Quality Assurance & Security
+- [x] TASK: implement-e2e-playwright-tests | Verified core user journeys via Playwright in tests/e2e/ directory.
+
+
 ## v0.1.11 — Quality & Coverage Stabilization
 - [x] TASK: fix-atlas-branch-coverage | Increased Atlas line coverage to 85.14% via prop injection and mock components.
 - [x] TASK: fix-timeline-state-coverage | Increased Timeline line coverage to 100% via state transition testing.

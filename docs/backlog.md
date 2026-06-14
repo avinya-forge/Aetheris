@@ -38,7 +38,7 @@
 
 ## Phase 12: Rigorous Quality Assurance & Security
 - [ ] TASK: full-ui-visual-audit | Target: src/components/ | I/O: UI -> bug backlog | Assert: all discovered bugs logged in backlog | LOC: ~0
-- [ ] TASK: implement-e2e-playwright-tests | Target: tests/e2e/ | I/O: browser interactions -> pass/fail | Assert: core user journeys verified via Playwright | LOC: ~200
+- [x] TASK: implement-e2e-playwright-tests | Target: tests/e2e/ | I/O: browser interactions -> pass/fail | Assert: core user journeys verified via Playwright | LOC: ~200
 - [ ] TASK: deep-cleaning-and-refactor | Target: lib/ | I/O: code -> cleaner code | Assert: orphaned files deleted, DRY principles applied | LOC: ~150
 - [ ] TASK: comprehensive-security-audit | Target: repo | I/O: npm audit & manual review -> secure | Assert: 0 known vulnerabilities | LOC: ~50
 - [x] TASK: automated-bug-hunter | Target: script/bug-hunter.js | I/O: repo -> analysis | Assert: routine static analysis checks established | LOC: ~120

@@ -5,7 +5,7 @@ export function runBugHunter(libDir, testsDir) {
   const issues = [];
 
   if (!fs.existsSync(libDir)) {
-    return ["lib directory not found"];
+    return ['lib directory not found'];
   }
 
   const libFiles = fs.readdirSync(libDir);
@@ -46,14 +46,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const libPath = path.join(rootDir, 'lib');
   const testPath = path.join(rootDir, 'tests');
 
-  console.log("Running Automated Bug Hunter...");
+  console.log('Running Automated Bug Hunter...');
   const issues = runBugHunter(libPath, testPath);
 
   if (issues.length > 0) {
-    console.error("Bug Hunter found issues:");
+    console.error('Bug Hunter found issues:');
     issues.forEach(issue => console.error(`- ${issue}`));
     process.exit(1);
   } else {
-    console.log("Bug Hunter found 0 issues. Codebase is clean.");
+    console.log('Bug Hunter found 0 issues. Codebase is clean.');
   }
 }

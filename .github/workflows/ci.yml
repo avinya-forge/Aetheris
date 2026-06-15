@@ -93,10 +93,10 @@ jobs:
       - name: Verify 1:1 test coverage (every lib/ file has a test)
         run: |
           MISSING=0
-          for f in lib/*.ts; do
-            base=$(basename "$f" .ts)
-            if [ ! -f "tests/${base}.test.ts" ] && [ ! -f "tests/${base}.test.tsx" ]; then
-              echo "MISSING TEST: tests/${base}.test.ts (for $f)"
+          for f in lib/*.js; do
+            base=$(basename "$f" .js)
+            if [ ! -f "tests/${base}.test.js" ] && [ ! -f "tests/${base}.test.ts" ] && [ ! -f "tests/${base}.test.tsx" ]; then
+              echo "MISSING TEST: tests/${base}.test.js (for $f)"
               MISSING=$((MISSING + 1))
             fi
           done

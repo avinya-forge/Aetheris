@@ -51,7 +51,7 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
-       - name: Install dependencies
+      - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright Browsers
@@ -71,8 +71,8 @@ jobs:
       - name: Verify required files exist
         run: |
           for f in CLAUDE.md JULES.md README.md wrangler.toml package.json \
-                   docs/backlog.nd docs/roadmap.md \
-                   docs/system_design.md docs/standards.md \
+                   docs/backlog.md docs/roadmap.md \
+                   docs/architecture.md docs/standards.md \
                    functions/worker.mjs functions/ingest-cycle.js; do
             if [ ! -f "$f" ]; then
               echo "MISSING: $f"

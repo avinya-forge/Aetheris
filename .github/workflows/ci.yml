@@ -51,7 +51,7 @@ jobs:
           node-version: '24'
           cache: 'npm'
 
-       - name: Install dependencies
+      - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright Browsers
@@ -71,8 +71,8 @@ jobs:
       - name: Verify required files exist
         run: |
           for f in CLAUDE.md JULES.md README.md wrangler.toml package.json \
-                   docs/backlog.nd docs/roadmap.md \
-                   docs/system_design.md docs/standards.md \
+                   docs/backlog.md docs/roadmap.md \
+                   docs/architecture.md docs/standards.md \
                    functions/worker.mjs functions/ingest-cycle.js; do
             if [ ! -f "$f" ]; then
               echo "MISSING: $f"
@@ -93,10 +93,10 @@ jobs:
       - name: Verify 1:1 test coverage (every lib/ file has a test)
         run: |
           MISSING=0
-          for f in lib/*.ts; do
-            base=$(basename "$f" .ts)
-            if [ ! -f "tests/${base}.test.ts" ] && [ ! -f "tests/${base}.test.tsx" ]; then
-              echo "MISSING TEST: tests/${base}.test.ts (for $f)"
+          for f in lib/*.js; do
+            base=$(basename "$f" .js)
+            if [ ! -f "tests/${base}.test.js" ] && [ ! -f "tests/${base}.test.ts" ] && [ ! -f "tests/${base}.test.tsx" ]; then
+              echo "MISSING TEST: tests/${base}.test.js (for $f)"
               MISSING=$((MISSING + 1))
             fi
           done

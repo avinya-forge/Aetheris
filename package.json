@@ -1,6 +1,6 @@
 {
   "name": "aetheris",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Temporal Intelligence & Environmental Sentinel — zero-cost PWA on Cloudflare edge",
   "private": true,
   "engines": {

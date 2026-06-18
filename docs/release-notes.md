@@ -1,6 +1,10 @@
 # Release Notes — Aetheris
 
 
+## v0.1.14 — Pre-Production Release & E2E Stabilization
+- [x] TASK: comprehensive-visual-audit | Identify bugs/glitches, add to backlog
+- [x] TASK: verify-end-to-end-functionality | Core features work without glitches
+
 ## v0.1.13 — End-to-End Release Validation
 - [x] TASK: fix-atlas-branch-coverage | line coverage > 70%
 - [x] TASK: fix-timeline-state-coverage | line coverage > 90%

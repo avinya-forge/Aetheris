@@ -4,6 +4,7 @@
 
 ---
 
-## Phase 13: Final Visual Audit & E2E Stabilization (CRITICAL PATH)
-- [x] TASK: comprehensive-visual-audit | Target: src/components/ | I/O: UI -> bugs | Assert: Identify bugs/glitches, add to backlog | LOC: ~0
-- [x] TASK: verify-end-to-end-functionality | Target: application | I/O: user flow -> stability | Assert: Core features work without glitches | LOC: ~0
+## Phase 14: Final Polish & Pre-Production Delivery
+- [ ] TASK: review-and-clean-tests | Target: tests/ | I/O: audit -> code | Assert: No unused tests or flaky assertions | LOC: ~20
+- [ ] TASK: optimize-build-size | Target: vite.config.js | I/O: config -> build | Assert: JS bundles < 500KB | LOC: ~10
+- [ ] TASK: update-architecture-docs | Target: docs/architecture.md | I/O: codebase -> docs | Assert: matches current implementation | LOC: ~100

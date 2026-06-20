@@ -65,3 +65,6 @@ Thumbs.db
 *.bak
 *.orig
 test-results/
+
+# Track agents configuration and skills
+!.agents/

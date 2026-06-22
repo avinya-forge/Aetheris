@@ -37,41 +37,46 @@ export default {
    * GET /api/health         → liveness check + source meta snapshot
    */
   async fetch(request, env, _ctx) {
-    const url = new URL(request.url);
+    try {
+      const url = new URL(request.url);
 
-    // Preflight
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: CORS_HEADERS });
-    }
-
-    if (url.pathname === '/api/events') {
-      const raw = await env.CACHE.get('events:latest');
-      let events = raw ? JSON.parse(raw) : [];
-
-      const since = parseInt(url.searchParams.get('since') || '0', 10);
-      if (since > 0) {
-        events = events.filter(e => e.publishedAt && new Date(e.publishedAt).getTime() > since);
+      // Preflight
+      if (request.method === 'OPTIONS') {
+        return new Response(null, { status: 204, headers: CORS_HEADERS });
       }
 
-      return json(events, 200, { 'Cache-Control': 'public, max-age=30' });
-    }
+      if (url.pathname === '/api/events') {
+        const raw = await env.CACHE.get('events:latest');
+        let events = raw ? JSON.parse(raw) : [];
 
-    if (url.pathname === '/api/health') {
-      const sources = ['noaa-swpc', 'gdelt', 'nasa-donki', 'open-meteo'];
-      const metaEntries = await Promise.all(
-        sources.map(async id => {
-          const raw = await env.CACHE.get(`source:meta:${id}`);
-          return [id, raw ? JSON.parse(raw) : { lastFetchedAt: 0 }];
-        })
-      );
-      return json({
-        ok: true,
-        ts: Date.now(), // allowed exceptional case or could be injected, but worker is CF entry
-        sources: Object.fromEntries(metaEntries),
-      });
-    }
+        const since = parseInt(url.searchParams.get('since') || '0', 10);
+        if (since > 0) {
+          events = events.filter(e => e.publishedAt && new Date(e.publishedAt).getTime() > since);
+        }
 
-    return json({ error: 'Not Found' }, 404);
+        return json(events, 200, { 'Cache-Control': 'public, max-age=30' });
+      }
+
+      if (url.pathname === '/api/health') {
+        const sources = ['noaa-swpc', 'gdelt', 'nasa-donki', 'open-meteo'];
+        const metaEntries = await Promise.all(
+          sources.map(async id => {
+            const raw = await env.CACHE.get(`source:meta:${id}`);
+            return [id, raw ? JSON.parse(raw) : { lastFetchedAt: 0 }];
+          })
+        );
+        return json({
+          ok: true,
+          ts: Date.now(),
+          sources: Object.fromEntries(metaEntries),
+        });
+      }
+
+      return json({ error: 'Not Found' }, 404);
+    } catch (err) {
+      console.error('Worker Fetch Error:', err);
+      return json({ error: 'Internal Server Error', message: err.message }, 500);
+    }
   },
 
   /**
@@ -80,7 +85,11 @@ export default {
    * ctx.waitUntil keeps the Worker alive until ingest completes.
    */
   async scheduled(event, env, ctx) {
-    const now = event && event.scheduledTime ? event.scheduledTime : Date.now();
-    ctx.waitUntil(runIngestCycle(env, null, null, now));
+    try {
+      const now = event && event.scheduledTime ? event.scheduledTime : Date.now();
+      ctx.waitUntil(runIngestCycle(env, null, null, now));
+    } catch (err) {
+      console.error('Worker Scheduled Error:', err);
+    }
   },
 };

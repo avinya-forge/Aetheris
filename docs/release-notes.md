@@ -1,7 +1,9 @@
 # Release Notes — Aetheris
 
-
 ## v0.1.14 — Pre-Production Release & E2E Stabilization
+- [x] TASK: review-and-clean-tests | Target: tests/ | I/O: audit -> code | Assert: No unused tests or flaky assertions | LOC: ~20
+- [x] TASK: optimize-build-size | Target: vite.config.js | I/O: config -> build | Assert: JS bundles < 500KB | LOC: ~10
+- [x] TASK: update-architecture-docs | Target: docs/architecture.md | I/O: codebase -> docs | Assert: matches current implementation | LOC: ~100
 - [x] TASK: comprehensive-visual-audit | Identify bugs/glitches, add to backlog
 - [x] TASK: verify-end-to-end-functionality | Core features work without glitches
 
@@ -38,9 +40,9 @@
 - [x] TASK: comprehensive-security-audit | 0 known vulnerabilities
 - [x] TASK: automated-bug-hunter | routine static analysis checks established
 - [x] TASK: maintain-strict-coverage | >95% overall line coverage
+
 ## v0.1.12 — Rigorous Quality Assurance & Security
 - [x] TASK: implement-e2e-playwright-tests | Verified core user journeys via Playwright in tests/e2e/ directory.
-
 
 ## v0.1.11 — Quality & Coverage Stabilization
 - [x] TASK: fix-atlas-branch-coverage | Increased Atlas line coverage to 85.14% via prop injection and mock components.
@@ -53,6 +55,3 @@
 - [x] TASK: enforce-standard-asserts | Refactored major test suites to include mandatory descriptive failure messages (3+ arguments).
 - [x] TASK: sanitize-codebase | Removed redundant 'export {};' markers and pruned dead/unused assets.
 - [x] TASK: migrate-services-to-esm | Migrated events, ghost-card, health, invite, synthesis, and zoom-controller services in src/lib to ESM.
-
-## v0.1.10 — Arch Sync & Hierarchy Flattening
-... (rest of previous notes)

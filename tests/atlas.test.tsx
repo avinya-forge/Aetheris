@@ -1,6 +1,10 @@
 import * as assert from 'assert';
 import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
+
+// Mock process.env for testing
+(process.env as any).VITE_MAPBOX_TOKEN = 'test-token';
+
 import { Atlas } from '../src/components/map/atlas';
 
 const MockMap = ({ children, onMove, onError }: any) => {
@@ -48,8 +52,6 @@ function testAtlas() {
   assert.ok(html.includes('Extreme Event'), 'Event title should be present');
 
   // Test explicit marker click to cover selected event state change (lines 59-61)
-  // Because renderToStaticMarkup doesn't execute React hooks/events, we need to test the logic
-  // by simulating what the hook would do via the selectedEventProp
   const htmlClickedMarker = renderToStaticMarkup(
     <Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={events[1]} />
   );
@@ -66,7 +68,7 @@ function testAtlas() {
   const htmlGhostCards = renderToStaticMarkup(
     <Atlas
       events={events}
-      ghostCards={[{ id: 'g1', title: 'Ghost Card Event', impact: 'LOW', confidence: 0.8 }]}
+      ghostCards={[{ id: 'g1', title: 'Ghost Card Event', impact: 'LOW', likelihood: 0.8 }]}
       mockMapComponents={mockComponents}
     />
   );
@@ -76,23 +78,11 @@ function testAtlas() {
   const originalWindow = globalThis.window;
   globalThis.window = {} as any;
   renderToStaticMarkup(<Atlas />);
-  // coverage tool will pick up the execution path
   globalThis.window = originalWindow;
 
   // Test the useEffect block by forcing mockMapComponents to be null
   const htmlRealMap = renderToStaticMarkup(<Atlas mockMapComponents={null} />);
-  // It should show Loading Atlas... initially
   assert.ok(htmlRealMap.includes('Loading Atlas...'), 'Should render loading state while importing components');
-
-  // Test the handleMarkerClick function directly
-  const originalStop = () => {};
-  // eslint-disable-next-line no-unused-vars
-  const e = { originalEvent: { stopPropagation: originalStop } };
-  // We have covered this implicitly via MockMarker onClick
-  // eslint-disable-next-line no-unused-vars
-  const htmlNoEvent = renderToStaticMarkup(
-    <Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={null} />
-  );
 
   // Test error state
   assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Map failed to load'), 'Error message');

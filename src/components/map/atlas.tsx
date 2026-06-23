@@ -51,7 +51,10 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     return '#1a1a1a';
   };
 
-  const MAPBOX_TOKEN = 'pk.eyJ1Ijoiam1hcnRpbmV6LWp1bGVzIiwiYSI6ImNtNzV0em1zazBjNG4ycW9rbTNyYWh6NHoifQ.X90_n8_3_5_2_1_0_0_0';
+  // Safe access for testing and production
+  const MAPBOX_TOKEN = (typeof process !== 'undefined' && process.env?.VITE_MAPBOX_TOKEN) ||
+                       (typeof import.meta !== 'undefined' && import.meta.env?.VITE_MAPBOX_TOKEN) ||
+                       '';
 
   const [selectedEvent, setSelectedEvent] = useState<any>(selectedEventProp);
 

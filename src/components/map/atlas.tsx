@@ -9,6 +9,32 @@ const MapMock = ({ children, style }: any) => (
   </div>
 );
 
+export const loadMapComponents = (mockMapComponents: any, setMapComponents: any, setMapError: any) => {
+  let isMounted = true;
+  if (typeof window !== 'undefined' && !mockMapComponents) {
+    const loadCss = import('mapbox-gl/dist/mapbox-gl.css').catch(() => {});
+    Promise.all([
+      import('react-map-gl/mapbox'),
+      loadCss
+    ]).then(([mod]) => {
+      if (isMounted) {
+        setMapComponents({
+          Map: mod.default,
+          Marker: mod.Marker,
+          Popup: mod.Popup,
+          NavigationControl: mod.NavigationControl
+        });
+      }
+    }).catch(err => {
+      console.error('Failed to load react-map-gl', err);
+      if (isMounted) setMapError(true);
+    });
+  }
+  return () => {
+    isMounted = false;
+  };
+};
+
 const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null }: any) => {
   const [viewState, setViewState] = useState({
     longitude: -20,
@@ -19,29 +45,9 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   const [MapComponents, setMapComponents] = useState<any>(mockMapComponents);
   const [mapError, setMapError] = useState(mapErrorProp);
 
+
   useEffect(() => {
-    let isMounted = true;
-    if (typeof window !== 'undefined' && !mockMapComponents) {
-      Promise.all([
-        import('react-map-gl/mapbox'),
-        import('mapbox-gl/dist/mapbox-gl.css')
-      ]).then(([mod]) => {
-        if (isMounted) {
-          setMapComponents({
-            Map: mod.default,
-            Marker: mod.Marker,
-            Popup: mod.Popup,
-            NavigationControl: mod.NavigationControl
-          });
-        }
-      }).catch(err => {
-        console.error('Failed to load react-map-gl', err);
-        if (isMounted) setMapError(true);
-      });
-    }
-    return () => {
-      isMounted = false;
-    };
+    return loadMapComponents(mockMapComponents, setMapComponents, setMapError);
   }, [mockMapComponents]);
 
   const getAtmosphereColor = (kp: number) => {

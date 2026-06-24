@@ -139,6 +139,39 @@ globalThis.Response = MockResponse as any;
     await worker.scheduled(null, env, ctx);
     assert.ok(waitPromise instanceof Promise, 'scheduled should handle null event');
 
+    // --- Test: GET /api/health with error to hit fetch catch block ---
+    const envWithError = {
+      CACHE: {
+        async get() { throw new Error('Simulated CACHE error'); }
+      }
+    };
+    const healthReqError = { url: 'http://localhost/api/health', method: 'GET' };
+    const healthResError = await worker.fetch(healthReqError, envWithError, {});
+    assert.strictEqual(healthResError.status, 500, 'Should return 500 on internal error');
+    const healthDataError = await healthResError.json();
+    assert.strictEqual(healthDataError.error, 'Internal Server Error', 'Should return error message');
+
+    // --- Test: scheduled handler with error ---
+    const envScheduledError = {
+      CACHE: {
+        async get() { throw new Error('Simulated CACHE error in scheduled'); }
+      }
+    };
+    let ctxScheduledWait: any = null;
+    const ctxScheduled = {
+      waitUntil: (promise: Promise<any>) => {
+        ctxScheduledWait = promise;
+      }
+    };
+    const scheduledEventError = { scheduledTime: Date.now() };
+    await worker.scheduled(scheduledEventError, envScheduledError, ctxScheduled);
+    if (ctxScheduledWait) {
+      try {
+        await ctxScheduledWait;
+      } catch (_err) {}
+    }
+
+
   } catch (err) {
     console.error('FAIL - worker.test.js:', err);
     process.exit(1);

@@ -15,7 +15,7 @@
 - [x] TASK: migrate-require-to-import-lib | Target: lib/*.js | I/O: refactor | Assert: no 'require' in lib/ | LOC: ~50
 - [x] TASK: split-cluster-identifier | Target: lib/cluster-identifier.js | I/O: refactor | Assert: schema and logic in separate exports | LOC: ~15
 - [x] TASK: modularize-ingest-cycle | Target: functions/ingest-cycle.js | I/O: refactor | Assert: < 150 lines, logic moved to lib/ | LOC: ~100
-- [ ] TASK: ensure-client-io-purity | Target: lib/*-client.js | I/O: audit | Assert: all clients return raw JSON | LOC: ~30
+- [x] TASK: ensure-client-io-purity | Target: lib/*-client.js | I/O: audit | Assert: all clients return raw JSON | LOC: ~30
 
 ### Epic 16.2: Clean Architecture Patterns
 - [ ] TASK: implement-standard-error-types | Target: lib/errors.js | I/O: code | Assert: centralized error classes | LOC: ~40

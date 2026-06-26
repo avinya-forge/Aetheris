@@ -75,11 +75,11 @@ export const loadMapComponents = (mockMapComponents: any, setMapComponents: any,
   };
 };
 
-const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null }: any) => {
+const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null, initialZoom = 1.5, focus = 'present', onFocusChange = null }: any) => {
   const [viewState, setViewState] = useState({
     longitude: -20,
     latitude: 30,
-    zoom: 1.5
+    zoom: initialZoom
   });
 
   const [MapComponents, setMapComponents] = useState<any>(mockMapComponents);
@@ -115,14 +115,19 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   };
 
   const filteredEvents = useMemo(() => {
+    // 1. Filter by zoom logic
+    let zoomFiltered = events;
     if (viewState.zoom < 4) {
-      return events.filter((e: any) => e.impact === 'HIGH' || e.type === 'space-weather');
+      zoomFiltered = events.filter((e: any) => e.impact === 'HIGH' || e.type === 'space-weather');
+    } else if (viewState.zoom < 8) {
+      zoomFiltered = events.filter((e: any) => e.impact === 'HIGH' || e.impact === 'MEDIUM');
     }
-    if (viewState.zoom < 8) {
-      return events.filter((e: any) => e.impact === 'HIGH' || e.impact === 'MEDIUM');
-    }
-    return events;
-  }, [events, viewState.zoom]);
+
+    // 2. Filter by timeline focus (simplified)
+    if (focus === 'past') return zoomFiltered.filter((e: any) => !e.interpolated);
+    if (focus === 'horizon') return zoomFiltered.filter((e: any) => e.interpolated);
+    return zoomFiltered;
+  }, [events, viewState.zoom, focus]);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh', background: getAtmosphereColor(kpIndex), overflow: 'hidden' }} data-testid="atlas-container">
@@ -160,8 +165,8 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
           {filteredEvents.map((event: any) => (
             <MapComponents.Marker
               key={event.id}
-              longitude={event.lng}
-              latitude={event.lat}
+              longitude={event.lng || event.longitude}
+              latitude={event.lat || event.latitude}
               anchor="bottom"
               onClick={(e: any) => handleMarkerClick(event, e)}
             >
@@ -176,22 +181,22 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
                   transition: 'filter 0.5s ease'
                 }}
               >
-                <Glyph type={event.type} color={event.impact === 'HIGH' ? '#ff4b2b' : '#ffb400'} />
+                <Glyph type={event.type || event.topic} color={event.impact === 'HIGH' ? '#ff4b2b' : '#ffb400'} />
               </div>
             </MapComponents.Marker>
           ))}
 
           {selectedEvent && (
             <MapComponents.Popup
-              longitude={selectedEvent.lng}
-              latitude={selectedEvent.lat}
+              longitude={selectedEvent.lng || selectedEvent.longitude}
+              latitude={selectedEvent.lat || selectedEvent.latitude}
               anchor="top"
               onClose={() => setSelectedEvent(null)}
               closeOnClick={false}
             >
               <div style={{ color: '#333', padding: '5px' }} className="popup-content">
                 <strong style={{ display: 'block' }}>{selectedEvent.title}</strong>
-                <span>Impact: {selectedEvent.impact}</span>
+                <span>Impact: {selectedEvent.impact || selectedEvent.impactScore}</span>
               </div>
             </MapComponents.Popup>
           )}
@@ -245,7 +250,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         ))}
       </div>
 
-      <Timeline events={filteredEvents} />
+      <Timeline events={filteredEvents} focus={focus} onFocusChange={onFocusChange} />
     </div>
   );
 };

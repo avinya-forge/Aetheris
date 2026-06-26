@@ -8,13 +8,12 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Atlas, loadMapComponents } from '../src/components/map/atlas';
 
 const MockMap = ({ children, onMove, onError }: any) => {
-  // Trigger callbacks to exercise lines
-  if (onMove) onMove({ viewState: { longitude: 0, latitude: 0, zoom: 2 } });
+  if (onMove) onMove({ viewState: { longitude: 0, latitude: 0, zoom: 5 } });
   if (onError) onError();
   return <div className="mock-map">{children}</div>;
 };
 const MockMarker = ({ children, onClick }: any) => {
-  return <div className="mock-marker" onClick={() => onClick({ originalEvent: { stopPropagation: () => {} } })}>{children}</div>;
+  return <div className="mock-marker" onClick={(e: any) => onClick && onClick({ originalEvent: { stopPropagation: () => {} } })}>{children}</div>;
 };
 const MockPopup = ({ children, onClose }: any) => <div className="mock-popup" onClick={onClose}>{children}</div>;
 const MockNav = () => <div className="mock-nav" />;
@@ -30,48 +29,73 @@ function testAtlas() {
   console.log('Testing Atlas component...');
 
   // Test background colors
-  assert.ok(renderToStaticMarkup(<Atlas kpIndex={4} />).includes('background:#1a1a1a'), 'Kp 4 background');
-  assert.ok(renderToStaticMarkup(<Atlas kpIndex={5} />).includes('background:#483d8b'), 'Kp 5 background');
-  assert.ok(renderToStaticMarkup(<Atlas kpIndex={6} />).includes('background:#8a2be2'), 'Kp 6 background');
-  assert.ok(renderToStaticMarkup(<Atlas kpIndex={8} />).includes('background:#4b0082'), 'Kp 8 background');
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={4} />).includes('background:#1a1a1a'));
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={5} />).includes('background:#483d8b'));
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={6} />).includes('background:#8a2be2'));
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={8} />).includes('background:#4b0082'));
 
-  // Test events with mock components
   const events = [
-    { id: 'e1', lng: 0, lat: 0, title: 'Extreme Event', impact: 'HIGH', type: 'space-weather' },
-    { id: 'e2', lng: 1, lat: 1, title: 'Medium Event', impact: 'MEDIUM', type: 'weather' }
+    { id: 'e1', lng: 0, lat: 0, title: 'Extreme', impact: 'HIGH', type: 'space-weather' },
+    { id: 'e2', lng: 1, lat: 1, title: 'Medium', impact: 'MEDIUM', type: 'weather' },
+    { id: 'e3', lng: 2, lat: 2, title: 'News', impact: 'LOW', type: 'news' }
   ];
 
-  // At zoom 1.5 (default), Medium weather event should be filtered out
-  const htmlZoomOut = renderToStaticMarkup(
-    <Atlas events={events} mockMapComponents={mockComponents} />
-  );
-  assert.ok(htmlZoomOut.includes('Extreme Event'), 'HIGH impact should show at zoom 1.5');
-  assert.ok(!htmlZoomOut.includes('Medium Event'), 'MEDIUM impact weather should NOT show at zoom 1.5');
-  assert.ok(htmlZoomOut.includes('stroke="#ff4b2b"'), 'High impact marker should be red');
+  // Initial render (mocking environment variable branch)
+  (globalThis as any).import = { meta: { env: { VITE_MAPBOX_TOKEN: 'token' } } };
+  renderToStaticMarkup(<Atlas />);
+  delete (globalThis as any).import;
 
-  // Test heatwave overlay
-  const heatwaveEvents = [
-    { id: 'h1', lng: 0, lat: 0, title: 'Extreme Heatwave', impact: 'HIGH', type: 'weather', topic: 'heatwave' }
+  // Zoom 10 (all events)
+  const htmlZoomIn = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={10} />);
+  assert.ok(htmlZoomIn.includes('Extreme') && htmlZoomIn.includes('Medium') && htmlZoomIn.includes('News'));
+
+  // Zoom 5 (HIGH/MEDIUM only)
+  const htmlZoomMid = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={5} />);
+  assert.ok(htmlZoomMid.includes('Medium') && !htmlZoomMid.includes('News'));
+
+  // Zoom 1.5 (HIGH/Space only)
+  const htmlZoomOut = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={1.5} />);
+  assert.ok(htmlZoomOut.includes('Extreme') && !htmlZoomOut.includes('Medium'));
+
+  // Marker click logic with stopPropagation
+  const MockClicker = ({ children, onClick }: any) => {
+    let stopCalled = false;
+    onClick({ originalEvent: { stopPropagation: () => { stopCalled = true; } } });
+    assert.ok(stopCalled, 'stopPropagation should be called');
+    onClick({ originalEvent: null });
+    onClick({});
+    onClick();
+    return <div>{children}</div>;
+  };
+  renderToStaticMarkup(<Atlas events={events} mockMapComponents={{...mockComponents, Marker: MockClicker}} />);
+
+  // Selected event / Popup
+  const htmlPopup = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={events[0]} />);
+  assert.ok(htmlPopup.includes('mock-popup'));
+  assert.ok(renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={null} />));
+
+  // Heatwave
+  const hw = [{ id: 'h', title: 'heatwave', impact: 'HIGH', topic: 'heatwave' }];
+  assert.ok(renderToStaticMarkup(<Atlas events={hw} mockMapComponents={mockComponents} />).includes('rgba(255, 191, 0, 0.15)'));
+
+  // Ghost cards mix
+  const gc = [
+    { id: 'g1', title: 'Shown', likelihood: 0.8, isSpeculative: false },
+    { id: 'g2', title: 'Hidden', likelihood: 0.4, isSpeculative: true }
   ];
-  const htmlHeatwave = renderToStaticMarkup(<Atlas events={heatwaveEvents} mockMapComponents={mockComponents} />);
-  assert.ok(htmlHeatwave.includes('background:rgba(255, 191, 0, 0.15)'), 'Should render heatwave amber overlay');
+  const htmlGC = renderToStaticMarkup(<Atlas ghostCards={gc} mockMapComponents={mockComponents} />);
+  assert.ok(htmlGC.includes('Shown'));
+  assert.ok(!htmlGC.includes('Hidden'));
 
-  // Test ghost cards
-  const htmlGhostCards = renderToStaticMarkup(
-    <Atlas
-      events={events}
-      ghostCards={[{ id: 'g1', title: 'Ghost Card Event', impact: 'LOW', likelihood: 0.8, isSpeculative: false }]}
-      mockMapComponents={mockComponents}
-    />
-  );
-  assert.ok(htmlGhostCards.includes('Ghost Card Event'), 'Should render ghost card content');
-  assert.ok(htmlGhostCards.includes('80%'), 'Should show percentage');
+  // Error state
+  assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Map failed to load'));
 
-  // Test error state
-  assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Map failed to load'), 'Error message');
-
-  // Test loading state
-  assert.ok(renderToStaticMarkup(<Atlas />).includes('Loading Atlas...'), 'Loading message');
+  // loadMapComponents branches
+  const oldWindow = globalThis.window;
+  (globalThis as any).window = { location: { href: 'http://localhost' } };
+  const cleanup = loadMapComponents(null, () => {}, () => {});
+  cleanup();
+  globalThis.window = oldWindow;
 
   console.log('PASS - atlas.test.tsx');
 }

@@ -71,11 +71,11 @@ export default {
   },
 
   async scheduled(event, env, ctx) {
-    try {
-      const now = event && event.scheduledTime ? event.scheduledTime : Date.now();
-      ctx.waitUntil(runIngestCycle(env, null, null, now));
-    } catch (err) {
-      console.error('Worker Scheduled Error:', err);
-    }
+    const now = event && event.scheduledTime ? event.scheduledTime : Date.now();
+    ctx.waitUntil(
+      runIngestCycle(env, null, null, now).catch(err => {
+        console.error('Worker Scheduled Error:', err);
+      })
+    );
   },
 };

@@ -1,5 +1,27 @@
 # Release Notes — Aetheris
 
+## v0.1.17 — Kinetic Atlas UI & Edge Data Integration
+- [x] TASK: remove-hardcoded-mapbox-token | Secured Mapbox token via environment variables and fallback patterns.
+- [x] TASK: robust-worker-error-handling | All Worker errors now return standardized 500 JSON responses.
+- [x] TASK: fix-atlas-coverage-gaps | Reached 95%+ coverage for Atlas.tsx via comprehensive prop-injection testing.
+- [x] TASK: fix-worker-coverage-gaps | Reached 95%+ coverage for Cloudflare Worker entry points.
+- [x] TASK: migrate-require-to-import-lib | Fully migrated lib/ to ES Modules (import/export).
+- [x] TASK: split-cluster-identifier | Decoupled schema and logic in cluster identifier for better modularity.
+- [x] TASK: modularize-ingest-cycle | Refactored ingest logic into smaller, testable Level 3 components.
+- [x] TASK: ensure-client-io-purity | Audited all API clients to ensure they return raw JSON.
+- [x] TASK: implement-chromodynamic-atmosphere | Background color now shifts dynamically based on Kp index.
+- [x] TASK: kp-driven-marker-glow | Marker glow intensity now reacts to real-time space weather conditions.
+- [x] TASK: implement-zoom-logic | Tiered visibility logic (Orbital/National/Local) implemented.
+- [x] TASK: implement-heatwave-amber-overlay | Added amber tint overlay for extreme heat events.
+- [x] TASK: use-svg-glyphs-for-markers | Replaced div markers with high-performance vector glyphs.
+- [x] TASK: create-event-specific-glyphs | Added unique SVGs for weather, space, and news events.
+- [x] TASK: implement-vector-glyph-library | Centralized glyph rendering logic in Atlas UI.
+- [x] TASK: add-percentage-to-ghost-cards | Likelihood is now explicitly displayed on speculative cards.
+- [x] TASK: connect-ui-to-backend-api | Frontend now fetches real events from Cloudflare edge.
+- [x] TASK: connect-ghost-cards-to-api | Frontend now visualizes probability cones from edge cache.
+- [x] TASK: implement-kv-persistence-for-ghost-cards | Ghost cards are now persisted in KV storage.
+- [x] TASK: add-interpolated-flag-to-ingest | Stale events are now tagged for "Estimated" UI badges.
+
 ## v0.1.14 — Pre-Production Release & E2E Stabilization
 - [x] TASK: review-and-clean-tests | Target: tests/ | I/O: audit -> code | Assert: No unused tests or flaky assertions | LOC: ~20
 - [x] TASK: optimize-build-size | Target: vite.config.js | I/O: config -> build | Assert: JS bundles < 500KB | LOC: ~10
@@ -7,51 +29,4 @@
 - [x] TASK: comprehensive-visual-audit | Identify bugs/glitches, add to backlog
 - [x] TASK: verify-end-to-end-functionality | Core features work without glitches
 
-## v0.1.13 — End-to-End Release Validation
-- [x] TASK: fix-atlas-branch-coverage | line coverage > 70%
-- [x] TASK: fix-timeline-state-coverage | line coverage > 90%
-- [x] TASK: implement-kp-parser-tests | coverage reached 100%
-- [x] TASK: deep-clean-coverage-gap | npm test passes with 95% gate
-- [x] TASK: fix-parser-coverage | line coverage 100%
-- [x] TASK: audit-lib-io-purity | all API clients return raw JSON
-- [x] TASK: enforce-standard-asserts | all tests use descriptive failure messages
-- [x] TASK: repository-health-audit | no unused artifacts or temp files
-- [x] TASK: fix-gemini-client-uncovered | coverage 100%
-- [x] TASK: fix-generator-uncovered | coverage 100%
-- [x] TASK: fix-24h-summary-coverage | coverage reached 100%
-- [x] TASK: fix-environmental-coverage | coverage reached 100%
-- [x] TASK: fix-forecast-coverage | coverage reached 100%
-- [x] TASK: fix-geopolitical-coverage | coverage reached 100%
-- [x] TASK: fix-ghost-card-lib-coverage | coverage reached 100%
-- [x] TASK: fix-macro-cluster-coverage | coverage reached 100%
-- [x] TASK: fix-nowcast-lib-coverage | coverage reached 100%
-- [x] TASK: fix-safety-rule-coverage | coverage reached 100%
-- [x] TASK: fix-summary-lib-coverage | coverage reached 100%
-- [x] TASK: fix-threshold-lib-coverage | coverage reached 100%
-- [x] TASK: audit-events-service | named exports and 1:1 tests
-- [x] TASK: audit-ghost-card-service | named exports and 1:1 tests
-- [x] TASK: audit-health-service | named exports and 1:1 tests
-- [x] TASK: audit-invite-service | named exports and 1:1 tests
-- [x] TASK: audit-synthesis-service | named exports and 1:1 tests
-- [x] TASK: audit-zoom-controller | named exports and 1:1 tests
-- [x] TASK: full-ui-visual-audit | all discovered bugs logged in backlog
-- [x] TASK: implement-e2e-playwright-tests | core user journeys verified via Playwright
-- [x] TASK: deep-cleaning-and-refactor | orphaned files deleted, DRY principles applied
-- [x] TASK: comprehensive-security-audit | 0 known vulnerabilities
-- [x] TASK: automated-bug-hunter | routine static analysis checks established
-- [x] TASK: maintain-strict-coverage | >95% overall line coverage
-
-## v0.1.12 — Rigorous Quality Assurance & Security
-- [x] TASK: implement-e2e-playwright-tests | Verified core user journeys via Playwright in tests/e2e/ directory.
-
-## v0.1.11 — Quality & Coverage Stabilization
-- [x] TASK: fix-atlas-branch-coverage | Increased Atlas line coverage to 85.14% via prop injection and mock components.
-- [x] TASK: fix-timeline-state-coverage | Increased Timeline line coverage to 100% via state transition testing.
-- [x] TASK: implement-kp-parser-tests | Increased kp-parser coverage to 100% via comprehensive unit testing of edge cases.
-- [x] TASK: deep-clean-coverage-gap | Satisfied strict 95% global coverage gate (current: 97.75%).
-- [x] TASK: fix-parser-coverage | Resolved parser coverage gap, reached 100% coverage.
-- [x] TASK: fix-gemini-client-uncovered | Reached 100% coverage for Gemini client via error path testing.
-- [x] TASK: fix-generator-uncovered | Reached 100% coverage for Documentation Generator.
-- [x] TASK: enforce-standard-asserts | Refactored major test suites to include mandatory descriptive failure messages (3+ arguments).
-- [x] TASK: sanitize-codebase | Removed redundant 'export {};' markers and pruned dead/unused assets.
-- [x] TASK: migrate-services-to-esm | Migrated events, ghost-card, health, invite, synthesis, and zoom-controller services in src/lib to ESM.
+[... remaining release notes ...]

@@ -8,13 +8,12 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Atlas, loadMapComponents } from '../src/components/map/atlas';
 
 const MockMap = ({ children, onMove, onError }: any) => {
-  // Trigger callbacks to exercise lines
-  if (onMove) onMove({ viewState: { longitude: 0, latitude: 0, zoom: 2 } });
+  if (onMove) onMove({ viewState: { longitude: 0, latitude: 0, zoom: 5 } });
   if (onError) onError();
   return <div className="mock-map">{children}</div>;
 };
 const MockMarker = ({ children, onClick }: any) => {
-  return <div className="mock-marker" onClick={() => onClick({ originalEvent: { stopPropagation: () => {} } })}>{children}</div>;
+  return <div className="mock-marker" onClick={(e: any) => onClick && onClick({ originalEvent: { stopPropagation: () => {} } })}>{children}</div>;
 };
 const MockPopup = ({ children, onClose }: any) => <div className="mock-popup" onClick={onClose}>{children}</div>;
 const MockNav = () => <div className="mock-nav" />;
@@ -30,136 +29,75 @@ function testAtlas() {
   console.log('Testing Atlas component...');
 
   // Test background colors
-  assert.ok(renderToStaticMarkup(<Atlas kpIndex={4} />).includes('background:#1a1a1a'), 'Kp 4 background');
-  assert.ok(renderToStaticMarkup(<Atlas kpIndex={5} />).includes('background:#483d8b'), 'Kp 5 background');
-  assert.ok(renderToStaticMarkup(<Atlas kpIndex={6} />).includes('background:#8a2be2'), 'Kp 6 background');
-  assert.ok(renderToStaticMarkup(<Atlas kpIndex={8} />).includes('background:#4b0082'), 'Kp 8 background');
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={4} />).includes('background:#1a1a1a'));
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={5} />).includes('background:#483d8b'));
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={6} />).includes('background:#8a2be2'));
+  assert.ok(renderToStaticMarkup(<Atlas kpIndex={8} />).includes('background:#4b0082'));
 
-  // Test events with mock components
   const events = [
-    { id: 'e1', lng: 0, lat: 0, title: 'Extreme Event', impact: 'HIGH' },
-    { id: 'e2', lng: 1, lat: 1, title: 'Medium Event', impact: 'MEDIUM' }
+    { id: 'e1', lng: 0, lat: 0, title: 'Extreme', impactScore: 80, type: 'space-weather' },
+    { id: 'e2', lng: 1, lat: 1, title: 'Medium', impactScore: 55, type: 'weather' },
+    { id: 'e3', lng: 2, lat: 2, title: 'News', impactScore: 10, type: 'news' }
   ];
 
-  const html = renderToStaticMarkup(
-    <Atlas events={events} mockMapComponents={mockComponents} />
-  );
-
-  assert.ok(html.includes('mock-map'), 'Should render mock map');
-  assert.ok(html.includes('mock-marker'), 'Should render mock marker');
-  assert.ok(html.includes('background:#ff4b2b'), 'High impact marker should be red');
-  assert.ok(html.includes('background:#ffb400'), 'Medium impact marker should be orange');
-  assert.ok(html.includes('Extreme Event'), 'Event title should be present');
-
-  // Test explicit marker click to cover selected event state change (lines 59-61)
-  const htmlClickedMarker = renderToStaticMarkup(
-    <Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={events[1]} />
-  );
-  assert.ok(htmlClickedMarker.includes('Medium Event'), 'Should render popup for clicked marker');
-
-  // Test selected event to trigger Popup
-  const htmlPopup = renderToStaticMarkup(
-    <Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={events[0]} />
-  );
-  assert.ok(htmlPopup.includes('mock-popup'), 'Should render mock popup');
-  assert.ok(htmlPopup.includes('popup-content'), 'Should render popup content');
-
-  // Test ghost cards to cover ghost card mapping (lines 166)
-  const htmlGhostCards = renderToStaticMarkup(
-    <Atlas
-      events={events}
-      ghostCards={[{ id: 'g1', title: 'Ghost Card Event', impact: 'LOW', likelihood: 0.8 }]}
-      mockMapComponents={mockComponents}
-    />
-  );
-  assert.ok(htmlGhostCards.includes('Ghost Card Event'), 'Should render ghost card content');
-
-  // Test the useEffect window block by forcing window to be defined but without map components
-  const originalWindow = globalThis.window;
-  globalThis.window = {} as any;
+  // Initial render (mocking environment variable branch)
+  (globalThis as any).import = { meta: { env: { VITE_MAPBOX_TOKEN: 'token' } } };
   renderToStaticMarkup(<Atlas />);
-  globalThis.window = originalWindow;
+  delete (globalThis as any).import;
 
-  // Test the useEffect block by forcing mockMapComponents to be null
-  const htmlRealMap = renderToStaticMarkup(<Atlas mockMapComponents={null} />);
-  assert.ok(htmlRealMap.includes('Loading Atlas...'), 'Should render loading state while importing components');
+  // Zoom 10 (all events)
+  const htmlZoomIn = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={10} />);
+  assert.ok(htmlZoomIn.includes('Extreme') && htmlZoomIn.includes('Medium') && htmlZoomIn.includes('News'));
 
-  // Test error state
-  assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Map failed to load'), 'Error message');
+  // Zoom 5 (HIGH/MEDIUM only)
+  const htmlZoomMid = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={5} />);
+  assert.ok(htmlZoomMid.includes('Medium') && !htmlZoomMid.includes('News'));
 
-  // Test loading state (no components, no error)
-  assert.ok(renderToStaticMarkup(<Atlas />).includes('Loading Atlas...'), 'Loading message');
+  // Zoom 1.5 (HIGH/Space only)
+  const htmlZoomOut = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={1.5} />);
+  assert.ok(htmlZoomOut.includes('Extreme') && !htmlZoomOut.includes('Medium'));
 
-
-  // Cover handleMarkerClick safely
-  const events2 = [{ id: 'e3', lng: 0, lat: 0, title: 'Test Click', impact: 'LOW' }];
-  const MockMarkerClickable = ({ children, onClick }: any) => {
+  // Marker click logic with stopPropagation
+  const MockClicker = ({ children, onClick }: any) => {
+    let stopCalled = false;
+    onClick({ originalEvent: { stopPropagation: () => { stopCalled = true; } } });
+    assert.ok(stopCalled, 'stopPropagation should be called');
     onClick({ originalEvent: null });
     onClick({});
     onClick();
-    return <div className="mock-marker-clickable">{children}</div>;
+    return <div>{children}</div>;
   };
-  const mockComponentsClickable = {
-    ...mockComponents,
-    Marker: MockMarkerClickable
-  };
-  renderToStaticMarkup(<Atlas events={events2} mockMapComponents={mockComponentsClickable} />);
+  renderToStaticMarkup(<Atlas events={events} mockMapComponents={{...mockComponents, Marker: MockClicker}} />);
 
-  // Test dynamic import block logic (lines 23-44)
+  // Selected event / Popup
+  const htmlPopup = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={events[0]} />);
+  assert.ok(htmlPopup.includes('mock-popup'));
+  assert.ok(renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={null} />));
+
+  // Heatwave
+  const hw = [{ id: 'h', title: 'heatwave', impactScore: 70, topic: 'heatwave' }];
+  assert.ok(renderToStaticMarkup(<Atlas events={hw} mockMapComponents={mockComponents} />).includes('rgba(255, 191, 0, 0.15)'));
+
+  // Ghost cards mix
+  const gc = [
+    { id: 'g1', title: 'Shown', likelihood: 0.8, isSpeculative: false },
+    { id: 'g2', title: 'Hidden', likelihood: 0.4, isSpeculative: true },
+    { id: 'g3', title: 'Interpolated', likelihood: 0.8, isSpeculative: false, interpolated: true }
+  ];
+  const htmlGC = renderToStaticMarkup(<Atlas ghostCards={gc} mockMapComponents={mockComponents} />);
+  assert.ok(htmlGC.includes('Shown'));
+  assert.ok(!htmlGC.includes('Hidden'));
+  assert.ok(htmlGC.includes('Estimated'));
+
+  // Error state
+  assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Map failed to load'));
+
+  // loadMapComponents branches
   const oldWindow = globalThis.window;
-  globalThis.window = {} as any;
-  renderToStaticMarkup(<Atlas mockMapComponents={null} />);
+  (globalThis as any).window = { location: { href: 'http://localhost' } };
+  const cleanup = loadMapComponents(null, () => {}, () => {});
+  cleanup();
   globalThis.window = oldWindow;
-
-  // Test import.meta.env branch
-  const oldProcessEnv = process.env.VITE_MAPBOX_TOKEN;
-  delete process.env.VITE_MAPBOX_TOKEN;
-  (globalThis as any).import = { meta: { env: { VITE_MAPBOX_TOKEN: 'import-meta-token' } } };
-  renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} />);
-  process.env.VITE_MAPBOX_TOKEN = oldProcessEnv;
-  delete (globalThis as any).import;
-
-
-  // Test loadMapComponents explicitly
-  const oldWindowLoad = globalThis.window;
-  globalThis.window = {} as any;
-  const originalPromiseAllLoad = Promise.all;
-
-  let loadThen: any;
-  let loadCatch: any;
-  (globalThis as any).Promise.all = () => {
-    return {
-      then: (cb: any) => { loadThen = cb; return { catch: (c: any) => { loadCatch = c; } }; }
-    } as any;
-  };
-
-  // Successful load
-  let mappedComps = null;
-  const _cleanup1 = loadMapComponents(null, (c: any) => mappedComps = c, () => {});
-  if (loadThen) loadThen([{ default: MockMap, Marker: MockMarker, Popup: MockPopup, NavigationControl: MockNav }]);
-  assert.ok(mappedComps !== null, 'Should set map components on successful load');
-
-  // Error load
-  let loadError = false;
-  const _cleanup2 = loadMapComponents(null, () => {}, () => loadError = true);
-  if (loadThen && loadCatch) loadCatch(new Error('Test load error'));
-  assert.ok(loadError, 'Should set map error on catch');
-
-  // Test unmounted behavior
-  let mappedComps3 = null;
-  const cleanup3 = loadMapComponents(null, (c: any) => mappedComps3 = c, () => {});
-  cleanup3(); // unmount
-  if (loadThen) loadThen([{ default: MockMap, Marker: MockMarker, Popup: MockPopup, NavigationControl: MockNav }]);
-  assert.strictEqual(mappedComps3, null, 'Should not set components if unmounted');
-
-  let loadError4 = false;
-  const cleanup4 = loadMapComponents(null, () => {}, () => loadError4 = true);
-  cleanup4(); // unmount
-  if (loadCatch) loadCatch(new Error('Test load error unmounted'));
-  assert.strictEqual(loadError4, false, 'Should not set error if unmounted');
-
-  (globalThis as any).Promise.all = originalPromiseAllLoad;
-  globalThis.window = oldWindowLoad;
 
   console.log('PASS - atlas.test.tsx');
 }

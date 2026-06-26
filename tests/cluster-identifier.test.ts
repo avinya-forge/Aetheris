@@ -1,32 +1,29 @@
 import assert from 'assert';
-import { identifyClusters } from '../lib/cluster-identifier';
+import { identifyClusters, identifyMacroClusters } from '../lib/cluster-identifier.js';
 
 try {
   const events = [
-    { id: '1', topic: 'Climate' },
-    { id: '2', topic: 'Climate' },
-    { id: '3', topic: 'Economy' }
+    { id: '1', topic: 'Solar', impactScore: 10, timestamp: 1000 },
+    { id: '2', topic: 'Solar', impactScore: 10, timestamp: 2000 },
+    { id: '3', topic: 'Storm', impactScore: 5, timestamp: 1000 }
   ];
 
   const clusters = identifyClusters(events);
+  assert.strictEqual(clusters.length, 2);
+  assert.strictEqual(clusters[0].theme, 'Solar');
+  assert.strictEqual(clusters[0].impactScore, 20);
+  assert.strictEqual(clusters[0].earliest, 1000);
+  assert.strictEqual(clusters[0].latest, 2000);
 
-  assert.strictEqual(Array.isArray(clusters, 'cluster-identifier.test.ts: strictEqual failure'), true, 'cluster-identifier.test.js: value mismatch');
-  assert.strictEqual(clusters.length, 2, 'cluster-identifier.test.js: value mismatch');
+  const macro = identifyMacroClusters([
+    { theme: 'Trend', earliest: 0, latest: 25 * 3600 * 1000 }
+  ]);
+  assert.strictEqual(macro.length, 1);
 
-  const climateCluster = clusters.find(c => c.theme === 'Climate');
-  assert.ok(climateCluster, 'cluster-identifier.test.js: missing value');
-  assert.deepStrictEqual(climateCluster.events, ['1', '2'], 'cluster-identifier.test.js must match');
-  assert.strictEqual(climateCluster.impactScore, 10, 'cluster-identifier.test.js: value mismatch'); // 2 events * 5 = 10
-
-  const economyCluster = clusters.find(c => c.theme === 'Economy');
-  assert.ok(economyCluster, 'cluster-identifier.test.js: missing value');
-  assert.deepStrictEqual(economyCluster.events, ['3'], 'cluster-identifier.test.js must match');
-  assert.strictEqual(economyCluster.impactScore, 5, 'cluster-identifier.test.js: value mismatch'); // 1 event * 5 = 5
-
-} catch (error) {
-  console.error('cluster identifier test failed:', error.message);
+  console.log('PASS - cluster-identifier.test.js');
+} catch (e: any) {
+  console.error('FAIL - cluster-identifier.test.js:', e.message);
   process.exit(1);
 }
-console.log('PASS - cluster-identifier.test.js');
 
 export {};

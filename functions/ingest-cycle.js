@@ -24,6 +24,8 @@ const { interpolateNowcast, isStale } = require('../lib/nowcast-interpolator');
 
 // KV keys
 const KV_EVENTS_LATEST = 'events:latest';
+const KV_GHOST_CARDS_LATEST = 'ghost_cards:latest';
+const KV_EVENTS_ARCHIVE = dateStr => `events:archive:${dateStr}`;
 const KV_SOURCE_META = id => `source:meta:${id}`;
 const MAX_EVENTS_IN_KV = 500;
 const DEFAULT_MIN_IMPACT = 5;
@@ -32,7 +34,6 @@ const ALL_SOURCES = ['noaa-swpc', 'gdelt', 'nasa-donki', 'open-meteo'];
 
 /**
  * Default client factory — returns real API clients when running in production.
- * Tests inject mocks via the `clients` param of runIngestCycle().
  */
 function defaultClients(env, now) {
   const { fetchNoaaSwpc } = require('../lib/noaa-swpc-client');
@@ -48,9 +49,6 @@ function defaultClients(env, now) {
   };
 }
 
-/**
- * Read per-source metadata from KV (lastFetchedAt, consecutiveEmptyPolls).
- */
 async function getSourceMeta(kv) {
   return Promise.all(
     ALL_SOURCES.map(async id => {
@@ -65,27 +63,13 @@ async function getSourceMeta(kv) {
   );
 }
 
-/**
- * Persist updated source metadata to KV.
- */
 async function updateSourceMeta(kv, id, newItemCount, now) {
   const raw = await kv.get(KV_SOURCE_META(id));
   const prev = raw ? JSON.parse(raw) : {};
-  const consecutiveEmptyPolls = newItemCount === 0
-    ? (prev.consecutiveEmptyPolls || 0) + 1
-    : 0;
-
-  await kv.put(
-    KV_SOURCE_META(id),
-    JSON.stringify({ lastFetchedAt: now, consecutiveEmptyPolls }),
-    { expirationTtl: 7 * 86_400 }
-  );
+  const consecutiveEmptyPolls = newItemCount === 0 ? (prev.consecutiveEmptyPolls || 0) + 1 : 0;
+  await kv.put(KV_SOURCE_META(id), JSON.stringify({ lastFetchedAt: now, consecutiveEmptyPolls }), { expirationTtl: 7 * 86_400 });
 }
 
-/**
- * Map NASA DONKI events → forecast objects accepted by generateGhostCards.
- * Marks all DONKI detections as confirmed (speculative: false).
- */
 function donkiToForecasts(donkiEvents) {
   return donkiEvents
     .filter(e => e && e.id && e.eventType)
@@ -99,18 +83,6 @@ function donkiToForecasts(donkiEvents) {
 
 /**
  * Ingest cycle — the core sniffer loop.
- *
- * @param {{ CACHE: { get, put }, NASA_API_KEY?: string, GEMINI_API_KEY?: string }} env - Cloudflare Worker env bindings
- * @param {Object|null} [clients] - injectable client map for testing
- * @param {Function|null} [synthesizer] - injectable async synthesizer (text) => Promise<string|null>
- * @returns {Promise<{
- *   polled: string[],
- *   newEvents: number,
- *   clusters: number,
- *   synthesis: Object,
- *   safetyWarnings: string[],
- *   ghostCards: Array
- * }>}
  */
 async function runIngestCycle(env, clients = null, synthesizer = null, now = Date.now()) {
   const kv = env.CACHE;
@@ -121,15 +93,12 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
     return mapGeminiResponse(raw);
   });
 
-  // 1. Determine which sources are due for polling
+  // 1. Determine due sources
   const sourcesMeta = await getSourceMeta(kv);
   const ranked = rankSources(sourcesMeta, now);
+  if (ranked.length === 0) return { polled: [], newEvents: 0, clusters: 0, synthesis: {}, safetyWarnings: [], ghostCards: [] };
 
-  if (ranked.length === 0) {
-    return { polled: [], newEvents: 0, clusters: 0, synthesis: {}, safetyWarnings: [], ghostCards: [] };
-  }
-
-  // 2. Fetch due sources; save raw results per source for AI enrichment
+  // 2. Fetch
   const freshEvents = [];
   const polled = [];
   const rawBySourceMapped = {};
@@ -137,87 +106,57 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
   for (const { id } of ranked) {
     const fetch = resolvedClients[id];
     if (!fetch) continue;
-
-    let rawData;
-    let mappedItems = [];
     try {
-      rawData = await fetch();
-
-      // Perform mapping based on source ID
-      if (id === 'noaa-swpc') {
-        mappedItems = [
-          mapKpIndex(rawData.kp),
-          mapSolarWind(rawData.wind)
-        ].filter(Boolean);
-      } else if (id === 'gdelt') {
-        mappedItems = (Array.isArray(rawData.articles) ? rawData.articles : []).map(mapGdeltArticle);
-      } else if (id === 'nasa-donki') {
+      const rawData = await fetch();
+      let mappedItems = [];
+      if (id === 'noaa-swpc') mappedItems = [mapKpIndex(rawData.kp), mapSolarWind(rawData.wind)].filter(Boolean);
+      else if (id === 'gdelt') mappedItems = (Array.isArray(rawData.articles) ? rawData.articles : []).map(mapGdeltArticle);
+      else if (id === 'nasa-donki') {
         mappedItems = [];
-        for (const type in rawData) {
-          mappedItems.push(...rawData[type].map(e => mapDonkiEvent(e, type)));
-        }
-      } else if (id === 'open-meteo') {
-        mappedItems = rawData.map((r, i) => r ? mapWeatherEvent(r, DEFAULT_LOCATIONS[i]) : null).filter(Boolean);
-      }
+        for (const type in rawData) mappedItems.push(...rawData[type].map(e => mapDonkiEvent(e, type)));
+      } else if (id === 'open-meteo') mappedItems = rawData.map((r, i) => r ? mapWeatherEvent(r, DEFAULT_LOCATIONS[i]) : null).filter(Boolean);
 
       rawBySourceMapped[id] = mappedItems;
-    } catch (_e) {
-      // Source failure → skip; don't update lastFetchedAt so it retries next cycle
-      continue;
-    }
-
-    let newCount = 0;
-    for (const item of mappedItems) {
-      if (await isNewEvent(kv, item)) {
-        await markEventSeen(kv, item);
-        freshEvents.push(item);
-        newCount++;
+      let newCount = 0;
+      for (const item of mappedItems) {
+        if (await isNewEvent(kv, item)) {
+          await markEventSeen(kv, item);
+          freshEvents.push({ ...item, timestamp: now }); // ensure timestamp
+          newCount++;
+        }
       }
-    }
-
-    await updateSourceMeta(kv, id, newCount, now);
-    polled.push(id);
+      await updateSourceMeta(kv, id, newCount, now);
+      polled.push(id);
+    } catch (_e) { continue; }
   }
 
-  // 3. Safety warnings from raw weather events (current conditions, not just "new" events)
+  // 3. Aux data
   const weatherEvents = rawBySourceMapped['open-meteo'] || [];
-  const safetyWarnings = weatherEvents
-    .map(e => injectSafetyWarning(e))
-    .filter(w => w && w.length > 0);
-
-  // 4. Ghost cards from raw DONKI events (confirmed space weather detections)
+  const safetyWarnings = weatherEvents.map(e => injectSafetyWarning(e)).filter(w => w && w.length > 0);
   const donkiEvents = rawBySourceMapped['nasa-donki'] || [];
   const ghostCards = generateGhostCards(donkiToForecasts(donkiEvents));
+  await kv.put(KV_GHOST_CARDS_LATEST, JSON.stringify(ghostCards), { expirationTtl: 3_600 });
 
-  if (freshEvents.length === 0) {
-    return { polled, newEvents: 0, clusters: 0, synthesis: {}, safetyWarnings, ghostCards };
-  }
-
-  // 5. Run fresh events through the pipeline
+  // 4. Pipeline
   const deduped = deduplicateWires(freshEvents);
   const filtered = filterByImpact(deduped, { minImpactScore: DEFAULT_MIN_IMPACT });
 
-  // 5.5 Check existing events for staleness and interpolate them (Nowcast)
   const existingRaw = await kv.get(KV_EVENTS_LATEST);
   const existing = existingRaw ? JSON.parse(existingRaw) : [];
 
-  const processedExisting = await Promise.all(
-    existing.map(async (e) => {
-      if (isStale(e, now)) {
-        return interpolateNowcast(e, resolvedSynthesizer, now);
-      }
-      return e;
-    })
-  );
+  const processedExisting = await Promise.all(existing.map(async (e) => {
+    if (isStale(e, now)) {
+      const interpolated = await interpolateNowcast(e, resolvedSynthesizer, now);
+      return { ...interpolated, likelihood: 0.9 };
+    }
+    return e;
+  }));
 
-  // Filter out any that completely failed to interpolate
-  const validExisting = processedExisting.filter(Boolean);
+  const allEvents = [...processedExisting.filter(Boolean), ...filtered];
+  const clustered = identifyClusters(allEvents);
 
-  const clustered = identifyClusters([...validExisting, ...filtered]);
-
-  // 6. Synthesize a brief per cluster (Gemini when available, truncation fallback)
   const eventsByTopic = {};
-  for (const event of filtered) {
+  for (const event of allEvents) {
     if (!event.topic) continue;
     if (!eventsByTopic[event.topic]) eventsByTopic[event.topic] = [];
     eventsByTopic[event.topic].push(event);
@@ -225,14 +164,27 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
 
   const synthesis = {};
   for (const cluster of clustered) {
-    const topicEvents = eventsByTopic[cluster.theme] || [];
-    const sources = topicEvents.map(e => ({ content: e.text || e.note || e.content || '' }));
-    synthesis[cluster.clusterId] = await synthesizeSources(sources, resolvedSynthesizer);
+    const sources = (eventsByTopic[cluster.theme] || []).map(e => ({ content: e.text || e.note || e.content || '' }));
+    const summary = await synthesizeSources(sources, resolvedSynthesizer);
+    synthesis[cluster.clusterId] = summary;
+    for (const event of allEvents) {
+      if (event.topic === cluster.theme) {
+        event.clusterSummary = summary;
+        event.clusterId = cluster.clusterId;
+      }
+    }
   }
 
-  // 7. Merge with existing events, cap at MAX_EVENTS_IN_KV, write to KV
-  const merged = [...validExisting, ...filtered].slice(-MAX_EVENTS_IN_KV);
+  // 5. Daily Archiving
+  const today = new Date(now).toISOString().split('T')[0];
+  const archiveKey = KV_EVENTS_ARCHIVE(today);
+  const existingArchiveRaw = await kv.get(archiveKey);
+  const existingArchive = existingArchiveRaw ? JSON.parse(existingArchiveRaw) : [];
+  const newArchive = [...existingArchive, ...filtered].slice(-2000); // larger cap for archive
+  await kv.put(archiveKey, JSON.stringify(newArchive), { expirationTtl: 30 * 86_400 });
 
+  // 6. Latest state
+  const merged = allEvents.slice(-MAX_EVENTS_IN_KV);
   await kv.put(KV_EVENTS_LATEST, JSON.stringify(merged), { expirationTtl: 3_600 });
 
   return { polled, newEvents: filtered.length, clusters: clustered.length, synthesis, safetyWarnings, ghostCards };
@@ -243,5 +195,6 @@ module.exports = {
   getSourceMeta,
   updateSourceMeta,
   KV_EVENTS_LATEST,
+  KV_GHOST_CARDS_LATEST,
   MAX_EVENTS_IN_KV,
 };

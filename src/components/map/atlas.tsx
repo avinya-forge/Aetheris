@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Timeline } from './timeline';
 import { GhostCard } from '../ui/ghost-card';
 
@@ -8,6 +8,46 @@ const MapMock = ({ children, style }: any) => (
     {children}
   </div>
 );
+
+const Glyph = ({ type, color }: { type: string, color: string }) => {
+  const getPaths = () => {
+    switch (type) {
+      case 'space-weather':
+        return (
+          <>
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+          </>
+        );
+      case 'weather':
+        return (
+          <>
+            <path d="M17.5 19a3.5 3.5 0 1 1-5.83-2.67 3.5 3.5 0 1 1-5.83-2.67 3.5 3.5 0 1 1 5.83-2.67 3.5 3.5 0 1 1 5.83 2.67Z" />
+            <path d="m12 13-1-1m1 1 1-1" />
+          </>
+        );
+      case 'news':
+        return (
+          <>
+            <path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" />
+          </>
+        );
+      default:
+        return (
+          <>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 8v4l3 2" />
+          </>
+        );
+    }
+  };
+
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+      {getPaths()}
+    </svg>
+  );
+};
 
 export const loadMapComponents = (mockMapComponents: any, setMapComponents: any, setMapError: any) => {
   let isMounted = true;
@@ -35,16 +75,15 @@ export const loadMapComponents = (mockMapComponents: any, setMapComponents: any,
   };
 };
 
-const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null }: any) => {
+const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null, initialZoom = 1.5, focus = 'present', onFocusChange = null }: any) => {
   const [viewState, setViewState] = useState({
     longitude: -20,
     latitude: 30,
-    zoom: 1.5
+    zoom: initialZoom
   });
 
   const [MapComponents, setMapComponents] = useState<any>(mockMapComponents);
   const [mapError, setMapError] = useState(mapErrorProp);
-
 
   useEffect(() => {
     return loadMapComponents(mockMapComponents, setMapComponents, setMapError);
@@ -57,7 +96,13 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     return '#1a1a1a';
   };
 
-  // Safe access for testing and production
+  const hasHeatwave = useMemo(() => {
+    return events.some((e: any) =>
+      (e.impactScore || 0) >= 60 &&
+      (e.title?.toLowerCase().includes('heatwave') || e.topic?.toLowerCase().includes('heatwave'))
+    );
+  }, [events]);
+
   const MAPBOX_TOKEN = (typeof process !== 'undefined' && process.env?.VITE_MAPBOX_TOKEN) ||
                        (typeof import.meta !== 'undefined' && import.meta.env?.VITE_MAPBOX_TOKEN) ||
                        '';
@@ -69,8 +114,35 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     setSelectedEvent(event);
   };
 
+  const filteredEvents = useMemo(() => {
+    let zoomFiltered = events;
+    if (viewState.zoom < 4) {
+      zoomFiltered = events.filter((e: any) => (e.impactScore || 0) >= 60 || e.type === 'space-weather');
+    } else if (viewState.zoom < 8) {
+      zoomFiltered = events.filter((e: any) => (e.impactScore || 0) >= 50);
+    }
+
+    if (focus === 'past') return zoomFiltered.filter((e: any) => !e.interpolated);
+    if (focus === 'horizon') return zoomFiltered.filter((e: any) => e.interpolated);
+    return zoomFiltered;
+  }, [events, viewState.zoom, focus]);
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh', background: getAtmosphereColor(kpIndex), overflow: 'hidden' }} data-testid="atlas-container">
+      {hasHeatwave && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(255, 191, 0, 0.15)',
+          pointerEvents: 'none',
+          zIndex: 5,
+          transition: 'opacity 1s ease'
+        }} />
+      )}
+
       {mapError ? (
         <MapMock style={{ width: '100%', height: '100%' }}>
            <div style={{ color: 'red', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -88,41 +160,59 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         >
           <MapComponents.NavigationControl position="top-right" />
 
-          {events.map((event: any) => (
+          {filteredEvents.map((event: any) => (
             <MapComponents.Marker
               key={event.id}
-              longitude={event.lng}
-              latitude={event.lat}
+              longitude={event.lng || event.longitude}
+              latitude={event.lat || event.latitude}
               anchor="bottom"
               onClick={(e: any) => handleMarkerClick(event, e)}
             >
               <div
                 className="event-marker"
-                data-impact={event.impact}
+                data-impact={event.impactScore}
                 style={{
-                  width: '20px',
-                  height: '20px',
-                  background: event.impact === 'HIGH' ? '#ff4b2b' : '#ffb400',
-                  borderRadius: '50%',
-                  border: '2px solid white',
+                  width: '24px',
+                  height: '24px',
                   cursor: 'pointer',
-                  boxShadow: '0 0 10px rgba(0,0,0,0.5)'
+                  filter: `drop-shadow(0 0 ${kpIndex > 5 ? kpIndex * 2 : 4}px ${(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'})`,
+                  transition: 'filter 0.5s ease'
                 }}
-              />
+              >
+                <Glyph type={event.type || event.topic} color={(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'} />
+              </div>
             </MapComponents.Marker>
           ))}
 
           {selectedEvent && (
             <MapComponents.Popup
-              longitude={selectedEvent.lng}
-              latitude={selectedEvent.lat}
+              longitude={selectedEvent.lng || selectedEvent.longitude}
+              latitude={selectedEvent.lat || selectedEvent.latitude}
               anchor="top"
               onClose={() => setSelectedEvent(null)}
               closeOnClick={false}
+              maxWidth="300px"
             >
-              <div style={{ color: '#333', padding: '5px' }} className="popup-content">
-                <strong style={{ display: 'block' }}>{selectedEvent.title}</strong>
-                <span>Impact: {selectedEvent.impact}</span>
+              <div style={{ color: '#333', padding: '12px', background: 'white', borderRadius: '8px' }} className="popup-content">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <strong style={{ fontSize: '1rem' }}>{selectedEvent.title}</strong>
+                  <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#eee', borderRadius: '4px' }}>
+                    Score: {selectedEvent.impactScore}
+                  </span>
+                </div>
+
+                {selectedEvent.clusterSummary ? (
+                  <div style={{ fontSize: '0.85rem', lineHeight: '1.4', borderTop: '1px solid #eee', paddingTop: '8px', color: '#666' }}>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.7rem', textTransform: 'uppercase', marginBottom: '4px', color: '#999' }}>AI Synthesis</div>
+                    {selectedEvent.clusterSummary}
+                  </div>
+                ) : (
+                  <p style={{ fontSize: '0.85rem', margin: 0, color: '#666' }}>{selectedEvent.description || 'No additional details available.'}</p>
+                )}
+
+                <div style={{ marginTop: '12px', fontSize: '0.7rem', opacity: 0.5 }}>
+                   ID: {selectedEvent.id}
+                </div>
               </div>
             </MapComponents.Popup>
           )}
@@ -171,12 +261,12 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         overflowY: 'auto',
         paddingRight: '10px'
       }}>
-        {ghostCards.map((gc: any) => (
+        {ghostCards.filter((gc: any) => !gc.isSpeculative).map((gc: any) => (
           <GhostCard key={gc.id} event={gc} />
         ))}
       </div>
 
-      <Timeline events={events} />
+      <Timeline events={filteredEvents} focus={focus} onFocusChange={onFocusChange} />
     </div>
   );
 };

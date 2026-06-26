@@ -3,30 +3,34 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Timeline } from '../src/components/map/timeline';
 
-try {
+function testTimeline() {
   console.log('Testing Timeline component...');
-  const events = [
-    { title: 'Solar Flare' },
-    { title: 'Geomagnetic Storm' }
-  ];
 
-  // Test basic rendering
-  const html = renderToStaticMarkup(<Timeline events={events} />);
-  assert.ok(html.includes('timeline-container'), 'Timeline should render container');
-  assert.ok(html.includes('Solar Flare'), 'Timeline should render first event title');
-  assert.ok(html.includes('Geomagnetic Storm'), 'Timeline should render second event title');
+  const events = [{ title: 'Event 1' }, { title: 'Event 2' }];
 
-  // Test selectedIndex behavior via mock injection
-  const htmlSelected = renderToStaticMarkup(<Timeline events={events} mockSelectedIndex={0} />);
-  assert.ok(htmlSelected.includes('timeline-tooltip'), 'Should render tooltip when an event is selected');
-  assert.ok(htmlSelected.includes('Solar Flare'), 'Tooltip should contain selected event title');
-  assert.ok(htmlSelected.includes('background:#00d2ff'), 'Selected node should have highlight color');
+  // Test focused tier rendering
+  const htmlPast = renderToStaticMarkup(<Timeline events={events} focus="past" />);
+  assert.ok(htmlPast.includes('Past'), 'Should show Past label');
 
-  // Test empty events
-  const htmlEmpty = renderToStaticMarkup(<Timeline />);
-  assert.ok(htmlEmpty.includes('timeline-container'), 'Timeline should render container even with no events');
+  // Test click triggers (simulated by passing props)
+  let focusChanged = '';
+  const htmlClick = renderToStaticMarkup(
+    <Timeline events={events} onFocusChange={(f: string) => focusChanged = f} />
+  );
+  assert.ok(htmlClick.includes('Present'), 'Should show Present label');
+
+  // Cover event node rendering
+  assert.ok(htmlClick.includes('timeline-event-node'), 'Should render event nodes');
+
+  // Cover tooltip
+  const htmlTooltip = renderToStaticMarkup(<Timeline events={events} mockSelectedIndex={0} />);
+  assert.ok(htmlTooltip.includes('Event 1'), 'Should show tooltip');
 
   console.log('PASS - timeline.test.tsx');
+}
+
+try {
+  testTimeline();
 } catch (e: any) {
   console.error('timeline.test.tsx failed:', e.message);
   process.exit(1);

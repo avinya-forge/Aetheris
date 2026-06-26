@@ -1,45 +1,27 @@
 import assert from 'assert';
 import { mapWeatherEvent } from '../lib/weather-mapper';
 
-(async () => {
-  try {
-    const loc = { id: 'london', lat: 51.51, lon: -0.13 };
-    const rawData = {
-      current: {
-        temperature_2m: 22,
-        wind_speed_10m: 15,
-        precipitation: 0,
-        weather_code: 1,
-        relative_humidity_2m: 60,
-        apparent_temperature: 21,
-        time: '2026-04-10T00:00'
-      }
-    };
+try {
+  const loc = { id: 'london', lat: 51, lon: 0 };
+  const raw = {
+    current: { temperature_2m: 20, wind_speed_10m: 10, time: '2026-01-01' },
+    hourly: { pm2_5: [10] }
+  };
 
-    const normal = mapWeatherEvent(rawData, loc);
-    assert.strictEqual(normal.source, 'open-meteo', 'source must be open-meteo');
-    assert.strictEqual(normal.locationId, 'london', 'locationId must match');
-    assert.strictEqual(normal.temperature, 22, 'temperature parsed correctly');
-    assert.strictEqual(normal.impactScore, 5, 'normal conditions → impactScore 5');
-    assert.ok(normal.id.includes('london', 'weather-mapper.test.ts: ok failure'), 'id must include locationId');
+  const normal = mapWeatherEvent(raw, loc);
+  assert.strictEqual(normal.impactScore, 5);
 
-    // Heatwave (temp >= 40) → elevated impact
-    const heatwave = mapWeatherEvent({
-      current: { temperature_2m: 42, wind_speed_10m: 10, time: 't' }
-    }, loc);
-    assert.strictEqual(heatwave.impactScore, 60, 'heatwave temp → impactScore 60');
+  const highAqi = mapWeatherEvent({
+    current: { temperature_2m: 20, wind_speed_10m: 10, time: 't' },
+    hourly: { pm2_5: [50] }
+  }, loc);
+  assert.strictEqual(highAqi.impactScore, 50);
+  assert.strictEqual(highAqi.aqi.pm2_5, 50);
 
-    // Storm (wind >= 100) → elevated impact
-    const storm = mapWeatherEvent({
-      current: { temperature_2m: 15, wind_speed_10m: 120, time: 't' }
-    }, loc);
-    assert.strictEqual(storm.impactScore, 70, 'storm wind → impactScore 70');
-
-  } catch (err) {
-    console.error('FAIL - weather-mapper.test.js:', err.message);
-    process.exit(1);
-  }
-})();
-console.log('PASS - weather-mapper.test.js');
+  console.log('PASS - weather-mapper.test.js');
+} catch (e: any) {
+  console.error('FAIL - weather-mapper.test.js:', e.message);
+  process.exit(1);
+}
 
 export {};

@@ -3,31 +3,30 @@
  */
 async function fetchEvents(filters = {}, now = Date.now()) {
   try {
-    // In Node/Tests, we need absolute URLs or mock fetch
     const baseUrl = typeof window === 'undefined' ? 'http://localhost' : '';
-    const response = await fetch(baseUrl + '/api/events');
+    let url = `${baseUrl}/api/events`;
+
+    if (filters.date) {
+      url += `?date=${filters.date}`;
+    } else if (filters.since) {
+      url += `?since=${filters.since}`;
+    }
+
+    const response = await fetch(url);
     if (response.ok) {
       const events = await response.json();
-      if (filters.impact) {
-        return events.filter(e => e.impact === filters.impact);
-      }
       return events;
     }
   } catch (err) {
-    // console.error('Failed to fetch events from API, falling back to mock data', err);
+    // console.error('Failed to fetch events', err);
   }
 
-  // Fallback / Mock data for development
-  const events = [
-    { id: 1, title: 'Solar Flare', impact: 'HIGH', type: 'space-weather', timestamp: now, lng: -45, lat: 0 },
-    { id: 2, title: 'Geomagnetic Storm', impact: 'MEDIUM', type: 'space-weather', timestamp: now, lng: 20, lat: 50 },
-    { id: 3, title: 'Regional Heatwave', impact: 'HIGH', type: 'weather', topic: 'heatwave', timestamp: now, lng: -122, lat: 37 }
+  // Fallback for demo stability
+  return [
+    { id: 'm1', title: 'Solar Flare', impactScore: 85, type: 'space-weather', timestamp: now, longitude: -45, latitude: 0, clusterSummary: 'Intense solar activity detected in the equatorial region.' },
+    { id: 'm2', title: 'Geomagnetic Storm', impactScore: 55, type: 'space-weather', timestamp: now, longitude: 20, latitude: 50 },
+    { id: 'm3', title: 'Regional Heatwave', impactScore: 75, type: 'weather', topic: 'heatwave', timestamp: now, longitude: -122, latitude: 37, clusterSummary: 'Critical temperature levels observed across the West Coast.' }
   ];
-
-  if (filters.impact) {
-    return events.filter(e => e.impact === filters.impact);
-  }
-  return events;
 }
 
 export { fetchEvents };

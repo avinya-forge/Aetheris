@@ -98,7 +98,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
 
   const hasHeatwave = useMemo(() => {
     return events.some((e: any) =>
-      e.impact === 'HIGH' &&
+      (e.impactScore || 0) >= 60 &&
       (e.title?.toLowerCase().includes('heatwave') || e.topic?.toLowerCase().includes('heatwave'))
     );
   }, [events]);
@@ -115,15 +115,13 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   };
 
   const filteredEvents = useMemo(() => {
-    // 1. Filter by zoom logic
     let zoomFiltered = events;
     if (viewState.zoom < 4) {
-      zoomFiltered = events.filter((e: any) => e.impact === 'HIGH' || e.type === 'space-weather');
+      zoomFiltered = events.filter((e: any) => (e.impactScore || 0) >= 60 || e.type === 'space-weather');
     } else if (viewState.zoom < 8) {
-      zoomFiltered = events.filter((e: any) => e.impact === 'HIGH' || e.impact === 'MEDIUM');
+      zoomFiltered = events.filter((e: any) => (e.impactScore || 0) >= 50);
     }
 
-    // 2. Filter by timeline focus (simplified)
     if (focus === 'past') return zoomFiltered.filter((e: any) => !e.interpolated);
     if (focus === 'horizon') return zoomFiltered.filter((e: any) => e.interpolated);
     return zoomFiltered;
@@ -172,16 +170,16 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
             >
               <div
                 className="event-marker"
-                data-impact={event.impact}
+                data-impact={event.impactScore}
                 style={{
                   width: '24px',
                   height: '24px',
                   cursor: 'pointer',
-                  filter: `drop-shadow(0 0 ${kpIndex > 5 ? kpIndex * 2 : 4}px ${event.impact === 'HIGH' ? '#ff4b2b' : '#ffb400'})`,
+                  filter: `drop-shadow(0 0 ${kpIndex > 5 ? kpIndex * 2 : 4}px ${(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'})`,
                   transition: 'filter 0.5s ease'
                 }}
               >
-                <Glyph type={event.type || event.topic} color={event.impact === 'HIGH' ? '#ff4b2b' : '#ffb400'} />
+                <Glyph type={event.type || event.topic} color={(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'} />
               </div>
             </MapComponents.Marker>
           ))}
@@ -193,10 +191,28 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
               anchor="top"
               onClose={() => setSelectedEvent(null)}
               closeOnClick={false}
+              maxWidth="300px"
             >
-              <div style={{ color: '#333', padding: '5px' }} className="popup-content">
-                <strong style={{ display: 'block' }}>{selectedEvent.title}</strong>
-                <span>Impact: {selectedEvent.impact || selectedEvent.impactScore}</span>
+              <div style={{ color: '#333', padding: '12px', background: 'white', borderRadius: '8px' }} className="popup-content">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <strong style={{ fontSize: '1rem' }}>{selectedEvent.title}</strong>
+                  <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#eee', borderRadius: '4px' }}>
+                    Score: {selectedEvent.impactScore}
+                  </span>
+                </div>
+
+                {selectedEvent.clusterSummary ? (
+                  <div style={{ fontSize: '0.85rem', lineHeight: '1.4', borderTop: '1px solid #eee', paddingTop: '8px', color: '#666' }}>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.7rem', textTransform: 'uppercase', marginBottom: '4px', color: '#999' }}>AI Synthesis</div>
+                    {selectedEvent.clusterSummary}
+                  </div>
+                ) : (
+                  <p style={{ fontSize: '0.85rem', margin: 0, color: '#666' }}>{selectedEvent.description || 'No additional details available.'}</p>
+                )}
+
+                <div style={{ marginTop: '12px', fontSize: '0.7rem', opacity: 0.5 }}>
+                   ID: {selectedEvent.id}
+                </div>
               </div>
             </MapComponents.Popup>
           )}

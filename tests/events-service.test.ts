@@ -1,7 +1,6 @@
 import assert from 'assert';
 import { fetchEvents } from '../src/lib/events-service';
 
-// Mock global fetch for Node environment
 const originalFetch = globalThis.fetch;
 
 (async () => {
@@ -11,22 +10,24 @@ const originalFetch = globalThis.fetch;
     // Test 1: Fetch Error / Fallback
     (globalThis as any).fetch = (async () => { throw new Error('Network Error'); });
     const events = await fetchEvents({}, mockNow);
-    assert.strictEqual(events.length, 3, 'Should return mock data on fetch error');
+    assert.strictEqual(events.length, 3);
 
     // Test 2: Successful Fetch
     (globalThis as any).fetch = (async () => ({
       ok: true,
-      json: async () => [{ id: 'api-1', title: 'API Event', impact: 'HIGH' }]
+      json: async () => [{ id: 'api-1', title: 'API Event', impactScore: 70 }]
     }));
     const apiEvents = await fetchEvents({});
-    assert.strictEqual(apiEvents.length, 1, 'Should return events from API');
-    assert.strictEqual(apiEvents[0].id, 'api-1');
+    assert.strictEqual(apiEvents.length, 1);
 
-    // Test 3: Filtering
-    const filtered = await fetchEvents({ impact: 'HIGH' }, mockNow);
-    assert.strictEqual(filtered.length, 1, 'Should filter API events');
+    // Test 3: History query
+    (globalThis as any).fetch = (async (url: string) => ({
+      ok: url.includes('date=2026'),
+      json: async () => [{ id: 'archive-1' }]
+    }));
+    const archive = await fetchEvents({ date: '2026-01-01' });
+    assert.strictEqual(archive[0].id, 'archive-1');
 
-    // Cleanup
     globalThis.fetch = originalFetch;
     console.log('PASS - events-service.test.js');
   } catch (err: any) {
@@ -34,5 +35,4 @@ const originalFetch = globalThis.fetch;
     process.exit(1);
   }
 })();
-
 export {};

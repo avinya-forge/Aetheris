@@ -35,9 +35,9 @@ function testAtlas() {
   assert.ok(renderToStaticMarkup(<Atlas kpIndex={8} />).includes('background:#4b0082'));
 
   const events = [
-    { id: 'e1', lng: 0, lat: 0, title: 'Extreme', impact: 'HIGH', type: 'space-weather' },
-    { id: 'e2', lng: 1, lat: 1, title: 'Medium', impact: 'MEDIUM', type: 'weather' },
-    { id: 'e3', lng: 2, lat: 2, title: 'News', impact: 'LOW', type: 'news' }
+    { id: 'e1', lng: 0, lat: 0, title: 'Extreme', impactScore: 80, type: 'space-weather' },
+    { id: 'e2', lng: 1, lat: 1, title: 'Medium', impactScore: 55, type: 'weather' },
+    { id: 'e3', lng: 2, lat: 2, title: 'News', impactScore: 10, type: 'news' }
   ];
 
   // Initial render (mocking environment variable branch)
@@ -75,17 +75,19 @@ function testAtlas() {
   assert.ok(renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} selectedEventProp={null} />));
 
   // Heatwave
-  const hw = [{ id: 'h', title: 'heatwave', impact: 'HIGH', topic: 'heatwave' }];
+  const hw = [{ id: 'h', title: 'heatwave', impactScore: 70, topic: 'heatwave' }];
   assert.ok(renderToStaticMarkup(<Atlas events={hw} mockMapComponents={mockComponents} />).includes('rgba(255, 191, 0, 0.15)'));
 
   // Ghost cards mix
   const gc = [
     { id: 'g1', title: 'Shown', likelihood: 0.8, isSpeculative: false },
-    { id: 'g2', title: 'Hidden', likelihood: 0.4, isSpeculative: true }
+    { id: 'g2', title: 'Hidden', likelihood: 0.4, isSpeculative: true },
+    { id: 'g3', title: 'Interpolated', likelihood: 0.8, isSpeculative: false, interpolated: true }
   ];
   const htmlGC = renderToStaticMarkup(<Atlas ghostCards={gc} mockMapComponents={mockComponents} />);
   assert.ok(htmlGC.includes('Shown'));
   assert.ok(!htmlGC.includes('Hidden'));
+  assert.ok(htmlGC.includes('Estimated'));
 
   // Error state
   assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Map failed to load'));

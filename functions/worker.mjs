@@ -31,12 +31,18 @@ export default {
       }
 
       if (url.pathname === '/api/events') {
-        const raw = await env.CACHE.get('events:latest');
+        const dateParam = url.searchParams.get('date');
+        let key = 'events:latest';
+        if (dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam)) {
+          key = `events:archive:${dateParam}`;
+        }
+
+        const raw = await env.CACHE.get(key);
         let events = raw ? JSON.parse(raw) : [];
 
         const since = parseInt(url.searchParams.get('since') || '0', 10);
         if (since > 0) {
-          events = events.filter(e => e.publishedAt && new Date(e.publishedAt).getTime() > since);
+          events = events.filter(e => e.timestamp > since);
         }
 
         return json(events, 200, { 'Cache-Control': 'public, max-age=30' });

@@ -1,12 +1,5 @@
 /**
  * Aetheris — Cloudflare Workers Entry Point (ES Module format)
- *
- * Handles two roles:
- *   fetch     → serve processed events + health endpoint to the PWA
- *   scheduled → cron trigger (every 1 min) → runs the sniffer ingest cycle
- *
- * Business logic lives in functions/ingest-cycle.js and lib/ (CommonJS, testable).
- * This file is the thin CF-native wrapper only — no logic here.
  */
 
 import { runIngestCycle } from './ingest-cycle.js';
@@ -29,18 +22,10 @@ function json(data, status = 200, extraHeaders = {}) {
 }
 
 export default {
-  /**
-   * Fetch handler — serves the Aetheris REST API.
-   *
-   * GET /api/events         → latest processed events from KV
-   * GET /api/events?since=N → events newer than unix timestamp N
-   * GET /api/health         → liveness check + source meta snapshot
-   */
   async fetch(request, env, _ctx) {
     try {
       const url = new URL(request.url);
 
-      // Preflight
       if (request.method === 'OPTIONS') {
         return new Response(null, { status: 204, headers: CORS_HEADERS });
       }
@@ -55,6 +40,12 @@ export default {
         }
 
         return json(events, 200, { 'Cache-Control': 'public, max-age=30' });
+      }
+
+      if (url.pathname === '/api/ghost-cards') {
+        const raw = await env.CACHE.get('ghost_cards:latest');
+        const cards = raw ? JSON.parse(raw) : [];
+        return json(cards, 200, { 'Cache-Control': 'public, max-age=30' });
       }
 
       if (url.pathname === '/api/health') {
@@ -79,11 +70,6 @@ export default {
     }
   },
 
-  /**
-   * Scheduled handler — Cloudflare Cron Trigger.
-   * Fires every minute per wrangler.toml `crons = ["* * * * *"]`.
-   * ctx.waitUntil keeps the Worker alive until ingest completes.
-   */
   async scheduled(event, env, ctx) {
     try {
       const now = event && event.scheduledTime ? event.scheduledTime : Date.now();

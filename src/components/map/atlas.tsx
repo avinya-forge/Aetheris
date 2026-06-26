@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Timeline } from './timeline';
 import { GhostCard } from '../ui/ghost-card';
 
@@ -8,6 +8,46 @@ const MapMock = ({ children, style }: any) => (
     {children}
   </div>
 );
+
+const Glyph = ({ type, color }: { type: string, color: string }) => {
+  const getPaths = () => {
+    switch (type) {
+      case 'space-weather':
+        return (
+          <>
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+          </>
+        );
+      case 'weather':
+        return (
+          <>
+            <path d="M17.5 19a3.5 3.5 0 1 1-5.83-2.67 3.5 3.5 0 1 1-5.83-2.67 3.5 3.5 0 1 1 5.83-2.67 3.5 3.5 0 1 1 5.83 2.67Z" />
+            <path d="m12 13-1-1m1 1 1-1" />
+          </>
+        );
+      case 'news':
+        return (
+          <>
+            <path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" />
+          </>
+        );
+      default:
+        return (
+          <>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 8v4l3 2" />
+          </>
+        );
+    }
+  };
+
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%' }}>
+      {getPaths()}
+    </svg>
+  );
+};
 
 export const loadMapComponents = (mockMapComponents: any, setMapComponents: any, setMapError: any) => {
   let isMounted = true;
@@ -45,7 +85,6 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   const [MapComponents, setMapComponents] = useState<any>(mockMapComponents);
   const [mapError, setMapError] = useState(mapErrorProp);
 
-
   useEffect(() => {
     return loadMapComponents(mockMapComponents, setMapComponents, setMapError);
   }, [mockMapComponents]);
@@ -57,7 +96,13 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     return '#1a1a1a';
   };
 
-  // Safe access for testing and production
+  const hasHeatwave = useMemo(() => {
+    return events.some((e: any) =>
+      e.impact === 'HIGH' &&
+      (e.title?.toLowerCase().includes('heatwave') || e.topic?.toLowerCase().includes('heatwave'))
+    );
+  }, [events]);
+
   const MAPBOX_TOKEN = (typeof process !== 'undefined' && process.env?.VITE_MAPBOX_TOKEN) ||
                        (typeof import.meta !== 'undefined' && import.meta.env?.VITE_MAPBOX_TOKEN) ||
                        '';
@@ -69,8 +114,32 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     setSelectedEvent(event);
   };
 
+  const filteredEvents = useMemo(() => {
+    if (viewState.zoom < 4) {
+      return events.filter((e: any) => e.impact === 'HIGH' || e.type === 'space-weather');
+    }
+    if (viewState.zoom < 8) {
+      return events.filter((e: any) => e.impact === 'HIGH' || e.impact === 'MEDIUM');
+    }
+    return events;
+  }, [events, viewState.zoom]);
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh', background: getAtmosphereColor(kpIndex), overflow: 'hidden' }} data-testid="atlas-container">
+      {hasHeatwave && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(255, 191, 0, 0.15)',
+          pointerEvents: 'none',
+          zIndex: 5,
+          transition: 'opacity 1s ease'
+        }} />
+      )}
+
       {mapError ? (
         <MapMock style={{ width: '100%', height: '100%' }}>
            <div style={{ color: 'red', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -88,7 +157,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         >
           <MapComponents.NavigationControl position="top-right" />
 
-          {events.map((event: any) => (
+          {filteredEvents.map((event: any) => (
             <MapComponents.Marker
               key={event.id}
               longitude={event.lng}
@@ -100,15 +169,15 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
                 className="event-marker"
                 data-impact={event.impact}
                 style={{
-                  width: '20px',
-                  height: '20px',
-                  background: event.impact === 'HIGH' ? '#ff4b2b' : '#ffb400',
-                  borderRadius: '50%',
-                  border: '2px solid white',
+                  width: '24px',
+                  height: '24px',
                   cursor: 'pointer',
-                  boxShadow: '0 0 10px rgba(0,0,0,0.5)'
+                  filter: `drop-shadow(0 0 ${kpIndex > 5 ? kpIndex * 2 : 4}px ${event.impact === 'HIGH' ? '#ff4b2b' : '#ffb400'})`,
+                  transition: 'filter 0.5s ease'
                 }}
-              />
+              >
+                <Glyph type={event.type} color={event.impact === 'HIGH' ? '#ff4b2b' : '#ffb400'} />
+              </div>
             </MapComponents.Marker>
           ))}
 
@@ -171,12 +240,12 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         overflowY: 'auto',
         paddingRight: '10px'
       }}>
-        {ghostCards.map((gc: any) => (
+        {ghostCards.filter((gc: any) => !gc.isSpeculative).map((gc: any) => (
           <GhostCard key={gc.id} event={gc} />
         ))}
       </div>
 
-      <Timeline events={events} />
+      <Timeline events={filteredEvents} />
     </div>
   );
 };

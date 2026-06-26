@@ -1,8 +1,8 @@
 {
   "v_score": 10,
-  "version": "0.1.16",
-  "coverage": 97.57,
-  "CURRENT_LOC": 780,
-  "timestamp": "2026-06-22T22:18:39Z",
+  "version": "0.1.17",
+  "coverage": 95.1,
+  "CURRENT_LOC": 865,
+  "timestamp": "2026-06-26T08:56:42Z",
   "status": "stable"
 }

@@ -10,8 +10,14 @@ const App = () => {
   const [kpIndex, setKpIndex] = useState(0);
 
   useEffect(() => {
-    setEvents(fetchEvents());
-    setGhostCards(getGhostCards());
+    const loadInitialData = async () => {
+      const evts = await fetchEvents();
+      const cards = await getGhostCards();
+      setEvents(evts);
+      setGhostCards(cards);
+    };
+
+    loadInitialData();
 
     // Simulate real-time Kp shift for interactivity demo
     const interval = setInterval(() => {

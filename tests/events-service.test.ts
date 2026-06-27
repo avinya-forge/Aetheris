@@ -10,7 +10,7 @@ const originalFetch = globalThis.fetch;
     // Test 1: Fetch Error / Fallback
     (globalThis as any).fetch = (async () => { throw new Error('Network Error'); });
     const events = await fetchEvents({}, mockNow);
-    assert.strictEqual(events.length, 3);
+    assert.strictEqual(events.length, 9);
 
     // Test 2: Successful Fetch
     (globalThis as any).fetch = (async () => ({

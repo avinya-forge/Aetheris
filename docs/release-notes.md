@@ -1,5 +1,13 @@
 # Release Notes — Aetheris
 
+## v0.1.21 — Vision Alignment & Maintenance
+- [x] TASK: recurring-dependency-pruning | Removed 'undici' from package.json as it's redundant with Node 20+ fetch.
+- [x] TASK: align-atlas-zoom-logic | Atlas zoom filtering now strictly follows 3-level hierarchy (Orbital, National, Local).
+- [x] TASK: extractive-synthesis-guardrails | AI synthesis now requires a minimum of 20 validated sources as per Vision Standard 4.
+- [x] TASK: unified-speculation-property | Refactored 'speculative' to 'isSpeculative' across entire pipeline for architectural consistency.
+- [x] TASK: atmosphere-heatwave-trigger | Heatwave atmospheric tint now triggers at 40°C threshold.
+- [x] TASK: enhanced-bug-hunter | Automated bug hunter now validates AI synthesis word count and source count rules.
+
 ## v0.1.20 — Investor Demo Readiness & Historical Depth
 - [x] TASK: implement-ui-auto-refresh | UI now polls API every 60s to ensure data freshness for demos.
 - [x] TASK: enhance-atlas-popups | Map markers now show AI-synthesized cluster summaries on click.

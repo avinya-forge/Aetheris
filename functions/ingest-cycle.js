@@ -77,7 +77,7 @@ function donkiToForecasts(donkiEvents) {
       patternMatchId: `donki-${e.eventType}-${e.id}`,
       eventType: e.eventType,
       location: 'Earth-proximate',
-      speculative: false,
+      isSpeculative: false,
     }));
 }
 

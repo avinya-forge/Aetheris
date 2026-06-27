@@ -13,6 +13,7 @@ const Glyph = ({ type, color }: { type: string, color: string }) => {
   const getPaths = () => {
     switch (type) {
       case 'space-weather':
+      case 'aurora':
         return (
           <>
             <circle cx="12" cy="12" r="10" />
@@ -20,6 +21,8 @@ const Glyph = ({ type, color }: { type: string, color: string }) => {
           </>
         );
       case 'weather':
+      case 'heatwave':
+      case 'regional':
         return (
           <>
             <path d="M17.5 19a3.5 3.5 0 1 1-5.83-2.67 3.5 3.5 0 1 1-5.83-2.67 3.5 3.5 0 1 1 5.83-2.67 3.5 3.5 0 1 1 5.83 2.67Z" />
@@ -27,6 +30,8 @@ const Glyph = ({ type, color }: { type: string, color: string }) => {
           </>
         );
       case 'news':
+      case 'trade':
+      case 'legislative':
         return (
           <>
             <path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" />
@@ -98,7 +103,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
 
   const hasHeatwave = useMemo(() => {
     return events.some((e: any) =>
-      (e.impactScore || 0) >= 60 &&
+      ((e.temperature && e.temperature >= 40) || (e.impactScore || 0) >= 60) &&
       (e.title?.toLowerCase().includes('heatwave') || e.topic?.toLowerCase().includes('heatwave'))
     );
   }, [events]);
@@ -117,9 +122,16 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   const filteredEvents = useMemo(() => {
     let zoomFiltered = events;
     if (viewState.zoom < 4) {
-      zoomFiltered = events.filter((e: any) => (e.impactScore || 0) >= 60 || e.type === 'space-weather');
+      zoomFiltered = events.filter((e: any) =>
+        e.type === 'space-weather' ||
+        (e.impactScore || 0) >= 60 ||
+        ['conflict', 'trade', 'aurora', 'space-weather'].includes(e.topic?.toLowerCase())
+      );
     } else if (viewState.zoom < 8) {
-      zoomFiltered = events.filter((e: any) => (e.impactScore || 0) >= 50);
+      zoomFiltered = events.filter((e: any) =>
+        (e.impactScore || 0) >= 50 ||
+        ['legislative', 'regional', 'weather-front'].includes(e.topic?.toLowerCase())
+      );
     }
 
     if (focus === 'past') return zoomFiltered.filter((e: any) => !e.interpolated);
@@ -128,7 +140,17 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   }, [events, viewState.zoom, focus]);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh', background: getAtmosphereColor(kpIndex), overflow: 'hidden' }} data-testid="atlas-container">
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        background: getAtmosphereColor(kpIndex),
+        overflow: 'hidden',
+        transition: 'background 2s ease-in-out'
+      }}
+      data-testid="atlas-container"
+    >
       {hasHeatwave && (
         <div style={{
           position: 'absolute',
@@ -139,7 +161,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
           background: 'rgba(255, 191, 0, 0.15)',
           pointerEvents: 'none',
           zIndex: 5,
-          transition: 'opacity 1s ease'
+          transition: 'opacity 2s ease-in-out'
         }} />
       )}
 
@@ -157,6 +179,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
           style={{ width: '100%', height: '100%' }}
           mapStyle="mapbox://styles/mapbox/dark-v11"
           mapboxAccessToken={MAPBOX_TOKEN}
+          transitionDuration={1000}
         >
           <MapComponents.NavigationControl position="top-right" />
 
@@ -176,8 +199,10 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
                   height: '24px',
                   cursor: 'pointer',
                   filter: `drop-shadow(0 0 ${kpIndex > 5 ? kpIndex * 2 : 4}px ${(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'})`,
-                  transition: 'filter 0.5s ease'
+                  transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.5s ease',
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.3)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
                 <Glyph type={event.type || event.topic} color={(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'} />
               </div>
@@ -191,27 +216,28 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
               anchor="top"
               onClose={() => setSelectedEvent(null)}
               closeOnClick={false}
-              maxWidth="300px"
+              maxWidth="320px"
+              className="kinetic-popup"
             >
-              <div style={{ color: '#333', padding: '12px', background: 'white', borderRadius: '8px' }} className="popup-content">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <strong style={{ fontSize: '1rem' }}>{selectedEvent.title}</strong>
-                  <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#eee', borderRadius: '4px' }}>
-                    Score: {selectedEvent.impactScore}
+              <div style={{ color: '#eee', padding: '16px', background: '#222', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <strong style={{ fontSize: '1.1rem', letterSpacing: '-0.3px' }}>{selectedEvent.title}</strong>
+                  <span style={{ fontSize: '0.7rem', padding: '2px 8px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', color: '#00d2ff', border: '1px solid rgba(0,210,255,0.3)' }}>
+                    {selectedEvent.impactScore}%
                   </span>
                 </div>
 
                 {selectedEvent.clusterSummary ? (
-                  <div style={{ fontSize: '0.85rem', lineHeight: '1.4', borderTop: '1px solid #eee', paddingTop: '8px', color: '#666' }}>
-                    <div style={{ fontWeight: 'bold', fontSize: '0.7rem', textTransform: 'uppercase', marginBottom: '4px', color: '#999' }}>AI Synthesis</div>
+                  <div style={{ fontSize: '0.9rem', lineHeight: '1.5', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '10px', color: '#ccc' }}>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.65rem', textTransform: 'uppercase', marginBottom: '6px', color: '#666', letterSpacing: '1px' }}>AI Synthesis</div>
                     {selectedEvent.clusterSummary}
                   </div>
                 ) : (
-                  <p style={{ fontSize: '0.85rem', margin: 0, color: '#666' }}>{selectedEvent.description || 'No additional details available.'}</p>
+                  <p style={{ fontSize: '0.9rem', margin: 0, color: '#ccc' }}>{selectedEvent.description || 'No additional details available.'}</p>
                 )}
 
-                <div style={{ marginTop: '12px', fontSize: '0.7rem', opacity: 0.5 }}>
-                   ID: {selectedEvent.id}
+                <div style={{ marginTop: '14px', fontSize: '0.65rem', opacity: 0.4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                   Ref: {selectedEvent.id}
                 </div>
               </div>
             </MapComponents.Popup>
@@ -219,8 +245,8 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         </MapComponents.Map>
       ) : (
         <MapMock style={{ width: '100%', height: '100%' }}>
-           <div style={{ color: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-             Loading Atlas...
+           <div style={{ color: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontFamily: 'monospace', fontSize: '0.8rem', letterSpacing: '2px' }}>
+             INITIALIZING ATLAS...
            </div>
         </MapMock>
       )}
@@ -228,38 +254,41 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
       {/* Responsive Overlay UI */}
       <div style={{
         position: 'absolute',
-        top: 20,
-        left: 20,
+        top: 30,
+        left: 30,
         color: 'white',
         pointerEvents: 'none',
         zIndex: 10,
-        textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+        textShadow: '0 2px 10px rgba(0,0,0,0.8)'
       }}>
-        <h1 style={{ margin: 0, fontSize: 'clamp(1rem, 5vw, 1.8rem)' }}>Aetheris Atlas</h1>
+        <h1 style={{ margin: 0, fontSize: 'clamp(1.2rem, 5vw, 2rem)', letterSpacing: '-1px', fontWeight: 800 }}>AETHERIS</h1>
         <div style={{
           display: 'inline-block',
-          marginTop: '10px',
-          padding: '4px 12px',
-          background: 'rgba(255,255,255,0.1)',
+          marginTop: '12px',
+          padding: '6px 16px',
+          background: 'rgba(0,0,0,0.4)',
           borderRadius: '20px',
-          fontSize: '0.8rem',
-          backdropFilter: 'blur(5px)'
+          fontSize: '0.75rem',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          letterSpacing: '0.5px'
         }}>
-          Kp Index: <span style={{ fontWeight: 'bold', color: kpIndex >= 5 ? '#ffb400' : '#00d2ff' }}>{kpIndex}</span>
+          KP INDEX: <span style={{ fontWeight: 'bold', color: kpIndex >= 5 ? '#ff4b2b' : '#00d2ff' }}>{kpIndex}</span>
         </div>
       </div>
 
       <div style={{
         position: 'absolute',
-        top: 100,
-        left: 20,
+        top: 120,
+        left: 30,
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px',
+        gap: '12px',
         zIndex: 10,
-        maxHeight: '40vh',
+        maxHeight: '50vh',
         overflowY: 'auto',
-        paddingRight: '10px'
+        paddingRight: '10px',
+        scrollbarWidth: 'none'
       }}>
         {ghostCards.filter((gc: any) => !gc.isSpeculative).map((gc: any) => (
           <GhostCard key={gc.id} event={gc} />
@@ -267,6 +296,17 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
       </div>
 
       <Timeline events={filteredEvents} focus={focus} onFocusChange={onFocusChange} />
+
+      <style>{`
+        .kinetic-popup .mapboxgl-popup-content {
+          background: transparent !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+        }
+        .kinetic-popup .mapboxgl-popup-tip {
+          border-bottom-color: #222 !important;
+        }
+      `}</style>
     </div>
   );
 };

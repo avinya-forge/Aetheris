@@ -11,6 +11,6 @@ test('homepage renders Atlas component correctly', async ({ page }) => {
   await expect(atlasContainer).toBeVisible({ timeout: 10000 });
 
   // Ensure the UI element inside Atlas is rendered
-  const textElement = page.locator('text=Aetheris Atlas');
+  const textElement = page.locator('text=AETHERIS');
   await expect(textElement).toBeVisible();
 });

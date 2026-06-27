@@ -13,9 +13,9 @@ function testTimeline() {
   assert.ok(htmlPast.includes('Past'), 'Should show Past label');
 
   // Test click triggers (simulated by passing props)
-  let focusChanged = '';
+  let _focusChanged = '';
   const htmlClick = renderToStaticMarkup(
-    <Timeline events={events} onFocusChange={(f: string) => focusChanged = f} />
+    <Timeline events={events} onFocusChange={(f: string) => _focusChanged = f} />
   );
   assert.ok(htmlClick.includes('Present'), 'Should show Present label');
 

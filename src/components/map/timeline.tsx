@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Timeline = ({ events = [], focus = 'present', onFocusChange = (f: string) => {}, mockSelectedIndex = null }: any) => {
+const Timeline = ({ events = [], focus = 'present', onFocusChange = ( _f: string) => {}, mockSelectedIndex = null }: any) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(mockSelectedIndex);
 
   const tiers = [

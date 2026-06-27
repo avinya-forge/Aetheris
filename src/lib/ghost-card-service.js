@@ -8,7 +8,7 @@ async function getGhostCards() {
     if (response.ok) {
       return await response.json();
     }
-  } catch (err) {
+  } catch (_err) {
     // console.error(err);
   }
 

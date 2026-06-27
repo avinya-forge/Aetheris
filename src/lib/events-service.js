@@ -17,7 +17,7 @@ async function fetchEvents(filters = {}, now = Date.now()) {
       const events = await response.json();
       return events;
     }
-  } catch (err) {
+  } catch (_err) {
     // console.error('Failed to fetch events', err);
   }
 

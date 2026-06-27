@@ -13,7 +13,7 @@ const MockMap = ({ children, onMove, onError }: any) => {
   return <div className="mock-map">{children}</div>;
 };
 const MockMarker = ({ children, onClick }: any) => {
-  return <div className="mock-marker" onClick={(e: any) => onClick && onClick({ originalEvent: { stopPropagation: () => {} } })}>{children}</div>;
+  return <div className="mock-marker" onClick={( _e: any) => onClick && onClick({ originalEvent: { stopPropagation: () => {} } })}>{children}</div>;
 };
 const MockPopup = ({ children, onClose }: any) => <div className="mock-popup" onClick={onClose}>{children}</div>;
 const MockNav = () => <div className="mock-nav" />;
@@ -104,7 +104,7 @@ function testAtlas() {
 
 try {
   testAtlas();
-} catch (e: any) {
-  console.error('atlas.test.tsx failed:', e.message);
+} catch ( _e: any) {
+  console.error('atlas.test.tsx failed:', _e.message);
   process.exit(1);
 }

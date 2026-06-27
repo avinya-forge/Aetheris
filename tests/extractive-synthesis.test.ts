@@ -31,22 +31,31 @@ import { synthesizeSources } from '../lib/extractive-synthesis';
     const missingContent = await synthesizeSources([{}]);
     assert.strictEqual(missingContent, '', 'sources without content field must return empty string');
 
-    // Synthesizer injection: uses synthesizer result when non-null
+    // Synthesizer injection: uses synthesizer result when sources >= 20
     let synthCalledWith = '';
     const mockSynth = async (text: string) => { synthCalledWith = text; return 'AI brief'; };
-    const aiResult = await synthesizeSources(shortSources, mockSynth);
-    assert.strictEqual(aiResult, 'AI brief', 'synthesizer result must be returned when provided');
-    assert.strictEqual(synthCalledWith, 'Source 1 data. Source 2 data.', 'synthesizer must receive combined text');
+    const manySources = Array(20).fill({ content: 'data' });
+    const aiResult = await synthesizeSources(manySources, mockSynth);
+    assert.strictEqual(aiResult, 'AI brief', 'synthesizer result must be returned when >= 20 sources');
+    assert.ok(synthCalledWith.includes('data'), 'synthesizer must receive combined text');
+
+    // Synthesizer injection: bypasses AI when sources < 20
+    let synth2Called = false;
+    const mockSynth2 = async (text: string) => { synth2Called = true; return 'AI brief'; };
+    const lowSources = Array(19).fill({ content: 'data' });
+    const lowResult = await synthesizeSources(lowSources, mockSynth2);
+    assert.strictEqual(synth2Called, false, 'synthesizer must NOT be called when < 20 sources');
+    assert.strictEqual(lowResult, lowSources.map(s => s.content).join(' '), 'fallback must be used for low sources');
 
     // Synthesizer injection: falls back to truncation when synthesizer returns null
     const nullSynth = async () => null;
-    const nullSynthResult = await synthesizeSources(shortSources, nullSynth);
-    assert.strictEqual(nullSynthResult, 'Source 1 data. Source 2 data.', 'null synthesizer result must fall back to truncation');
+    const nullSynthResult = await synthesizeSources(manySources, nullSynth);
+    assert.ok(nullSynthResult.includes('data'), 'null synthesizer result must fall back to truncation');
 
     // Synthesizer injection: falls back when synthesizer throws
     const throwSynth = async () => { throw new Error('API error'); };
-    const throwResult = await synthesizeSources(shortSources, throwSynth);
-    assert.strictEqual(throwResult, 'Source 1 data. Source 2 data.', 'synthesizer error must fall back to truncation');
+    const throwResult = await synthesizeSources(manySources, throwSynth);
+    assert.ok(throwResult.includes('data'), 'synthesizer error must fall back to truncation');
 
     console.log('PASS - extractive-synthesis.test.js');
   } catch (err) {

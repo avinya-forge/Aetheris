@@ -4,9 +4,9 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = (f: string) 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(mockSelectedIndex);
 
   const tiers = [
-    { id: 'past', label: 'Past', offset: '10%' },
-    { id: 'present', label: 'Present', offset: '50%' },
-    { id: 'horizon', label: 'Horizon', offset: '90%' }
+    { id: 'past', label: 'History', offset: '15%' },
+    { id: 'present', label: 'Pulse', offset: '50%' },
+    { id: 'horizon', label: 'Horizon', offset: '85%' }
   ];
 
   return (
@@ -15,69 +15,83 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = (f: string) 
       aria-label="Event Timeline"
       style={{
         position: 'absolute',
-        bottom: 20,
+        bottom: 30,
         left: '50%',
         transform: 'translateX(-50%)',
-        width: '90%',
-        maxWidth: '800px',
-        height: '80px',
-        background: 'rgba(0,0,0,0.7)',
-        backdropFilter: 'blur(10px)',
-        borderRadius: '40px',
+        width: '85%',
+        maxWidth: '900px',
+        height: '90px',
+        background: 'rgba(10,10,10,0.6)',
+        backdropFilter: 'blur(20px)',
+        borderRadius: '45px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '0 40px',
+        padding: '0 60px',
         boxSizing: 'border-box',
-        border: '1px solid rgba(255,255,255,0.1)',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
-        zIndex: 100
+        border: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: '0 15px 45px rgba(0,0,0,0.6)',
+        zIndex: 100,
+        transition: 'all 0.5s ease'
       }}
     >
       <div style={{
         position: 'relative',
         width: '100%',
-        height: '4px',
-        background: 'rgba(255,255,255,0.1)',
-        borderRadius: '2px'
+        height: '2px',
+        background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%)',
+        borderRadius: '1px'
       }}>
         {/* Tier Markers */}
-        {tiers.map(tier => (
-          <div
-            key={tier.id}
-            onClick={() => onFocusChange(tier.id)}
-            style={{
-              position: 'absolute',
-              left: tier.offset,
-              top: '-10px',
-              cursor: 'pointer',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              transform: 'translateX(-50%)'
-            }}
-          >
-            <div style={{
-              width: '4px',
-              height: '24px',
-              background: focus === tier.id ? '#00d2ff' : 'rgba(255,255,255,0.3)',
-              borderRadius: '2px',
-              transition: 'all 0.3s ease'
-            }} />
-            <span style={{
-              fontSize: '0.6rem',
-              color: focus === tier.id ? '#00d2ff' : 'rgba(255,255,255,0.5)',
-              marginTop: '4px',
-              fontWeight: 'bold',
-              textTransform: 'uppercase'
-            }}>{tier.label}</span>
-          </div>
-        ))}
+        {tiers.map(tier => {
+          const isActive = focus === tier.id;
+          return (
+            <div
+              key={tier.id}
+              onClick={() => onFocusChange(tier.id)}
+              style={{
+                position: 'absolute',
+                left: tier.offset,
+                top: '-15px',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                transform: 'translateX(-50%)',
+                zIndex: 10
+              }}
+            >
+              <div style={{
+                width: isActive ? '3px' : '1px',
+                height: isActive ? '32px' : '24px',
+                background: isActive ? '#00d2ff' : 'rgba(255,255,255,0.2)',
+                borderRadius: '2px',
+                transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                boxShadow: isActive ? '0 0 15px rgba(0,210,255,0.6)' : 'none'
+              }} />
+              <span style={{
+                fontSize: '0.65rem',
+                color: isActive ? '#fff' : 'rgba(255,255,255,0.4)',
+                marginTop: '8px',
+                fontWeight: isActive ? 800 : 500,
+                textTransform: 'uppercase',
+                letterSpacing: '1.5px',
+                transition: 'all 0.4s ease'
+              }}>{tier.label}</span>
+            </div>
+          );
+        })}
 
-        {/* Event Nodes */}
+        {/* Event Nodes - Distributed by focus tier */}
         {events.map((event: any, i: number) => {
-           // Distribute events between markers for now
-           const left = 10 + (i * 80 / (events.length || 1));
+           let left = '50%';
+           if (event.type === 'space-weather' || event.interpolated) {
+              left = `${70 + (i % 20)}\%`;
+           } else {
+              left = `${20 + (i % 40)}\%`;
+           }
+
+           const isSelected = selectedIndex === i;
            return (
             <div
               key={i}
@@ -85,19 +99,19 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = (f: string) 
               onClick={() => setSelectedIndex(i)}
               style={{
                 position: 'absolute',
-                left: `${left}%`,
+                left: left,
                 top: '50%',
-                width: '10px',
-                height: '10px',
+                width: '6px',
+                height: '6px',
                 borderRadius: '50%',
-                background: selectedIndex === i ? '#00d2ff' : 'white',
+                background: isSelected ? '#00d2ff' : 'rgba(255,255,255,0.4)',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                transform: `translate(-50%, -50%) ${selectedIndex === i ? 'scale(1.5)' : 'scale(1)'}`,
-                boxShadow: selectedIndex === i ? '0 0 10px #00d2ff' : 'none'
+                transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                transform: `translate(-50%, -50%) ${isSelected ? 'scale(2.5)' : 'scale(1)'}`,
+                boxShadow: isSelected ? '0 0 15px #00d2ff' : 'none',
+                opacity: isSelected ? 1 : 0.6
               }}
               title={event.title}
-              aria-label={`Event: ${event.title}`}
             />
           );
         })}
@@ -108,21 +122,30 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = (f: string) 
           className="timeline-tooltip"
           style={{
             position: 'absolute',
-            top: '-50px',
+            top: '-55px',
             left: '50%',
             transform: 'translateX(-50%)',
-            background: 'white',
-            padding: '5px 15px',
-            borderRadius: '5px',
-            color: 'black',
-            fontSize: '0.8rem',
-            fontWeight: 'bold',
-            whiteSpace: 'nowrap'
+            background: 'rgba(255,255,255,0.95)',
+            padding: '6px 18px',
+            borderRadius: '20px',
+            color: '#111',
+            fontSize: '0.75rem',
+            fontWeight: 800,
+            whiteSpace: 'nowrap',
+            boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+            animation: 'slide-up 0.3s ease-out'
           }}
         >
-          {events[selectedIndex].title}
+          {events[selectedIndex].title.toUpperCase()}
         </div>
       )}
+
+      <style>{`
+        @keyframes slide-up {
+          from { transform: translate(-50%, 10px); opacity: 0; }
+          to { transform: translate(-50%, 0); opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 };

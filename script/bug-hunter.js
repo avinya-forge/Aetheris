@@ -35,6 +35,28 @@ export function runBugHunter(libDir, testsDir) {
     if (!fs.existsSync(testFileJs) && !fs.existsSync(testFileTs) && !fs.existsSync(testFileTsx)) {
       issues.push(`Missing test file for ${file}`);
     }
+
+    // Rule 4: Standard 4: AI synthesis must be derived from 20+ validated sources
+    if (file === 'extractive-synthesis.js' && !content.includes('sources.length >= 20')) {
+      issues.push(`extractive-synthesis.js missing 20+ source check (Standard 4)`);
+    }
+
+    // Rule 5: Standard 4: Summaries must be <= 30 words
+    if (file === 'extractive-synthesis.js' && !content.includes('words.length <= 30')) {
+      issues.push(`extractive-synthesis.js missing <= 30 word limit (Standard 4)`);
+    }
+  }
+
+  // Check UI components for vision alignment
+  const srcLibDir = path.join(process.cwd(), 'src/lib');
+  if (fs.existsSync(srcLibDir)) {
+    const srcLibFiles = fs.readdirSync(srcLibDir);
+    for (const file of srcLibFiles) {
+       const content = fs.readFileSync(path.join(srcLibDir, file), 'utf-8');
+       if (content.match(/export\s+default\s+/)) {
+          issues.push(`Illegal 'export default' found in src/lib/${file}`);
+       }
+    }
   }
 
   return issues;

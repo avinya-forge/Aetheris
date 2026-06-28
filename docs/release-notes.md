@@ -1,6 +1,7 @@
 # Release Notes — Aetheris
 
 ## v0.1.21 — Vision Alignment & Maintenance
+- [x] TASK: enforce-30-word-synthesis-gate | Target: lib/extractive-synthesis.js | I/O: code | Assert: synthesizeSources throws if AI result > 30 words | LOC: ~15
 - [x] TASK: recurring-dependency-pruning | Removed 'undici' from package.json as it's redundant with Node 20+ fetch.
 - [x] TASK: align-atlas-zoom-logic | Atlas zoom filtering now strictly follows 3-level hierarchy (Orbital, National, Local).
 - [x] TASK: extractive-synthesis-guardrails | AI synthesis now requires a minimum of 20 validated sources as per Vision Standard 4.

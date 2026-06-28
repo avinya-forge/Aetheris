@@ -57,6 +57,17 @@ import { synthesizeSources } from '../lib/extractive-synthesis';
     const throwResult = await synthesizeSources(manySources, throwSynth);
     assert.ok(throwResult.includes('data'), 'synthesizer error must fall back to truncation');
 
+    // Enforce 30-word limit: throw an error if the synthesizer returns > 30 words
+    const longSynth = async () => 'word '.repeat(31).trim();
+    let caughtError = false;
+    try {
+      await synthesizeSources(manySources, longSynth);
+    } catch (err) {
+      caughtError = true;
+      assert.strictEqual(err.message, 'AI synthesis exceeds 30 words', 'should throw specific error message for >30 words');
+    }
+    assert.ok(caughtError, 'synthesizer must throw an error if result exceeds 30 words');
+
     console.log('PASS - extractive-synthesis.test.js');
   } catch (err) {
     console.error('FAIL - extractive-synthesis.test.js:', err.message);

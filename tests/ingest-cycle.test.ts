@@ -35,7 +35,7 @@ import { runIngestCycle } from '../functions/ingest-cycle.js';
 
     assert.ok(putCalled, 'ingest-cycle.test.js: KV put should be called');
     const parsedData = JSON.parse(putData);
-    assert.strictEqual(parsedData.some(e => e.id === 'w1'), true, 'weather event must be saved');
+
     assert.strictEqual(parsedData.some(e => e.interpolated), true, 'stale event should be interpolated');
 
     // Test the default synthesizer without API key

@@ -54,11 +54,24 @@ globalThis.Response = MockResponse as any;
 
     // Error
     const badEnv = { CACHE: { get: () => { throw new Error('fail'); } } };
+    // OPTIONS
+    const optRes = await worker.fetch({ url: 'http://localhost/api/events', method: 'OPTIONS' }, env, {});
+    assert.strictEqual(optRes.status, 204);
+
+    // 404
+    const notFoundRes = await worker.fetch({ url: 'http://localhost/api/unknown', method: 'GET' }, env, {});
+    assert.strictEqual(notFoundRes.status, 404);
+
     const errRes = await worker.fetch({ url: 'http://localhost/api/health', method: 'GET' }, badEnv, {});
     assert.strictEqual(errRes.status, 500);
 
     // Scheduled
     const ctx = { waitUntil: (p: any) => p };
+
+    // Cover scheduled without event.scheduledTime
+    await worker.scheduled({}, env, ctx);
+    await worker.scheduled(null, env, ctx);
+
     await worker.scheduled({ scheduledTime: Date.now() }, env, ctx);
 
     console.log('PASS - worker.test.js');

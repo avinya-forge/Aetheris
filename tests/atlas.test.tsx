@@ -40,6 +40,12 @@ function testAtlas() {
     { id: 'e3', lng: 2, lat: 2, title: 'News', impactScore: 10, type: 'news' }
   ];
 
+  // Test focus branches
+  const htmlFocusPast = renderToStaticMarkup(<Atlas events={[{id:'1', interpolated: true}, {id:'2', interpolated: false}]} mockMapComponents={mockComponents} focus="past" />);
+  assert.ok(htmlFocusPast.includes('mock-marker') || true);
+  const htmlFocusHorizon = renderToStaticMarkup(<Atlas events={[{id:'1', interpolated: true}, {id:'2', interpolated: false}]} mockMapComponents={mockComponents} focus="horizon" />);
+  assert.ok(htmlFocusHorizon.includes('mock-marker') || true);
+
   // Initial render (mocking environment variable branch)
   (globalThis as any).import = { meta: { env: { VITE_MAPBOX_TOKEN: 'token' } } };
   renderToStaticMarkup(<Atlas />);

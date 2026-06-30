@@ -139,6 +139,35 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     return zoomFiltered;
   }, [events, viewState.zoom, focus]);
 
+  const renderedMarkers = useMemo(() => {
+    if (!MapComponents || !MapComponents.Marker) return null;
+    return filteredEvents.map((event: any) => (
+      <MapComponents.Marker
+        key={event.id}
+        longitude={event.lng || event.longitude}
+        latitude={event.lat || event.latitude}
+        anchor="bottom"
+        onClick={(e: any) => handleMarkerClick(event, e)}
+      >
+        <div
+          className="event-marker"
+          data-impact={event.impactScore}
+          style={{
+            width: '24px',
+            height: '24px',
+            cursor: 'pointer',
+            filter: `drop-shadow(0 0 ${kpIndex > 5 ? kpIndex * 2 : 4}px ${(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'})`,
+            transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.5s ease',
+          }}
+          onMouseEnter={(e: any) => e.currentTarget.style.transform = 'scale(1.3)'}
+          onMouseLeave={(e: any) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <Glyph type={event.type || event.topic} color={(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'} />
+        </div>
+      </MapComponents.Marker>
+    ));
+  }, [filteredEvents, MapComponents, kpIndex]);
+
   return (
     <div
       style={{
@@ -183,31 +212,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         >
           <MapComponents.NavigationControl position="top-right" />
 
-          {filteredEvents.map((event: any) => (
-            <MapComponents.Marker
-              key={event.id}
-              longitude={event.lng || event.longitude}
-              latitude={event.lat || event.latitude}
-              anchor="bottom"
-              onClick={(e: any) => handleMarkerClick(event, e)}
-            >
-              <div
-                className="event-marker"
-                data-impact={event.impactScore}
-                style={{
-                  width: '24px',
-                  height: '24px',
-                  cursor: 'pointer',
-                  filter: `drop-shadow(0 0 ${kpIndex > 5 ? kpIndex * 2 : 4}px ${(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'})`,
-                  transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.5s ease',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.3)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              >
-                <Glyph type={event.type || event.topic} color={(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'} />
-              </div>
-            </MapComponents.Marker>
-          ))}
+          {renderedMarkers}
 
           {selectedEvent && (
             <MapComponents.Popup

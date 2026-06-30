@@ -1,6 +1,7 @@
 # Release Notes — Aetheris
 
 ## v0.1.21 — Vision Alignment & Maintenance
+- [x] TASK: atlas-performance-tuning | Target: src/components/map/atlas.tsx | I/O: optimization | Assert: zoom transitions maintain 60fps with 500+ markers | LOC: ~50
 - [x] TASK: enforce-30-word-synthesis-gate | Target: lib/extractive-synthesis.js | I/O: code | Assert: synthesizeSources throws if AI result > 30 words | LOC: ~15
 - [x] TASK: recurring-dependency-pruning | Removed 'undici' from package.json as it's redundant with Node 20+ fetch.
 - [x] TASK: align-atlas-zoom-logic | Atlas zoom filtering now strictly follows 3-level hierarchy (Orbital, National, Local).

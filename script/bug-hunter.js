@@ -38,12 +38,12 @@ export function runBugHunter(libDir, testsDir) {
 
     // Rule 4: Standard 4: AI synthesis must be derived from 20+ validated sources
     if (file === 'extractive-synthesis.js' && !content.includes('sources.length >= 20')) {
-      issues.push(`extractive-synthesis.js missing 20+ source check (Standard 4)`);
+      issues.push('extractive-synthesis.js missing 20+ source check (Standard 4)');
     }
 
     // Rule 5: Standard 4: Summaries must be <= 30 words
     if (file === 'extractive-synthesis.js' && !content.includes('words.length <= 30')) {
-      issues.push(`extractive-synthesis.js missing <= 30 word limit (Standard 4)`);
+      issues.push('extractive-synthesis.js missing <= 30 word limit (Standard 4)');
     }
   }
 

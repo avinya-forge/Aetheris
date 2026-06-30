@@ -5,7 +5,6 @@
 ---
 
 ## Phase 1: High Priority (Vision Alignment & Core Integrity)
-- [ ] TASK: atlas-performance-tuning | Target: src/components/map/atlas.tsx | I/O: optimization | Assert: zoom transitions maintain 60fps with 500+ markers | LOC: ~50
 - [ ] TASK: improve-probability-cone-logic | Target: lib/probability-cones.js | I/O: logic | Assert: likelihood accounts for source rank diversity | LOC: ~50
 - [ ] TASK: recurring-coverage-audit | Target: script/test.js | I/O: automation | Assert: gate fails if any file < 95% | LOC: ~20
 

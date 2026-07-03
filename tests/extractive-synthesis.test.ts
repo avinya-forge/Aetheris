@@ -41,7 +41,7 @@ import { synthesizeSources } from '../lib/extractive-synthesis';
 
     // Synthesizer injection: bypasses AI when sources < 20
     let synth2Called = false;
-    const mockSynth2 = async (text: string) => { synth2Called = true; return 'AI brief'; };
+    const mockSynth2 = async (_text: string) => { synth2Called = true; return 'AI brief'; };
     const lowSources = Array(19).fill({ content: 'data' });
     const lowResult = await synthesizeSources(lowSources, mockSynth2);
     assert.strictEqual(synth2Called, false, 'synthesizer must NOT be called when < 20 sources');

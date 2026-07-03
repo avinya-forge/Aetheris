@@ -25,10 +25,10 @@ import { runIngestCycle } from '../functions/ingest-cycle.js';
       gdelt: { fetchGdelt: async () => [{ id: 'g1', title: 'News', text: 'Some text', topic: 'news', timestamp: Date.now(), impactScore: 80 }] }
     };
 
-    let synthCalls = 0;
-    const mockSynthesizer = async (text) => {
-      synthCalls++;
-      return "Mock synthesis summary";
+    let __synthCalls = 0;
+    const mockSynthesizer = async (_text) => {
+      ++__synthCalls;
+      return 'Mock synthesis summary';
     };
 
     await runIngestCycle(env, mockClients, mockSynthesizer);
@@ -56,7 +56,7 @@ import { runIngestCycle } from '../functions/ingest-cycle.js';
     };
 
     // We can't easily mock the fetch inside the actual fallback synthesizer but calling it should hit the API limit or something, let's just make sure it doesn't crash
-    try { await runIngestCycle(envWithKey, mockClients, null); } catch(e) {}
+    try { await runIngestCycle(envWithKey, mockClients, null); } catch(_e) {}
 
 
     // Cover the no-topic case and clustering logic
@@ -77,7 +77,7 @@ import { runIngestCycle } from '../functions/ingest-cycle.js';
       nasaDonki: { fetchDonki: async () => [] },
       gdelt: { fetchGdelt: async () => [{ id: 'g1', title: 'News', text: 'Some text', timestamp: Date.now(), impactScore: 80 }] } // No topic
     };
-    await runIngestCycle(envFull, clientsFull, async () => "Summarized!");
+    await runIngestCycle(envFull, clientsFull, async () => 'Summarized!');
 
     console.log('PASS - ingest-cycle.test.js');
   } catch (err) {

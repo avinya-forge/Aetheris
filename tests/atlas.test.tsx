@@ -37,7 +37,12 @@ function testAtlas() {
   const events = [
     { id: 'e1', lng: 0, lat: 0, title: 'Extreme', impactScore: 80, type: 'space-weather' },
     { id: 'e2', lng: 1, lat: 1, title: 'Medium', impactScore: 55, type: 'weather' },
-    { id: 'e3', lng: 2, lat: 2, title: 'News', impactScore: 10, type: 'news' }
+    { id: 'e3', lng: 2, lat: 2, title: 'News', impactScore: 10, type: 'news' },
+    { id: 'e4', lng: 3, lat: 3, title: 'Vessel', impactScore: 20, type: 'vessel' },
+    { id: 'e5', lng: 4, lat: 4, title: 'Cable', impactScore: 10, type: 'cable' },
+    { id: 'e6', lng: 5, lat: 5, title: 'Datacenter', impactScore: 30, type: 'datacenter' },
+    { id: 'e7', lng: 6, lat: 6, title: 'Jamming', impactScore: 75, type: 'jamming' },
+    { id: 'e8', lng: 7, lat: 7, title: 'Satellite', impactScore: 15, type: 'satellite' }
   ];
 
   // Test focus branches
@@ -48,7 +53,10 @@ function testAtlas() {
 
   // Initial render (mocking environment variable branch)
   (globalThis as any).import = { meta: { env: { VITE_MAPBOX_TOKEN: 'token' } } };
+  const oldWindow2 = globalThis.window;
+  (globalThis as any).window = { location: { href: 'http://localhost' } };
   renderToStaticMarkup(<Atlas />);
+  globalThis.window = oldWindow2;
   delete (globalThis as any).import;
 
   // Zoom 10 (all events)
@@ -62,6 +70,7 @@ function testAtlas() {
   // Zoom 1.5 (HIGH/Space only)
   const htmlZoomOut = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={1.5} />);
   assert.ok(htmlZoomOut.includes('Extreme') && !htmlZoomOut.includes('Medium'));
+  assert.ok(htmlZoomOut.includes('Vessel')); // Vessel is included in zoom < 4 now
 
   // Marker click logic with stopPropagation
   const MockClicker = ({ children, onClick }: any) => {

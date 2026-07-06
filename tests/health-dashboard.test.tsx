@@ -11,6 +11,9 @@ function testHealthDashboard() {
 
   assert.ok(html.includes('120ms'), 'Should show latency');
   assert.ok(html.includes('95%'), 'Should show signal to noise ratio');
+  // Since the market fetch is mocked inside a Promise, we can't synchronously check the output without async rendering.
+  // But we can check that it doesn't crash on initial render.
+  assert.ok(html.includes('System Pulse'), 'Should show System Pulse');
 
   console.log('PASS - health-dashboard.test.js');
 }

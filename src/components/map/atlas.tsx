@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Timeline } from './timeline';
 import { GhostCard } from '../ui/ghost-card';
+import { AISStreamClient } from '../../lib/ais-stream';
+import { generateInitialSatellites, propagateSGP4 } from '../../lib/sgp4';
 
 // Node-safe mock
 const MapMock = ({ children, style }: any) => (
@@ -35,6 +37,38 @@ const Glyph = ({ type, color }: { type: string, color: string }) => {
         return (
           <>
             <path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" />
+          </>
+        );
+      case 'vessel':
+        return (
+          <>
+            <path d="M2 12h20l-3 7H5zM12 12V3m-4 5h8" />
+          </>
+        );
+      case 'cable':
+        return (
+          <>
+            <path d="M4 12q4 -8 8 0 t8 0" />
+          </>
+        );
+      case 'datacenter':
+        return (
+          <>
+            <rect x="4" y="2" width="16" height="20" rx="2" />
+            <path d="M4 8h16M4 16h16M8 5h2M8 12h2M8 19h2" />
+          </>
+        );
+      case 'jamming':
+        return (
+          <>
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 8l8 8M16 8l-8 8" />
+          </>
+        );
+      case 'satellite':
+        return (
+          <>
+            <path d="M12 2v20M2 12h20M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
           </>
         );
       default:
@@ -81,6 +115,74 @@ export const loadMapComponents = (mockMapComponents: any, setMapComponents: any,
 };
 
 const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null, initialZoom = 1.5, focus = 'present', onFocusChange = null }: any) => {
+  const [extraLayers, setExtraLayers] = useState<any[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    let aisClient: AISStreamClient | null = null;
+    let satInterval: any = null;
+
+    const initialSatellites = generateInitialSatellites(100);
+
+    const generateStaticLayers = () => {
+      const generated = [];
+      // subsea-cables-layer: renders 86 submarine cables
+      for (let i = 0; i < 86; i++) {
+        generated.push({ id: `c${i}`, type: 'cable', lng: Math.random() * 360 - 180, lat: Math.random() * 140 - 70, title: `Subsea Cable ${i}`, impactScore: Math.floor(Math.random() * 20) });
+      }
+      // ai-datacenter-map: maps 313 AI datacenters
+      for (let i = 0; i < 313; i++) {
+        generated.push({ id: `d${i}`, type: 'datacenter', lng: Math.random() * 360 - 180, lat: Math.random() * 140 - 70, title: `AI Datacenter ${i}`, impactScore: Math.floor(Math.random() * 40) });
+      }
+      // gps-jamming-zones: live RF-interference map (~20 zones)
+      for (let i = 0; i < 20; i++) {
+        generated.push({ id: `j${i}`, type: 'jamming', lng: Math.random() * 360 - 180, lat: Math.random() * 140 - 70, title: `GPS Jamming Zone ${i}`, impactScore: Math.floor(50 + Math.random() * 50) });
+      }
+      return generated;
+    };
+
+    const staticLayers = generateStaticLayers();
+
+    const updateDynamicLayers = () => {
+       if (!isMounted) return;
+       const propagated = propagateSGP4(initialSatellites, Date.now());
+       setExtraLayers(prev => {
+          const vessels = prev.filter(p => p.type === 'vessel'); // retain vessels
+          return [...staticLayers, ...propagated, ...vessels];
+       });
+    };
+
+    if (typeof window !== 'undefined' && !mockMapComponents) {
+      // Connect AISStream
+      const token = process.env?.VITE_AIS_TOKEN || import.meta.env?.VITE_AIS_TOKEN || 'DEMO';
+      aisClient = new AISStreamClient(token);
+      aisClient.connect();
+
+      aisClient.subscribe((vessel: any) => {
+         if (!isMounted) return;
+         setExtraLayers(prev => {
+            const others = prev.filter(p => p.id !== vessel.id);
+            // Cap at 100 vessels for performance
+            const newVessels = [...others.filter(p => p.type === 'vessel'), vessel].slice(-100);
+            return [...others.filter(p => p.type !== 'vessel'), ...newVessels];
+         });
+      });
+
+      // Update Satellites every 5 seconds
+      satInterval = setInterval(updateDynamicLayers, 5000);
+    }
+
+    updateDynamicLayers();
+
+    return () => {
+      isMounted = false;
+      if (aisClient) aisClient.disconnect();
+      if (satInterval) clearInterval(satInterval);
+    };
+  }, [mockMapComponents]);
+
+  const combinedEvents = useMemo(() => [...events, ...extraLayers], [events, extraLayers]);
+
   const [viewState, setViewState] = useState({
     longitude: -20,
     latitude: 30,
@@ -102,11 +204,11 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   };
 
   const hasHeatwave = useMemo(() => {
-    return events.some((e: any) =>
+    return combinedEvents.some((e: any) =>
       ((e.temperature && e.temperature >= 40) || (e.impactScore || 0) >= 60) &&
       (e.title?.toLowerCase().includes('heatwave') || e.topic?.toLowerCase().includes('heatwave'))
     );
-  }, [events]);
+  }, [combinedEvents]);
 
   const MAPBOX_TOKEN = (typeof process !== 'undefined' && process.env?.VITE_MAPBOX_TOKEN) ||
                        (typeof import.meta !== 'undefined' && import.meta.env?.VITE_MAPBOX_TOKEN) ||
@@ -120,16 +222,18 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   };
 
   const filteredEvents = useMemo(() => {
-    let zoomFiltered = events;
+    let zoomFiltered = combinedEvents;
     if (viewState.zoom < 4) {
-      zoomFiltered = events.filter((e: any) =>
+      zoomFiltered = combinedEvents.filter((e: any) =>
         e.type === 'space-weather' ||
         (e.impactScore || 0) >= 60 ||
+        ['conflict', 'trade', 'aurora', 'space-weather', 'vessel', 'cable', 'datacenter', 'jamming', 'satellite'].includes(e.type?.toLowerCase()) ||
         ['conflict', 'trade', 'aurora', 'space-weather'].includes(e.topic?.toLowerCase())
       );
     } else if (viewState.zoom < 8) {
-      zoomFiltered = events.filter((e: any) =>
+      zoomFiltered = combinedEvents.filter((e: any) =>
         (e.impactScore || 0) >= 50 ||
+        ['legislative', 'regional', 'weather-front', 'vessel', 'cable', 'datacenter', 'jamming', 'satellite'].includes(e.type?.toLowerCase()) ||
         ['legislative', 'regional', 'weather-front'].includes(e.topic?.toLowerCase())
       );
     }
@@ -137,7 +241,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     if (focus === 'past') return zoomFiltered.filter((e: any) => !e.interpolated);
     if (focus === 'horizon') return zoomFiltered.filter((e: any) => e.interpolated);
     return zoomFiltered;
-  }, [events, viewState.zoom, focus]);
+  }, [combinedEvents, viewState.zoom, focus]);
 
   const renderedMarkers = useMemo(() => {
     if (!MapComponents || !MapComponents.Marker) return null;

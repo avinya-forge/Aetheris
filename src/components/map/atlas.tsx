@@ -154,7 +154,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
 
     if (typeof window !== 'undefined' && !mockMapComponents) {
       // Connect AISStream
-      const token = process.env?.VITE_AIS_TOKEN || import.meta.env?.VITE_AIS_TOKEN || 'DEMO';
+      const token = (typeof process !== 'undefined' && process.env?.VITE_AIS_TOKEN) || import.meta.env?.VITE_AIS_TOKEN || 'DEMO';
       aisClient = new AISStreamClient(token);
       aisClient.connect();
 

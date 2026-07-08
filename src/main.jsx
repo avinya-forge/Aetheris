@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Atlas } from './components/map/atlas';
 import { HealthDashboard } from './components/ui/health-dashboard';
+import { CommandPalette } from './components/ui/command-palette';
 import { fetchEvents } from './lib/events-service';
 import { getGhostCards } from './lib/ghost-card-service';
 import { useTemporalStore } from './lib/store';
@@ -65,6 +66,7 @@ const App = () => {
         onFocusChange={updateFocus}
       />
       <HealthDashboard metrics={metrics} />
+      <CommandPalette />
     </div>
   );
 };

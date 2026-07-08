@@ -62,8 +62,11 @@ globalThis.Response = MockResponse as any;
     const notFoundRes = await worker.fetch({ url: 'http://localhost/api/unknown', method: 'GET' }, env, {});
     assert.strictEqual(notFoundRes.status, 404);
 
+    const originalError = console.error;
+    console.error = () => {}; // Suppress expected error log
     const errRes = await worker.fetch({ url: 'http://localhost/api/health', method: 'GET' }, badEnv, {});
     assert.strictEqual(errRes.status, 500);
+    console.error = originalError;
 
     // Scheduled
     const ctx = { waitUntil: (p: any) => p };

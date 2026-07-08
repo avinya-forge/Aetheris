@@ -304,6 +304,9 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
              Map failed to load.
            </div>
         </MapMock>
+      ) : !MAPBOX_TOKEN ? (
+        <MapMock style={{ width: '100%', height: '100%' }}>
+        </MapMock>
       ) : MapComponents ? (
         <MapComponents.Map
           {...viewState}

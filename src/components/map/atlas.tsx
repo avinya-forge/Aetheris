@@ -214,6 +214,8 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
                        (typeof import.meta !== 'undefined' && import.meta.env?.VITE_MAPBOX_TOKEN) ||
                        '';
 
+  const showFallback = mapError || !MAPBOX_TOKEN;
+
   const [selectedEvent, setSelectedEvent] = useState<any>(selectedEventProp);
 
   const handleMarkerClick = (event: any, e: any) => {
@@ -298,10 +300,10 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         }} />
       )}
 
-      {mapError ? (
+      {showFallback ? (
         <MapMock style={{ width: '100%', height: '100%' }}>
-           <div style={{ color: 'red', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-             Map failed to load.
+           <div style={{ color: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontFamily: 'monospace' }}>
+             Static Map Fallback (Mapbox Token Missing or Error)
            </div>
         </MapMock>
       ) : MapComponents ? (

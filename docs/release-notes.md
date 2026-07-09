@@ -1,6 +1,8 @@
 # Release Notes — Aetheris
 
 ## v0.1.15 — Additional Layers & Core Features
+- [x] TASK: fix-mapbox-token-fallback | Target: src/components/map/atlas.tsx | I/O: bugfix | Assert: Atlas renders properly when Mapbox token is missing via mocked static map fallback, removing "Map failed to load." error. | LOC: ~10
+- [x] TASK: worker-test-fetch-error | Target: tests/worker.test.ts | I/O: bugfix | Assert: fix "Worker Fetch Error: Error: fail" in `worker.test.ts` mocking logic. | LOC: ~10
 - [x] TASK: command-palette-navigation | Target: src/components/ui/command-palette.tsx | I/O: feature | Assert: ⌘K / Ctrl-K opens 154 commands | LOC: ~150
 - [x] TASK: live-ais-vessel-tracking | Target: src/components/map/atlas.tsx | I/O: feature | Assert: integrates AISStream for live vessel layers | LOC: ~100
 - [x] TASK: subsea-cables-layer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: renders 86 submarine cables | LOC: ~80

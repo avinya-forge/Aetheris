@@ -105,7 +105,7 @@ function testAtlas() {
   assert.ok(htmlGC.includes('Estimated'));
 
   // Error state
-  assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Map failed to load'));
+  assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Static Map Fallback'));
 
   // loadMapComponents branches
   const oldWindow = globalThis.window;

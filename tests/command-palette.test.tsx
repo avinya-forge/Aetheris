@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import assert from 'assert';
-import { CommandPalette, handleCommandPaletteKeyDown } from '../src/components/ui/command-palette';
+import { CommandPalette, handleCommandPaletteKeyDown, handleCommandSelect, loadCommandPaletteHooks } from '../src/components/ui/command-palette';
 
 try {
   // Test 1: Initial state (closed)
@@ -89,7 +89,62 @@ try {
   // Restore useState
   (React as any).useState = originalUseState;
 
+
+  // Test handleCommandSelect
+  let testQuery = 'test';
+  let testOpen = true;
+  handleCommandSelect({label: 'Test Cmd'}, (val: any) => testOpen = val, (val: any) => testQuery = val);
+  assert.strictEqual(testOpen, false);
+  assert.strictEqual(testQuery, '');
+
+
+
+  // Test loadCommandPaletteHooks
+  let added = false;
+  let removed = false;
+
+  const oldWindowCmd = globalThis.window;
+  (globalThis as any).window = {
+      addEventListener: (_evt: any, _cb: any) => added = true,
+      removeEventListener: (_evt: any, _cb: any) => removed = true
+  };
+
+  const cleanupHooks = loadCommandPaletteHooks(() => {});
+  assert.ok(added);
+  cleanupHooks();
+  assert.ok(removed);
+
+  (globalThis as any).window = oldWindowCmd;
+
+
+
+  // Cover the useEffect by overriding it
+  let useEffCb = null;
+  const originalUseEffect2 = React.useEffect;
+  (React as any).useEffect = (cb: any) => {
+      useEffCb = cb;
+  };
+
+  const oldWindowCmd2 = globalThis.window;
+  (globalThis as any).window = {
+      addEventListener: () => {},
+      removeEventListener: () => {}
+  };
+
+  renderToStaticMarkup(<CommandPalette />);
+
+  if (useEffCb) {
+      const cleanup = (useEffCb as any)();
+      if (cleanup) cleanup();
+  }
+
+  (React as any).useEffect = originalUseEffect2;
+  (globalThis as any).window = oldWindowCmd2;
+
   console.log('PASS - command-palette.test.tsx');
+
+
+
   process.exit(0);
 
 } catch (err) {

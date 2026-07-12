@@ -82,6 +82,38 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = ( _f: string
           );
         })}
 
+        {/* Date Selector for History Tier */}
+        <div
+           style={{
+             position: 'absolute',
+             left: '15%',
+             top: '30px',
+             transform: 'translateX(-50%)',
+             opacity: focus === 'past' ? 1 : 0,
+             pointerEvents: focus === 'past' ? 'auto' : 'none',
+             transition: 'opacity 0.4s ease',
+             zIndex: 20
+           }}
+           data-testid="history-date-picker-container"
+        >
+           <input
+              type="date"
+              data-testid="history-date-picker"
+              onChange={(e) => onFocusChange(`past:${e.target.value}`)}
+              style={{
+                background: 'rgba(0,0,0,0.5)',
+                color: '#00d2ff',
+                border: '1px solid rgba(0, 210, 255, 0.3)',
+                borderRadius: '4px',
+                padding: '4px 8px',
+                fontSize: '0.7rem',
+                outline: 'none',
+                cursor: 'pointer',
+                fontFamily: 'monospace'
+              }}
+           />
+        </div>
+
         {/* Event Nodes - Distributed by focus tier */}
         {events.map((event: any, i: number) => {
            let left = '50%';

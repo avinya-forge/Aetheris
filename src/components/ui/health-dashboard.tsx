@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 } }: any) => {
-  const [marketData, setMarketData] = useState<any>(null);
-
-  useEffect(() => {
+export const loadMarketData = (setMarketData: any) => {
     let isMounted = true;
     fetch('/api/markets')
       .then(res => {
@@ -27,7 +24,12 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 } }: any) =>
         }
       });
     return () => { isMounted = false; };
-  }, []);
+};
+
+const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMarketData = null }: any) => {
+  const [marketData, setMarketData] = useState<any>(initialMarketData);
+
+  useEffect(() => loadMarketData(setMarketData), []);
 
   return (
     <div

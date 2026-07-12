@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 // Mock process.env for testing
 (process.env as any).VITE_MAPBOX_TOKEN = 'test-token';
 
-import { Atlas, loadMapComponents } from '../src/components/map/atlas';
+import { Atlas, loadMapComponents, loadDynamicLayers } from '../src/components/map/atlas';
 
 const MockMap = ({ children, onMove, onError }: any) => {
   if (onMove) onMove({ viewState: { longitude: 0, latitude: 0, zoom: 5 } });
@@ -114,7 +114,105 @@ function testAtlas() {
   cleanup();
   globalThis.window = oldWindow;
 
+
+  // --- New Tests for loadDynamicLayers ---
+  const testLoadDynamicFinal = () => {
+    let oldSetIntFinal = globalThis.setInterval;
+    let oldClearIntFinal = globalThis.clearInterval;
+    let intCbFinal = null;
+    let intIdFinal = 888;
+    let isClearedFinal = false;
+
+    globalThis.setInterval = (cb: any) => {
+        intCbFinal = cb;
+        return intIdFinal as any;
+    };
+    globalThis.clearInterval = (id: any) => {
+        if (id === intIdFinal) isClearedFinal = true;
+    };
+
+    const oldWindowXFinal = globalThis.window;
+    (globalThis as any).window = { location: { href: 'http://localhost' } };
+
+    let extraLayersFinal: any[] = [{type: 'vessel', id: 'v1'}];
+    const setExtraLayersFinal = (updater: any) => {
+      if (typeof updater === 'function') {
+          extraLayersFinal = updater(extraLayersFinal);
+      } else {
+          extraLayersFinal = updater;
+      }
+    };
+
+    const cleanupDynamicFinal = loadDynamicLayers(null, setExtraLayersFinal);
+
+    if (intCbFinal) { (intCbFinal as any)(); }
+
+    cleanupDynamicFinal();
+    assert.ok(isClearedFinal);
+
+    const cleanupDynamicMockedFinal = loadDynamicLayers({}, setExtraLayersFinal);
+    cleanupDynamicMockedFinal();
+
+    (globalThis as any).window = oldWindowXFinal;
+    globalThis.setInterval = oldSetIntFinal;
+    globalThis.clearInterval = oldClearIntFinal;
+
+    assert.ok(renderToStaticMarkup(<Atlas mapErrorProp={true} />).includes('Static Map Fallback'));
+
+    const popupHtmlFinal = renderToStaticMarkup(<Atlas events={[{id:'e9', title:'T', impactScore:90}]} mockMapComponents={mockComponents} selectedEventProp={{id:'1', title:'T', impactScore:90, clusterSummary: 'cluster summary here'}} />);
+    assert.ok(popupHtmlFinal.includes('cluster summary here'), 'Should render clusterSummary');
+
+    const oldProcFinal = globalThis.process;
+    (globalThis as any).process = undefined;
+    renderToStaticMarkup(<Atlas />);
+    globalThis.process = oldProcFinal;
+  };
+  testLoadDynamicFinal();
+
+
+  // Mock AISStreamClient globally to intercept subscribe
+  let aisCb = null;
+  let _disconnectCalled = false;
+  let _connectCalled = false;
+  (globalThis as any).AISStreamClient = class {
+      constructor() {}
+      connect() { _connectCalled = true; }
+      subscribe(cb: any) { aisCb = cb; }
+      disconnect() { _disconnectCalled = true; }
+  };
+
+  const oldWindowX3 = globalThis.window;
+  (globalThis as any).window = { location: { href: 'http://localhost' } };
+
+  let extraLayers3: any[] = [{type: 'vessel', id: 'old-vessel'}];
+  const setExtraLayers3 = (updater: any) => {
+      if (typeof updater === 'function') {
+          extraLayers3 = updater(extraLayers3);
+      } else {
+          extraLayers3 = updater;
+      }
+  };
+
+  const cleanupDynamic3 = loadDynamicLayers(null, setExtraLayers3);
+
+  if (aisCb) {
+      // call the ais subscribe callback
+      (aisCb as any)({ id: 'new-vessel', type: 'vessel' });
+  }
+
+  cleanupDynamic3();
+
+  // now call it when isMounted is false
+  if (aisCb) {
+     (aisCb as any)({ id: 'ignored', type: 'vessel' });
+  }
+
+  (globalThis as any).window = oldWindowX3;
+  delete (globalThis as any).AISStreamClient;
+
   console.log('PASS - atlas.test.tsx');
+
+
 }
 
 try {

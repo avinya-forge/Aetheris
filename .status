@@ -1,0 +1,26 @@
+# Project Status: Aetheris
+Version: 0.1.15
+Status: stable
+
+## High-Level Overview
+Aetheris is an offline-first Temporal Intelligence & Environmental Sentinel. It replaces standard news feeds with high-integrity, multi-source validated predictive models powered by a 3D Kinetic Atlas.
+
+## Integrated Metrics (Completed Layers)
+- Offline-First PWA capabilities
+- Deep history navigation
+- Subsea cables & AI datacenter layers
+- Live AIS vessel tracking & Satellite tracking (SGP4)
+- Financial market monitoring
+- World, Tech, Finance, Commodity, Energy lenses (Multi-Monitor Views)
+- 95%+ strict codebase coverage
+
+## Pending Items
+- Macro-cluster visualization & Horizon impact clustering
+- Archive compression strategy (KV payloads)
+- Nowcasting interpolator integration
+- Open-Meteo AQI replacement
+- Background sync for PWA
+- MCP server integration (39-tool access for AI agents)
+
+## Alignment with Vision
+The project successfully maps real-time environmental, geopolitical, and structural signals via a zero-cost architecture on Cloudflare edge. The backlog remains directly tied to the primary phases of historical and predictive depth, preserving the multi-monitor functionality mapped in the documentation.

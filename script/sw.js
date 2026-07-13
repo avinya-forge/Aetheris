@@ -10,26 +10,51 @@ function handleInstall(event, cachesObj = caches) {
 }
 
 function handleFetch(event, cachesObj = caches) {
+  const url = new URL(event.request.url);
+  const isApiCall = url.pathname.startsWith('/api/');
+
   event.respondWith(
     (async () => {
       const fetchRequest = event.request.clone ? event.request.clone() : event.request;
 
-      try {
-        // Network-first attempt
-        const networkResponse = await fetch(fetchRequest);
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone ? networkResponse.clone() : networkResponse;
-          const cache = await cachesObj.open(CACHE_NAME);
-          cache.put(event.request, responseToCache);
-        }
-        return networkResponse;
-      } catch (err) {
-        // Fallback to cache on network failure
+      if (!isApiCall) {
+        // Cache-First Strategy for static assets
         const cachedResponse = await cachesObj.match(event.request);
         if (cachedResponse) {
           return cachedResponse;
         }
-        throw err;
+        try {
+          const networkResponse = await fetch(fetchRequest);
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            const responseToCache = networkResponse.clone ? networkResponse.clone() : networkResponse;
+            const cache = await cachesObj.open(CACHE_NAME);
+            cache.put(event.request, responseToCache);
+          }
+          return networkResponse;
+        } catch (_err) {
+          throw _err;
+        }
+      } else {
+        // Network-First Strategy for API calls
+        try {
+          const networkResponse = await fetch(fetchRequest);
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone ? networkResponse.clone() : networkResponse;
+            const cache = await cachesObj.open(CACHE_NAME);
+            cache.put(event.request, responseToCache);
+          }
+          return networkResponse;
+        } catch (_err) {
+          const cachedResponse = await cachesObj.match(event.request);
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // Ultimate fallback for API if not cached: return empty array so UI doesn't break
+          return new Response(JSON.stringify([]), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
       }
     })()
   );

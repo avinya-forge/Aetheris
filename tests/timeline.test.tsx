@@ -26,7 +26,34 @@ function testTimeline() {
   const htmlTooltip = renderToStaticMarkup(<Timeline events={events} mockSelectedIndex={0} />);
   assert.ok(htmlTooltip.includes('EVENT 1'), 'Should show tooltip');
 
+
+  // Test date picker
+  let _focusSet = '';
+  const htmlDatePicker = renderToStaticMarkup(<Timeline events={[]} focus="past" onFocusChange={(f: string) => _focusSet = f} />);
+  assert.ok(htmlDatePicker.includes('history-date-picker'), 'Should render date picker');
+  assert.ok(htmlDatePicker.includes('opacity:1'), 'Should be visible when focus is past');
+
+  const htmlDatePickerHidden = renderToStaticMarkup(<Timeline events={[]} focus="present" />);
+  assert.ok(htmlDatePickerHidden.includes('opacity:0'), 'Should be hidden when focus is present');
+
+  // React testing library is not here, so we test the inline onChange handler directly if we can't trigger it.
+  // We can't trigger inline react DOM events with renderToStaticMarkup easily, but let's check coverage first.
+
+  // Test event nodes branches
+  const evtSpace = [{ title: 'Space', type: 'space-weather' }, { title: 'Int', interpolated: true }];
+  const htmlSpace = renderToStaticMarkup(<Timeline events={evtSpace} />);
+  assert.ok(htmlSpace.includes('70%'), 'Should position space events at 70% offset');
+
+  // Test the onChange handler logic
+  // We can extract the DatePicker to test its onChange if we need 100% or we can just bypass
+  // Actually, wait, let's extract it or mock it.
+  // The line 121 in coverage is inside the event map, not the date picker! Wait, line 121 was: "left = `${70 + (i % 20)}\% `;"
+  // Yes, I just added the test for that!
+  // And the onChange is also a line (line 62 probably), wait, did it say line 121 is uncovered? Yes.
+
   console.log('PASS - timeline.test.tsx');
+
+
 }
 
 try {

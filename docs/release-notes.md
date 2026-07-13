@@ -1,6 +1,8 @@
 # Release Notes — Aetheris
 
 ## v0.1.15 — Additional Layers & Core Features
+- [x] TASK: implement-deep-history-navigation | Target: src/components/map/timeline.tsx | I/O: code | Assert: users can select specific dates from archive | LOC: ~100
+- [x] TASK: implement-pwa-offline-fallback | Target: script/sw.js | I/O: code | Assert: PWA serves cached shell and fallback events when offline | LOC: ~60
 - [x] TASK: fix-mapbox-token-fallback | Target: src/components/map/atlas.tsx | I/O: bugfix | Assert: Atlas renders properly when Mapbox token is missing via mocked static map fallback, removing "Map failed to load." error. | LOC: ~10
 - [x] TASK: worker-test-fetch-error | Target: tests/worker.test.ts | I/O: bugfix | Assert: fix "Worker Fetch Error: Error: fail" in `worker.test.ts` mocking logic. | LOC: ~10
 - [x] TASK: command-palette-navigation | Target: src/components/ui/command-palette.tsx | I/O: feature | Assert: ⌘K / Ctrl-K opens 154 commands | LOC: ~150

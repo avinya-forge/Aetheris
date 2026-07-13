@@ -21,25 +21,26 @@ const generateCommands = () => {
 
 const COMMANDS = generateCommands();
 
+export const handleCommandSelect = (cmd: any, setIsOpen: any, setQuery: any) => {
+  console.log(`Executed: ${cmd.label}`);
+  setIsOpen(false);
+  setQuery('');
+};
+
+export const loadCommandPaletteHooks = (setIsOpen: any) => {
+    const handleKeyDown = (e: any) => handleCommandPaletteKeyDown(e, setIsOpen);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+};
+
 export const CommandPalette = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
 
   // Extract the hook logic into an exported function to make it testable via Node if needed
   // (In pure static markup testing, useEffect won't run, so this provides an entry point)
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      setIsOpen(prev => !prev);
-    }
-    if (e.key === 'Escape') {
-      setIsOpen(false);
-    }
-  };
-
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return loadCommandPaletteHooks(setIsOpen);
   }, []);
 
   if (!isOpen) return null;
@@ -120,11 +121,7 @@ export const CommandPalette = () => {
                 }}
                 onMouseOver={e => e.currentTarget.style.backgroundColor = '#2a2a2a'}
                 onMouseOut={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                onClick={() => {
-                  console.log(`Executed: ${cmd.label}`);
-                  setIsOpen(false);
-                  setQuery('');
-                }}
+                onClick={() => handleCommandSelect(cmd, setIsOpen, setQuery)}
               >
                 {cmd.label}
               </div>

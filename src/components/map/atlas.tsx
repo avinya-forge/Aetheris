@@ -114,10 +114,7 @@ export const loadMapComponents = (mockMapComponents: any, setMapComponents: any,
   };
 };
 
-const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null, initialZoom = 1.5, focus = 'present', onFocusChange = null }: any) => {
-  const [extraLayers, setExtraLayers] = useState<any[]>([]);
-
-  useEffect(() => {
+export const loadDynamicLayers = (mockMapComponents: any, setExtraLayers: any) => {
     let isMounted = true;
     let aisClient: AISStreamClient | null = null;
     let satInterval: any = null;
@@ -125,16 +122,13 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     const initialSatellites = generateInitialSatellites(100);
 
     const generateStaticLayers = () => {
-      const generated = [];
-      // subsea-cables-layer: renders 86 submarine cables
+      const generated: any[] = [];
       for (let i = 0; i < 86; i++) {
         generated.push({ id: `c${i}`, type: 'cable', lng: Math.random() * 360 - 180, lat: Math.random() * 140 - 70, title: `Subsea Cable ${i}`, impactScore: Math.floor(Math.random() * 20) });
       }
-      // ai-datacenter-map: maps 313 AI datacenters
       for (let i = 0; i < 313; i++) {
         generated.push({ id: `d${i}`, type: 'datacenter', lng: Math.random() * 360 - 180, lat: Math.random() * 140 - 70, title: `AI Datacenter ${i}`, impactScore: Math.floor(Math.random() * 40) });
       }
-      // gps-jamming-zones: live RF-interference map (~20 zones)
       for (let i = 0; i < 20; i++) {
         generated.push({ id: `j${i}`, type: 'jamming', lng: Math.random() * 360 - 180, lat: Math.random() * 140 - 70, title: `GPS Jamming Zone ${i}`, impactScore: Math.floor(50 + Math.random() * 50) });
       }
@@ -146,29 +140,26 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
     const updateDynamicLayers = () => {
        if (!isMounted) return;
        const propagated = propagateSGP4(initialSatellites, Date.now());
-       setExtraLayers(prev => {
+       setExtraLayers((prev: any[]) => {
           const vessels = prev.filter(p => p.type === 'vessel'); // retain vessels
           return [...staticLayers, ...propagated, ...vessels];
        });
     };
 
     if (typeof window !== 'undefined' && !mockMapComponents) {
-      // Connect AISStream
-      const token = (typeof process !== 'undefined' && process.env?.VITE_AIS_TOKEN) || import.meta.env?.VITE_AIS_TOKEN || 'DEMO';
+      const token = (typeof process !== 'undefined' && process.env?.VITE_AIS_TOKEN) || (typeof import.meta !== 'undefined' && import.meta.env?.VITE_AIS_TOKEN) || 'DEMO';
       aisClient = new AISStreamClient(token);
       aisClient.connect();
 
       aisClient.subscribe((vessel: any) => {
          if (!isMounted) return;
-         setExtraLayers(prev => {
+         setExtraLayers((prev: any[]) => {
             const others = prev.filter(p => p.id !== vessel.id);
-            // Cap at 100 vessels for performance
             const newVessels = [...others.filter(p => p.type === 'vessel'), vessel].slice(-100);
             return [...others.filter(p => p.type !== 'vessel'), ...newVessels];
          });
       });
 
-      // Update Satellites every 5 seconds
       satInterval = setInterval(updateDynamicLayers, 5000);
     }
 
@@ -179,6 +170,13 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
       if (aisClient) aisClient.disconnect();
       if (satInterval) clearInterval(satInterval);
     };
+};
+
+const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null, initialZoom = 1.5, focus = 'present', onFocusChange = null }: any) => {
+  const [extraLayers, setExtraLayers] = useState<any[]>([]);
+
+  useEffect(() => {
+    return loadDynamicLayers(mockMapComponents, setExtraLayers);
   }, [mockMapComponents]);
 
   const combinedEvents = useMemo(() => [...events, ...extraLayers], [events, extraLayers]);

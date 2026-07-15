@@ -59,6 +59,26 @@ function testAtlas() {
   globalThis.window = oldWindow2;
   delete (globalThis as any).import;
 
+  // Lenses filtering
+  const techHtml = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} lensProp="Tech" initialZoom={10} />);
+  assert.ok(techHtml.includes('Datacenter') && techHtml.includes('Cable') && techHtml.includes('Jamming') && techHtml.includes('Satellite'));
+  assert.ok(!techHtml.includes('Extreme') && !techHtml.includes('Medium'));
+
+  const finHtml = renderToStaticMarkup(<Atlas events={[{ id: 'f1', title: 'TradeEvent', topic: 'trade' }]} mockMapComponents={mockComponents} lensProp="Finance" initialZoom={10} />);
+  assert.ok(finHtml.includes('TradeEvent'));
+  assert.ok(!finHtml.includes('Datacenter'));
+
+  const commHtml = renderToStaticMarkup(<Atlas events={events.concat([{ id: 'c1', title: 'TradeTopic', topic: 'trade' }])} mockMapComponents={mockComponents} lensProp="Commodity" initialZoom={10} />);
+  assert.ok(commHtml.includes('Vessel') && commHtml.includes('TradeTopic'));
+  assert.ok(!commHtml.includes('Datacenter'));
+
+  const energyHtml = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} lensProp="Energy" initialZoom={10} />);
+  assert.ok(energyHtml.includes('Cable'));
+  assert.ok(!energyHtml.includes('Extreme') && !energyHtml.includes('Datacenter'));
+
+  const worldHtml = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} lensProp="World" initialZoom={10} />);
+  assert.ok(worldHtml.includes('Extreme') && worldHtml.includes('Medium') && worldHtml.includes('Datacenter'));
+
   // Zoom 10 (all events)
   const htmlZoomIn = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={10} />);
   assert.ok(htmlZoomIn.includes('Extreme') && htmlZoomIn.includes('Medium') && htmlZoomIn.includes('News'));

@@ -172,7 +172,7 @@ export const loadDynamicLayers = (mockMapComponents: any, setExtraLayers: any) =
     };
 };
 
-const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null, initialZoom = 1.5, focus = 'present', onFocusChange = null }: any) => {
+const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false, mockMapComponents = null, selectedEventProp = null, initialZoom = 1.5, focus = 'present', onFocusChange = null, lensProp = 'World' }: any) => {
   const [extraLayers, setExtraLayers] = useState<any[]>([]);
 
   useEffect(() => {
@@ -238,10 +238,21 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
       );
     }
 
-    if (focus === 'past') return zoomFiltered.filter((e: any) => !e.interpolated);
-    if (focus === 'horizon') return zoomFiltered.filter((e: any) => e.interpolated);
+    if (focus === 'past') zoomFiltered = zoomFiltered.filter((e: any) => !e.interpolated);
+    else if (focus === 'horizon') zoomFiltered = zoomFiltered.filter((e: any) => e.interpolated);
+
+    if (lensProp === 'Tech') {
+      zoomFiltered = zoomFiltered.filter((e: any) => ['datacenter', 'cable', 'satellite', 'jamming'].includes(e.type?.toLowerCase()));
+    } else if (lensProp === 'Finance') {
+      zoomFiltered = zoomFiltered.filter((e: any) => ['trade'].includes(e.topic?.toLowerCase()));
+    } else if (lensProp === 'Commodity') {
+      zoomFiltered = zoomFiltered.filter((e: any) => ['vessel'].includes(e.type?.toLowerCase()) || ['trade'].includes(e.topic?.toLowerCase()));
+    } else if (lensProp === 'Energy') {
+      zoomFiltered = zoomFiltered.filter((e: any) => ['cable'].includes(e.type?.toLowerCase()));
+    }
+
     return zoomFiltered;
-  }, [combinedEvents, viewState.zoom, focus]);
+  }, [combinedEvents, viewState.zoom, focus, lensProp]);
 
   const renderedMarkers = useMemo(() => {
     if (!MapComponents || !MapComponents.Marker) return null;

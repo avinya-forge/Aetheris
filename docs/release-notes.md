@@ -1,6 +1,7 @@
 # Release Notes — Aetheris
 
 ## v0.1.15 — Additional Layers & Core Features
+- [x] TASK: horizon-impact-clustering | Target: lib/cluster-identifier.js | I/O: code | Assert: groups predicted events by causal chain | LOC: ~70
 - [x] TASK: implement-deep-history-navigation | Target: src/components/map/timeline.tsx | I/O: code | Assert: users can select specific dates from archive | LOC: ~100
 - [x] TASK: implement-pwa-offline-fallback | Target: script/sw.js | I/O: code | Assert: PWA serves cached shell and fallback events when offline | LOC: ~60
 - [x] TASK: fix-mapbox-token-fallback | Target: src/components/map/atlas.tsx | I/O: bugfix | Assert: Atlas renders properly when Mapbox token is missing via mocked static map fallback, removing "Map failed to load." error. | LOC: ~10

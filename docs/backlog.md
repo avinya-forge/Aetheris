@@ -5,7 +5,6 @@
 ---
 
 ## 🚨 Critical Tech Debt & Active Bugs
-
 ---
 
 ## Phase 1: High Priority (Vision Alignment & Core Integrity)

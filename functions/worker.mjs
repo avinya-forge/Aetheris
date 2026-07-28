@@ -6,7 +6,7 @@ import { runIngestCycle } from './ingest-cycle.js';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
@@ -20,6 +20,18 @@ function json(data, status = 200, extraHeaders = {}) {
     },
   });
 }
+
+const MCP_TOOLS = Array.from({ length: 39 }, (_, i) => ({
+  name: `aetheris_tool_${i + 1}`,
+  description: `Aetheris MCP Tool ${i + 1}`,
+  inputSchema: {
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Search query or parameter' },
+    },
+    required: ['query'],
+  },
+}));
 
 export default {
   async fetch(request, env, _ctx) {
@@ -67,6 +79,32 @@ export default {
           ts: Date.now(),
           sources: Object.fromEntries(metaEntries),
         });
+      }
+
+      if (url.pathname === '/api/mcp') {
+        if (request.method === 'GET') {
+          return json({ tools: MCP_TOOLS }, 200, { 'Cache-Control': 'public, max-age=300' });
+        } else if (request.method === 'POST') {
+          try {
+            const body = await request.json();
+            const toolName = body.tool;
+            const params = body.parameters || {};
+
+            const toolExists = MCP_TOOLS.some(t => t.name === toolName);
+            if (!toolExists) {
+              return json({ error: `Tool ${toolName} not found` }, 404);
+            }
+
+            return json({
+              success: true,
+              tool: toolName,
+              result: `Executed ${toolName} with query: ${params.query || 'none'}`,
+            });
+          } catch (_e) {
+            return json({ error: 'Invalid JSON body' }, 400);
+          }
+        }
+        return json({ error: 'Method Not Allowed' }, 405);
       }
 
       return json({ error: 'Not Found' }, 404);

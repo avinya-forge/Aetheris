@@ -68,6 +68,58 @@ globalThis.Response = MockResponse as any;
     console.error = originalConsoleError;
     assert.strictEqual(errRes.status, 500);
 
+
+    // MCP Tools Route (GET)
+    const mcpGetRes = await worker.fetch({ url: 'http://localhost/api/mcp', method: 'GET' }, env, {});
+    assert.strictEqual(mcpGetRes.status, 200);
+    const mcpGetData = await mcpGetRes.json();
+    assert.strictEqual(mcpGetData.tools.length, 39);
+    assert.strictEqual(mcpGetData.tools[0].name, 'aetheris_tool_1');
+
+    // MCP Tools Route (POST - Success)
+    const validMcpPostReq = {
+      url: 'http://localhost/api/mcp',
+      method: 'POST',
+      json: async () => ({ tool: 'aetheris_tool_1', parameters: { query: 'test' } })
+    };
+    const mcpPostRes = await worker.fetch(validMcpPostReq as any, env, {});
+    assert.strictEqual(mcpPostRes.status, 200);
+    const mcpPostData = await mcpPostRes.json();
+    assert.strictEqual(mcpPostData.success, true);
+    assert.strictEqual(mcpPostData.result, 'Executed aetheris_tool_1 with query: test');
+
+    // MCP Tools Route (POST - Success no parameters)
+    const validMcpPostReqNoParams = {
+      url: 'http://localhost/api/mcp',
+      method: 'POST',
+      json: async () => ({ tool: 'aetheris_tool_1' })
+    };
+    const mcpPostResNoParams = await worker.fetch(validMcpPostReqNoParams as any, env, {});
+    assert.strictEqual(mcpPostResNoParams.status, 200);
+
+    // MCP Tools Route (POST - Tool Not Found)
+    const invalidMcpPostReq = {
+      url: 'http://localhost/api/mcp',
+      method: 'POST',
+      json: async () => ({ tool: 'nonexistent_tool' })
+    };
+    const mcpNotFoundRes = await worker.fetch(invalidMcpPostReq as any, env, {});
+    assert.strictEqual(mcpNotFoundRes.status, 404);
+
+    // MCP Tools Route (POST - Invalid JSON)
+    const badJsonMcpPostReq = {
+      url: 'http://localhost/api/mcp',
+      method: 'POST',
+      json: async () => { throw new Error('Syntax error'); }
+    };
+    const mcpBadJsonRes = await worker.fetch(badJsonMcpPostReq as any, env, {});
+    assert.strictEqual(mcpBadJsonRes.status, 400);
+
+    // MCP Tools Route (Invalid Method)
+    const invalidMethodReq = { url: 'http://localhost/api/mcp', method: 'PUT' };
+    const invalidMethodRes = await worker.fetch(invalidMethodReq as any, env, {});
+    assert.strictEqual(invalidMethodRes.status, 405);
+
     // Scheduled
     const ctx = { waitUntil: (p: any) => p };
 

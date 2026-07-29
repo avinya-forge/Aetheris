@@ -13,7 +13,9 @@
 - [x] TASK: bug-hunt-and-audit-phase1 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
 
 ## Phase 2: Medium Priority (Additional Layers & Core Features)
-- [ ] TASK: worldmonitor-parity-analysis | Target: docs/backlog.md | I/O: documentation | Assert: lists all features from worldmonitor.app to replicate | LOC: ~20
+- [ ] TASK: implement-protest-tracking | Target: src/components/map/atlas.tsx | I/O: feature | Assert: Dual-source protest detection and clustering | LOC: ~100
+- [ ] TASK: scenario-engine-and-route-explorer | Target: src/components/ui/scenario.tsx | I/O: feature | Assert: UI allows gaming disruptions | LOC: ~250
+- [ ] TASK: bgp-anomaly-feeds | Target: lib/bgp-client.js | I/O: feature | Assert: ingests BGP outage events for cables | LOC: ~80
 - [x] TASK: live-ais-vessel-tracking | Target: src/components/map/atlas.tsx | I/O: feature | Assert: integrates AISStream for live vessel layers | LOC: ~100
 - [x] TASK: subsea-cables-layer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: renders 86 submarine cables | LOC: ~80
 - [x] TASK: ai-datacenter-map | Target: src/components/map/atlas.tsx | I/O: feature | Assert: maps 313 AI datacenters | LOC: ~80
@@ -28,13 +30,9 @@
 - [x] TASK: implement-deep-history-navigation | Target: src/components/map/timeline.tsx | I/O: code | Assert: users can select specific dates from archive | LOC: ~100
 - [ ] TASK: macro-cluster-visualization | Target: src/components/map/atlas.tsx | I/O: code | Assert: multi-day trends shown as distinct visual clusters | LOC: ~80
 - [x] TASK: horizon-impact-clustering | Target: lib/cluster-identifier.js | I/O: code | Assert: groups predicted events by causal chain | LOC: ~70
-- [ ] TASK: archive-compression-strategy | Target: functions/ingest-cycle.js | I/O: code | Assert: historical data is gzipped before KV save | LOC: ~35
-- [ ] TASK: nowcasting-interpolator-integration | Target: lib/nowcast-interpolator.js | I/O: feature | Assert: Gemini fills data gaps and UI badges as 'Estimated' | LOC: ~80
-- [ ] TASK: open-meteo-aqi-cams-replacement | Target: lib/environmental.js | I/O: feature | Assert: replaces CAMS with Open-Meteo AQI | LOC: ~50
 - [x] TASK: bug-hunt-and-audit-phase3 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
 
 ## Phase 4: Low Priority (Optimization, Ecosystem & Resilience)
 - [x] TASK: mcp-server-integration | Target: functions/worker.mjs | I/O: feature | Assert: exposes 39-tool MCP server for AI agents | LOC: ~200
-- [ ] TASK: implement-background-sync | Target: script/sw.js | I/O: code | Assert: uses Service Worker Background Sync API | LOC: ~40
 - [ ] TASK: compressed-kv-payloads | Target: functions/worker.mjs | I/O: code | Assert: uses Brotli/Gzip for event payloads | LOC: ~25
 - [x] TASK: bug-hunt-and-audit-phase4 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10

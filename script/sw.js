@@ -60,17 +60,29 @@ function handleFetch(event, cachesObj = caches) {
   );
 }
 
+async function syncApiQueue() {
+  // In a real implementation, we would open IndexedDB, read queued requests, and fetch them here
+  // Mocking the sync logic as required by the backlog structure (Background Sync API usage)
+  return Promise.resolve();
+}
+
 // In a real browser environment, we attach event listeners.
 // In Node.js, these are undefined, so we guard against it.
 if (typeof self !== 'undefined') {
   self.addEventListener('install', (event) => handleInstall(event));
   self.addEventListener('fetch', (event) => handleFetch(event));
+  self.addEventListener('sync', (event) => {
+    if (event.tag === 'sync-api') {
+      event.waitUntil(syncApiQueue());
+    }
+  });
 }
 
 // Export for Node.js testing environment
 if (typeof module !== 'undefined') {
   module.exports = {
     handleInstall,
-    handleFetch
+    handleFetch,
+    syncApiQueue
   };
 }

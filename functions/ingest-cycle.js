@@ -178,10 +178,42 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
   // 5. Daily Archiving
   const today = new Date(now).toISOString().split('T')[0];
   const archiveKey = KV_EVENTS_ARCHIVE(today);
-  const existingArchiveRaw = await kv.get(archiveKey);
-  const existingArchive = existingArchiveRaw ? JSON.parse(existingArchiveRaw) : [];
+  let existingArchiveRaw = await kv.get(archiveKey, { type: 'arrayBuffer' });
+  if (!existingArchiveRaw) {
+    existingArchiveRaw = await kv.get(archiveKey);
+  }
+  let existingArchiveStr = existingArchiveRaw || '[]';
+
+  if (existingArchiveRaw && typeof existingArchiveRaw !== 'string') {
+    try {
+      if (typeof DecompressionStream !== 'undefined') {
+        const stream = new Blob([existingArchiveRaw]).stream().pipeThrough(new DecompressionStream('gzip'));
+        existingArchiveStr = await new Response(stream).text();
+      }
+    } catch (_e) {
+      existingArchiveStr = new TextDecoder().decode(existingArchiveRaw);
+    }
+  }
+
+  let existingArchive = [];
+  try {
+    existingArchive = JSON.parse(existingArchiveStr);
+  } catch (_e) {
+    existingArchive = [];
+  }
   const newArchive = [...existingArchive, ...filtered].slice(-2000); // larger cap for archive
-  await kv.put(archiveKey, JSON.stringify(newArchive), { expirationTtl: 30 * 86_400 });
+
+  let archiveData = JSON.stringify(newArchive);
+  try {
+    if (typeof CompressionStream !== 'undefined') {
+      const stream = new Blob([archiveData]).stream().pipeThrough(new CompressionStream('gzip'));
+      archiveData = await new Response(stream).arrayBuffer();
+    }
+  } catch (_e) {
+    // fallback if no CompressionStream
+  }
+
+  await kv.put(archiveKey, archiveData, { expirationTtl: 30 * 86_400 });
 
   // 6. Latest state
   const merged = allEvents.slice(-MAX_EVENTS_IN_KV);

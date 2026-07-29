@@ -23,6 +23,15 @@ import { runIngestCycle } from '../functions/ingest-cycle.js';
     };
     await runIngestCycle(envFullCoverage, clientsFullCov, async () => 'Synthesized text');
 
+    // Mock CompressionStream for branch coverage
+    globalThis.CompressionStream = class { constructor() {} } as any;
+    globalThis.DecompressionStream = class { constructor() {} } as any;
+
+    await runIngestCycle(envFullCoverage, clientsFullCov, async () => 'Synthesized text');
+
+    delete (globalThis as any).CompressionStream;
+    delete (globalThis as any).DecompressionStream;
+
     // Default Synthesizer test
     const envGeminiStale = {
       CACHE: {

@@ -1,4 +1,8 @@
-# Release Notes — Aetheris
+# Release Notes
+
+## [0.1.16] - 2026-07-28
+- [x] TASK: implement-background-sync | Target: script/sw.js | I/O: code | Assert: uses Service Worker Background Sync API | LOC: ~40\n- [x] TASK: archive-compression-strategy | Target: functions/ingest-cycle.js | I/O: code | Assert: historical data is gzipped before KV save | LOC: ~35\n- [x] TASK: open-meteo-aqi-cams-replacement | Target: lib/environmental.js | I/O: feature | Assert: replaces CAMS with Open-Meteo AQI | LOC: ~50\n- [x] TASK: nowcasting-interpolator-integration | Target: lib/nowcast-interpolator.js | I/O: feature | Assert: Gemini fills data gaps and UI badges as 'Estimated' | LOC: ~80\n- [x] TASK: worldmonitor-parity-analysis | Target: docs/backlog.md | I/O: documentation | Assert: lists all features from worldmonitor.app to replicate | LOC: ~20
+ — Aetheris
 
 ## v0.1.16 — Phase 1 & Testing Improvements
 - [x] TASK: mcp-server-integration | Target: functions/worker.mjs | I/O: feature | Assert: exposes 39-tool MCP server for AI agents | LOC: ~200

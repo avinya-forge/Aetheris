@@ -26,6 +26,9 @@ function testTimeline() {
   const htmlTooltip = renderToStaticMarkup(<Timeline events={events} mockSelectedIndex={0} />);
   assert.ok(htmlTooltip.includes('EVENT 1'), 'Should show tooltip');
 
+  const htmlTooltipEstimated = renderToStaticMarkup(<Timeline events={[{title: 'EVENT 1', interpolated: true}]} mockSelectedIndex={0} />);
+  assert.ok(htmlTooltipEstimated.includes('Estimated'), 'Should show Estimated indicator for interpolated events');
+
 
   // Test date picker
   let _focusSet = '';

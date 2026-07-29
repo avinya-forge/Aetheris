@@ -168,7 +168,7 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = ( _f: string
             animation: 'slide-up 0.3s ease-out'
           }}
         >
-          {events[selectedIndex].title.toUpperCase()}
+          {events[selectedIndex].title.toUpperCase()} {events[selectedIndex].interpolated && <span style={{color: '#ffb400'}}>(Estimated)</span>}
         </div>
       )}
 

@@ -179,17 +179,44 @@ function testServiceWorker() {
 }
 
 
-  let addedEvents = [];
+  let addedEvents: string[] = [];
+  let syncHandler: any = null;
   global.self = {
-      addEventListener: (type) => addedEvents.push(type)
+      addEventListener: (type: string, handler: any) => {
+          addedEvents.push(type);
+          if (type === 'sync') syncHandler = handler;
+      }
   } as any;
   // re-require to execute global scope with self defined
   delete require.cache[require.resolve('../script/sw.js')];
-  require('../script/sw.js');
+  const exported = require('../script/sw.js');
   assert.ok(addedEvents.includes('install'));
   assert.ok(addedEvents.includes('fetch'));
+  assert.ok(addedEvents.includes('sync'));
 
-  testServiceWorker();
+  // Test sync event manually
+  let syncWaitUntilCalled = false;
+  const mockSyncEvent = {
+    tag: 'sync-api',
+    waitUntil: (promise: any) => {
+      syncWaitUntilCalled = true;
+      return promise;
+    }
+  };
+
+  if (syncHandler) {
+    syncHandler(mockSyncEvent);
+    assert.strictEqual(syncWaitUntilCalled, true, 'sync event should call waitUntil when tag is sync-api');
+
+    let wrongTagCalled = false;
+    syncHandler({ tag: 'wrong', waitUntil: () => wrongTagCalled = true });
+    assert.strictEqual(wrongTagCalled, false, 'sync event should not call waitUntil for unknown tags');
+  }
+
+  // Ensure syncApiQueue exports and runs correctly
+  exported.syncApiQueue().then(() => {
+    testServiceWorker();
+  });
 
 
 export {};

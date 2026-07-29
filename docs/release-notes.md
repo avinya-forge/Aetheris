@@ -2,6 +2,7 @@
 
 ## v0.1.16 — Phase 1 & Testing Improvements
 - [x] TASK: mcp-server-integration | Target: functions/worker.mjs | I/O: feature | Assert: exposes 39-tool MCP server for AI agents | LOC: ~200
+- [x] TASK: implement-background-sync | Target: script/sw.js | I/O: code | Assert: uses Service Worker Background Sync API | LOC: ~40
 
 ## v0.1.15 — Additional Layers & Core Features
 - [x] TASK: test-store | Target: tests/store.test.js | I/O: automation | Assert: test tests store initializing | LOC: ~10

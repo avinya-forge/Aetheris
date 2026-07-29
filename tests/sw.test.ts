@@ -1,5 +1,5 @@
 import assert from 'assert';
-const { handleInstall, handleFetch } = require('../script/sw.js');
+const { handleInstall, handleFetch, handleSync } = require('../script/sw.js');
 
 function testServiceWorker() {
 
@@ -173,7 +173,24 @@ function testServiceWorker() {
     fetchEventMiss.promise.catch(err => {
       assert.strictEqual(err.message, 'Network completely offline', 'Should propagate error if both network and cache fail');
       delete global.fetch;
+      runSyncTest();
+    });
+  }
+
+  function runSyncTest() {
+    const syncEvent: any = {
+      tag: 'aetheris-sync',
+      waitUntil(promise: any) {
+        this.promise = promise;
+      }
+    };
+    handleSync(syncEvent);
+    syncEvent.promise.then(() => {
+      assert.ok(true, 'Sync handled');
       console.log('PASS - sw.test.js');
+    }).catch((err: any) => {
+      console.error(err);
+      process.exit(1);
     });
   }
 }
@@ -188,6 +205,7 @@ function testServiceWorker() {
   require('../script/sw.js');
   assert.ok(addedEvents.includes('install'));
   assert.ok(addedEvents.includes('fetch'));
+  assert.ok(addedEvents.includes('sync'));
 
   testServiceWorker();
 

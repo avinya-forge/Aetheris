@@ -60,17 +60,25 @@ function handleFetch(event, cachesObj = caches) {
   );
 }
 
+function handleSync(event) {
+  if (event.tag === 'aetheris-sync') {
+    event.waitUntil(Promise.resolve());
+  }
+}
+
 // In a real browser environment, we attach event listeners.
 // In Node.js, these are undefined, so we guard against it.
 if (typeof self !== 'undefined') {
   self.addEventListener('install', (event) => handleInstall(event));
   self.addEventListener('fetch', (event) => handleFetch(event));
+  self.addEventListener('sync', (event) => handleSync(event));
 }
 
 // Export for Node.js testing environment
 if (typeof module !== 'undefined') {
   module.exports = {
     handleInstall,
-    handleFetch
+    handleFetch,
+    handleSync
   };
 }

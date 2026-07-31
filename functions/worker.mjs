@@ -21,6 +21,34 @@ function json(data, status = 200, extraHeaders = {}) {
   });
 }
 
+function serveCompressed(buffer, status = 200, extraHeaders = {}) {
+  if (!buffer) {
+     return json([], status, extraHeaders);
+  }
+
+  // If buffer is string, it was saved without compression
+  if (typeof buffer === 'string') {
+     return new Response(buffer, {
+        status,
+        headers: {
+           'Content-Type': 'application/json',
+           ...CORS_HEADERS,
+           ...extraHeaders,
+        }
+     });
+  }
+
+  return new Response(buffer, {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Encoding': 'gzip',
+      ...CORS_HEADERS,
+      ...extraHeaders,
+    },
+  });
+}
+
 const MCP_TOOLS = Array.from({ length: 39 }, (_, i) => ({
   name: `aetheris_tool_${i + 1}`,
   description: `Aetheris MCP Tool ${i + 1}`,
@@ -49,10 +77,42 @@ export default {
           key = `events:archive:${dateParam}`;
         }
 
-        const raw = await env.CACHE.get(key);
-        let events = raw ? JSON.parse(raw) : [];
-
         const since = parseInt(url.searchParams.get('since') || '0', 10);
+
+        // Optimize: serve compressed payload directly from KV if no "since" filter
+        if (since <= 0) {
+           const compressedRaw = await env.CACHE.get(key, { type: 'arrayBuffer' });
+           if (compressedRaw) {
+              return serveCompressed(compressedRaw, 200, { 'Cache-Control': 'public, max-age=30' });
+           }
+           return json([], 200, { 'Cache-Control': 'public, max-age=30' });
+        }
+
+        // Slow path: we need to filter
+        const raw = await env.CACHE.get(key, { type: 'arrayBuffer' });
+        let events = [];
+        if (raw) {
+           try {
+              let eventsStr = '';
+              if (typeof raw === 'string') {
+                 eventsStr = raw;
+              } else if (typeof DecompressionStream !== 'undefined' && typeof Response !== 'undefined') {
+                 // Decompression handling for environment
+                 try {
+                     const stream = new Response(raw).body.pipeThrough(new DecompressionStream('gzip'));
+                     eventsStr = await new Response(stream).text();
+                 } catch (e) {
+                     eventsStr = new TextDecoder().decode(raw);
+                 }
+              } else {
+                 eventsStr = new TextDecoder().decode(raw);
+              }
+              events = JSON.parse(eventsStr) || [];
+           } catch(e) {
+              events = [];
+           }
+        }
+
         if (since > 0) {
           events = events.filter(e => e.timestamp > since);
         }

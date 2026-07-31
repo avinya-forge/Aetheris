@@ -82,6 +82,36 @@ function donkiToForecasts(donkiEvents) {
 }
 
 /**
+ * Compress a string to Gzip ArrayBuffer
+ */
+async function compressPayload(dataStr) {
+  if (typeof CompressionStream === 'undefined' || typeof Response === 'undefined') {
+    return dataStr; // Fallback for Node environments lacking Response or CompressionStream
+  }
+  try {
+     const stream = new Response(dataStr).body.pipeThrough(new CompressionStream('gzip'));
+     return await new Response(stream).arrayBuffer();
+  } catch (_e) {
+     return dataStr;
+  }
+}
+
+/**
+ * Decompress a Gzip ArrayBuffer to string
+ */
+async function decompressPayload(buffer) {
+  if (typeof DecompressionStream === 'undefined' || typeof buffer === 'string' || typeof Response === 'undefined') {
+    return buffer; // Fallback
+  }
+  try {
+     const stream = new Response(buffer).body.pipeThrough(new DecompressionStream('gzip'));
+     return await new Response(stream).text();
+  } catch (_e) {
+     return buffer;
+  }
+}
+
+/**
  * Ingest cycle — the core sniffer loop.
  */
 async function runIngestCycle(env, clients = null, synthesizer = null, now = Date.now()) {
@@ -141,8 +171,26 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
   const deduped = deduplicateWires(freshEvents);
   const filtered = filterByImpact(deduped, { minImpactScore: DEFAULT_MIN_IMPACT });
 
-  const existingRaw = await kv.get(KV_EVENTS_LATEST);
-  const existing = existingRaw ? JSON.parse(existingRaw) : [];
+  const existingRaw = await kv.get(KV_EVENTS_LATEST, { type: 'arrayBuffer' });
+  const decompressedExistingRaw = existingRaw ? await decompressPayload(existingRaw) : null;
+
+  // if decompressedExistingRaw is somehow an array buffer instead of string (due to fallback or mock KV), handle it:
+  const existingStr = decompressedExistingRaw instanceof ArrayBuffer ? new TextDecoder().decode(decompressedExistingRaw) : (typeof decompressedExistingRaw === 'string' ? decompressedExistingRaw : null);
+
+  // Handle fallback if previous cache was stored uncompressed (as string)
+  let existing = [];
+  if (existingStr) {
+     try {
+       existing = JSON.parse(existingStr);
+     } catch(_e) {
+       // if we failed, it might be an older string format that wasn't buffer encoded
+       if (typeof existingRaw === 'string') {
+         try { existing = JSON.parse(existingRaw); } catch(_err) {}
+       }
+     }
+  } else if (typeof existingRaw === 'string') {
+     try { existing = JSON.parse(existingRaw); } catch(_err) {}
+  }
 
   const processedExisting = await Promise.all(existing.map(async (e) => {
     if (isStale(e, now)) {
@@ -178,14 +226,29 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
   // 5. Daily Archiving
   const today = new Date(now).toISOString().split('T')[0];
   const archiveKey = KV_EVENTS_ARCHIVE(today);
-  const existingArchiveRaw = await kv.get(archiveKey);
-  const existingArchive = existingArchiveRaw ? JSON.parse(existingArchiveRaw) : [];
+  const existingArchiveRaw = await kv.get(archiveKey, { type: 'arrayBuffer' });
+  const decompressedArchiveRaw = existingArchiveRaw ? await decompressPayload(existingArchiveRaw) : null;
+  const existingArchiveStr = decompressedArchiveRaw instanceof ArrayBuffer ? new TextDecoder().decode(decompressedArchiveRaw) : (typeof decompressedArchiveRaw === 'string' ? decompressedArchiveRaw : null);
+
+  let existingArchive = [];
+  if (existingArchiveStr) {
+     try { existingArchive = JSON.parse(existingArchiveStr); } catch(_e) {
+        if (typeof existingArchiveRaw === 'string') {
+           try { existingArchive = JSON.parse(existingArchiveRaw); } catch(_err) {}
+        }
+     }
+  } else if (typeof existingArchiveRaw === 'string') {
+     try { existingArchive = JSON.parse(existingArchiveRaw); } catch(_err) {}
+  }
+
   const newArchive = [...existingArchive, ...filtered].slice(-2000); // larger cap for archive
-  await kv.put(archiveKey, JSON.stringify(newArchive), { expirationTtl: 30 * 86_400 });
+  const compressedArchive = await compressPayload(JSON.stringify(newArchive));
+  await kv.put(archiveKey, compressedArchive, { expirationTtl: 30 * 86_400 });
 
   // 6. Latest state
   const merged = allEvents.slice(-MAX_EVENTS_IN_KV);
-  await kv.put(KV_EVENTS_LATEST, JSON.stringify(merged), { expirationTtl: 3_600 });
+  const compressedMerged = await compressPayload(JSON.stringify(merged));
+  await kv.put(KV_EVENTS_LATEST, compressedMerged, { expirationTtl: 3_600 });
 
   return { polled, newEvents: filtered.length, clusters: clustered.length, synthesis, safetyWarnings, ghostCards };
 }
@@ -197,4 +260,6 @@ module.exports = {
   KV_EVENTS_LATEST,
   KV_GHOST_CARDS_LATEST,
   MAX_EVENTS_IN_KV,
+  compressPayload,
+  decompressPayload,
 };

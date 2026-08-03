@@ -22,7 +22,7 @@
 - [x] TASK: command-palette-navigation | Target: src/components/ui/command-palette.tsx | I/O: feature | Assert: ⌘K / Ctrl-K opens 154 commands | LOC: ~150
 - [x] TASK: multi-monitor-views | Target: src/components/map/atlas.tsx | I/O: feature | Assert: World, Tech, Finance, Commodity, Energy lenses | LOC: ~150
 - [x] TASK: bug-hunt-and-audit-phase2 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
-- [ ] TASK: ai-analyst-chat | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: provides chat interface over live services with citations | LOC: ~150
+- [x] TASK: ai-analyst-chat | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: provides chat interface over live services with citations | LOC: ~150
 - [ ] TASK: scenario-engine-route-explorer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: allows gaming disruptions before they hit | LOC: ~200
 - [ ] TASK: resilience-map-layer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: shows resilience rankings for countries | LOC: ~100
 

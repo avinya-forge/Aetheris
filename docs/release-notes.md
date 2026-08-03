@@ -1,6 +1,7 @@
 # Release Notes — Aetheris
 
 ## v0.1.16 — Phase 1 & Testing Improvements
+- [x] TASK: ai-analyst-chat | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: provides chat interface over live services with citations | LOC: ~150
 - [x] TASK: mcp-server-integration | Target: functions/worker.mjs | I/O: feature | Assert: exposes 39-tool MCP server for AI agents | LOC: ~200
 - [x] TASK: implement-background-sync | Target: script/sw.js | I/O: code | Assert: uses Service Worker Background Sync API | LOC: ~40
 

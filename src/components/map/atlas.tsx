@@ -22,6 +22,12 @@ const Glyph = ({ type, color }: { type: string, color: string }) => {
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
           </>
         );
+      case 'macro-cluster':
+        return (
+          <>
+            <circle cx="12" cy="12" r="10" strokeDasharray="4 4" />
+          </>
+        );
       case 'weather':
       case 'heatwave':
       case 'regional':
@@ -49,6 +55,12 @@ const Glyph = ({ type, color }: { type: string, color: string }) => {
         return (
           <>
             <path d="M4 12q4 -8 8 0 t8 0" />
+          </>
+        );
+      case 'resilience':
+        return (
+          <>
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </>
         );
       case 'datacenter':
@@ -215,6 +227,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
   const showFallback = mapError || !MAPBOX_TOKEN;
 
   const [selectedEvent, setSelectedEvent] = useState<any>(selectedEventProp);
+  const [scenarioMode, setScenarioMode] = useState(false);
 
   const handleMarkerClick = (event: any, e: any) => {
     if (e && e.originalEvent) e.originalEvent.stopPropagation();
@@ -227,14 +240,14 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
       zoomFiltered = combinedEvents.filter((e: any) =>
         e.type === 'space-weather' ||
         (e.impactScore || 0) >= 60 ||
-        ['conflict', 'trade', 'aurora', 'space-weather', 'vessel', 'cable', 'datacenter', 'jamming', 'satellite'].includes(e.type?.toLowerCase()) ||
-        ['conflict', 'trade', 'aurora', 'space-weather'].includes(e.topic?.toLowerCase())
+        ['conflict', 'trade', 'aurora', 'space-weather', 'vessel', 'cable', 'datacenter', 'jamming', 'satellite', 'resilience'].includes(e.type?.toLowerCase()) ||
+        ['conflict', 'trade', 'aurora', 'space-weather', 'resilience'].includes(e.topic?.toLowerCase())
       );
     } else if (viewState.zoom < 8) {
       zoomFiltered = combinedEvents.filter((e: any) =>
         (e.impactScore || 0) >= 50 ||
-        ['legislative', 'regional', 'weather-front', 'vessel', 'cable', 'datacenter', 'jamming', 'satellite'].includes(e.type?.toLowerCase()) ||
-        ['legislative', 'regional', 'weather-front'].includes(e.topic?.toLowerCase())
+        ['legislative', 'regional', 'weather-front', 'vessel', 'cable', 'datacenter', 'jamming', 'satellite', 'resilience'].includes(e.type?.toLowerCase()) ||
+        ['legislative', 'regional', 'weather-front', 'resilience'].includes(e.topic?.toLowerCase())
       );
     }
 
@@ -249,10 +262,16 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
       zoomFiltered = zoomFiltered.filter((e: any) => ['vessel'].includes(e.type?.toLowerCase()) || ['trade'].includes(e.topic?.toLowerCase()));
     } else if (lensProp === 'Energy') {
       zoomFiltered = zoomFiltered.filter((e: any) => ['cable'].includes(e.type?.toLowerCase()));
+    } else if (lensProp === 'Resilience') {
+      zoomFiltered = zoomFiltered.filter((e: any) => ['resilience'].includes(e.type?.toLowerCase()) || ['resilience'].includes(e.topic?.toLowerCase()));
+    }
+
+    if (scenarioMode) {
+      zoomFiltered = [...zoomFiltered, { id: 'sim-1', type: 'conflict', title: 'Simulated Route Disruption', impactScore: 90, lng: 0, lat: 0, description: 'Gaming disruption.' }];
     }
 
     return zoomFiltered;
-  }, [combinedEvents, viewState.zoom, focus, lensProp]);
+  }, [combinedEvents, viewState.zoom, focus, lensProp, scenarioMode]);
 
   const renderedMarkers = useMemo(() => {
     if (!MapComponents || !MapComponents.Marker) return null;
@@ -272,6 +291,8 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
             height: '24px',
             cursor: 'pointer',
             filter: `drop-shadow(0 0 ${kpIndex > 5 ? kpIndex * 2 : 4}px ${(event.impactScore || 0) >= 60 ? '#ff4b2b' : '#ffb400'})`,
+            boxShadow: event.isMacroCluster ? '0 0 15px 5px rgba(255, 255, 255, 0.4)' : 'none',
+            borderRadius: event.isMacroCluster ? '50%' : '0',
             transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.5s ease',
           }}
           onMouseEnter={(e: any) => e.currentTarget.style.transform = 'scale(1.3)'}
@@ -377,11 +398,10 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
         top: 30,
         left: 30,
         color: 'white',
-        pointerEvents: 'none',
         zIndex: 10,
         textShadow: '0 2px 10px rgba(0,0,0,0.8)'
       }}>
-        <h1 style={{ margin: 0, fontSize: 'clamp(1.2rem, 5vw, 2rem)', letterSpacing: '-1px', fontWeight: 800 }}>AETHERIS</h1>
+        <h1 style={{ margin: 0, fontSize: 'clamp(1.2rem, 5vw, 2rem)', letterSpacing: '-1px', fontWeight: 800, pointerEvents: 'none' }}>AETHERIS</h1>
         <div style={{
           display: 'inline-block',
           marginTop: '12px',
@@ -391,9 +411,27 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
           fontSize: '0.75rem',
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255,255,255,0.1)',
-          letterSpacing: '0.5px'
+          letterSpacing: '0.5px',
+          pointerEvents: 'none',
+          marginRight: '12px'
         }}>
           KP INDEX: <span style={{ fontWeight: 'bold', color: kpIndex >= 5 ? '#ff4b2b' : '#00d2ff' }}>{kpIndex}</span>
+        </div>
+        <div
+          onClick={() => setScenarioMode(!scenarioMode)}
+          style={{
+            display: 'inline-block',
+            marginTop: '12px',
+            padding: '6px 16px',
+            background: scenarioMode ? 'rgba(255, 75, 43, 0.4)' : 'rgba(0,0,0,0.4)',
+            borderRadius: '20px',
+            fontSize: '0.75rem',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            cursor: 'pointer'
+          }}
+        >
+          SCENARIO: {scenarioMode ? 'ON' : 'OFF'}
         </div>
       </div>
 

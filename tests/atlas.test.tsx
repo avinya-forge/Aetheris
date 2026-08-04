@@ -79,6 +79,16 @@ function testAtlas() {
   const worldHtml = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} lensProp="World" initialZoom={10} />);
   assert.ok(worldHtml.includes('Extreme') && worldHtml.includes('Medium') && worldHtml.includes('Datacenter'));
 
+  const resHtml = renderToStaticMarkup(<Atlas events={[{ id: 'r1', type: 'resilience', title: 'R1' }]} mockMapComponents={mockComponents} lensProp="Resilience" initialZoom={10} />);
+  assert.ok(resHtml.includes('R1'));
+
+  const macroHtml = renderToStaticMarkup(<Atlas events={[{ id: 'm1', type: 'macro-cluster', isMacroCluster: true, title: 'M1' }]} mockMapComponents={mockComponents} initialZoom={10} />);
+  assert.ok(macroHtml.includes('M1'));
+  assert.ok(macroHtml.includes('rgba(255, 255, 255, 0.4)'));
+
+  const scenarioHtml = renderToStaticMarkup(<Atlas events={[]} mockMapComponents={mockComponents} initialZoom={10} />);
+  assert.ok(scenarioHtml.includes('SCENARIO: OFF'));
+
   // Zoom 10 (all events)
   const htmlZoomIn = renderToStaticMarkup(<Atlas events={events} mockMapComponents={mockComponents} initialZoom={10} />);
   assert.ok(htmlZoomIn.includes('Extreme') && htmlZoomIn.includes('Medium') && htmlZoomIn.includes('News'));

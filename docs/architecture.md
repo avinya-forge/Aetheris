@@ -188,9 +188,9 @@ Free Public APIs
 | :--- | :--- | :--- |
 | Predictive Hallucination | Logic-based only: `patternMatchId` + `isSpeculative: false` gate | Implemented |
 | Signal-to-Noise | `minImpactScore` user threshold + `impact-filter.js` | Implemented |
-| Data Latency (6h gaps) | Nowcasting interpolator: Gemini fills gaps, badges as "Estimated" | Planned (Phase 2) |
+| Data Latency (6h gaps) | Nowcasting interpolator: Gemini fills gaps, badges as "Estimated" | Implemented |
 | Mapbox cost at scale | Free tier sufficient for beta (50 users); re-evaluate post-beta | Planned |
-| CAMS (registration wall) | Replace with Open-Meteo AQI + UV index endpoints | Planned (Phase 2) |
+| CAMS (registration wall) | Replace with Open-Meteo AQI + UV index endpoints | Implemented |
 | CF Worker `export default` | Module workers natively require a default export for CF | Exceptional constraint applied |
 
 ---

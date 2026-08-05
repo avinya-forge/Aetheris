@@ -1,6 +1,6 @@
 {
   "name": "aetheris",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Temporal Intelligence & Environmental Sentinel — zero-cost PWA on Cloudflare edge",
   "private": true,
   "engines": {
@@ -33,7 +33,7 @@
     "tsx": "^4.22.3",
     "typescript": "^6.0.3",
     "vite": "^8.0.8",
-    "wrangler": "^4.100.0"
+    "wrangler": "^4.35.0"
   },
   "keywords": [
     "temporal-intelligence",
@@ -49,8 +49,8 @@
   },
   "dependencies": {
     "mapbox-gl": "^3.24.0",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-map-gl": "^8.1.1",
     "ws": "^8.21.0"
   }

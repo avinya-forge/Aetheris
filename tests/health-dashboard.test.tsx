@@ -83,7 +83,8 @@ function testHealthDashboard() {
   // So the fetch resolution skips the setMarketData block!
 
   // Test success WITHOUT immediate cleanup
-  let _cleanup1 = loadMarketData((data: any) => md = data);
+  let _md2: any = null;
+  let _cleanup1 = loadMarketData((data: any) => _md2 = data);
   // cleanup1(); // do not clean up immediately so fetch branch executes
 
   // Test loadMarketData - failure

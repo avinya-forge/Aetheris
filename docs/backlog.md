@@ -5,6 +5,7 @@
 ---
 
 ## 🚨 Critical Tech Debt & Active Bugs
+- [x] TASK: bug-fix-market-data-mock-race-condition | Target: src/components/ui/health-dashboard.tsx | I/O: test/bugfix | Assert: ensure the useEffect mock properly resolves on init | LOC: ~20
 ---
 
 ## Phase 1: High Priority (Vision Alignment & Core Integrity)

@@ -1,6 +1,9 @@
 # Release Notes — Aetheris
 
 ## v0.1.22 — Phase 5 Deployment Features
+- [x] TASK: beta-invite-code-gate | Target: src/components/ui/invite-gate.tsx | I/O: feature | Assert: requires hashed invite code from localStorage before viewing dashboard | LOC: ~120
+- [x] TASK: safety-sentinel-ui-alerts | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: shows rational warnings for temp >= 40C or wind >= 100km/h | LOC: ~150
+- [x] TASK: cloudflare-cron-ingest | Target: wrangler.toml | I/O: config | Assert: sets 1-minute cron trigger for ingest-cycle | LOC: ~30
 - [x] TASK: bug-fix-market-data-mock-race-condition | Target: src/components/ui/health-dashboard.tsx | I/O: test/bugfix | Assert: ensure the useEffect mock properly resolves on init | LOC: ~20
 
 ## v0.1.16 — Phase 1 & Testing Improvements

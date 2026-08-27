@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 export const loadMarketData = (setMarketData: any) => {
     let isMounted = true;
@@ -131,10 +131,22 @@ export const AIAnalystChat = ({ initialMessages = [] }: any) => {
   );
 };
 
-const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMarketData = null }: any) => {
+const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMarketData = null, environmentalData = null }: any) => {
   const [marketData, setMarketData] = useState<any>(initialMarketData);
 
   useEffect(() => loadMarketData(setMarketData), []);
+
+  const safetyWarning = useMemo(() => {
+    if (!environmentalData) return null;
+    if (typeof environmentalData.temperature === 'number') {
+      if (environmentalData.temperature >= 40) return `HEATWAVE ALERT: ${environmentalData.temperature}°C detected. Seek cooling.`;
+      if (environmentalData.temperature <= -10) return `FREEZE WARNING: ${environmentalData.temperature}°C detected. Seek shelter.`;
+    }
+    if (typeof environmentalData.windSpeed === 'number' && environmentalData.windSpeed >= 100) {
+      return `STORM WARNING: Wind ${environmentalData.windSpeed}km/h detected. Take cover.`;
+    }
+    return null;
+  }, [environmentalData]);
 
   return (
     <div
@@ -155,6 +167,22 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
         minWidth: '180px'
       }}
     >
+      {safetyWarning && (
+        <div style={{
+          background: 'rgba(255, 75, 43, 0.25)',
+          border: '1px solid #ff4b2b',
+          borderRadius: '8px',
+          padding: '8px 10px',
+          marginBottom: '12px',
+          color: '#ff6b4a',
+          fontSize: '0.7rem',
+          fontWeight: 'bold',
+          letterSpacing: '0.5px'
+        }}>
+          ⚠️ {safetyWarning}
+        </div>
+      )}
+
       <div style={{
         fontWeight: 'bold',
         marginBottom: '12px',

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Atlas } from './components/map/atlas';
 import { HealthDashboard } from './components/ui/health-dashboard';
 import { CommandPalette } from './components/ui/command-palette';
+import { InviteGate } from './components/ui/invite-gate';
 import { fetchEvents } from './lib/events-service';
 import { getGhostCards } from './lib/ghost-card-service';
 import { useTemporalStore } from './lib/store';
@@ -57,17 +58,19 @@ const App = () => {
   }, [focus]); // Trigger reload when switching between Past/Present/Horizon
 
   return (
-    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
-      <Atlas
-        events={events}
-        ghostCards={ghostCards}
-        kpIndex={kpIndex}
-        focus={focus}
-        onFocusChange={updateFocus}
-      />
-      <HealthDashboard metrics={metrics} />
-      <CommandPalette />
-    </div>
+    <InviteGate>
+      <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
+        <Atlas
+          events={events}
+          ghostCards={ghostCards}
+          kpIndex={kpIndex}
+          focus={focus}
+          onFocusChange={updateFocus}
+        />
+        <HealthDashboard metrics={metrics} />
+        <CommandPalette />
+      </div>
+    </InviteGate>
   );
 };
 

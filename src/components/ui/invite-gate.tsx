@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // Default hashed invite code representation (e.g. hash of "AETHERIS2025")
 const VALID_HASH = '8f3d4a2b';
@@ -37,7 +37,7 @@ export const InviteGate = ({ onUnlocked, children }: { onUnlocked?: () => void, 
   const [code, setCode] = useState('');
   const [error, setError] = useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isUnlocked && onUnlocked) {
       onUnlocked();
     }
@@ -87,7 +87,7 @@ export const InviteGate = ({ onUnlocked, children }: { onUnlocked?: () => void, 
           RESTRICTED BETA ACCESS
         </div>
 
-        <h2 style={{ margin: '0 0 16px 0', fontSize: '1.8rem', fontWeight 800, letterSpacing: '-0.5px' }}>
+        <h2 style={{ margin: '0 0 16px 0', fontSize: '1.8rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
           AETHERIS
         </h2>
 

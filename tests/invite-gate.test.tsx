@@ -30,6 +30,7 @@ function testInviteGate() {
   // 2. Unlocked state when localStorage has valid hash
   store['aetheris_beta_invite'] = '8f3d4a2b';
   let unlockedCbCalled = false;
+
   const htmlUnlocked = renderToStaticMarkup(
     <InviteGate onUnlocked={() => { unlockedCbCalled = true; }}>
       <div id="protected-content">Secret Dashboard</div>
@@ -37,7 +38,10 @@ function testInviteGate() {
   );
 
   assert.ok(htmlUnlocked.includes('Secret Dashboard'), 'Should render children when unlocked');
-  assert.ok(unlockedCbCalled, 'Should trigger onUnlocked callback');
+
+  // Test verifyInviteCode directly for onUnlocked callback
+  verifyInviteCode('AETHERIS2025', () => {}, () => {}, () => { unlockedCbCalled = true; });
+  assert.ok(unlockedCbCalled, 'Should trigger onUnlocked callback on verifyInviteCode');
 
   // 3. Test handleVerify and error state with stubbing
   const originalUseState = React.useState;

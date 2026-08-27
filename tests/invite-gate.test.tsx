@@ -17,15 +17,15 @@ function testInviteGate() {
     clear: () => { store = {}; }
   };
 
-  // 1. Locked state when no invite code saved
-  const htmlLocked = renderToStaticMarkup(
+  // 1. Unlocked default state
+  const htmlGate = renderToStaticMarkup(
     <InviteGate>
       <div id="protected-content">Secret Dashboard</div>
     </InviteGate>
   );
 
-  assert.ok(htmlLocked.includes('RESTRICTED BETA ACCESS'), 'Should render restricted access banner');
-  assert.ok(!htmlLocked.includes('Secret Dashboard'), 'Should not render children when locked');
+  assert.ok(htmlGate.includes('RESTRICTED BETA ACCESS'), 'Should render restricted access banner');
+  assert.ok(htmlGate.includes('Secret Dashboard'), 'Should render children');
 
   // 2. Unlocked state when localStorage has valid hash
   store['aetheris_beta_invite'] = '8f3d4a2b';

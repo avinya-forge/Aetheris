@@ -1,5 +1,10 @@
 # Release Notes — Aetheris
 
+## v0.1.23 — Text-Only Intelligence Dashboard & Category Engine
+- [x] TASK: text-only-category-taxonomy | Target: docs/vision.md | I/O: documentation | Assert: updates vision and category matrix | LOC: ~20
+- [x] TASK: news-brief-category-mapping | Target: lib/news-mapper.js | I/O: logic | Assert: maps news articles to <=30 word factual briefs and categories | LOC: ~30
+- [x] TASK: text-dashboard-category-filters | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: adds category tabs (Global, Markets, Environment, Local, Classifieds) and multi-location selection | LOC: ~150
+
 ## v0.1.22 — Phase 5 Deployment Features
 - [x] TASK: beta-invite-code-gate | Target: src/components/ui/invite-gate.tsx | I/O: feature | Assert: requires hashed invite code from localStorage before viewing dashboard | LOC: ~120
 - [x] TASK: safety-sentinel-ui-alerts | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: shows rational warnings for temp >= 40C or wind >= 100km/h | LOC: ~150

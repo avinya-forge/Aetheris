@@ -26,6 +26,10 @@ export const loadMarketData = (setMarketData: any) => {
     return () => { isMounted = false; };
 };
 
+export const handleCategoryClick = (catId: string, onCategoryChange: any) => {
+  if (onCategoryChange) onCategoryChange(catId);
+};
+
 export const handleSendLogic = (input: string, setMessages: any, setInput: any, setTimeoutFn: any = setTimeout) => {
     if (!input.trim()) return;
     const userMsg = { role: 'user', content: input };
@@ -131,10 +135,19 @@ export const AIAnalystChat = ({ initialMessages = [] }: any) => {
   );
 };
 
-const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMarketData = null, environmentalData = null }: any) => {
+const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMarketData = null, environmentalData = null, activeCategory = 'all', onCategoryChange = null }: any) => {
   const [marketData, setMarketData] = useState<any>(initialMarketData);
 
   useEffect(() => loadMarketData(setMarketData), []);
+
+  const categories = [
+    { id: 'all', label: 'All' },
+    { id: 'global', label: 'Global' },
+    { id: 'markets', label: 'Markets' },
+    { id: 'environment', label: 'Env' },
+    { id: 'local', label: 'Local' },
+    { id: 'classifieds', label: 'Classifieds' }
+  ];
 
   const safetyWarning = useMemo(() => {
     if (!environmentalData) return null;
@@ -197,6 +210,27 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
         <div style={{ width: '8px', height: '8px', background: '#00ff88', borderRadius: '50%', boxShadow: '0 0 8px #00ff88' }} />
         System Pulse
       </div>
+      <div style={{ display: 'flex', gap: '4px', marginBottom: '12px', flexWrap: 'wrap' }}>
+        {categories.map(cat => (
+          <button
+            key={cat.id}
+            onClick={() => handleCategoryClick(cat.id, onCategoryChange)}
+            style={{
+              background: activeCategory === cat.id ? 'rgba(0, 210, 255, 0.25)' : 'rgba(255,255,255,0.05)',
+              border: activeCategory === cat.id ? '1px solid #00d2ff' : '1px solid rgba(255,255,255,0.1)',
+              color: activeCategory === cat.id ? '#00d2ff' : '#aaa',
+              borderRadius: '6px',
+              padding: '2px 6px',
+              fontSize: '0.65rem',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
           <span style={{ opacity: 0.7 }}>Latency</span>

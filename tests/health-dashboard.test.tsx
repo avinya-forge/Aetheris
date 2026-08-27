@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { HealthDashboard, loadMarketData, AIAnalystChat, handleSendLogic } from '../src/components/ui/health-dashboard';
+import { HealthDashboard, loadMarketData, AIAnalystChat, handleSendLogic, handleCategoryClick } from '../src/components/ui/health-dashboard';
 
 function testHealthDashboard() {
   console.log('Testing HealthDashboard component...');
@@ -63,11 +63,17 @@ function testHealthDashboard() {
   }
 
   const metrics = { latency: 120, signalToNoise: 95 };
-  const html = renderToStaticMarkup(<HealthDashboard metrics={metrics} />);
+  let categoryTriggered = false;
+  const html = renderToStaticMarkup(<HealthDashboard metrics={metrics} activeCategory="global" onCategoryChange={() => { categoryTriggered = true; }} />);
 
   assert.ok(html.includes('120ms'), 'Should show latency');
   assert.ok(html.includes('95%'), 'Should show signal to noise ratio');
   assert.ok(html.includes('System Pulse'), 'Should show System Pulse');
+  assert.ok(html.includes('Global'), 'Should render Global category tab');
+
+  // Directly test handleCategoryClick function
+  handleCategoryClick('global', () => { categoryTriggered = true; });
+  assert.ok(categoryTriggered, 'Should trigger category change');
 
   // Test Safety Sentinel UI warning
   const htmlWarning = renderToStaticMarkup(<HealthDashboard metrics={metrics} environmentalData={{ temperature: 42 }} />);

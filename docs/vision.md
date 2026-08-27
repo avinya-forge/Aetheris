@@ -1,6 +1,15 @@
-# Aetheris: Temporal Intelligence & Environmental Sentinel
+# Aetheris: Text-Only Global-to-Local Intelligence Sentinel
 
-> **North Star**: To eliminate "Information Fatigue" by replacing sensationalist news feeds with a high-integrity **Temporal Intelligence Engine**. Aetheris traverses the "Pulse" of time—from historical macro-trends to real-time physics and logic-based probability cones—using primary sources to predict cascading impacts on safety and society.
+> **North Star**: To eliminate "Information Fatigue" and clutter by providing an AI-driven, hyper-personalized, strictly text-only global-to-local intelligence dashboard. Aetheris traverses real-time feeds—from macro geopolitical news and financial markets to local community alerts and severe weather—summarizing complex events into concise 30-word factual briefs without clutter, stock photos, or graphical media.
+
+---
+
+## Category Taxonomy
+1. **Global & National:** Geopolitics, National Politics, Macroeconomics, Global Conflicts.
+2. **Financial & Markets:** Equities, Forex, Commodities, Crypto, Corporate Earnings (text tickers).
+3. **Environment & Disasters:** Earthquakes, Wildfires, Severe Weather, Meteorological Alerts.
+4. **Local & Community:** Municipal Updates, Regional Safety, Local Affairs.
+5. **Classifieds & Lifestyle:** Automotive Listings, Real Estate Briefs, Culture, Sports trackers (text-only).
 
 ---
 

@@ -1,6 +1,24 @@
-# Aetheris: Temporal Intelligence & Environmental Sentinel
+# Aetheris: Text-Only Real-Time Global-to-Local Intelligence Sentinel
 
-> **North Star**: To eliminate "Information Fatigue" by replacing sensationalist news feeds with a high-integrity **Temporal Intelligence Engine**. Aetheris traverses the "Pulse" of time—from historical macro-trends to real-time physics and logic-based probability cones—using primary sources to predict cascading impacts on safety and society.
+> **North Star**: To eliminate "Information Fatigue", sensationalism, and visual clutter by deploying an automated network of multi-source scrapers and AI simplification models to deliver a strictly text-only global-to-local intelligence dashboard. Aetheris extracts, normalizes, and condenses verbose news articles into precise, one-liner factual briefs (≤30 words) that convey exact intent, serving real-time feeds while building a zero-cost, structured JSON historical archive.
+
+---
+
+## 1. Core Architecture & Automated Data Network
+- **Automated Web Ingestion Network**: Continuously scrapes and parses data from a wide matrix of primary sources—news syndicates, official APIs, public feeds, and wire services.
+- **AI Simplification & Intent Extraction**: Applies lightweight AI models to strip away sensationalist filler, reducing lengthy articles to concise ≤30-word one-liners that deliver the exact core meaning.
+- **Zero-Cost Historical Data Store**: Organizes extracted, high-quality event briefs into compressed, structured daily JSON records (`events:archive:YYYY-MM-DD`) serving as a zero-cost permanent historical archive.
+- **Strictly Text-Only Display**: Zero stock photos, video players, or visual clutter. Data, market tickers, and alerts are presented exclusively via clean, structured typography.
+- **Real-Time Country Targeting**: Enables instant filtering for a single country or global macro feeds across all categories.
+
+---
+
+## 2. Multi-Domain Category Taxonomy
+1. **Global & National:** Geopolitics, National Politics, Macroeconomics, Global Conflicts/Wars.
+2. **Financial & Markets:** Equities, Forex, Commodities, Crypto, Corporate Earnings (text-based tickers).
+3. **Environment & Disasters:** Earthquakes, Wildfires, Severe Weather Systems, Meteorological Alerts.
+4. **Local & Community:** Municipal Updates, Regional Crimes, Local Safety & Affairs.
+5. **Classifieds & Lifestyle:** Automotive Listings, Real Estate Briefs, Culture, Sports Updates (text-only).
 
 ---
 

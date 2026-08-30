@@ -8,6 +8,12 @@ try {
   assert.strictEqual(mappedArt.impactScore, 10, 'news-mapper.test.js: value mismatch');
   assert.strictEqual(mappedArt.source, 'gdelt', 'news-mapper.test.js: value mismatch');
 
+  // Test category categorization branches
+  assert.strictEqual(mapGdeltArticle({ title: 'stock market crash', domain: 'finance.com' }).category, 'markets');
+  assert.strictEqual(mapGdeltArticle({ title: 'severe storm weather warning' }).category, 'environment');
+  assert.strictEqual(mapGdeltArticle({ title: 'local city council police update' }).category, 'local');
+  assert.strictEqual(mapGdeltArticle({ title: 'auto sports property estate' }).category, 'classifieds');
+
 } catch (err) {
   console.error('FAIL - news-mapper.test.js:', err);
   process.exit(1);

@@ -228,6 +228,7 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
 
   const [selectedEvent, setSelectedEvent] = useState<any>(selectedEventProp);
   const [scenarioMode, setScenarioMode] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<string>('ALL');
 
   const handleMarkerClick = (event: any, e: any) => {
     if (e && e.originalEvent) e.originalEvent.stopPropagation();
@@ -266,12 +267,21 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
       zoomFiltered = zoomFiltered.filter((e: any) => ['resilience'].includes(e.type?.toLowerCase()) || ['resilience'].includes(e.topic?.toLowerCase()));
     }
 
+    if (selectedCountry && selectedCountry !== 'ALL') {
+      zoomFiltered = zoomFiltered.filter((e: any) =>
+        e.country === selectedCountry ||
+        e.countryCode === selectedCountry ||
+        e.location?.toLowerCase().includes(selectedCountry.toLowerCase()) ||
+        e.title?.toLowerCase().includes(selectedCountry.toLowerCase())
+      );
+    }
+
     if (scenarioMode) {
       zoomFiltered = [...zoomFiltered, { id: 'sim-1', type: 'conflict', title: 'Simulated Route Disruption', impactScore: 90, lng: 0, lat: 0, description: 'Gaming disruption.' }];
     }
 
     return zoomFiltered;
-  }, [combinedEvents, viewState.zoom, focus, lensProp, scenarioMode]);
+  }, [combinedEvents, viewState.zoom, focus, lensProp, scenarioMode, selectedCountry]);
 
   const renderedMarkers = useMemo(() => {
     if (!MapComponents || !MapComponents.Marker) return null;
@@ -428,11 +438,37 @@ const Atlas = ({ events = [], ghostCards = [], kpIndex = 0, mapErrorProp = false
             fontSize: '0.75rem',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(255,255,255,0.1)',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            marginRight: '12px'
           }}
         >
           SCENARIO: {scenarioMode ? 'ON' : 'OFF'}
         </div>
+
+        <select
+          value={selectedCountry}
+          onChange={(e) => setSelectedCountry(e.target.value)}
+          style={{
+            display: 'inline-block',
+            marginTop: '12px',
+            padding: '6px 12px',
+            background: 'rgba(0,0,0,0.6)',
+            color: '#00d2ff',
+            borderRadius: '20px',
+            fontSize: '0.75rem',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0,210,255,0.3)',
+            outline: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          <option value="ALL">Global (All Countries)</option>
+          <option value="US">United States</option>
+          <option value="UK">United Kingdom</option>
+          <option value="JP">Japan</option>
+          <option value="DE">Germany</option>
+          <option value="IN">India</option>
+        </select>
       </div>
 
       <div style={{

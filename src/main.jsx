@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Atlas } from './components/map/atlas';
 import { HealthDashboard } from './components/ui/health-dashboard';
 import { CommandPalette } from './components/ui/command-palette';
+import { InviteGate } from './components/ui/invite-gate';
 import { fetchEvents } from './lib/events-service';
 import { getGhostCards } from './lib/ghost-card-service';
 import { useTemporalStore } from './lib/store';
@@ -11,6 +12,7 @@ const App = () => {
   const [events, setEvents] = useState([]);
   const [ghostCards, setGhostCards] = useState([]);
   const [kpIndex, setKpIndex] = useState(0);
+  const [category, setCategory] = useState('all');
   const [metrics, setMetrics] = useState({ latency: 0, signalToNoise: 0 });
   const { focus, updateFocus } = useTemporalStore();
   const refreshInterval = useRef(null);
@@ -56,18 +58,28 @@ const App = () => {
     };
   }, [focus]); // Trigger reload when switching between Past/Present/Horizon
 
+  const filteredEvents = category === 'all'
+    ? events
+    : events.filter(e => e.category === category || e.type === category || e.topic === category);
+
   return (
-    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
-      <Atlas
-        events={events}
-        ghostCards={ghostCards}
-        kpIndex={kpIndex}
-        focus={focus}
-        onFocusChange={updateFocus}
-      />
-      <HealthDashboard metrics={metrics} />
-      <CommandPalette />
-    </div>
+    <InviteGate>
+      <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
+        <Atlas
+          events={filteredEvents}
+          ghostCards={ghostCards}
+          kpIndex={kpIndex}
+          focus={focus}
+          onFocusChange={updateFocus}
+        />
+        <HealthDashboard
+          metrics={metrics}
+          activeCategory={category}
+          onCategoryChange={setCategory}
+        />
+        <CommandPalette />
+      </div>
+    </InviteGate>
   );
 };
 

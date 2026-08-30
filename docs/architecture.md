@@ -3,6 +3,19 @@
 ## Core Architecture: The "Pulse" Time-Axis
 Users do not scroll; they **traverse** a 3D-mapped timeline.
 
+## Engineering Accomplishments & Architecture Overview
+This section outlines key technical accomplishments across the Aetheris platform:
+
+- **AI-Driven Extractive Summarization**: Built `lib/extractive-synthesis.js` and `lib/news-mapper.js` using LLM synthesis to strip sensationalism and condense long-form multi-domain news into concise ≤30-word factual briefs.
+- **Automated Web Ingestion & Multi-Domain Classification**: Built automated mappers and background edge ingestion pipelines (`functions/worker.mjs` & Cloudflare cron triggers) categorizing feeds across Global, Financial Markets, Environmental Hazards, Local Affairs, and Classifieds.
+- **Real-Time Country & Category Filters**: Integrated interactive single-country targeting and category filtering across `src/components/map/atlas.tsx` and `src/components/ui/health-dashboard.tsx`.
+- **Orbital Propagation & Real-Time Tracking**: Engineered mathematical SGP4 satellite tracking in `src/lib/sgp4.js` and live vessel tracking via WebSocket streams (`wss://stream.aisstream.io/v0/stream`) in `src/lib/ais-stream.js`.
+- **Zero-Cost Permanent Historical Archive**: Implemented daily structured JSON historical archiving (`events:archive:YYYY-MM-DD`) backed by compressed Cloudflare Workers KV payloads (`CompressionStream('gzip')`).
+- **Resilient Beta Access Gate**: Built `InviteGate` modal (`src/components/ui/invite-gate.tsx`) utilizing hashed `localStorage` verification to protect beta dashboard access.
+- **Strict Text-Only UI Guarantee**: Enforced zero stock photos, zero video players, and zero graphical chart clutter, rendering all intelligence feeds using clean typography and text UI components.
+
+---
+
 ## Component Mapping Status
 | Component | Status ([BUILT] / [PLANNED] / [GAP]) | Notes |
 | :--- | :--- | :--- |

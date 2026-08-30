@@ -1,15 +1,22 @@
-# Aetheris: Text-Only Global-to-Local Intelligence Sentinel
+# Aetheris: Text-Only Real-Time Global-to-Local Intelligence Sentinel
 
-> **North Star**: To eliminate "Information Fatigue" and clutter by providing an AI-driven, hyper-personalized, strictly text-only global-to-local intelligence dashboard. Aetheris traverses real-time feeds—from macro geopolitical news and financial markets to local community alerts and severe weather—summarizing complex events into concise 30-word factual briefs without clutter, stock photos, or graphical media.
+> **North Star**: To eliminate "Information Fatigue", sensationalism, and visual clutter by providing an AI-driven, strictly text-only global-to-local intelligence dashboard. Aetheris aggregates multi-domain data streams—from macro geopolitical news and financial markets to local community alerts and severe weather—condensing verbose articles into concise, one-liner factual briefs (≤30 words) with real-time single-country and global filtering.
 
 ---
 
-## Category Taxonomy
-1. **Global & National:** Geopolitics, National Politics, Macroeconomics, Global Conflicts.
-2. **Financial & Markets:** Equities, Forex, Commodities, Crypto, Corporate Earnings (text tickers).
-3. **Environment & Disasters:** Earthquakes, Wildfires, Severe Weather, Meteorological Alerts.
-4. **Local & Community:** Municipal Updates, Regional Safety, Local Affairs.
-5. **Classifieds & Lifestyle:** Automotive Listings, Real Estate Briefs, Culture, Sports trackers (text-only).
+## 1. Core Principles & Zero-Media Guarantee
+- **Strictly Text-Only**: Zero stock photos, embedded video players, or graphical chart clutter anywhere in the UI or outputs. Data, tickers, and alerts are rendered purely via clean, structured typography and text UI components.
+- **Signal-First Briefs**: Articles beating around the bush are reduced to their core meaning—a single 30-word max factual brief synthesized by lightweight AI models.
+- **Real-Time Country Targeting**: Users can focus instantly on real-time news for a single country (e.g. US, UK, JP, DE, IN) or traverse global macro feeds.
+
+---
+
+## 2. Multi-Domain Category Taxonomy
+1. **Global & National:** Geopolitics, National Politics, Macroeconomics, Global Conflicts/Wars.
+2. **Financial & Markets:** Equities, Forex, Commodities, Crypto, Corporate Earnings (text-based tickers).
+3. **Environment & Disasters:** Earthquakes, Wildfires, Severe Weather Systems, Meteorological Alerts.
+4. **Local & Community:** Municipal Updates, Regional Crimes, Local Safety & Affairs.
+5. **Classifieds & Lifestyle:** Automotive Listings, Real Estate Briefs, Culture, Sports Updates (text-only).
 
 ---
 

@@ -1,13 +1,15 @@
 # Aetheris: Text-Only Real-Time Global-to-Local Intelligence Sentinel
 
-> **North Star**: To eliminate "Information Fatigue", sensationalism, and visual clutter by providing an AI-driven, strictly text-only global-to-local intelligence dashboard. Aetheris aggregates multi-domain data streams—from macro geopolitical news and financial markets to local community alerts and severe weather—condensing verbose articles into concise, one-liner factual briefs (≤30 words) with real-time single-country and global filtering.
+> **North Star**: To eliminate "Information Fatigue", sensationalism, and visual clutter by deploying an automated network of multi-source scrapers and AI simplification models to deliver a strictly text-only global-to-local intelligence dashboard. Aetheris extracts, normalizes, and condenses verbose news articles into precise, one-liner factual briefs (≤30 words) that convey exact intent, serving real-time feeds while building a zero-cost, structured JSON historical archive.
 
 ---
 
-## 1. Core Principles & Zero-Media Guarantee
-- **Strictly Text-Only**: Zero stock photos, embedded video players, or graphical chart clutter anywhere in the UI or outputs. Data, tickers, and alerts are rendered purely via clean, structured typography and text UI components.
-- **Signal-First Briefs**: Articles beating around the bush are reduced to their core meaning—a single 30-word max factual brief synthesized by lightweight AI models.
-- **Real-Time Country Targeting**: Users can focus instantly on real-time news for a single country (e.g. US, UK, JP, DE, IN) or traverse global macro feeds.
+## 1. Core Architecture & Automated Data Network
+- **Automated Web Ingestion Network**: Continuously scrapes and parses data from a wide matrix of primary sources—news syndicates, official APIs, public feeds, and wire services.
+- **AI Simplification & Intent Extraction**: Applies lightweight AI models to strip away sensationalist filler, reducing lengthy articles to concise ≤30-word one-liners that deliver the exact core meaning.
+- **Zero-Cost Historical Data Store**: Organizes extracted, high-quality event briefs into compressed, structured daily JSON records (`events:archive:YYYY-MM-DD`) serving as a zero-cost permanent historical archive.
+- **Strictly Text-Only Display**: Zero stock photos, video players, or visual clutter. Data, market tickers, and alerts are presented exclusively via clean, structured typography.
+- **Real-Time Country Targeting**: Enables instant filtering for a single country or global macro feeds across all categories.
 
 ---
 

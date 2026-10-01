@@ -1,5 +1,8 @@
 # Release Notes — Aetheris
 
+## v0.1.24 — Continuous Skill Orchestration & Quality Verification
+- [x] TASK: automated-skill-analyzer-runner | Target: lib/skill-analyzer.js | I/O: feature | Assert: systematically executes and validates all repository skills across codebase | LOC: ~160
+
 ## v0.1.23 — Text-Only Intelligence Dashboard & Category Engine
 - [x] TASK: text-only-category-taxonomy | Target: docs/vision.md | I/O: documentation | Assert: updates vision and category matrix | LOC: ~20
 - [x] TASK: news-brief-category-mapping | Target: lib/news-mapper.js | I/O: logic | Assert: maps news articles to <=30 word factual briefs and categories | LOC: ~30

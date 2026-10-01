@@ -9,8 +9,8 @@ if (!fs.existsSync(backlogPath)) {
 }
 
 const content = fs.readFileSync(backlogPath, 'utf8');
-const pending = (content.match(/\[ \] TASK/g) || []).length;
-const completed = (content.match(/\[x\] TASK/g) || []).length;
+const pending = (content.match(/^[ \t]*- \[ \] TASK/gm) || []).length;
+const completed = (content.match(/^[ \t]*- \[x\] TASK/gm) || []).length;
 
 console.log('Project Status: Aetheris');
 console.log('------------------------');

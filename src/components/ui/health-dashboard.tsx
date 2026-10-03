@@ -168,10 +168,10 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
         position: 'absolute',
         top: 20,
         right: 20,
-        background: 'rgba(0,0,0,0.6)',
+        background: 'rgba(10,10,12,0.85)',
         backdropFilter: 'blur(12px)',
         padding: '15px 20px',
-        borderRadius: '16px',
+        borderRadius: '8px',
         color: 'white',
         fontSize: '0.8rem',
         border: '1px solid rgba(255,255,255,0.1)',
@@ -263,7 +263,7 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
           <div style={{ fontWeight: 'bold', marginBottom: '8px', opacity: 0.6, fontSize: '0.65rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
             Market Pulse
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px 16px' }}>
             {Object.entries(marketData).map(([key, val]) => (
               <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                 <span style={{ opacity: 0.7 }}>{key}</span>

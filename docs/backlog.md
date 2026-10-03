@@ -54,3 +54,8 @@
 
 ## Phase 7: Continuous Skill Orchestration & Quality Verification
 - [x] TASK: automated-skill-analyzer-runner | Target: lib/skill-analyzer.js | I/O: feature | Assert: systematically executes and validates all repository skills across codebase | LOC: ~160
+
+## Phase 8: UI Overhaul & Refresh
+- [x] TASK: refine-health-dashboard-ui | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: implements a sharper, text-only 2-column grid layout for Market Pulse and tightens padding | LOC: ~50
+- [x] TASK: refine-atlas-overlay-ui | Target: src/components/map/atlas.tsx | I/O: feature | Assert: modernizes the title and filter overlays with matching translucent background styles and spacing | LOC: ~40
+- [x] TASK: bug-hunt-and-audit-phase8 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10

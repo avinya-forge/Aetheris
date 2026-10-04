@@ -15,7 +15,8 @@
     "build": "vite build",
     "worker:dev": "npx wrangler dev --local",
     "worker:deploy": "npx wrangler deploy",
-    "ingest": "npx tsx script/ingest.js"
+    "ingest": "npx tsx script/ingest.js",
+    "lint": "eslint . --fix"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

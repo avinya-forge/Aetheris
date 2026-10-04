@@ -12,8 +12,8 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "jsx": "react",
-    "types": ["node"]
+    "types": ["node", "vite/client"]
   },
-  "include": ["lib/**/*", "tests/**/*", "script/**/*", "functions/**/*", "src/**/*"],
+  "include": ["lib/**/*", "tests/**/*", "script/**/*", "functions/**/*", "src/**/*", "vite-env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

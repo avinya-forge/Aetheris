@@ -164,6 +164,7 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
   return (
     <div
       className="health-dashboard"
+      key="health-dashboard"
       style={{
         position: 'absolute',
         top: 20,
@@ -268,7 +269,7 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
               <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                 <span style={{ opacity: 0.7 }}>{key}</span>
                 <span style={{ color: '#00d2ff', fontWeight: 'bold', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                  {key === 'BTC' || key === 'Gold' || key === 'SPX' ? '$' : ''}{val}
+                  {key === 'BTC' || key === 'Gold' || key === 'SPX' ? '$' : ''}{val as any}
                 </span>
               </div>
             ))}

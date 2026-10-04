@@ -46,10 +46,10 @@ function testAisStream() {
             }
           }
         })
-      });
+      } as any);
 
       // Ignore malformed
-      client.ws.onmessage({ data: '{' });
+      client.ws.onmessage({ data: '{' } as any);
     }
 
     unsubscribe();

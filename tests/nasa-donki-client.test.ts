@@ -12,9 +12,9 @@ function makeFetcher(body, status = 200) {
 
     // --- buildUrl ---
     const url = buildUrl('CME', apiKey, date);
-    assert.ok(url.includes('api.nasa.gov', 'nasa-donki-client.test.ts: ok failure'), 'must point to nasa.gov');
-    assert.ok(url.includes('api_key=TEST_KEY', 'nasa-donki-client.test.ts: ok failure'), 'API key must be in URL');
-    assert.ok(url.includes('startDate=2026-04-10', 'nasa-donki-client.test.ts: ok failure'), 'startDate must be in URL');
+    assert.ok(url.includes('api.nasa.gov', 'nasa-donki-client.test.ts: ok failure' as any), 'must point to nasa.gov');
+    assert.ok(url.includes('api_key=TEST_KEY', 'nasa-donki-client.test.ts: ok failure' as any), 'API key must be in URL');
+    assert.ok(url.includes('startDate=2026-04-10', 'nasa-donki-client.test.ts: ok failure' as any), 'startDate must be in URL');
 
     // --- fetchEventType ---
     const rawEvents = [{ activityID: 'cme-1', startTime: '2026-04-10T05:00Z', note: 'test' }];
@@ -32,7 +32,7 @@ function makeFetcher(body, status = 200) {
       return { ok: true, json: async () => [{ activityID: 'x' }] };
     };
     const now = Date.parse('2026-04-11T00:00:00Z');
-    const all = await fetchNasaDonki(apiKey, multiFetcher, now);
+    const all = await fetchNasaDonki(apiKey, multiFetcher as any, now);
     assert.strictEqual(callCount, EVENT_TYPES.length, 'must call fetch for each event type');
     assert.ok(all['CME'], 'result must have CME key');
 

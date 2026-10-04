@@ -66,9 +66,9 @@ export const InviteGate = ({ onUnlocked, children }: { onUnlocked?: () => void, 
           }}
         >
           <div style={{
-            background: 'rgba(255, 255, 255, 0.04)',
+            background: 'rgba(10, 10, 12, 0.85)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '24px',
+            borderRadius: '8px',
             padding: '40px',
             width: '90%',
             maxWidth: '400px',
@@ -102,9 +102,9 @@ export const InviteGate = ({ onUnlocked, children }: { onUnlocked?: () => void, 
                 onKeyDown={(e) => e.key === 'Enter' && handleVerify()}
                 placeholder="INVITE CODE"
                 style={{
-                  background: 'rgba(0, 0, 0, 0.5)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   border: error ? '1px solid #ff4b2b' : '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '12px',
+                  borderRadius: '6px',
                   padding: '12px 16px',
                   color: 'white',
                   fontSize: '0.9rem',
@@ -125,7 +125,7 @@ export const InviteGate = ({ onUnlocked, children }: { onUnlocked?: () => void, 
                 style={{
                   background: 'linear-gradient(135deg, #00d2ff, #0072ff)',
                   border: 'none',
-                  borderRadius: '12px',
+                  borderRadius: '6px',
                   padding: '12px',
                   color: 'white',
                   fontWeight: 700,

@@ -25,19 +25,19 @@ function makeFetcher(body, status = 200) {
 
     // --- fetchNoaaSwpc (combined) ---
     let callCount = 0;
-    const dualFetcher = async (url) => {
+    const dualFetcher = async (url: any) => {
       callCount++;
       if (url.includes('planetary_k_index')) {
         return { ok: true, json: async () => [{ time_tag: 't', kp_index: 5 }] };
       }
       return { ok: true, json: async () => [{ time_tag: 't', proton_speed: 400, density: 8 }] };
     };
-    const combined = await fetchNoaaSwpc(dualFetcher);
+    const combined: any = await fetchNoaaSwpc(dualFetcher as any);
     assert.strictEqual(combined.kp[0].kp_index, 5, 'noaa-swpc-client.test.js strictEqual failed');
     assert.strictEqual(combined.wind[0].proton_speed, 400, 'noaa-swpc-client.test.js strictEqual failed');
     assert.strictEqual(callCount, 2, 'must call both endpoints');
 
-    assert.ok(NOAA_KP_URL.includes('swpc.noaa.gov', 'noaa-swpc-client.test.ts: ok failure'), 'URL must point to swpc.noaa.gov');
+    assert.ok(NOAA_KP_URL.includes('swpc.noaa.gov'), 'URL must point to swpc.noaa.gov');
 
   } catch (err) {
     console.error('FAIL - noaa-swpc-client.test.js:', err.message);

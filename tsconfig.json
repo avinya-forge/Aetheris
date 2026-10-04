@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "ignoreDeprecations": "6.0",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "strict": false,
@@ -12,8 +12,8 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "jsx": "react",
-    "types": ["node"]
+    "types": ["node", "vite/client"]
   },
-  "include": ["lib/**/*", "tests/**/*", "script/**/*", "functions/**/*", "src/**/*"],
+  "include": ["lib/**/*", "tests/**/*", "script/**/*", "functions/**/*", "src/**/*", "vite-env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

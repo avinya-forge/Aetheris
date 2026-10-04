@@ -9,11 +9,11 @@ const GhostCard = ({ event = {} }: any) => {
       className="ghost-card"
       style={{
         opacity: Math.max(0.6, likelihood),
-        background: 'rgba(20, 20, 20, 0.4)',
+        background: 'rgba(10, 10, 12, 0.85)',
         backdropFilter: 'blur(16px)',
         border: '1px solid rgba(255,255,255,0.08)',
         padding: '14px 16px',
-        borderRadius: '16px',
+        borderRadius: '8px',
         color: 'white',
         width: '220px',
         fontSize: '0.9rem',
@@ -25,12 +25,12 @@ const GhostCard = ({ event = {} }: any) => {
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateX(12px) scale(1.02)';
-        e.currentTarget.style.background = 'rgba(40, 40, 40, 0.6)';
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
         e.currentTarget.style.borderColor = 'rgba(0, 210, 255, 0.4)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateX(0) scale(1)';
-        e.currentTarget.style.background = 'rgba(20, 20, 20, 0.4)';
+        e.currentTarget.style.background = 'rgba(10, 10, 12, 0.85)';
         e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
       }}
     >

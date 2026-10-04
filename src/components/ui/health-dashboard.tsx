@@ -77,7 +77,7 @@ export const AIAnalystChat = ({ initialMessages = [] }: any) => {
           <div key={idx} style={{
             background: msg.role === 'user' ? 'rgba(0, 210, 255, 0.1)' : 'rgba(255,255,255,0.05)',
             padding: '6px 10px',
-            borderRadius: '8px',
+            borderRadius: '6px',
             fontSize: '0.75rem',
             color: msg.role === 'user' ? '#fff' : '#ccc'
           }}>
@@ -106,7 +106,7 @@ export const AIAnalystChat = ({ initialMessages = [] }: any) => {
           placeholder="Ask Analyst..."
           style={{
             flex: 1,
-            background: 'rgba(0,0,0,0.4)',
+            background: 'rgba(255,255,255,0.05)',
             border: '1px solid rgba(255,255,255,0.2)',
             borderRadius: '6px',
             padding: '6px 10px',
@@ -168,10 +168,10 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
         position: 'absolute',
         top: 20,
         right: 20,
-        background: 'rgba(0,0,0,0.6)',
+        background: 'rgba(10, 10, 12, 0.85)',
         backdropFilter: 'blur(12px)',
         padding: '15px 20px',
-        borderRadius: '16px',
+        borderRadius: '8px',
         color: 'white',
         fontSize: '0.8rem',
         border: '1px solid rgba(255,255,255,0.1)',
@@ -184,7 +184,7 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
         <div style={{
           background: 'rgba(255, 75, 43, 0.25)',
           border: '1px solid #ff4b2b',
-          borderRadius: '8px',
+          borderRadius: '6px',
           padding: '8px 10px',
           marginBottom: '12px',
           color: '#ff6b4a',

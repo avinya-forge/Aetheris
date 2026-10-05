@@ -64,11 +64,11 @@ function testAtlas() {
   assert.ok(techHtml.includes('Datacenter') && techHtml.includes('Cable') && techHtml.includes('Jamming') && techHtml.includes('Satellite'));
   assert.ok(!techHtml.includes('Extreme') && !techHtml.includes('Medium'));
 
-  const finHtml = renderToStaticMarkup(<Atlas events={[{ id: 'f1', title: 'TradeEvent', topic: 'trade' }]} mockMapComponents={mockComponents} lensProp="Finance" initialZoom={10} />);
+  const finHtml = renderToStaticMarkup(<Atlas events={[{ id: 'f1', lng: 0, lat: 0, title: 'TradeEvent', impactScore: 50, type: 'finance', topic: 'trade' } as any]} mockMapComponents={mockComponents} lensProp="Finance" initialZoom={10} />);
   assert.ok(finHtml.includes('TradeEvent'));
   assert.ok(!finHtml.includes('Datacenter'));
 
-  const commHtml = renderToStaticMarkup(<Atlas events={events.concat([{ id: 'c1', title: 'TradeTopic', topic: 'trade' }])} mockMapComponents={mockComponents} lensProp="Commodity" initialZoom={10} />);
+  const commHtml = renderToStaticMarkup(<Atlas events={events.concat([{ id: 'c1', lng: 0, lat: 0, title: 'TradeTopic', impactScore: 50, type: 'commodity', topic: 'trade' } as any])} mockMapComponents={mockComponents} lensProp="Commodity" initialZoom={10} />);
   assert.ok(commHtml.includes('Vessel') && commHtml.includes('TradeTopic'));
   assert.ok(!commHtml.includes('Datacenter'));
 

@@ -44,7 +44,7 @@ try {
   assert.strictEqual(ranked[1].id, 'gdelt', 'gdelt second (1.11× overdue)');
 
   // Empty list → empty result
-  assert.deepStrictEqual(rankSources([], NOW, 'source-ranker.test.ts: deepStrictEqual failure'), [], 'empty meta → empty rank');
+  assert.deepStrictEqual(rankSources([] as any, NOW), [], 'empty meta → empty rank');
 
 } catch (err) {
   console.error('FAIL - source-ranker.test.js:', err.message);

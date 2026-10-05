@@ -71,7 +71,7 @@ export const CommandPalette = () => {
         style={{
           width: '100%',
           maxWidth: '600px',
-          backgroundColor: '#1a1a1a',
+          backgroundColor: 'rgba(10, 10, 12, 0.85)',
           borderRadius: '8px',
           boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
           overflow: 'hidden',
@@ -119,7 +119,7 @@ export const CommandPalette = () => {
                   cursor: 'pointer',
                   fontSize: '14px'
                 }}
-                onMouseOver={e => e.currentTarget.style.backgroundColor = '#2a2a2a'}
+                onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'}
                 onMouseOut={e => e.currentTarget.style.backgroundColor = 'transparent'}
                 onClick={() => handleCommandSelect(cmd, setIsOpen, setQuery)}
               >

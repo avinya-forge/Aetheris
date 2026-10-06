@@ -68,12 +68,11 @@ export const InviteGate = ({ onUnlocked, children }: { onUnlocked?: () => void, 
           <div style={{
             background: 'rgba(10, 10, 12, 0.85)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '8px',
+            borderRadius: '6px',
             padding: '40px',
             width: '90%',
             maxWidth: '400px',
-            textAlign: 'center',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.6)'
+            textAlign: 'center'
           }}>
             <div style={{
               fontSize: '0.75rem',

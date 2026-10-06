@@ -72,8 +72,7 @@ export const CommandPalette = () => {
           width: '100%',
           maxWidth: '600px',
           backgroundColor: 'rgba(10, 10, 12, 0.85)',
-          borderRadius: '8px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+          borderRadius: '6px',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
@@ -84,6 +83,7 @@ export const CommandPalette = () => {
       >
         <div style={{ padding: '16px', borderBottom: '1px solid #333' }}>
           <input
+            aria-label="Command search"
             autoFocus
             type="text"
             placeholder="Type a command or search..."

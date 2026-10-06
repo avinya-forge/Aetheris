@@ -100,6 +100,7 @@ export const AIAnalystChat = ({ initialMessages = [] }: any) => {
       </div>
       <div style={{ display: 'flex', gap: '6px' }}>
         <input
+          aria-label="Ask Analyst"
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSend()}
@@ -116,6 +117,7 @@ export const AIAnalystChat = ({ initialMessages = [] }: any) => {
           }}
         />
         <button
+          aria-label="Send Message"
           onClick={handleSend}
           style={{
             background: '#00d2ff',
@@ -172,13 +174,13 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
         background: 'rgba(10, 10, 12, 0.85)',
         backdropFilter: 'blur(12px)',
         padding: '15px 20px',
-        borderRadius: '8px',
+        borderRadius: '6px',
         color: 'white',
         fontSize: '0.8rem',
         border: '1px solid rgba(255,255,255,0.1)',
         zIndex: 100,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-        minWidth: '180px'
+        minWidth: '180px',
+        containerType: 'inline-size'
       }}
     >
       {safetyWarning && (
@@ -208,12 +210,13 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
         alignItems: 'center',
         gap: '6px'
       }}>
-        <div style={{ width: '8px', height: '8px', background: '#00ff88', borderRadius: '50%', boxShadow: '0 0 8px #00ff88' }} />
+        <div style={{ width: '8px', height: '8px', background: '#00ff88', borderRadius: '50%' }} />
         System Pulse
       </div>
       <div style={{ display: 'flex', gap: '4px', marginBottom: '12px', flexWrap: 'wrap' }}>
         {categories.map(cat => (
           <button
+            aria-label={cat.label}
             key={cat.id}
             onClick={() => handleCategoryClick(cat.id, onCategoryChange)}
             style={{

@@ -4,6 +4,7 @@ import { Atlas } from './components/map/atlas';
 import { HealthDashboard } from './components/ui/health-dashboard';
 import { CommandPalette } from './components/ui/command-palette';
 import { InviteGate } from './components/ui/invite-gate';
+import { DeveloperBio } from './components/ui/developer-bio';
 import { fetchEvents } from './lib/events-service';
 import { getGhostCards } from './lib/ghost-card-service';
 import { useTemporalStore } from './lib/store';
@@ -77,6 +78,7 @@ const App = () => {
           activeCategory={category}
           onCategoryChange={setCategory}
         />
+        <DeveloperBio />
         <CommandPalette />
       </div>
     </InviteGate>

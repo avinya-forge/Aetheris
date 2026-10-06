@@ -13,14 +13,13 @@ const GhostCard = ({ event = {} }: any) => {
         backdropFilter: 'blur(16px)',
         border: '1px solid rgba(255,255,255,0.08)',
         padding: '14px 16px',
-        borderRadius: '8px',
+        borderRadius: '6px',
         color: 'white',
         width: '220px',
         fontSize: '0.9rem',
         transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         cursor: 'pointer',
         position: 'relative',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
         overflow: 'hidden'
       }}
       onMouseEnter={e => {

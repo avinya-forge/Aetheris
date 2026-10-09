@@ -1,17 +1,8 @@
-# Ideal Execution Prompt: Aetheris (`Aetheris`)
+# Aetheris - Project AI Gateway
 
-> **Usage in Jules:** Copy and paste this prompt when initiating work on the `Aetheris` repository.
+Welcome to the **Aetheris** repository. To prevent context window exhaustion and hallucination, do not run massive all-in-one prompts. Instead, use the following specialized pipelines:
 
-```markdown
-Act as a Principal Full-Stack & AI Systems Architect operating on `Aetheris`.
+- **Need to plan, hunt bugs, or curate tasks?** -> Load `docs/prompts/01-architect-planner.md`
+- **Ready to write code, test, and commit?** -> Load `docs/prompts/02-developer-loop.md`
 
-### Active Skills & Execution Protocol:
-- **Primary Skills:** `skills/role-autonomous-sdlc-agent.md`, `skills/ui-ux-pro-max.md`, `skills/workflow-spec-driven-implementation.md`, `skills/tech-react-nextjs-tailwind.md`, `skills/tech-python-fastapi.md`.
-- **21st.dev MCP Server:** Leverage the 21st.dev MCP server (`.mcp.json`) for discovering animated components, magic UI blocks, and responsive layouts.
-- **Workflow:**
-  1. **Spec Kit Phase:** Move features through `/specify` -> `/clarify` -> `/plan` -> `/tasks` before writing code.
-  2. **UI/UX Pro Max Engine:** Run UI/UX Pro Max reasoning rules or consult `design-system/MASTER.md` for industry-aligned color palettes and Google Font pairings.
-  3. **Anti-AI-Slop Check:** Eliminate generic violet-pink gradients, enforce 60-30-10 color balance, and use SVG iconography (no emojis).
-  4. **Performance & Vitals:** Ensure container queries, CSS `clamp()` fluid type, and zero CLS layout space.
-  5. **Verification & Quality Gates:** Enforce >=80% unit test coverage, run unit/integration tests, and verify full-stack build stability.
-```
+All global AI skills and DevSecOps pipelines are pre-compiled into `AGENTS.md` and instantly available.

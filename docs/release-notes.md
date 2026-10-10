@@ -1,5 +1,30 @@
 # Release Notes — Aetheris
 
+## v0.1.25 — UI/UX Modernization & Core Updates
+- [x] TASK: ui-ux-text-focused-redesign | Target: src/components/ | I/O: feature | Assert: implement text-focused modern UI removing visual clutter | LOC: ~200
+- [x] TASK: ui-ux-audit-and-bug-identification | Target: codebase | I/O: audit | Assert: identify and log UI layout and typography bugs | LOC: ~50
+- [x] TASK: ui-ux-modernize-command-palette | Target: src/components/ui/command-palette.tsx | I/O: feature | Assert: update styles to dark slate translucent backgrounds and 6-8px border radius | LOC: ~50
+- [x] TASK: ui-ux-modernize-health-dashboard | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: update styles to dark slate translucent backgrounds and 6-8px border radius | LOC: ~100
+- [x] TASK: ui-ux-modernize-invite-gate | Target: src/components/ui/invite-gate.tsx | I/O: feature | Assert: update styles to dark slate translucent backgrounds and 6-8px border radius | LOC: ~30
+- [x] TASK: bug-hunt-and-audit-phase1 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: recurring-coverage-audit | Target: script/test.js | I/O: automation | Assert: gate fails if any file < 95% | LOC: ~20
+- [x] TASK: bug-hunt-and-audit-phase2 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: bug-hunt-and-audit-phase3 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: archive-compression-strategy | Target: functions/ingest-cycle.js | I/O: code | Assert: historical data is gzipped before KV save | LOC: ~35
+- [x] TASK: nowcasting-interpolator-integration | Target: lib/nowcast-interpolator.js | I/O: feature | Assert: Gemini fills data gaps and UI badges as 'Estimated' | LOC: ~80
+- [x] TASK: open-meteo-aqi-cams-replacement | Target: lib/environmental.js | I/O: feature | Assert: replaces CAMS with Open-Meteo AQI | LOC: ~50
+- [x] TASK: bug-hunt-and-audit-phase4 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: compressed-kv-payloads | Target: functions/worker.mjs | I/O: code | Assert: uses Brotli/Gzip for event payloads | LOC: ~25
+- [x] TASK: bug-hunt-and-audit-phase5 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: beta-invite-code-gate | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: requires hashed invite code from localStorage before viewing dashboard | LOC: ~120
+- [x] TASK: bug-hunt-and-audit-phase6 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: bug-hunt-and-audit-phase7 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: bug-hunt-and-audit-phase8 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: ui-update-typography-scale | Target: src/components/ | I/O: feature | Assert: update typography scale to match text-only modern standards | LOC: ~100
+- [x] TASK: accessibility-a11y-verification | Target: src/components/ | I/O: feature | Assert: ensure ARIA labels and semantic HTML are flawless across all components | LOC: ~100
+- [x] TASK: developer-presence-route | Target: src/components/ui/ | I/O: feature | Assert: implement a developer bio and links to github following UI Developer Bio skill | LOC: ~100
+- [x] TASK: bug-hunt-and-audit-phase9 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+
 ## v0.1.24 — Continuous Skill Orchestration & Quality Verification
 - [x] TASK: automated-skill-analyzer-runner | Target: lib/skill-analyzer.js | I/O: feature | Assert: systematically executes and validates all repository skills across codebase | LOC: ~160
 

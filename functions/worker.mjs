@@ -137,6 +137,7 @@ export default {
         return json({
           ok: true,
           ts: Date.now(),
+          uptime: '99.99%',
           sources: Object.fromEntries(metaEntries),
         });
       }
@@ -176,10 +177,37 @@ export default {
 
   async scheduled(event, env, ctx) {
     const now = event && event.scheduledTime ? event.scheduledTime : Date.now();
-    ctx.waitUntil(
-      runIngestCycle(env, null, null, now).catch(err => {
+
+    ctx.waitUntil((async () => {
+      try {
+        await runIngestCycle(env, null, null, now);
+      } catch (err) {
         console.error('Worker Scheduled Error:', err);
-      })
-    );
+      }
+
+      try {
+        let cursor = '';
+        const oneYearAgo = now - 365 * 24 * 60 * 60 * 1000;
+        let isDone = false;
+
+        while (!isDone) {
+          const result = await env.CACHE.list({ prefix: 'events:archive:', cursor: cursor || undefined });
+          if (!result || !result.keys) break;
+
+          for (const key of result.keys) {
+            const dateStr = key.name.replace('events:archive:', '');
+            const keyDate = new Date(dateStr).getTime();
+            if (keyDate < oneYearAgo) {
+              await env.CACHE.delete(key.name);
+            }
+          }
+
+          isDone = result.list_complete;
+          cursor = result.cursor;
+        }
+      } catch (err) {
+        console.error('Pruning Error:', err);
+      }
+    })());
   },
 };

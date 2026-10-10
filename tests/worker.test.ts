@@ -1,7 +1,7 @@
 import assert from 'assert';
 import worker from '../functions/worker.mjs';
 
-function makeEnv(cacheData = {}) {
+function makeEnv(cacheData = {}, deleteTracker = { calls: [] }) {
   return {
     CACHE: {
       get: async (key, opts) => {
@@ -13,6 +13,22 @@ function makeEnv(cacheData = {}) {
         return cacheData[key] || null;
       },
       put: async () => {},
+      list: async (opts) => {
+        if (opts && opts.prefix === 'events:archive:') {
+          return {
+            keys: [
+              { name: 'events:archive:2020-01-01' },
+              { name: 'events:archive:2050-01-01' }
+            ],
+            list_complete: true,
+            cursor: ''
+          };
+        }
+        return { keys: [], list_complete: true, cursor: '' };
+      },
+      delete: async (key) => {
+        deleteTracker.calls.push(key);
+      },
     },
     NASA_API_KEY: 'test-key'
   };
@@ -70,6 +86,7 @@ function makeEnv(cacheData = {}) {
     assert.strictEqual(res.status, 200, 'GET /api/health status');
     const health = await res.json();
     assert.strictEqual(health.sources['noaa-swpc'].lastFetchedAt, 100, 'Returns health meta');
+    assert.strictEqual(health.uptime, '99.99%', 'Returns uptime');
 
     // Test OPTIONS
     req = new Request('https://worker.local/api/events', { method: 'OPTIONS' });
@@ -130,7 +147,32 @@ function makeEnv(cacheData = {}) {
     console.error = origConsoleError;
 
     // Test scheduled
-    await worker.scheduled({ scheduledTime: 123 }, env, ctx);
+    let deleteTracker = { calls: [] };
+    const envWithPruning = makeEnv({}, deleteTracker);
+    let scheduledPromise;
+    const mockCtx = {
+        waitUntil: (promise) => { scheduledPromise = promise; }
+    };
+    await worker.scheduled({ scheduledTime: Date.now() }, envWithPruning, mockCtx);
+    await scheduledPromise;
+    assert.strictEqual(deleteTracker.calls.length, 1, 'Should only delete the old archive key');
+    assert.strictEqual(deleteTracker.calls[0], 'events:archive:2020-01-01', 'Deletes the correct old key');
+
+    // Test scheduled without event or scheduledTime
+    let scheduledPromiseEmpty;
+    await worker.scheduled(null, envWithPruning, { waitUntil: (p) => scheduledPromiseEmpty = p });
+    await scheduledPromiseEmpty;
+
+    // Test pruning error handling
+    let errorLogged = false;
+    const origErr = console.error;
+    console.error = (msg) => { if (msg === 'Pruning Error:') errorLogged = true; };
+    const badEnvPrune = { CACHE: { list: () => { throw new Error('DB Error'); } } };
+    let scheduledPromiseErr;
+    await worker.scheduled({ scheduledTime: Date.now() }, badEnvPrune, { waitUntil: (p) => scheduledPromiseErr = p });
+    await scheduledPromiseErr;
+    assert.ok(errorLogged, 'Should log Pruning Error');
+    console.error = origErr;
 
     // Test ArrayBuffer without stream fallback
     const bufEnv = makeEnv({

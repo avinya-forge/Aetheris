@@ -2,21 +2,21 @@ import React from 'react';
 
 export const DeveloperBio = () => {
   return (
-    <div
+    <div className="glass-panel"
       style={{
         position: 'absolute',
         bottom: 20,
         left: 20,
-        background: 'rgba(10, 10, 12, 0.85)',
-        backdropFilter: 'blur(12px)',
         padding: '15px 20px',
         borderRadius: '6px',
         color: 'white',
         fontSize: '0.8rem',
-        border: '1px solid rgba(255,255,255,0.1)',
         zIndex: 100,
+        width: '300px',
         maxWidth: '300px',
-        fontFamily: 'system-ui, sans-serif'
+        fontFamily: 'system-ui, sans-serif',
+        containerType: 'inline-size',
+        containerName: 'dev-bio'
       }}
     >
       <div style={{
@@ -38,7 +38,7 @@ export const DeveloperBio = () => {
         Aetheris is an AI-driven, strictly text-only real-time global-to-local intelligence sentinel dashboard designed to eliminate information fatigue.
       </p>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div className="dev-bio-links" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <a
           href="https://linkedin.com"
           target="_blank"

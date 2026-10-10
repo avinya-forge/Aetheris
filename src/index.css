@@ -1,0 +1,100 @@
+:root {
+  /* Fluid Typography */
+  --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+  --font-size-sm: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
+  --font-size-xs: clamp(0.6rem, 0.55rem + 0.15vw, 0.7rem);
+  --font-size-lg: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  --font-size-xl: clamp(1.5rem, 1.3rem + 1vw, 2.5rem);
+  --font-size-2xl: clamp(2rem, 1.8rem + 1.5vw, 3rem);
+
+  /* Precise Line Heights */
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+}
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1a1a1a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+  line-height: var(--line-height-tight);
+  margin-top: 0;
+}
+
+p {
+  text-wrap: pretty;
+  line-height: var(--line-height-normal);
+}
+
+/* Base styles to be applied via classes to components */
+.text-fluid-base { font-size: var(--font-size-base); }
+.text-fluid-sm { font-size: var(--font-size-sm); }
+.text-fluid-xs { font-size: var(--font-size-xs); }
+.text-fluid-lg { font-size: var(--font-size-lg); }
+.text-fluid-xl { font-size: var(--font-size-xl); }
+
+/* Glassmorphism Classes for re-use */
+.glass-panel {
+  background: rgba(10, 10, 12, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
+}
+
+/* Container query rules */
+@container health-dash (max-width: 250px) {
+  .health-dash-stats {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@container timeline (max-width: 400px) {
+  .timeline-event-content {
+    display: none;
+  }
+  .timeline-time-label {
+    font-size: var(--font-size-xs);
+  }
+}
+
+@container ghost-card (max-width: 150px) {
+  .ghost-card-title {
+    font-size: var(--font-size-sm);
+  }
+  .ghost-card-percentage {
+    display: none;
+  }
+}
+
+@container dev-bio (max-width: 200px) {
+  .dev-bio-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

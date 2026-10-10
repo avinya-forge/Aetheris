@@ -8,6 +8,7 @@ import { DeveloperBio } from './components/ui/developer-bio';
 import { fetchEvents } from './lib/events-service';
 import { getGhostCards } from './lib/ghost-card-service';
 import { useTemporalStore } from './lib/store';
+import './index.css';
 
 const App = () => {
   const [events, setEvents] = useState([]);

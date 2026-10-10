@@ -194,22 +194,20 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
 
   return (
     <div
-      className="health-dashboard"
+      className="health-dashboard glass-panel"
       key="health-dashboard"
       style={{
         position: 'absolute',
         top: 20,
         right: 20,
-        background: 'rgba(10, 10, 12, 0.85)',
-        backdropFilter: 'blur(12px)',
         padding: '15px 20px',
         borderRadius: '6px',
         color: 'white',
         fontSize: '0.8rem',
-        border: '1px solid rgba(255,255,255,0.1)',
         zIndex: 100,
         minWidth: '180px',
-        containerType: 'inline-size'
+        containerType: 'inline-size',
+        containerName: 'health-dash'
       }}
     >
       {safetyWarning && (
@@ -242,7 +240,7 @@ const HealthDashboard = ({ metrics = { latency: 0, signalToNoise: 0 }, initialMa
         <div style={{ width: '8px', height: '8px', background: '#00ff88', borderRadius: '50%' }} />
         System Pulse
       </div>
-      <div style={{ display: 'flex', gap: '4px', marginBottom: '12px', flexWrap: 'wrap' }}>
+      <div className="health-dash-stats" style={{ display: 'flex', gap: '4px', marginBottom: '12px', flexWrap: 'wrap' }}>
         {categories.map(cat => (
           <button
             aria-label={cat.label}

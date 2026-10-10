@@ -6,12 +6,9 @@ const GhostCard = ({ event = {} }: any) => {
 
   return (
     <div
-      className="ghost-card"
+      className="ghost-card glass-panel"
       style={{
         opacity: Math.max(0.6, likelihood),
-        background: 'rgba(10, 10, 12, 0.85)',
-        backdropFilter: 'blur(16px)',
-        border: '1px solid rgba(255,255,255,0.08)',
         padding: '14px 16px',
         borderRadius: '6px',
         color: 'white',
@@ -20,7 +17,9 @@ const GhostCard = ({ event = {} }: any) => {
         transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         cursor: 'pointer',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        containerType: 'inline-size',
+        containerName: 'ghost-card'
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateX(12px) scale(1.02)';
@@ -44,11 +43,11 @@ const GhostCard = ({ event = {} }: any) => {
         <div style={{ fontSize: '0.6rem', textTransform: 'uppercase', opacity: 0.4, letterSpacing: '1px', fontWeight: 600 }}>
           Horizon Pattern
         </div>
-        <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#00d2ff', fontFamily: 'monospace' }}>
+        <div className="ghost-card-percentage" style={{ fontSize: '0.8rem', fontWeight: 800, color: '#00d2ff', fontFamily: 'monospace' }}>
           {percentage}%
         </div>
       </div>
-      <div style={{ fontWeight: 700, letterSpacing: '-0.3px', fontSize: '0.95rem', lineHeight: '1.2' }}>{title}</div>
+      <div className="ghost-card-title" style={{ fontWeight: 700, letterSpacing: '-0.3px', fontSize: '0.95rem', lineHeight: '1.2' }}>{title}</div>
       <div style={{ marginTop: '12px', width: '100%', height: '2px', background: 'rgba(255,255,255,0.05)', borderRadius: '1px', overflow: 'hidden' }}>
         <div style={{ width: `${percentage}%`, height: '100%', background: 'linear-gradient(90deg, #00d2ff, #3a7bd5)', borderRadius: '1px', transition: 'width 1s ease-in-out' }} />
       </div>

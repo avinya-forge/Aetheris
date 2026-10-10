@@ -65,14 +65,12 @@ export const InviteGate = ({ onUnlocked, children }: { onUnlocked?: () => void, 
             fontFamily: 'system-ui, sans-serif'
           }}
         >
-          <div style={{
-            background: 'rgba(10, 10, 12, 0.85)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '6px',
+          <div className="glass-panel" style={{
             padding: '40px',
             width: '90%',
             maxWidth: '400px',
-            textAlign: 'center'
+            textAlign: 'center',
+            borderRadius: '6px'
           }}>
             <div style={{
               fontSize: '0.75rem',

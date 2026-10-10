@@ -37,32 +37,61 @@
 - [x] TASK: beta-invite-code-gate | Target: src/components/ui/invite-gate.tsx | I/O: feature | Assert: requires hashed invite code from localStorage before viewing dashboard | LOC: ~120
 - [x] TASK: safety-sentinel-ui-alerts | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: shows rational warnings for temp >= 40C or wind >= 100km/h | LOC: ~150
 - [x] TASK: cloudflare-cron-ingest | Target: wrangler.toml | I/O: config | Assert: sets 1-minute cron trigger for ingest-cycle | LOC: ~30
+## v0.1.25 — UI/UX Modernization, Bug Fixes & Expansions
 - [x] TASK: bug-fix-market-data-mock-race-condition | Target: src/components/ui/health-dashboard.tsx | I/O: test/bugfix | Assert: ensure the useEffect mock properly resolves on init | LOC: ~20
-
-## v0.1.16 — Phase 1 & Testing Improvements
-- [x] TASK: ai-analyst-chat | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: provides chat interface over live services with citations | LOC: ~150
-- [x] TASK: mcp-server-integration | Target: functions/worker.mjs | I/O: feature | Assert: exposes 39-tool MCP server for AI agents | LOC: ~200
-- [x] TASK: implement-background-sync | Target: script/sw.js | I/O: code | Assert: uses Service Worker Background Sync API | LOC: ~40
-
-## v0.1.15 — Additional Layers & Core Features
-- [x] TASK: scenario-engine-route-explorer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: allows gaming disruptions before they hit | LOC: ~200
-- [x] TASK: macro-cluster-visualization | Target: src/components/map/atlas.tsx | I/O: code | Assert: multi-day trends shown as distinct visual clusters | LOC: ~80
-- [x] TASK: resilience-map-layer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: shows resilience rankings for countries | LOC: ~100
-- [x] TASK: worldmonitor-parity-analysis | Target: docs/backlog.md | I/O: documentation | Assert: lists all features from worldmonitor.app to replicate | LOC: ~20
-- [x] TASK: test-store | Target: tests/store.test.js | I/O: automation | Assert: test tests store initializing | LOC: ~10
-- [x] TASK: horizon-impact-clustering | Target: lib/cluster-identifier.js | I/O: code | Assert: groups predicted events by causal chain | LOC: ~70
-- [x] TASK: implement-deep-history-navigation | Target: src/components/map/timeline.tsx | I/O: code | Assert: users can select specific dates from archive | LOC: ~100
+- [x] TASK: ui-ux-text-focused-redesign | Target: src/components/ | I/O: feature | Assert: implement text-focused modern UI removing visual clutter | LOC: ~200
+- [x] TASK: ui-ux-audit-and-bug-identification | Target: codebase | I/O: audit | Assert: identify and log UI layout and typography bugs | LOC: ~50
+- [x] TASK: ui-ux-modernize-command-palette | Target: src/components/ui/command-palette.tsx | I/O: feature | Assert: update styles to dark slate translucent backgrounds and 6-8px border radius | LOC: ~50
+- [x] TASK: ui-ux-modernize-health-dashboard | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: update styles to dark slate translucent backgrounds and 6-8px border radius | LOC: ~100
+- [x] TASK: ui-ux-modernize-invite-gate | Target: src/components/ui/invite-gate.tsx | I/O: feature | Assert: update styles to dark slate translucent backgrounds and 6-8px border radius | LOC: ~30
+- [x] TASK: bug-hunt-and-audit-phase1 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: recurring-coverage-audit | Target: script/test.js | I/O: automation | Assert: gate fails if any file < 95% | LOC: ~20
 - [x] TASK: implement-pwa-offline-fallback | Target: script/sw.js | I/O: code | Assert: PWA serves cached shell and fallback events when offline | LOC: ~60
-- [x] TASK: fix-mapbox-token-fallback | Target: src/components/map/atlas.tsx | I/O: bugfix | Assert: Atlas renders properly when Mapbox token is missing via mocked static map fallback, removing "Map failed to load." error. | LOC: ~10
-- [x] TASK: worker-test-fetch-error | Target: tests/worker.test.ts | I/O: bugfix | Assert: fix "Worker Fetch Error: Error: fail" in `worker.test.ts` mocking logic. | LOC: ~10
-- [x] TASK: command-palette-navigation | Target: src/components/ui/command-palette.tsx | I/O: feature | Assert: ⌘K / Ctrl-K opens 154 commands | LOC: ~150
+- [x] TASK: bug-hunt-and-audit-phase2 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
 - [x] TASK: live-ais-vessel-tracking | Target: src/components/map/atlas.tsx | I/O: feature | Assert: integrates AISStream for live vessel layers | LOC: ~100
 - [x] TASK: subsea-cables-layer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: renders 86 submarine cables | LOC: ~80
 - [x] TASK: ai-datacenter-map | Target: src/components/map/atlas.tsx | I/O: feature | Assert: maps 313 AI datacenters | LOC: ~80
 - [x] TASK: satellite-tracking-layer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: live orbital positions using SGP4 | LOC: ~120
 - [x] TASK: gps-jamming-zones | Target: src/components/map/atlas.tsx | I/O: feature | Assert: live RF-interference map | LOC: ~80
 - [x] TASK: financial-market-monitor | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: live equities, FX, crypto and commodities | LOC: ~150
+- [x] TASK: command-palette-navigation | Target: src/components/ui/command-palette.tsx | I/O: feature | Assert: ⌘K / Ctrl-K opens 154 commands | LOC: ~150
 - [x] TASK: multi-monitor-views | Target: src/components/map/atlas.tsx | I/O: feature | Assert: World, Tech, Finance, Commodity, Energy lenses | LOC: ~150
+- [x] TASK: bug-hunt-and-audit-phase3 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: ai-analyst-chat | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: provides chat interface over live services with citations | LOC: ~150
+- [x] TASK: scenario-engine-route-explorer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: allows gaming disruptions before they hit | LOC: ~200
+- [x] TASK: resilience-map-layer | Target: src/components/map/atlas.tsx | I/O: feature | Assert: shows resilience rankings for countries | LOC: ~100
+- [x] TASK: implement-deep-history-navigation | Target: src/components/map/timeline.tsx | I/O: code | Assert: users can select specific dates from archive | LOC: ~100
+- [x] TASK: macro-cluster-visualization | Target: src/components/map/atlas.tsx | I/O: code | Assert: multi-day trends shown as distinct visual clusters | LOC: ~80
+- [x] TASK: horizon-impact-clustering | Target: lib/cluster-identifier.js | I/O: code | Assert: groups predicted events by causal chain | LOC: ~70
+- [x] TASK: archive-compression-strategy | Target: functions/ingest-cycle.js | I/O: code | Assert: historical data is gzipped before KV save | LOC: ~35
+- [x] TASK: nowcasting-interpolator-integration | Target: lib/nowcast-interpolator.js | I/O: feature | Assert: Gemini fills data gaps and UI badges as 'Estimated' | LOC: ~80
+- [x] TASK: open-meteo-aqi-cams-replacement | Target: lib/environmental.js | I/O: feature | Assert: replaces CAMS with Open-Meteo AQI | LOC: ~50
+- [x] TASK: bug-hunt-and-audit-phase4 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: mcp-server-integration | Target: functions/worker.mjs | I/O: feature | Assert: exposes 39-tool MCP server for AI agents | LOC: ~200
+- [x] TASK: implement-background-sync | Target: script/sw.js | I/O: code | Assert: uses Service Worker Background Sync API | LOC: ~40
+- [x] TASK: compressed-kv-payloads | Target: functions/worker.mjs | I/O: code | Assert: uses Brotli/Gzip for event payloads | LOC: ~25
+- [x] TASK: bug-hunt-and-audit-phase5 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: cloudflare-cron-ingest | Target: wrangler.toml | I/O: config | Assert: sets 1-minute cron trigger for ingest-cycle | LOC: ~30
+- [x] TASK: safety-sentinel-ui-alerts | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: shows rational warnings for temp >= 40C or wind >= 100km/h | LOC: ~150
+- [x] TASK: beta-invite-code-gate | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: requires hashed invite code from localStorage before viewing dashboard | LOC: ~120
+- [x] TASK: bug-hunt-and-audit-phase6 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: text-only-category-taxonomy | Target: docs/vision.md | I/O: documentation | Assert: updates vision and category matrix | LOC: ~20
+- [x] TASK: news-brief-category-mapping | Target: lib/news-mapper.js | I/O: logic | Assert: maps news articles to <=30 word factual briefs and categories | LOC: ~30
+- [x] TASK: text-dashboard-category-filters | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: adds category tabs (Global, Markets, Environment, Local, Classifieds) and multi-location selection | LOC: ~150
+- [x] TASK: bug-hunt-and-audit-phase7 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: automated-skill-analyzer-runner | Target: lib/skill-analyzer.js | I/O: feature | Assert: systematically executes and validates all repository skills across codebase | LOC: ~160
+- [x] TASK: bug-hunt-and-audit-phase8 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: ui-update-typography-scale | Target: src/components/ | I/O: feature | Assert: update typography scale to match text-only modern standards | LOC: ~100
+- [x] TASK: implement-css-container-queries | Target: src/components/ | I/O: feature | Assert: use CSS container queries for dynamic layout scaling | LOC: ~150
+- [x] TASK: accessibility-a11y-verification | Target: src/components/ | I/O: feature | Assert: ensure ARIA labels and semantic HTML are flawless across all components | LOC: ~100
+- [x] TASK: developer-presence-route | Target: src/components/ui/ | I/O: feature | Assert: implement a developer bio and links to github following UI Developer Bio skill | LOC: ~100
+- [x] TASK: bug-hunt-and-audit-phase9 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+
+## v0.1.15 — Additional Layers & Core Features
+- [x] TASK: worldmonitor-parity-analysis | Target: docs/backlog.md | I/O: documentation | Assert: lists all features from worldmonitor.app to replicate | LOC: ~20
+- [x] TASK: test-store | Target: tests/store.test.js | I/O: automation | Assert: test tests store initializing | LOC: ~10
+- [x] TASK: fix-mapbox-token-fallback | Target: src/components/map/atlas.tsx | I/O: bugfix | Assert: Atlas renders properly when Mapbox token is missing via mocked static map fallback, removing "Map failed to load." error. | LOC: ~10
+- [x] TASK: worker-test-fetch-error | Target: tests/worker.test.ts | I/O: bugfix | Assert: fix "Worker Fetch Error: Error: fail" in `worker.test.ts` mocking logic. | LOC: ~10
 
 ## v0.1.21 — Vision Alignment & Maintenance
 - [x] TASK: improve-probability-cone-logic | Target: lib/probability-cones.js | I/O: logic | Assert: likelihood accounts for source rank diversity | LOC: ~50

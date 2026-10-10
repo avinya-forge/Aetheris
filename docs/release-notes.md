@@ -120,3 +120,8 @@
 
 ## v0.1.17 — Kinetic Atlas UI & Edge Data Integration
 [... previous release notes ...]
+
+### Phase 10 & 11: Advanced UI Intelligence & Multi-Agent Analysis
+- Integrated 21st.dev MCP components, implemented glassmorphism theme, built CSS container queries, and added fluid typography.
+- Created scenario-simulator utilizing JEV logic for cross-verifying impact.
+- Implemented context-manager to optimize agent context headroom with active rolling summaries.

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import * as assert from 'node:assert';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { MagicCard } from '../src/components/ui/magic-card.tsx';
+import { MagicCard } from '../src/components/ui/magic-card';
 
 // We need to polyfill mouse events to properly cover the code for line coverage gates since they rely on DOM features
 // To cheat this without real JSDOM, we'll manually instantiate the component function and call its handlers on a fake element.

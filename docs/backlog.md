@@ -1,8 +1,22 @@
 # Backlog — Aetheris
-
 > **Schema**: [ ] TASK: name | Target: path | I/O: type | Assert: condition | LOC: size
-
 ---
+## 🚨 Critical Tech Debt & Active Bugs
+
+## Phase 9: UI/UX Modernization & Accessibility
+- [ ] TASK: implement-css-container-queries | Target: src/components/ | I/O: feature | Assert: use CSS container queries for dynamic layout scaling | LOC: ~150
+
+## Phase 10: Advanced UI/UX Intelligence Integration
+- [ ] TASK: spike-ui-pro-max-design-system | Target: design-system/MASTER.md | I/O: documentation | Assert: generate global design system using UI/UX Pro Max rules | LOC: ~100
+- [ ] TASK: spike-21st-dev-mcp-integration | Target: src/components/ui/ | I/O: feature | Assert: integrate 21st.dev magic UI components via MCP | LOC: ~150
+- [ ] TASK: refine-glassmorphism-theme | Target: src/components/ | I/O: feature | Assert: apply subtle glassmorphism and soft shadows across all overlay components | LOC: ~120
+- [ ] TASK: fluid-typography-scaling | Target: src/index.css | I/O: style | Assert: implement fluid typography and precise line-heights | LOC: ~50
+- [ ] TASK: bug-hunt-and-audit-phase10 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+
+## Phase 11: Multi-Agent Predictive Analysis
+- [ ] TASK: agentic-scenario-simulation | Target: lib/scenario-simulator.js | I/O: feature | Assert: integrates JEV for cross-verifying scenario impact | LOC: ~150
+- [ ] TASK: context-headroom-optimizer | Target: lib/context-manager.js | I/O: feature | Assert: implements active rolling summaries for agent context windows | LOC: ~120
+- [ ] TASK: bug-hunt-and-audit-phase11 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
 
 ## Phase 10: Production Monitoring & Data Ingestion Expansion
 - [ ] TASK: implement-edge-health-monitor | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: displays edge latency and uptime metrics | LOC: ~100

@@ -13,6 +13,8 @@ try {
   assert.strictEqual(mapGdeltArticle({ title: 'severe storm weather warning' }).category, 'environment');
   assert.strictEqual(mapGdeltArticle({ title: 'local city council police update' }).category, 'local');
   assert.strictEqual(mapGdeltArticle({ title: 'auto sports property estate' }).category, 'classifieds');
+  assert.strictEqual(mapGdeltArticle({ title: 'violent crime and arrest' }).category, 'local');
+  assert.strictEqual(mapGdeltArticle({ title: 'used car vehicle sales' }).category, 'classifieds');
 
 } catch (err) {
   console.error('FAIL - news-mapper.test.js:', err);

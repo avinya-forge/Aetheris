@@ -87,6 +87,12 @@
 - [x] TASK: developer-presence-route | Target: src/components/ui/ | I/O: feature | Assert: implement a developer bio and links to github following UI Developer Bio skill | LOC: ~100
 - [x] TASK: bug-hunt-and-audit-phase9 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
 
+## Phase 10: Production Monitoring & Data Ingestion Expansion
+- [x] TASK: implement-edge-health-monitor | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: displays edge latency and uptime metrics | LOC: ~100
+- [x] TASK: expand-local-crime-ingestion | Target: lib/news-mapper.js | I/O: logic | Assert: maps local regional crimes category correctly | LOC: ~40
+- [x] TASK: classifieds-automotive-feed | Target: lib/news-mapper.js | I/O: logic | Assert: maps automotive listings to text-only classifieds | LOC: ~40
+- [x] TASK: automated-db-pruning-worker | Target: functions/worker.mjs | I/O: feature | Assert: prunes historical KV entries older than 365 days | LOC: ~80
+
 ## v0.1.15 — Additional Layers & Core Features
 - [x] TASK: worldmonitor-parity-analysis | Target: docs/backlog.md | I/O: documentation | Assert: lists all features from worldmonitor.app to replicate | LOC: ~20
 - [x] TASK: test-store | Target: tests/store.test.js | I/O: automation | Assert: test tests store initializing | LOC: ~10

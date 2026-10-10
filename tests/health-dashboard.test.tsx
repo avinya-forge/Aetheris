@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { HealthDashboard, loadMarketData, AIAnalystChat, handleSendLogic, handleCategoryClick } from '../src/components/ui/health-dashboard';
+import { HealthDashboard, loadMarketData, loadHealthData, AIAnalystChat, handleSendLogic, handleCategoryClick } from '../src/components/ui/health-dashboard';
 
 function testHealthDashboard() {
   console.log('Testing HealthDashboard component...');
@@ -70,6 +70,8 @@ function testHealthDashboard() {
   assert.ok(html.includes('95%'), 'Should show signal to noise ratio');
   assert.ok(html.includes('System Pulse'), 'Should show System Pulse');
   assert.ok(html.includes('Global'), 'Should render Global category tab');
+  assert.ok(html.includes('Edge Latency'), 'Should render Edge Latency label');
+  assert.ok(html.includes('Uptime'), 'Should render Uptime label');
 
   // Directly test handleCategoryClick function
   handleCategoryClick('global', () => { categoryTriggered = true; });
@@ -103,6 +105,19 @@ function testHealthDashboard() {
   // Also test throw on fetch rejection
   globalThis.fetch = async () => { throw new Error('Network'); };
   let _cleanup3 = loadMarketData((_data: any) => {});
+
+  // Test loadHealthData - success
+  globalThis.fetch = async () => ({ ok: true, json: async () => ({ uptime: '99.99%' }) } as any);
+  let _eh1 = null;
+  let _cleanupHealth1 = loadHealthData((data: any) => _eh1 = data);
+
+  // Test loadHealthData - failure
+  globalThis.fetch = async () => ({ ok: false } as any);
+  let _eh2 = null;
+  let _cleanupHealth2 = loadHealthData((data: any) => _eh2 = data);
+
+  globalThis.fetch = async () => { throw new Error('Network'); };
+  let _cleanupHealth3 = loadHealthData((_data: any) => {});
 
   globalThis.fetch = oldFetchHD;
 

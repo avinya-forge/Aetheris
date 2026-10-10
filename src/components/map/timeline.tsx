@@ -11,7 +11,7 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = ( _f: string
 
   return (
     <div
-      className="timeline-container"
+      className="timeline-container glass-panel"
       aria-label="Event Timeline"
       style={{
         position: 'absolute',
@@ -21,18 +21,16 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = ( _f: string
         width: '85%',
         maxWidth: '900px',
         height: '90px',
-        background: 'rgba(10,10,10,0.6)',
-        backdropFilter: 'blur(20px)',
         borderRadius: '45px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         padding: '0 60px',
         boxSizing: 'border-box',
-        border: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: '0 15px 45px rgba(0,0,0,0.6)',
         zIndex: 100,
-        transition: 'all 0.5s ease'
+        transition: 'all 0.5s ease',
+        containerType: 'inline-size',
+        containerName: 'timeline'
       }}
     >
       <div style={{
@@ -69,7 +67,7 @@ const Timeline = ({ events = [], focus = 'present', onFocusChange = ( _f: string
                 transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                 boxShadow: isActive ? '0 0 15px rgba(0,210,255,0.6)' : 'none'
               }} />
-              <span style={{
+              <span className="timeline-time-label" style={{
                 fontSize: '0.65rem',
                 color: isActive ? '#fff' : 'rgba(255,255,255,0.4)',
                 marginTop: '8px',

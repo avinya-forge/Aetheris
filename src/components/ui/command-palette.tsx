@@ -67,16 +67,14 @@ export const CommandPalette = () => {
       data-testid="command-palette-overlay"
     >
       <div
-        className="command-palette-modal"
+        className="command-palette-modal glass-panel"
         style={{
           width: '100%',
           maxWidth: '600px',
-          backgroundColor: 'rgba(10, 10, 12, 0.85)',
           borderRadius: '6px',
           overflow: 'hidden',
           display: 'flex',
-          flexDirection: 'column',
-          border: '1px solid #333'
+          flexDirection: 'column'
         }}
         onClick={e => e.stopPropagation()}
         data-testid="command-palette-modal"

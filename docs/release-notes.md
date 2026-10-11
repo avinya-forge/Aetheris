@@ -37,7 +37,13 @@
 - [x] TASK: beta-invite-code-gate | Target: src/components/ui/invite-gate.tsx | I/O: feature | Assert: requires hashed invite code from localStorage before viewing dashboard | LOC: ~120
 - [x] TASK: safety-sentinel-ui-alerts | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: shows rational warnings for temp >= 40C or wind >= 100km/h | LOC: ~150
 - [x] TASK: cloudflare-cron-ingest | Target: wrangler.toml | I/O: config | Assert: sets 1-minute cron trigger for ingest-cycle | LOC: ~30
+
 ## v0.1.25 — UI/UX Modernization, Bug Fixes & Expansions
+- [x] TASK: bug-hunt-and-audit-phase10 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+- [x] TASK: fluid-typography-scaling | Target: src/index.css | I/O: style | Assert: implement fluid typography and precise line-heights | LOC: ~50
+- [x] TASK: refine-glassmorphism-theme | Target: src/components/ | I/O: feature | Assert: apply subtle glassmorphism and soft shadows across all overlay components | LOC: ~120
+- [x] TASK: spike-21st-dev-mcp-integration | Target: src/components/ui/ | I/O: feature | Assert: integrate 21st.dev magic UI components via MCP | LOC: ~150
+- [x] TASK: spike-ui-pro-max-design-system | Target: design-system/MASTER.md | I/O: documentation | Assert: generate global design system using UI/UX Pro Max rules | LOC: ~100
 - [x] TASK: bug-fix-market-data-mock-race-condition | Target: src/components/ui/health-dashboard.tsx | I/O: test/bugfix | Assert: ensure the useEffect mock properly resolves on init | LOC: ~20
 - [x] TASK: ui-ux-text-focused-redesign | Target: src/components/ | I/O: feature | Assert: implement text-focused modern UI removing visual clutter | LOC: ~200
 - [x] TASK: ui-ux-audit-and-bug-identification | Target: codebase | I/O: audit | Assert: identify and log UI layout and typography bugs | LOC: ~50
@@ -86,8 +92,6 @@
 - [x] TASK: accessibility-a11y-verification | Target: src/components/ | I/O: feature | Assert: ensure ARIA labels and semantic HTML are flawless across all components | LOC: ~100
 - [x] TASK: developer-presence-route | Target: src/components/ui/ | I/O: feature | Assert: implement a developer bio and links to github following UI Developer Bio skill | LOC: ~100
 - [x] TASK: bug-hunt-and-audit-phase9 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
-
-## Phase 10: Production Monitoring & Data Ingestion Expansion
 - [x] TASK: implement-edge-health-monitor | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: displays edge latency and uptime metrics | LOC: ~100
 - [x] TASK: expand-local-crime-ingestion | Target: lib/news-mapper.js | I/O: logic | Assert: maps local regional crimes category correctly | LOC: ~40
 - [x] TASK: classifieds-automotive-feed | Target: lib/news-mapper.js | I/O: logic | Assert: maps automotive listings to text-only classifieds | LOC: ~40
@@ -118,5 +122,3 @@
 - [x] TASK: visual-polish-demo | HealthDashboard enhanced with pulse animations and GhostCards with smooth transitions.
 - [x] TASK: connect-timeline-to-history | Main app now triggers historical fetches when user selects 'Past' focus.
 
-## v0.1.17 — Kinetic Atlas UI & Edge Data Integration
-[... previous release notes ...]

@@ -1,22 +1,11 @@
 # Backlog — Aetheris
 > **Schema**: [ ] TASK: name | Target: path | I/O: type | Assert: condition | LOC: size
----
-## 🚨 Critical Tech Debt & Active Bugs
 
-## Phase 9: UI/UX Modernization & Accessibility
-- [x] TASK: implement-css-container-queries | Target: src/components/ | I/O: feature | Assert: use CSS container queries for dynamic layout scaling | LOC: ~150
+## Epic: Multi-Agent Predictive Analysis & Context Scaling
+- [ ] TASK: context-headroom-optimizer | Target: lib/context-manager.js | I/O: feature | Assert: implements active rolling summaries for agent context windows to ensure sustainable long-horizon execution | LOC: ~120
+- [ ] TASK: agentic-scenario-simulation | Target: lib/scenario-simulator.js | I/O: feature | Assert: integrates cross-verifying scenario impact strictly conforming to logic-based Probability Cones | LOC: ~150
+- [ ] TASK: bug-hunt-and-audit-predictive-analysis | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly for new predictive features | LOC: ~10
 
-## Phase 10: Advanced UI/UX Intelligence Integration
-- [x] TASK: spike-ui-pro-max-design-system | Target: design-system/MASTER.md | I/O: documentation | Assert: generate global design system using UI/UX Pro Max rules | LOC: ~100
-- [x] TASK: spike-21st-dev-mcp-integration | Target: src/components/ui/ | I/O: feature | Assert: integrate 21st.dev magic UI components via MCP | LOC: ~150
-- [x] TASK: refine-glassmorphism-theme | Target: src/components/ | I/O: feature | Assert: apply subtle glassmorphism and soft shadows across all overlay components | LOC: ~120
-- [x] TASK: fluid-typography-scaling | Target: src/index.css | I/O: style | Assert: implement fluid typography and precise line-heights | LOC: ~50
-- [x] TASK: bug-hunt-and-audit-phase10 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
-
-## Phase 11: Multi-Agent Predictive Analysis
-- [ ] TASK: agentic-scenario-simulation | Target: lib/scenario-simulator.js | I/O: feature | Assert: integrates JEV for cross-verifying scenario impact | LOC: ~150
-- [ ] TASK: context-headroom-optimizer | Target: lib/context-manager.js | I/O: feature | Assert: implements active rolling summaries for agent context windows | LOC: ~120
-- [ ] TASK: bug-hunt-and-audit-phase11 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
-
-## Phase 10: Production Monitoring & Data Ingestion Expansion
-- [ ] TASK: bug-hunt-and-audit-phase10 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
+## Epic: Security & Integrity Guardrails
+- [ ] TASK: enforce-zero-cost-historical-store | Target: functions/ingest-cycle.js | I/O: optimization | Assert: zero-cost permanent historical archive compressed as daily JSON | LOC: ~80
+- [ ] TASK: audit-owasp-secrets-and-sanitization | Target: codebase | I/O: security | Assert: ensure no existing code violates OWASP standards, no hardcoded secrets, and strict input sanitization | LOC: ~50

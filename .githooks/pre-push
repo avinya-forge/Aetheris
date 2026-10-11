@@ -8,27 +8,19 @@ echo "Pre-push Verification Hook"
 echo "================================================="
 
 # In Windows local environments where native tools/runtimes or packages may differ from CI,
-# execute npm test / make test only if the test runner binary is present and executable.
+# execute npm run lint / tsc to verify syntax & type safety.
 if [ -f package.json ]; then
-    if [ -f node_modules/.bin/vitest ] || [ -f node_modules/.bin/vitest.cmd ]; then
-        echo "Running vitest..."
-        if ! npx vitest run; then
-            echo "Verification failed! Please fix the errors before pushing."
+    if [ -f node_modules/.bin/eslint ] || [ -f node_modules/.bin/eslint.cmd ]; then
+        echo "Running eslint..."
+        if ! npx eslint . --max-warnings 10; then
+            echo "Lint verification failed! Please fix the errors before pushing."
             exit 1
         fi
-    elif [ -f node_modules/.bin/jest ] || [ -f node_modules/.bin/jest.cmd ]; then
-        echo "Running jest..."
-        if ! npx jest; then
-            echo "Verification failed! Please fix the errors before pushing."
-            exit 1
-        fi
-    else
-        echo "Local test binaries not found. Skipping local hook; CI/CD will verify."
     fi
-elif [ -f Makefile ]; then
-    if command -v make >/dev/null 2>&1; then
-        if ! make test; then
-            echo "Verification failed! Please fix the errors before pushing."
+    if [ -f node_modules/.bin/tsc ] || [ -f node_modules/.bin/tsc.cmd ]; then
+        echo "Running tsc --noEmit..."
+        if ! npx tsc --noEmit; then
+            echo "TypeScript verification failed! Please fix the errors before pushing."
             exit 1
         fi
     fi

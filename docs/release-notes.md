@@ -1,6 +1,7 @@
 # Release Notes — Aetheris
 
 ## v0.1.25 — UI/UX Modernization & Core Updates
+- [x] TASK: context-headroom-optimizer | Target: lib/context-manager.js | I/O: feature | Assert: implements active rolling summaries for agent context windows to ensure sustainable long-horizon execution | LOC: ~120
 - [x] TASK: ui-ux-text-focused-redesign | Target: src/components/ | I/O: feature | Assert: implement text-focused modern UI removing visual clutter | LOC: ~200
 - [x] TASK: ui-ux-audit-and-bug-identification | Target: codebase | I/O: audit | Assert: identify and log UI layout and typography bugs | LOC: ~50
 - [x] TASK: ui-ux-modernize-command-palette | Target: src/components/ui/command-palette.tsx | I/O: feature | Assert: update styles to dark slate translucent backgrounds and 6-8px border radius | LOC: ~50

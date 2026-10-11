@@ -2,7 +2,6 @@
 > **Schema**: [ ] TASK: name | Target: path | I/O: type | Assert: condition | LOC: size
 
 ## Epic: Multi-Agent Predictive Analysis & Context Scaling
-- [ ] TASK: context-headroom-optimizer | Target: lib/context-manager.js | I/O: feature | Assert: implements active rolling summaries for agent context windows to ensure sustainable long-horizon execution | LOC: ~120
 - [ ] TASK: agentic-scenario-simulation | Target: lib/scenario-simulator.js | I/O: feature | Assert: integrates cross-verifying scenario impact strictly conforming to logic-based Probability Cones | LOC: ~150
 - [ ] TASK: bug-hunt-and-audit-predictive-analysis | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly for new predictive features | LOC: ~10
 

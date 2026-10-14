@@ -16,9 +16,9 @@
 
 ## Epic: Multi-Agent Predictive Analysis & Context Scaling
 - [x] TASK: agentic-scenario-simulation | Target: lib/scenario-simulator.js | I/O: feature | Assert: integrates cross-verifying scenario impact strictly conforming to logic-based Probability Cones | LOC: ~150
-- [ ] TASK: bug-hunt-and-audit-predictive-analysis | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly for new predictive features | LOC: ~10
+- [x] TASK: bug-hunt-and-audit-predictive-analysis | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly for new predictive features | LOC: ~10
 - [ ] TASK: context-headroom-adaptive-compression | Target: lib/context-manager.js | I/O: optimization | Assert: compresses historical prompt context dynamically when approaching LLM window limits | LOC: ~120
-- [ ] TASK: multi-agent-consensus-engine | Target: lib/consensus-engine.js | I/O: feature | Assert: requires 3 independent sensor agreement before flagging extreme anomalies | LOC: ~160
+- [x] TASK: multi-agent-consensus-engine | Target: lib/consensus-engine.js | I/O: feature | Assert: requires 3 independent sensor agreement before flagging extreme anomalies | LOC: ~160
 
 ## Epic: Security & Integrity Guardrails
 - [ ] TASK: enforce-zero-cost-historical-store | Target: functions/ingest-cycle.js | I/O: optimization | Assert: zero-cost permanent historical archive compressed as daily JSON | LOC: ~80

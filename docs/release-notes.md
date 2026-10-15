@@ -2,6 +2,7 @@
 
 ## v0.1.26 — Multi-Agent Predictive Analysis
 - [x] TASK: agentic-scenario-simulation | Target: lib/scenario-simulator.js | I/O: feature | Assert: integrates cross-verifying scenario impact strictly conforming to logic-based Probability Cones | LOC: ~150
+- [x] TASK: context-headroom-adaptive-compression | Target: lib/context-manager.js | I/O: optimization | Assert: compresses historical prompt context dynamically when approaching LLM window limits | LOC: ~120
 
 ## v0.1.25 — UI/UX Modernization & Core Updates
 - [x] TASK: context-headroom-optimizer | Target: lib/context-manager.js | I/O: feature | Assert: implements active rolling summaries for agent context windows to ensure sustainable long-horizon execution | LOC: ~120

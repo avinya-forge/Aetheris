@@ -61,7 +61,7 @@ test('ContextManager - with custom synthesizer', async () => {
 });
 
 test('ContextManager - synthesizer failure fallback', async () => {
-  const failingSynthesizer = async (text) => { throw new Error('API down'); };
+  const failingSynthesizer = async (_text) => { throw new Error('API down'); };
   const manager = new ContextManager(10, failingSynthesizer);
 
   await manager.add({ role: 'user', content: '12345678901234567890' });

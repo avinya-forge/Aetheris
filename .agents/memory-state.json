@@ -1,24 +1,23 @@
 {
-  "last_updated": "2026-06-03T19:49:00Z",
-  "project": "Vishwa-Vani",
+  "last_updated": "2026-10-17T12:00:00Z",
+  "project": "Aetheris",
   "architecture": {
-    "framework": "Next.js 16, React 19",
-    "patterns": ["Server Components", "Tailwind 4", "SQLite WASM", "TypeScript strict"],
-    "data": ["JSON shards", "SQLite lake files", "NVF 1.0 format"]
+    "framework": "Vite, React 19, TypeScript strict, Cloudflare Workers & Pages",
+    "patterns": ["Temporal Intelligence Sentinel", "Zero-Cost Edge PWA", "Multi-Agent Consensus", "Kinetic Atlas 3D WebGL"],
+    "data": ["NOAA SWPC", "NASA DONKI", "Open-Meteo", "GDELT Wire Dispatches", "Compressed Daily JSON Archive"]
   },
   "current_sprint": {
-    "priority_gate": "STABILITY GATE - EPIC 7",
+    "priority_gate": "GATEKEEPER [0-Hygiene-Error | 95% Test | Build-Pass]",
     "active_tasks": [
-      "BUG-069",
-      "BUG-070",
-      "BUG-071"
+      "audit-owasp-secrets-and-sanitization",
+      "edge-rate-limiting-guardrail",
+      "sha256-payload-signature-verification"
     ]
   },
   "memory_pointers": {
-    "rules": ".agents/rules/code-style-guide.md",
     "backlog": "docs/backlog.md",
     "release_notes": "docs/release-notes.md",
     "vision": "docs/vision.md",
-    "blueprint": "docs/architecture/blueprint.md"
+    "jules": "JULES.md"
   }
 }

@@ -243,7 +243,7 @@ async function runIngestCycle(env, clients = null, synthesizer = null, now = Dat
 
   const newArchive = [...existingArchive, ...filtered].slice(-2000); // larger cap for archive
   const compressedArchive = await compressPayload(JSON.stringify(newArchive));
-  await kv.put(archiveKey, compressedArchive, { expirationTtl: 30 * 86_400 });
+  await kv.put(archiveKey, compressedArchive);
 
   // 6. Latest state
   const merged = allEvents.slice(-MAX_EVENTS_IN_KV);

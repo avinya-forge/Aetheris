@@ -130,3 +130,4 @@
 - [x] TASK: connect-timeline-to-history | Main app now triggers historical fetches when user selects 'Past' focus.
 
 - [x] TASK: enforce-zero-cost-historical-store | Target: functions/ingest-cycle.js | I/O: optimization | Assert: zero-cost permanent historical archive compressed as daily JSON | LOC: ~80
+- [x] TASK: audit-owasp-secrets-and-sanitization | Target: codebase | I/O: security | Assert: ensure no existing code violates OWASP standards, no hardcoded secrets, and strict input sanitization | LOC: ~50

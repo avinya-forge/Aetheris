@@ -3,6 +3,7 @@
  */
 
 import { runIngestCycle } from './ingest-cycle.js';
+import { sanitizeInput } from '../lib/sanitizer.js';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -148,7 +149,7 @@ export default {
         } else if (request.method === 'POST') {
           try {
             const body = await request.json();
-            const toolName = body.tool;
+            const toolName = sanitizeInput(body.tool);
             const params = body.parameters || {};
 
             const toolExists = MCP_TOOLS.some(t => t.name === toolName);
@@ -159,7 +160,7 @@ export default {
             return json({
               success: true,
               tool: toolName,
-              result: `Executed ${toolName} with query: ${params.query || 'none'}`,
+              result: `Executed ${toolName} with query: ${sanitizeInput(params.query || 'none')}`,
             });
           } catch (_e) {
             return json({ error: 'Invalid JSON body' }, 400);

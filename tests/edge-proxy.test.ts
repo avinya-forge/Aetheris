@@ -38,6 +38,20 @@ function testEdgeProxy() {
   assert.deepStrictEqual(validResponse.body, { data: 'some data' }, 'Should return the payload as body');
   assert.strictEqual(validResponse.edgeComputed, true, 'Should include edgeComputed flag');
 
+  // Test: Rate Limiting
+  const rateLimitIp = '192.168.1.1';
+  let lastResponse;
+
+  // We hit the limit (100 tokens max)
+  for (let i = 0; i < 100; i++) {
+    lastResponse = processRequest(validRequest, rateLimitIp);
+    // Might hit 429 slightly earlier if the loop runs very fast, but typically 100 is exact
+  }
+
+  // The 101st request should be rate limited immediately
+  const rateLimitedResponse = processRequest(validRequest, rateLimitIp);
+  assert.strictEqual(rateLimitedResponse.status, 429, 'Should return 429 status when rate limit exceeded');
+  assert.strictEqual(rateLimitedResponse.body, 'Too Many Requests', 'Should return Too Many Requests body');
 }
 
 testEdgeProxy();

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // Default hashed invite code representation (e.g. hash of "AETHERIS2025")
-const VALID_HASH = '8f3d4a2b';
+const VALID_HASH = '63c26db0';
 
 export const simpleHash = (str: string) => {
   let hash = 0;
@@ -14,7 +14,7 @@ export const simpleHash = (str: string) => {
 
 export const verifyInviteCode = (code: string, setIsUnlocked: (_val: boolean) => void, setError: (_val: boolean) => void, onUnlocked?: () => void) => {
   const trimmed = code.trim().toUpperCase();
-  if (trimmed === 'AETHERIS2025' || simpleHash(trimmed) === VALID_HASH) {
+  if (simpleHash(trimmed) === VALID_HASH) {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('aetheris_beta_invite', VALID_HASH);
     }
@@ -113,7 +113,7 @@ export const InviteGate = ({ onUnlocked, children }: { onUnlocked?: () => void, 
 
               {error && (
                 <div style={{ color: '#ff4b2b', fontSize: '0.75rem' }}>
-                  Invalid invite code. Try 'AETHERIS2025'.
+                  Invalid invite code.
                 </div>
               )}
 

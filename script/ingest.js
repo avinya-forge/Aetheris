@@ -12,7 +12,7 @@ async function main() {
         console.log(`[KV PUT] ${key} (size: ${val.length} bytes)`);
       }
     },
-    NASA_API_KEY: process.env.NASA_API_KEY || 'DEMO_KEY'
+    NASA_API_KEY: process.env.NASA_API_KEY
   };
 
   try {

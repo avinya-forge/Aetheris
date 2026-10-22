@@ -28,7 +28,7 @@ function testInviteGate() {
   assert.ok(htmlGate.includes('Secret Dashboard'), 'Should render children');
 
   // 2. Unlocked state when localStorage has valid hash
-  store['aetheris_beta_invite'] = '8f3d4a2b';
+  store['aetheris_beta_invite'] = '63c26db0';
   let unlockedCbCalled = false;
 
   const htmlUnlocked = renderToStaticMarkup(
@@ -42,6 +42,12 @@ function testInviteGate() {
   // Test verifyInviteCode directly for onUnlocked callback
   verifyInviteCode('AETHERIS2025', () => {}, () => {}, () => { unlockedCbCalled = true; });
   assert.ok(unlockedCbCalled, 'Should trigger onUnlocked callback on verifyInviteCode');
+
+  // Directly test verifyInviteCode logic to ensure 100% coverage
+  let verUnlocked = false;
+  let verErr = false;
+  verifyInviteCode('AETHERIS2025', (v) => { verUnlocked = v; }, (e) => { verErr = e; });
+  assert.strictEqual(verUnlocked, true, 'verifyInviteCode should unlock on correct code');
 
   // 3. Test handleVerify and error state with stubbing
   const originalUseState = React.useState;
@@ -77,6 +83,8 @@ function testInviteGate() {
       capturedOnChange({ target: { value: 'AETHERIS2025' } });
     }
     if (capturedOnKeyDown) {
+      // Mock simpleHash by passing a string that we know doesn't matter since verifyInviteCode uses the imported one...
+      // Actually, wait, verifyInviteCode uses simpleHash which is exported.
       capturedOnKeyDown({ key: 'Enter' });
       capturedOnKeyDown({ key: 'Escape' });
     }
@@ -87,12 +95,6 @@ function testInviteGate() {
     (React as any).useState = originalUseState;
     (React as any).createElement = originalCreateElement;
   }
-
-  // Directly test verifyInviteCode logic to ensure 100% coverage
-  let verUnlocked = false;
-  let verErr = false;
-  verifyInviteCode('AETHERIS2025', (v) => { verUnlocked = v; }, (e) => { verErr = e; });
-  assert.strictEqual(verUnlocked, true, 'verifyInviteCode should unlock on correct code');
 
   verifyInviteCode('invalid', (v) => { verUnlocked = v; }, (e) => { verErr = e; });
   assert.strictEqual(verErr, true, 'verifyInviteCode should set error on invalid code');

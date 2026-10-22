@@ -45,7 +45,7 @@ function defaultClients(env, now) {
     'noaa-swpc':  () => fetchNoaaSwpc(),
     'gdelt':      () => fetchGdelt(),
     'open-meteo': () => fetchOpenMeteo(),
-    'nasa-donki': () => fetchNasaDonki(env.NASA_API_KEY || 'DEMO_KEY', globalThis.fetch, now),
+    'nasa-donki': () => fetchNasaDonki(env.NASA_API_KEY, globalThis.fetch, now),
   };
 }
 

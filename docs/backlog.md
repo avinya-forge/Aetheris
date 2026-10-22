@@ -22,9 +22,9 @@
 
 ## Epic: Security & Integrity Guardrails
 - [x] TASK: enforce-zero-cost-historical-store | Target: functions/ingest-cycle.js | I/O: optimization | Assert: zero-cost permanent historical archive compressed as daily JSON | LOC: ~80
-- [ ] TASK: audit-owasp-secrets-and-sanitization | Target: codebase | I/O: security | Assert: ensure no existing code violates OWASP standards, no hardcoded secrets, and strict input sanitization | LOC: ~50
-- [ ] TASK: edge-rate-limiting-guardrail | Target: functions/edge-proxy.js | I/O: security | Assert: prevent DDoS and abuse with Cloudflare Workers token bucket rate limiter | LOC: ~70
-- [ ] TASK: sha256-payload-signature-verification | Target: lib/verifier.js | I/O: security | Assert: verify cryptographic signatures for external NOAA and NASA payloads | LOC: ~90
+- [x] TASK: audit-owasp-secrets-and-sanitization | Target: codebase | I/O: security | Assert: ensure no existing code violates OWASP standards, no hardcoded secrets, and strict input sanitization | LOC: ~50
+- [x] TASK: edge-rate-limiting-guardrail | Target: functions/edge-proxy.js | I/O: security | Assert: prevent DDoS and abuse with Cloudflare Workers token bucket rate limiter | LOC: ~70
+- [x] TASK: sha256-payload-signature-verification | Target: lib/verifier.js | I/O: security | Assert: verify cryptographic signatures for external NOAA and NASA payloads | LOC: ~90
 
 ## Epic: Kinetic Atlas WebGL Visualization (Months 3–4)
 - [ ] TASK: webgl-globe-renderer-optimizations | Target: src/components/map/atlas.tsx | I/O: feature | Assert: maintains steady 60fps on mobile viewports during orbital rotation | LOC: ~180

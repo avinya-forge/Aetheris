@@ -14,29 +14,20 @@
 
 ## 📅 Active Epics & Tasks
 
-## Epic: Multi-Agent Predictive Analysis & Context Scaling
-- [x] TASK: agentic-scenario-simulation | Target: lib/scenario-simulator.js | I/O: feature | Assert: integrates cross-verifying scenario impact strictly conforming to logic-based Probability Cones | LOC: ~150
-- [x] TASK: bug-hunt-and-audit-predictive-analysis | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly for new predictive features | LOC: ~10
-- [x] TASK: context-headroom-adaptive-compression | Target: lib/context-manager.js | I/O: optimization | Assert: compresses historical prompt context dynamically when approaching LLM window limits | LOC: ~120
-- [x] TASK: multi-agent-consensus-engine | Target: lib/consensus-engine.js | I/O: feature | Assert: requires 3 independent sensor agreement before flagging extreme anomalies | LOC: ~160
-
-## Epic: Security & Integrity Guardrails
-- [x] TASK: enforce-zero-cost-historical-store | Target: functions/ingest-cycle.js | I/O: optimization | Assert: zero-cost permanent historical archive compressed as daily JSON | LOC: ~80
-- [x] TASK: audit-owasp-secrets-and-sanitization | Target: codebase | I/O: security | Assert: ensure no existing code violates OWASP standards, no hardcoded secrets, and strict input sanitization | LOC: ~50
-- [x] TASK: edge-rate-limiting-guardrail | Target: functions/edge-proxy.js | I/O: security | Assert: prevent DDoS and abuse with Cloudflare Workers token bucket rate limiter | LOC: ~70
-- [x] TASK: sha256-payload-signature-verification | Target: lib/verifier.js | I/O: security | Assert: verify cryptographic signatures for external NOAA and NASA payloads | LOC: ~90
-
 ## Epic: Kinetic Atlas WebGL Visualization (Months 3–4)
-- [ ] TASK: webgl-globe-renderer-optimizations | Target: src/components/map/atlas.tsx | I/O: feature | Assert: maintains steady 60fps on mobile viewports during orbital rotation | LOC: ~180
-- [ ] TASK: chromodynamic-kp-atmosphere-transition | Target: src/components/atmosphere.tsx | I/O: ui | Assert: transitions UI aura smoothly between Indigo, Violet, and Deep Purple based on Kp Index | LOC: ~110
-- [ ] TASK: vector-glyphs-layer-clustering | Target: src/components/map/glyphs.tsx | I/O: feature | Assert: aggregates overlapping hazard glyphs at orbital zoom levels with clean SVG badges | LOC: ~140
+- [ ] TASK: atlas-webgl-memory-optimization | Target: src/components/map/atlas.tsx | I/O: optimization | Assert: implements strict garbage collection for vector instances during zoom transitions | LOC: ~120
+- [ ] TASK: chromodynamic-tint-kp-index | Target: src/components/atmosphere.tsx | I/O: ui | Assert: conditionally renders SVG aura overlay using strict Kp indexing thresholds | LOC: ~100
+- [ ] TASK: svg-marker-clustering-engine | Target: src/components/map/glyphs.tsx | I/O: feature | Assert: groups overlapping hazard markers at orbital level into clean count badges | LOC: ~150
+- [ ] TASK: vector-tile-offline-cache-prep | Target: src/components/map/atlas.tsx | I/O: feature | Assert: intercepts tile requests to support offline vector caching | LOC: ~100
 
 ## Epic: Global News Deduplication & 30-Word Briefing Engine (Months 5–6)
-- [ ] TASK: gdelt-wire-ingest-stream | Target: functions/gdelt-fetcher.js | I/O: ingestion | Assert: pulls breaking international dispatches with automated rate limiting | LOC: ~130
-- [ ] TASK: factual-extractive-summarizer | Target: lib/summarizer.js | I/O: nlp | Assert: condenses multi-paragraph reports into <= 30 words strictly avoiding sensationalism | LOC: ~150
-- [ ] TASK: semantic-similarity-deduplication | Target: lib/dedup-engine.js | I/O: algorithm | Assert: deduplicates identical news events across 20+ syndicates with Jaccard/cosine indexing | LOC: ~120
+- [ ] TASK: gdelt-wire-ingestion-worker | Target: functions/gdelt-fetcher.js | I/O: ingestion | Assert: queries GDELT 2.0 API with retry logic and respects rate limits | LOC: ~110
+- [ ] TASK: extractive-briefing-nlp-module | Target: lib/summarizer.js | I/O: nlp | Assert: condenses input strings to <30 word summaries without hallucination | LOC: ~160
+- [ ] TASK: event-deduplication-jaccard | Target: lib/dedup-engine.js | I/O: algorithm | Assert: calculates Jaccard similarity threshold (>0.85) to cluster identical events | LOC: ~90
+- [ ] TASK: multilingual-classification-gate | Target: lib/classifier.js | I/O: logic | Assert: normalizes non-English category flags into unified taxonomy | LOC: ~120
 
 ## Epic: Zero-Cost Edge PWA Sentinel (Months 7–8)
-- [ ] TASK: service-worker-offline-tile-cache | Target: public/sw.js | I/O: pwa | Assert: enables complete offline atlas browsing from IndexedDB cache when disconnected | LOC: ~160
-- [ ] TASK: cloudflare-cron-trigger-resilience | Target: wrangler.toml | I/O: infra | Assert: executes 60-second sentinel ingest cycles within free tier worker CPU limits | LOC: ~40
-- [ ] TASK: end-to-end-playwright-sentinel-suite | Target: tests/e2e/atlas.spec.ts | I/O: test | Assert: verifies 100% passes across Chromium, Firefox, and WebKit | LOC: ~150
+- [ ] TASK: sw-indexeddb-tile-cache | Target: public/sw.js | I/O: pwa | Assert: caches and serves mapbox vector tiles from IndexedDB when offline | LOC: ~180
+- [ ] TASK: cloudflare-worker-cron-ingest | Target: wrangler.toml | I/O: infra | Assert: configures and executes 60s sentinel ingest CRON trigger | LOC: ~40
+- [ ] TASK: pwa-offline-notification-sync | Target: public/sw.js | I/O: pwa | Assert: syncs user notification preferences upon network reconnection | LOC: ~100
+- [ ] TASK: e2e-playwright-sentinel-tests | Target: tests/e2e/atlas.spec.ts | I/O: test | Assert: verifies 100% functionality of offline map caching behavior | LOC: ~150

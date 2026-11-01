@@ -15,9 +15,9 @@
 ## 📅 Active Epics & Tasks
 
 ## Epic: Kinetic Atlas WebGL Visualization (Months 3–4)
-- [ ] TASK: atlas-webgl-memory-optimization | Target: src/components/map/atlas.tsx | I/O: optimization | Assert: implements strict garbage collection for vector instances during zoom transitions | LOC: ~120
-- [ ] TASK: chromodynamic-tint-kp-index | Target: src/components/atmosphere.tsx | I/O: ui | Assert: conditionally renders SVG aura overlay using strict Kp indexing thresholds | LOC: ~100
-- [ ] TASK: svg-marker-clustering-engine | Target: src/components/map/glyphs.tsx | I/O: feature | Assert: groups overlapping hazard markers at orbital level into clean count badges | LOC: ~150
+- [x] TASK: atlas-webgl-memory-optimization | Target: src/components/map/atlas.tsx | I/O: optimization | Assert: implements strict garbage collection for vector instances during zoom transitions | LOC: ~120
+- [x] TASK: chromodynamic-tint-kp-index | Target: src/components/atmosphere.tsx | I/O: ui | Assert: conditionally renders SVG aura overlay using strict Kp indexing thresholds | LOC: ~100
+- [x] TASK: svg-marker-clustering-engine | Target: src/components/map/glyphs.tsx | I/O: feature | Assert: groups overlapping hazard markers at orbital level into clean count badges | LOC: ~150
 - [ ] TASK: vector-tile-offline-cache-prep | Target: src/components/map/atlas.tsx | I/O: feature | Assert: intercepts tile requests to support offline vector caching | LOC: ~100
 
 ## Epic: Global News Deduplication & 30-Word Briefing Engine (Months 5–6)

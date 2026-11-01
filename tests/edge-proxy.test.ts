@@ -40,11 +40,11 @@ function testEdgeProxy() {
 
   // Test: Rate Limiting
   const rateLimitIp = '192.168.1.1';
-  let lastResponse;
+  let _lastResponse;
 
   // We hit the limit (100 tokens max)
   for (let i = 0; i < 100; i++) {
-    lastResponse = processRequest(validRequest, rateLimitIp);
+    _lastResponse = processRequest(validRequest, rateLimitIp);
     // Might hit 429 slightly earlier if the loop runs very fast, but typically 100 is exact
   }
 

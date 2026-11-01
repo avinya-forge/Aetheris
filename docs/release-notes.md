@@ -49,6 +49,9 @@
 - [x] TASK: cloudflare-cron-ingest | Target: wrangler.toml | I/O: config | Assert: sets 1-minute cron trigger for ingest-cycle | LOC: ~30
 
 ## v0.1.25 — UI/UX Modernization, Bug Fixes & Expansions
+- [x] TASK: atlas-webgl-memory-optimization | Target: src/components/map/atlas.tsx | I/O: optimization | Assert: implements strict garbage collection for vector instances during zoom transitions | LOC: ~120
+- [x] TASK: chromodynamic-tint-kp-index | Target: src/components/atmosphere.tsx | I/O: ui | Assert: conditionally renders SVG aura overlay using strict Kp indexing thresholds | LOC: ~100
+- [x] TASK: svg-marker-clustering-engine | Target: src/components/map/glyphs.tsx | I/O: feature | Assert: groups overlapping hazard markers at orbital level into clean count badges | LOC: ~150
 - [x] TASK: bug-hunt-and-audit-phase10 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
 - [x] TASK: fluid-typography-scaling | Target: src/index.css | I/O: style | Assert: implement fluid typography and precise line-heights | LOC: ~50
 - [x] TASK: refine-glassmorphism-theme | Target: src/components/ | I/O: feature | Assert: apply subtle glassmorphism and soft shadows across all overlay components | LOC: ~120

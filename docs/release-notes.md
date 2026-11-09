@@ -1,5 +1,8 @@
 # Release Notes — Aetheris
 
+## Cross-Repository Reach Audit
+- Evaluated cross-repository dependencies (Avinya Forge, OmniWallet, Ghost-Ops). Currently, changes in Aetheris temporal and ingestion engine operate independently, but data schemas for structured JSON historical events must remain backward compatible with OmniWallet ingestors.
+
 ## v0.1.27 — Architect & Planner Phase
 - [x] TASK: agentic-scenario-simulation | Target: lib/scenario-simulator.js | I/O: feature | Assert: integrates cross-verifying scenario impact strictly conforming to logic-based Probability Cones | LOC: ~150
 - [x] TASK: bug-hunt-and-audit-predictive-analysis | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly for new predictive features | LOC: ~10
@@ -33,22 +36,7 @@
 - [x] TASK: bug-hunt-and-audit-phase8 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
 - [x] TASK: ui-update-typography-scale | Target: src/components/ | I/O: feature | Assert: update typography scale to match text-only modern standards | LOC: ~100
 - [x] TASK: accessibility-a11y-verification | Target: src/components/ | I/O: feature | Assert: ensure ARIA labels and semantic HTML are flawless across all components | LOC: ~100
-- [x] TASK: developer-presence-route | Target: src/components/ui/ | I/O: feature | Assert: implement a developer bio and links to github following UI Developer Bio skill | LOC: ~100
 - [x] TASK: bug-hunt-and-audit-phase9 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
-
-## v0.1.24 — Continuous Skill Orchestration & Quality Verification
-- [x] TASK: automated-skill-analyzer-runner | Target: lib/skill-analyzer.js | I/O: feature | Assert: systematically executes and validates all repository skills across codebase | LOC: ~160
-
-## v0.1.23 — Text-Only Intelligence Dashboard & Category Engine
-- [x] TASK: text-only-category-taxonomy | Target: docs/vision.md | I/O: documentation | Assert: updates vision and category matrix | LOC: ~20
-- [x] TASK: news-brief-category-mapping | Target: lib/news-mapper.js | I/O: logic | Assert: maps news articles to <=30 word factual briefs and categories | LOC: ~30
-- [x] TASK: text-dashboard-category-filters | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: adds category tabs (Global, Markets, Environment, Local, Classifieds) and multi-location selection | LOC: ~150
-
-## v0.1.22 — Phase 5 Deployment Features
-- [x] TASK: safety-sentinel-ui-alerts | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: shows rational warnings for temp >= 40C or wind >= 100km/h | LOC: ~150
-- [x] TASK: cloudflare-cron-ingest | Target: wrangler.toml | I/O: config | Assert: sets 1-minute cron trigger for ingest-cycle | LOC: ~30
-
-## v0.1.25 — UI/UX Modernization, Bug Fixes & Expansions
 - [x] TASK: bug-hunt-and-audit-phase10 | Target: codebase | I/O: audit | Assert: visual audit and bug hunter pass cleanly | LOC: ~10
 - [x] TASK: fluid-typography-scaling | Target: src/index.css | I/O: style | Assert: implement fluid typography and precise line-heights | LOC: ~50
 - [x] TASK: refine-glassmorphism-theme | Target: src/components/ | I/O: feature | Assert: apply subtle glassmorphism and soft shadows across all overlay components | LOC: ~120
@@ -78,11 +66,17 @@
 - [x] TASK: classifieds-automotive-feed | Target: lib/news-mapper.js | I/O: logic | Assert: maps automotive listings to text-only classifieds | LOC: ~40
 - [x] TASK: automated-db-pruning-worker | Target: functions/worker.mjs | I/O: feature | Assert: prunes historical KV entries older than 365 days | LOC: ~80
 
-## v0.1.15 — Additional Layers & Core Features
-- [x] TASK: worldmonitor-parity-analysis | Target: docs/backlog.md | I/O: documentation | Assert: lists all features from worldmonitor.app to replicate | LOC: ~20
-- [x] TASK: test-store | Target: tests/store.test.js | I/O: automation | Assert: test tests store initializing | LOC: ~10
-- [x] TASK: fix-mapbox-token-fallback | Target: src/components/map/atlas.tsx | I/O: bugfix | Assert: Atlas renders properly when Mapbox token is missing via mocked static map fallback, removing "Map failed to load." error. | LOC: ~10
-- [x] TASK: worker-test-fetch-error | Target: tests/worker.test.ts | I/O: bugfix | Assert: fix "Worker Fetch Error: Error: fail" in `worker.test.ts` mocking logic. | LOC: ~10
+## v0.1.24 — Continuous Skill Orchestration & Quality Verification
+- [x] TASK: automated-skill-analyzer-runner | Target: lib/skill-analyzer.js | I/O: feature | Assert: systematically executes and validates all repository skills across codebase | LOC: ~160
+
+## v0.1.23 — Text-Only Intelligence Dashboard & Category Engine
+- [x] TASK: text-only-category-taxonomy | Target: docs/vision.md | I/O: documentation | Assert: updates vision and category matrix | LOC: ~20
+- [x] TASK: news-brief-category-mapping | Target: lib/news-mapper.js | I/O: logic | Assert: maps news articles to <=30 word factual briefs and categories | LOC: ~30
+- [x] TASK: text-dashboard-category-filters | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: adds category tabs (Global, Markets, Environment, Local, Classifieds) and multi-location selection | LOC: ~150
+
+## v0.1.22 — Phase 5 Deployment Features
+- [x] TASK: safety-sentinel-ui-alerts | Target: src/components/ui/health-dashboard.tsx | I/O: feature | Assert: shows rational warnings for temp >= 40C or wind >= 100km/h | LOC: ~150
+- [x] TASK: cloudflare-cron-ingest | Target: wrangler.toml | I/O: config | Assert: sets 1-minute cron trigger for ingest-cycle | LOC: ~30
 
 ## v0.1.21 — Vision Alignment & Maintenance
 - [x] TASK: improve-probability-cone-logic | Target: lib/probability-cones.js | I/O: logic | Assert: likelihood accounts for source rank diversity | LOC: ~50
@@ -103,3 +97,7 @@
 - [x] TASK: visual-polish-demo | HealthDashboard enhanced with pulse animations and GhostCards with smooth transitions.
 - [x] TASK: connect-timeline-to-history | Main app now triggers historical fetches when user selects 'Past' focus.
 
+## v0.1.15 — Additional Layers & Core Features
+- [x] TASK: test-store | Target: tests/store.test.js | I/O: automation | Assert: test tests store initializing | LOC: ~10
+- [x] TASK: fix-mapbox-token-fallback | Target: src/components/map/atlas.tsx | I/O: bugfix | Assert: Atlas renders properly when Mapbox token is missing via mocked static map fallback, removing "Map failed to load." error. | LOC: ~10
+- [x] TASK: worker-test-fetch-error | Target: tests/worker.test.ts | I/O: bugfix | Assert: fix "Worker Fetch Error: Error: fail" in `worker.test.ts` mocking logic. | LOC: ~10
